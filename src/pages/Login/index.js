@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   Grid,
   Box,
-  CssBaseline,
   Typography,
   TextField,
   InputAdornment,
@@ -21,20 +20,7 @@ const Login = () => {
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={6}
-        sx={{
-          backgroundImage: 'url(https://source.unsplash.com/random)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      />
-      <Grid container alignItems="center" justifyContent="center" item xs={12} sm={8} md={6}>
+      <Grid container alignItems="center" justifyContent="center">
         <Box
           sx={{
             display: 'flex',
