@@ -6,8 +6,7 @@ import {
   TextField,
   InputAdornment,
   Button,
-  IconButton,
-  CssBaseline
+  IconButton
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -21,20 +20,7 @@ const Login = () => {
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={6}
-        sx={{
-          backgroundImage: 'url(https://source.unsplash.com/random)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      />
-      <Grid container alignItems="center" justifyContent="center" item xs={12} sm={8} md={6}>
+      <Grid container alignItems="center" justifyContent="center">
         <Box
           sx={{
             display: 'flex',
