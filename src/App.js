@@ -3,6 +3,8 @@ import Router from './routes';
 import ThemeConfig from './theme';
 // components
 import ScrollToTop from './components/ScrollToTop';
+// css global
+import './styles/global.scss';
 
 // ----------------------------------------------------------------------
 

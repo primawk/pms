@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.8.0",
+    "@mui/icons-material": "^5.8.2",
     "@mui/material": "^5.8.1",
     "@mui/styles": "^5.8.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -46,5 +46,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@iconify-icons/charm": "^1.2.3",
+    "@iconify/icons-bi": "^1.2.4",
+    "@iconify/icons-carbon": "^1.2.6",
+    "@iconify/icons-eos-icons": "^1.2.2",
+    "@iconify/react": "^3.2.2",
+    "sass": "^1.52.1"
   }
 }
