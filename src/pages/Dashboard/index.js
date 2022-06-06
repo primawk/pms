@@ -34,7 +34,9 @@ export default function Dashboard() {
         </Tabs>
       </Grid>
 
-      <Typography variant="h5">Realisasi Produk Tambang</Typography>
+      <Typography variant="h5" mt={2} mb={2}>
+        Realisasi Produk Tambang
+      </Typography>
 
       <FilterSection />
     </>

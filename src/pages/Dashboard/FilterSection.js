@@ -102,7 +102,7 @@ const FilterSection = () => {
           padding: '24px 12px'
         }}
       >
-        <Grid item md={3}>
+        <Grid item md={4}>
           <TextField
             id="outlined-select-currency"
             select
@@ -120,7 +120,7 @@ const FilterSection = () => {
           </TextField>
         </Grid>
 
-        <Grid item md={3}>
+        <Grid item md={4}>
           <TextField
             id="outlined-select-currency"
             select
@@ -138,7 +138,7 @@ const FilterSection = () => {
           </TextField>
         </Grid>
 
-        <Grid item md={2}>
+        <Grid item md={1}>
           <Button fullWidth variant="text">
             Clear
           </Button>
