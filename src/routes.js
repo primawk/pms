@@ -6,6 +6,7 @@ import LayoutAuth from 'components/Layout/LayoutAuth';
 import ProtectedRoute from 'components/ProtectedRoute';
 //Component
 import Login from 'pages/Login';
+import Dashboard from 'pages/Dashboard';
 import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
 
@@ -20,6 +21,14 @@ export default function Routes() {
           element: (
             <ProtectedRoute permission={['Super Admin', 'Direksi']}>
               <UserManagement />
+            </ProtectedRoute>
+          )
+        },
+        {
+          path: 'dashboard',
+          element: (
+            <ProtectedRoute permission={['Super Admin', 'Direksi']}>
+              <Dashboard />
             </ProtectedRoute>
           )
         },
