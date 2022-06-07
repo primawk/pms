@@ -57,58 +57,66 @@ const months = [
 const years = ['2020', '2021', '2022'];
 
 const FilterSection = () => {
-  const [selectedMonth, setSelectedMonth] = useState(0);
+  const [selectedMonth, setSelectedMonth] = useState(1);
+  const [selectedYear, setSelectedYear] = useState('2022');
 
-  const handleChange = (event) => {
+  const handleChangeMonth = (event) => {
     setSelectedMonth(event.target.value);
   };
+
+  const handleChangeYear = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
   return (
-    <Grid
-      container
-      direction="row"
-      alignItems="center"
-      justifyContent="space-between"
-      sx={{ width: '80vw' }}
-    >
+    <Grid container direction="row" alignItems="center" justifyContent="flex-start">
       <Grid
         container
         direction="row"
         alignItems="center"
         justifyContent="flex-start"
+        width="25%"
+        xs={12}
+        lg={3}
         item
-        md={3}
         sx={{
-          padding: '24px 12px'
+          padding: '24px 0'
         }}
       >
-        <Button sx={{ mr: 2, height: '42px', width: '120px' }} variant="outlined">
-          Grafik
-        </Button>
-        <Button sx={{ height: '42px', width: '120px' }} variant="outlined">
-          Data target
-        </Button>
+        <Grid item md={5} mr={3}>
+          <Button fullWidth variant="outlined">
+            Grafik
+          </Button>
+        </Grid>
+        <Grid item md={5}>
+          <Button fullWidth variant="outlined">
+            Data Target
+          </Button>
+        </Grid>
       </Grid>
 
       <Grid
         container
         direction="row"
         alignItems="center"
-        justifyContent="space-around"
+        justifyContent="space-between"
         item
-        md={9}
+        width="75%"
+        xs={12}
+        lg={9}
         sx={{
           border: '1px solid #E0E0E0',
           borderRadius: '8px',
-          padding: '24px 12px'
+          padding: '12px 24px'
         }}
       >
-        <Grid item md={4}>
+        <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
           <TextField
             id="outlined-select-currency"
             select
             label="Bulan"
             value={selectedMonth}
-            onChange={handleChange}
+            onChange={handleChangeMonth}
             placeholder="Bulan"
             fullWidth
           >
@@ -120,13 +128,13 @@ const FilterSection = () => {
           </TextField>
         </Grid>
 
-        <Grid item md={4}>
+        <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
           <TextField
             id="outlined-select-currency"
             select
             label="Tahun"
-            value={selectedMonth}
-            onChange={handleChange}
+            value={selectedYear}
+            onChange={handleChangeYear}
             placeholder="Tahun"
             fullWidth
           >
@@ -138,15 +146,15 @@ const FilterSection = () => {
           </TextField>
         </Grid>
 
-        <Grid item md={1}>
+        <Grid item md={1} xs={12}>
           <Button fullWidth variant="text">
             Clear
           </Button>
         </Grid>
 
-        <Grid item md={2}>
+        <Grid item md={2} xs={12}>
           <Button fullWidth variant="outlined">
-            <Icon style={{ fontSize: '17px' }} icon={filterIcon} />
+            <Icon style={{ fontSize: '17px', marginRight: '5px' }} icon={filterIcon} />
             Filter
           </Button>
         </Grid>

@@ -60,7 +60,6 @@ $breakpoint-xxl: 1600px !default;
     background-color: #e5e5fe !important;
     border-left: #3f48c0 7px solid;
     font-weight: 600;
-    font-family: Montserrat;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -141,7 +140,7 @@ $breakpoint-xxl: 1600px !default;
 }
 
 .app-content {
-  padding: 0 30px 0 30px;
+  padding: 30px;
 
   .user-filter-container {
     border: 1px solid #e0e0e0;
