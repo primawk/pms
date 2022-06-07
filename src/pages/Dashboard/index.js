@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Header title="DASHBOARD" page="dashboard" />
+      <Header title="DASHBOARD" background="dashboard.png" />
 
       <Grid>
         <Tabs

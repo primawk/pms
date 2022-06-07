@@ -1291,6 +1291,13 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@iconify-icons/akar-icons@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@iconify-icons/akar-icons/-/akar-icons-1.2.6.tgz#06212972f46b41b993047d3067e653c6c4600ffa"
+  integrity sha512-k9m1hxjo0cJauVK7URiu3RtK5eeAZ4UpSsdvW9ptgopzpkG2ZmOQEpm8jrzT4h6CAUDOUII5Mt/roM0zfjL/1Q==
+  dependencies:
+    "@iconify/types" "^1.1.0"
+
 "@iconify-icons/charm@^1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@iconify-icons/charm/-/charm-1.2.3.tgz#c6a311be5c1af3d55c29822852a9347aa9efeda1"
