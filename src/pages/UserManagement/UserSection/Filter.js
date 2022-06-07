@@ -12,8 +12,7 @@ const Filter = () => {
       direction="row"
       alignItems="center"
       justifyContent="space-around"
-      item
-      className="user-filter-container"
+      className="user-filter-container bg-white"
     >
       <Grid
         container
@@ -25,7 +24,7 @@ const Filter = () => {
         md={10}
         lg={11}
       >
-        <Grid item md={5} lg={4}>
+        <Grid item md={5} lg={4} sm={6} xs={12}>
           <TextField
             placeholder="Cari Username/Nama Lengkap"
             fullWidth
@@ -39,7 +38,7 @@ const Filter = () => {
             }}
           />
         </Grid>
-        <Grid item md={5} lg={4}>
+        <Grid item md={5} lg={4} sm={6} xs={12}>
           <TextField select label="Role" placeholder="Role" fullWidth size="small">
             {roles.map((option) => (
               <MenuItem key={option} value={option}>
@@ -50,7 +49,7 @@ const Filter = () => {
         </Grid>
       </Grid>
 
-      <Grid item md={2} lg={1}>
+      <Grid item md={2} lg={1} sm={10} xs={10} className="user-submit-filter">
         <Button fullWidth variant="contained">
           Cari
         </Button>

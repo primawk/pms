@@ -107,7 +107,7 @@ $breakpoint-xxl: 1600px !default;
     flex-flow: column;
     right: 0;
     transition: all ease 0.5s;
-    background-color: #f3f3f3;
+    background-color: #e5e5fe;
     @include sm {
       margin-top: 0 !important;
     }
@@ -139,15 +139,58 @@ $breakpoint-xxl: 1600px !default;
   }
 }
 
+// for background color
+.bg-white {
+  background-color: white;
+}
+
+// padding top
+.pt-0 {
+  padding-top: 0 !important;
+}
+
+//for default content on padding
 .app-content {
   padding: 30px;
+  @include sm {
+    padding: 10px !important;
+  }
+  @include md {
+    padding: 10px !important;
+  }
 
   .user-filter-container {
     border: 1px solid #e0e0e0;
     border-radius: 15px;
     padding: 15px;
     width: 95%;
-    background-color: white;
     position: absolute;
+    @include sm {
+      position: relative !important;
+    }
+
+    @include md {
+      position: relative !important;
+    }
+  }
+
+  .user-table {
+    margin-top: 70px;
+    background-color: red;
+    @include sm {
+      margin-top: 15px;
+    }
+    @include md {
+      margin-top: 15px;
+    }
+  }
+
+  .user-submit-filter {
+    @include sm {
+      margin-top: 10px;
+    }
+    @include md {
+      margin-top: 10px;
+    }
   }
 }

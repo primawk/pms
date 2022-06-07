@@ -1305,6 +1305,20 @@
   dependencies:
     "@iconify/types" "^1.1.0"
 
+"@iconify-icons/eva@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@iconify-icons/eva/-/eva-1.2.2.tgz#50d222330b0df23cd4e5a3b5f91478486d4c0320"
+  integrity sha512-Oq3n9TtzIcPuMttsiKqdHyjdtyjwSTPgnxhCHtjF9CrGoRmsx7/4w9B/O8R+6saxYkkz1fRKUIob4itBw2JIjQ==
+  dependencies:
+    "@iconify/types" "^1.0.12"
+
+"@iconify/icons-ant-design@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-ant-design/-/icons-ant-design-1.2.3.tgz#bb0bee6438f721092b423c6825d990b35b091832"
+  integrity sha512-YItPq4cHHhgRPvV8A+citEM+0JYc4IXnD4lrNiwwJ4NZKYtCdGb19fuQq4KYyAf7PrisRtU3HhBVPemvvhEwjQ==
+  dependencies:
+    "@iconify/types" "^1.1.0"
+
 "@iconify/icons-bi@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@iconify/icons-bi/-/icons-bi-1.2.4.tgz#b596ffa8eacef570fefc1502c81b5bb274180443"
