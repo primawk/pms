@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@mui/styles';
 import {
   Table,
@@ -10,8 +10,11 @@ import {
   Checkbox
 } from '@mui/material';
 import PropTypes from 'prop-types';
+
+// components
 import BasicTableToolbar from './BasicTableToolbar';
 import BasicTableHead from './BasicTableHead';
+import CustomPagination from 'components/Pagination';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -108,11 +111,6 @@ export default function BasicTable({
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [filterRow, setFilterRow] = React.useState([]);
-
-  useEffect(() => {
-    setFilterRow(rows);
-  }, [rows]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -192,7 +190,7 @@ export default function BasicTable({
               rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(filterRow, getComparator(order, orderBy))
+              {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
@@ -213,20 +211,28 @@ export default function BasicTable({
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      {Object.keys(row).map(function (key, index2) {
-                        if (key !== 'id')
+                      {headCells.map((header) => {
+                        const arrHeader = header.id.split('.');
+                        if (arrHeader.length === 2) {
                           return (
-                            <TableCell color="secondary" key={index2}>
-                              {row[Object.keys(row)[index2]]}
+                            <TableCell color="secondary" key={index}>
+                              {row[arrHeader[0]][arrHeader[1]]}
                             </TableCell>
                           );
-                        return null;
+                        } else {
+                          return (
+                            <TableCell color="secondary" key={header}>
+                              {row[header.id]}
+                            </TableCell>
+                          );
+                        }
                       })}
                     </TableRow>
                   );
                 })}
             </TableBody>
           </Table>
+          <CustomPagination />
         </TableContainer>
       </Paper>
     </div>

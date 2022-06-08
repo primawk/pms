@@ -107,7 +107,7 @@ $breakpoint-xxl: 1600px !default;
     flex-flow: column;
     right: 0;
     transition: all ease 0.5s;
-    background-color: #e5e5fe;
+    background-color: #f9fbfc;
     @include sm {
       margin-top: 0 !important;
     }
@@ -176,7 +176,6 @@ $breakpoint-xxl: 1600px !default;
 
   .user-table {
     margin-top: 70px;
-    background-color: red;
     @include sm {
       margin-top: 15px;
     }
@@ -191,6 +190,38 @@ $breakpoint-xxl: 1600px !default;
     }
     @include md {
       margin-top: 10px;
+    }
+  }
+}
+
+// Custom Pagination
+.MuiPagination-root {
+  width: 50%;
+  margin: auto;
+  padding-top: 20px;
+  .MuiPagination-ul {
+    flex-wrap: nowrap;
+    li {
+      &:first-child {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        > button::after {
+          margin-left: 15px;
+          content: 'Sebelumnya';
+        }
+      }
+      &:last-child {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        > button::before {
+          margin-right: 15px;
+          content: 'Selanjutnya';
+        }
+      }
     }
   }
 }

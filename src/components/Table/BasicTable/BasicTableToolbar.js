@@ -20,7 +20,9 @@ const useToolbarStyles = makeStyles((theme) => ({
           color: theme.palette.text.secondary
         }
       : {
-          color: theme.palette.text.secondary
+          color: theme.palette.text.secondary,
+          borderTop: '#3F48C0 8px solid',
+          borderRadius: '5px'
         }
 }));
 

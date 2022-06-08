@@ -32,7 +32,7 @@ const headCells = [
     label: 'NOMOR TELEPON'
   },
   {
-    id: 'birhtdate',
+    id: 'birthdate',
     numeric: false,
     disablePadding: false,
     label: 'TANGGAL LAHIR'
@@ -84,15 +84,6 @@ const tableData = [
   },
   {
     id: 4,
-    created_at: '20/11/2000',
-    username: 'syarif',
-    full_name: 'Syarif Hidayat',
-    phone: '0895385293200',
-    birthdate: '09/05/2003',
-    role: 'Super Admin'
-  },
-  {
-    id: 5,
     created_at: '20/11/2000',
     username: 'syarif',
     full_name: 'Syarif Hidayat',
