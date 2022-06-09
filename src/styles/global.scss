@@ -198,7 +198,7 @@ $breakpoint-xxl: 1600px !default;
 .MuiPagination-root {
   width: 50%;
   margin: auto;
-  padding-top: 20px;
+  padding: 20px 0 20px 0;
   .MuiPagination-ul {
     flex-wrap: nowrap;
     li {
