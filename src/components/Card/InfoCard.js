@@ -13,10 +13,10 @@ const InfoCard = ({ name, image, value }) => {
       sx={{
         border: '1px solid #E0E0E0',
         borderRadius: ' 4px',
-        padding: '16px',
+        padding: '16px 12px',
         mt: 2,
         mb: 2,
-        minWidth: '210px'
+        minWidth: '100%'
       }}
     >
       <Grid
@@ -26,8 +26,8 @@ const InfoCard = ({ name, image, value }) => {
         alignItems="center"
         sx={{ mb: 2 }}
       >
-        <Typography>{name}</Typography>
-        <img src={image} alt={name} style={{ maxWidth: '70px' }} />
+        <Typography variant="body">{name}</Typography>
+        <img src={image} alt={name} style={{ maxWidth: '60px', maxHeight: '25px' }} />
       </Grid>
       <Typography variant="h4">{value}</Typography>
     </Grid>

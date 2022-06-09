@@ -154,7 +154,7 @@ const FilterSection = () => {
 
         <Grid item md={2} xs={12}>
           <Button fullWidth variant="outlined">
-            <Icon style={{ fontSize: '17px', marginRight: '5px' }} icon={filterIcon} />
+            <Icon style={{ fontSize: '17px', marginLeft: '-15px' }} icon={filterIcon} />
             Filter
           </Button>
         </Grid>
