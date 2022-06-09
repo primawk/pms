@@ -7,7 +7,16 @@ function BarChart({ chartData }) {
   const options = {
     plugins: {
       legend: {
-        display: false
+        display: true
+      },
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              size: 32
+            }
+          }
+        }
       }
     }
   };

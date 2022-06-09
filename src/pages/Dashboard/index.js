@@ -4,17 +4,13 @@ import React, { useState } from 'react';
 import Header from 'components/Header';
 import { Grid, Tab, Tabs, Typography } from '@mui/material';
 import FilterSection from './FilterSection';
-
-import InfoCard from 'components/Card/InfoCard';
-import Tonase from '../../assets/Images/Dashboard/Tonase.png';
-import JumlahLot from '../../assets/Images/Dashboard/JumlahLot.png';
-import KadarNi from '../../assets/Images/Dashboard/Ni.png';
-import KadarSimgo from '../../assets/Images/Dashboard/Kadar.png';
-import BarChart from '../../components/Charts/BarChart';
+import InfoSection from './InfoSection';
+import ChartSection from './ChartSection';
+import InventorySection from './InventorySection';
 
 const menuList = [
-  { value: 0, label: 'Penjualan' },
-  { value: 1, label: 'Data Target' }
+  { value: 0, label: 'Produksi' },
+  { value: 1, label: 'Penjualan' }
 ];
 
 const data = [
@@ -147,29 +143,14 @@ export default function Dashboard() {
 
           <FilterSection />
 
-          <Grid container direction="row" alignItems="center" justifyContent="space-between">
-            <Grid item md={2} xs={8} padding="0.5em 0">
-              <Typography variant="h6">Tahun</Typography>
-              <Typography variant="h3">2022</Typography>
-            </Grid>
-            <Grid item md={2} xs={5}>
-              <InfoCard value="1000231" image={Tonase} name="Tonase" />
-            </Grid>
-            <Grid item md={2} xs={5}>
-              <InfoCard value="723" image={JumlahLot} name="Jumlah Lot" />
-            </Grid>
-            <Grid item md={2} xs={5}>
-              <InfoCard value="1,768%" image={KadarNi} name="Kadar Ni" />
-            </Grid>
-            <Grid item md={2} xs={5}>
-              <InfoCard value="2,1768%" image={KadarSimgo} name="KadarSiMgO" />
-            </Grid>
-          </Grid>
+          <InfoSection />
 
-          <Grid width="100%">
-            <BarChart chartData={chartData} />
-          </Grid>
+          <ChartSection chartData={chartData} data={data} />
         </Grid>
+
+        <InventorySection title="Inventory SM" />
+        <InventorySection title="Inventory ETO" />
+        <InventorySection title="Inventory EFO" />
       </div>
     </>
   );
