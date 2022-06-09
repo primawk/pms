@@ -56,7 +56,7 @@ const months = [
 
 const years = ['2020', '2021', '2022'];
 
-const FilterSection = () => {
+const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
   const [selectedMonth, setSelectedMonth] = useState(1);
   const [selectedYear, setSelectedYear] = useState('2022');
 
@@ -84,12 +84,22 @@ const FilterSection = () => {
         }}
       >
         <Grid item md={5} mr={3}>
-          <Button fullWidth variant="outlined">
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={() => handleChangeSubMenu(0)}
+            sx={subMenu === 0 ? { background: '#E5E5FE' } : {}}
+          >
             Grafik
           </Button>
         </Grid>
         <Grid item md={5}>
-          <Button fullWidth variant="outlined">
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={() => handleChangeSubMenu(1)}
+            sx={subMenu === 1 ? { background: '#E5E5FE' } : {}}
+          >
             Data Target
           </Button>
         </Grid>

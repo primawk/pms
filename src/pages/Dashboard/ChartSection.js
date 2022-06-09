@@ -29,7 +29,7 @@ const ChartSection = ({ chartData, data }) => {
               sx={{ maxWidth: '20px', background: '#DA4540' }}
               variant="head"
             >
-              TP
+              DP
             </TableCell>
             {data?.map((item) => (
               <TableCell sx={{ border: '1px solid #E0E0E0' }}>{item?.pv}</TableCell>
