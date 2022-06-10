@@ -215,13 +215,13 @@ export default function BasicTable({
                         const arrHeader = header.id.split('.');
                         if (arrHeader.length === 2) {
                           return (
-                            <TableCell color="secondary" key={index}>
+                            <TableCell color="secondary" key={header.id}>
                               {row[arrHeader[0]][arrHeader[1]]}
                             </TableCell>
                           );
                         } else {
                           return (
-                            <TableCell color="secondary" key={header}>
+                            <TableCell color="secondary" key={header.id}>
                               {row[header.id]}
                             </TableCell>
                           );

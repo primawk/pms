@@ -1,9 +1,12 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 
+// custom hooks
+import useModal from 'hooks/useModal';
+
 // components
 import Header from 'components/Header';
-import { Filter } from './UserSection';
+import { Filter, FormUser } from './UserSection';
 import BasicTable from 'components/Table/BasicTable/BasicTable';
 
 const headCells = [
@@ -93,16 +96,20 @@ const tableData = [
   }
 ];
 
-const actions = [
-  {
-    title: 'Tambah User',
-    label: 'tambah user',
-    icon: 'person_add',
-    function: () => null
-  }
-];
-
 export default function UserManagement() {
+  const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
+
+  console.log(isShowingForm);
+
+  const actions = [
+    {
+      title: 'Tambah User',
+      label: 'tambah user',
+      icon: 'person_add',
+      function: toggleForm
+    }
+  ];
+
   return (
     <>
       <Header title="USER MANAGEMENT" background="user-management.png" />
@@ -122,6 +129,7 @@ export default function UserManagement() {
           />
         </div>
       </div>
+      <FormUser toggle={toggleForm} isShowing={isShowingForm} />
     </>
   );
 }
