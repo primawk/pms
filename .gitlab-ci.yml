@@ -1,0 +1,55 @@
+stages:
+  - staging
+  - production
+  
+variables:
+  PROJECT_LOCATION_STAGING: /var/www/html/staging/cms-react-staging/
+  PROJECT_LOCATION_PRODUCTION: /var/www/html/production/cms-react-production/
+
+deploy_staging:
+  image: node:15
+  stage: staging
+  cache: {}
+  before_script:
+    - apt-get update && apt-get install rsync -y
+    - eval $(ssh-agent -s)
+    - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
+  script:
+    - echo "Building deploy package"
+ #   - cp configs/.env.staging ./.env
+    - npm install
+    - npm run build
+    - echo "Build successful"
+    - cd build/
+    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_USER@$DEPLOY_HOST:$PROJECT_LOCATION_STAGING
+
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+  only:
+    - staging
+
+deploy_production:
+  image: node:15
+  stage: production
+  cache: {}
+  before_script:
+    - apt-get update && apt-get install rsync -y
+    - eval $(ssh-agent -s)
+    - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
+  script:
+    - echo "Building deploy package"
+  #  - cp configs/.env.production ./.env
+    - npm install
+    - npm run build
+    - echo "Build successful"
+    - cd build/
+    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_USER@$DEPLOY_HOST:$PROJECT_LOCATION_PRODUCTION
+
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+  only:
+    - production
