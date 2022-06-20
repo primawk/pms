@@ -7,7 +7,7 @@ variables:
   PROJECT_LOCATION_PRODUCTION: /var/www/html/production/cms-react-production/
 
 deploy_staging:
-  image: node:15
+  image: node:14
   stage: staging
   cache: {}
   before_script:
@@ -31,7 +31,7 @@ deploy_staging:
     - staging
 
 deploy_production:
-  image: node:15
+  image: node:14
   stage: production
   cache: {}
   before_script:
