@@ -17,8 +17,8 @@ deploy_staging:
   script:
     - echo "Building deploy package"
  #   - cp configs/.env.staging ./.env
-    - npm install
-    - npm run build
+    - yarn install
+    - yarn run build
     - echo "Build successful"
     - cd build/
     - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_USER@$DEPLOY_HOST:$PROJECT_LOCATION_STAGING
@@ -41,8 +41,8 @@ deploy_production:
   script:
     - echo "Building deploy package"
   #  - cp configs/.env.production ./.env
-    - npm install
-    - npm run build
+    - yarn install
+    - yarn run build
     - echo "Build successful"
     - cd build/
     - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_USER@$DEPLOY_HOST:$PROJECT_LOCATION_PRODUCTION
