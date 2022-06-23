@@ -3,7 +3,9 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import LayoutSidebar from 'components/Layout/LayoutSidebar';
 import LayoutAuth from 'components/Layout/LayoutAuth';
 // Protected Route
-import ProtectedRoute from 'components/ProtectedRoute';
+// import ProtectedRoute from 'components/ProtectedRoute';
+// <ProtectedRoute permission={['Super Admin', 'Direksi']}> use this if u need protected route ( per role )
+
 //Component
 import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
@@ -18,19 +20,11 @@ export default function Routes() {
         { path: '/', element: <Navigate to="/auth/login" replace /> },
         {
           path: 'user-management',
-          element: (
-            <ProtectedRoute permission={['Super Admin', 'Direksi']}>
-              <UserManagement />
-            </ProtectedRoute>
-          )
+          element: <UserManagement />
         },
         {
           path: 'dashboard',
-          element: (
-            <ProtectedRoute permission={['Super Admin', 'Direksi']}>
-              <Dashboard />
-            </ProtectedRoute>
-          )
+          element: <Dashboard />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]

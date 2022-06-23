@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 // components
 import BasicTableToolbar from './BasicTableToolbar';
 import BasicTableHead from './BasicTableHead';
-import CustomPagination from 'components/Pagination';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -50,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '20px',
+    marginTop: '15px',
     marginBottom: theme.spacing(2),
     boxShadow: 'none'
   },
@@ -103,7 +102,8 @@ export default function BasicTable({
   onSelectActions,
   onSelectOneActions,
   edit,
-  remove
+  remove,
+  withSelect
 }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('');
@@ -143,18 +143,8 @@ export default function BasicTable({
         selected.slice(selectedIndex + 1)
       );
     }
-    console.log(selected);
     setSelected(newSelected);
   };
-
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (event) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -205,18 +195,26 @@ export default function BasicTable({
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell color="secondary" padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell>
+                      {withSelect && (
+                        <TableCell color="secondary" padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        </TableCell>
+                      )}
                       {headCells.map((header) => {
                         const arrHeader = header.id.split('.');
                         if (arrHeader.length === 2) {
                           return (
                             <TableCell color="secondary" key={header.id}>
                               {row[arrHeader[0]][arrHeader[1]]}
+                            </TableCell>
+                          );
+                        } else if (header.cell) {
+                          return (
+                            <TableCell color="secondary" key={header.id}>
+                              {header.cell(row)}
                             </TableCell>
                           );
                         } else {
@@ -232,7 +230,6 @@ export default function BasicTable({
                 })}
             </TableBody>
           </Table>
-          <CustomPagination />
         </TableContainer>
       </Paper>
     </div>
@@ -243,13 +240,14 @@ BasicTable.propTypes = {
   title: PropTypes.string.isRequired,
   headCells: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired,
-  actions: PropTypes.array.isRequired,
+  actions: PropTypes.array,
   onSelectOneActions: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onSelectActions: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
   edit: PropTypes.bool,
-  remove: PropTypes.bool
+  remove: PropTypes.bool,
+  withSelect: PropTypes.bool
 };
 
 BasicTable.defaultProps = {

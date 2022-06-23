@@ -14,22 +14,24 @@ export default function FormUser({ isShowing, toggle, id }) {
   return (
     <CustomModal isShowing={isShowing} toggle={toggle}>
       <center>
-        <h1 style={{ marginBottom: '20px' }}>{id ? 'Edit User' : 'Tambah User'}</h1>
+        <h2 style={{ marginBottom: '20px', marginTop: '0 !important' }}>
+          {id ? 'Edit User' : 'Tambah User'}
+        </h2>
       </center>
       <Grid container direction="row" justifyContent="center" alignItems="center" spacing={5}>
         <Grid item lg={6} md={12} sm={12} xs={12}>
           <Stack spacing={2}>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Username</h4>
-              <TextField placeholder="Username" fullWidth />
+              <TextField placeholder="Username" fullWidth size="small" />
             </FormControl>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Nama Lengkap</h4>
-              <TextField placeholder="Nama Lengkap" fullWidth />
+              <TextField placeholder="Nama Lengkap" fullWidth size="small" />
             </FormControl>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Role</h4>
-              <TextField select placeholder="Role" fullWidth>
+              <TextField select placeholder="Role" fullWidth size="small">
                 {roles.map((option) => (
                   <MenuItem key={option} value={option}>
                     {option}
@@ -44,17 +46,17 @@ export default function FormUser({ isShowing, toggle, id }) {
           <Stack spacing={2}>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Nomor Telepon</h4>
-              <TextField placeholder="Nomor Telepon" fullWidth />
+              <TextField placeholder="Nomor Telepon" fullWidth size="small" />
             </FormControl>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Tanggal Lahir</h4>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker renderInput={(params) => <TextField {...params} />} />
+                <DatePicker renderInput={(params) => <TextField {...params} size="small" />} />
               </LocalizationProvider>
             </FormControl>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Password</h4>
-              <TextField placeholder="Password" fullWidth />
+              <TextField placeholder="Password" fullWidth size="small" />
             </FormControl>
           </Stack>
         </Grid>
@@ -62,7 +64,7 @@ export default function FormUser({ isShowing, toggle, id }) {
       <Grid container direction="row" justifyContent="flex-end" alignItems="center" spacing={5}>
         <Grid item lg={6} md={12} sm={12} xs={12} sx={{ marginTop: '25px' }}>
           <Stack spacing={2} direction="row">
-            <Button variant="outlined" fullWidth>
+            <Button variant="outlined" fullWidth onClick={toggle}>
               Cancel
             </Button>
             <Button variant="contained" fullWidth>

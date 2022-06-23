@@ -1,135 +1,38 @@
-import React from 'react';
-import { Grid } from '@mui/material';
-
-// custom hooks
-import useModal from 'hooks/useModal';
+import React, { useState } from 'react';
+import { Grid, Tabs, Tab } from '@mui/material';
 
 // components
 import Header from 'components/Header';
-import { Filter, FormUser } from './UserSection';
-import BasicTable from 'components/Table/BasicTable/BasicTable';
-
-const headCells = [
-  {
-    id: 'created_at',
-    numeric: false,
-    disablePadding: false,
-    label: 'DIBUAT PADA'
-  },
-  {
-    id: 'username',
-    numeric: false,
-    disablePadding: false,
-    label: 'USERNAME'
-  },
-  {
-    id: 'full_name',
-    numeric: false,
-    disablePadding: false,
-    label: 'NAMA LENGKAP'
-  },
-  {
-    id: 'phone',
-    numeric: false,
-    disablePadding: false,
-    label: 'NOMOR TELEPON'
-  },
-  {
-    id: 'birthdate',
-    numeric: false,
-    disablePadding: false,
-    label: 'TANGGAL LAHIR'
-  },
-  {
-    id: 'role',
-    numeric: false,
-    disablePadding: false,
-    label: 'ROLE'
-  }
-];
-
-const tableData = [
-  {
-    id: 0,
-    created_at: '20/11/2000',
-    username: 'syarif',
-    full_name: 'Syarif Hidayat',
-    phone: '0895385293200',
-    birthdate: '09/05/2003',
-    role: 'Super Admin'
-  },
-  {
-    id: 1,
-    created_at: '20/11/2000',
-    username: 'syarif',
-    full_name: 'Syarif Hidayat',
-    phone: '0895385293200',
-    birthdate: '09/05/2003',
-    role: 'Super Admin'
-  },
-  {
-    id: 2,
-    created_at: '20/11/2000',
-    username: 'syarif',
-    full_name: 'Syarif Hidayat',
-    phone: '0895385293200',
-    birthdate: '09/05/2003',
-    role: 'Super Admin'
-  },
-  {
-    id: 3,
-    created_at: '20/11/2000',
-    username: 'syarif',
-    full_name: 'Syarif Hidayat',
-    phone: '0895385293200',
-    birthdate: '09/05/2003',
-    role: 'Super Admin'
-  },
-  {
-    id: 4,
-    created_at: '20/11/2000',
-    username: 'syarif',
-    full_name: 'Syarif Hidayat',
-    phone: '0895385293200',
-    birthdate: '09/05/2003',
-    role: 'Super Admin'
-  }
-];
+import { Filter, UserTable, RoleTable } from './UserSection';
 
 export default function UserManagement() {
-  const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
+  const [search, setSearch] = useState('');
+  const [tab, setTab] = useState(0);
 
-  console.log(isShowingForm);
+  const handleChangeTab = (e, _tab) => {
+    setTab(_tab);
+  };
 
-  const actions = [
-    {
-      title: 'Tambah User',
-      label: 'tambah user',
-      icon: 'person_add',
-      function: toggleForm
-    }
-  ];
-
+  const onSubmit = (_seacrh) => {
+    setSearch(_seacrh);
+  };
   return (
     <>
       <Header title="USER MANAGEMENT" background="user-management.png" />
 
       <div className="app-content pt-0">
         <Grid container direction="row" justifyContent="center" alignItems="center">
-          <Filter />
+          <Filter onSubmit={onSubmit} />
         </Grid>
-        <div className="user-table">
-          <BasicTable
-            headCells={headCells}
-            rows={tableData}
-            actions={actions}
-            edit
-            remove
-            title="User"
-          />
+        <div className="user-table" style={{ background: 'white', borderRadius: '5px' }}>
+          <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '0px !important' }}>
+            <Tab label="List Pengguna" />
+            <Tab label="Role & Hak Akses" />
+          </Tabs>
+          {tab === 0 && <UserTable search={search} />}
+          {tab === 1 && <RoleTable />}
         </div>
       </div>
-      <FormUser toggle={toggleForm} isShowing={isShowingForm} />
     </>
   );
 }

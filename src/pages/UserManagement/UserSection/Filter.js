@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, TextField, MenuItem, InputAdornment } from '@mui/material';
 import { Icon } from '@iconify/react';
 import SearchIcon from '@iconify-icons/akar-icons/search';
+import PropTypes from 'prop-types';
 
 const roles = ['Super Admin', 'Komisaris', 'Direksi', 'Admin Lab', 'Admin Operasional'];
 
-const Filter = () => {
+const Filter = ({ onSubmit }) => {
+  const [search, setSearch] = useState('');
+  console.log(setSearch);
   return (
     <Grid
       container
@@ -50,7 +53,7 @@ const Filter = () => {
       </Grid>
 
       <Grid item md={2} lg={1} sm={10} xs={10} className="user-submit-filter">
-        <Button fullWidth variant="contained">
+        <Button fullWidth variant="contained" onClick={() => onSubmit(search)}>
           Cari
         </Button>
       </Grid>
@@ -59,3 +62,7 @@ const Filter = () => {
 };
 
 export default Filter;
+
+Filter.propTypes = {
+  onSubmit: PropTypes.func
+};
