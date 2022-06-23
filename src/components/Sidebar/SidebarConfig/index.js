@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import UserIcon from '@iconify/icons-carbon/user-avatar-filled';
 import HomeIcon from '@iconify/icons-carbon/home';
+import OreGettingIcon from '@iconify/icons-eos-icons/data-mining';
 
 const getIcon = (name) => <Icon icon={name} height={24} width={24} color="#3f48c0" />;
 
@@ -17,6 +18,12 @@ const sidebarConfig = [
     title: 'User Management',
     path: 'user-management',
     icon: getIcon(UserIcon),
+    permissions: ['Super Admin']
+  },
+  {
+    title: 'Kegiatan Tambang',
+    path: 'kegiatan-tambang',
+    icon: getIcon(OreGettingIcon),
     permissions: ['Super Admin']
   }
 ];

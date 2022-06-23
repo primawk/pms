@@ -11,6 +11,7 @@ import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
 import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
+import KegiatanTambang from 'pages/KegiatanTambang';
 
 export default function Routes() {
   return useRoutes([
@@ -25,6 +26,10 @@ export default function Routes() {
         {
           path: 'dashboard',
           element: <Dashboard />
+        },
+        {
+          path: 'kegiatan-tambang',
+          element: <KegiatanTambang />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
