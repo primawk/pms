@@ -152,6 +152,7 @@ $breakpoint-xxl: 1600px !default;
 //for default content on padding
 .app-content {
   padding: 30px;
+  background-color: #f9fbfc;
   @include sm {
     padding: 10px !important;
   }

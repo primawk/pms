@@ -20,7 +20,9 @@ const ChartSection = ({ chartData, data }) => {
               R
             </TableCell>
             {data?.map((item) => (
-              <TableCell sx={{ border: '1px solid #E0E0E0' }}>{item?.uv}</TableCell>
+              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }}>
+                {item?.uv}
+              </TableCell>
             ))}
           </TableRow>
           <TableRow>
@@ -32,7 +34,9 @@ const ChartSection = ({ chartData, data }) => {
               DP
             </TableCell>
             {data?.map((item) => (
-              <TableCell sx={{ border: '1px solid #E0E0E0' }}>{item?.pv}</TableCell>
+              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }}>
+                {item?.pv}
+              </TableCell>
             ))}
           </TableRow>
         </Table>

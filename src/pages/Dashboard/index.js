@@ -188,21 +188,15 @@ export default function Dashboard() {
         </Grid>
 
         {subMenu === 0 ? (
-          <>
-            <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
-              <Typography variant="h5">Realisasi Produksi Tambang</Typography>
+          <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
+            <Typography variant="h5">Realisasi Produksi Tambang</Typography>
 
-              <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
+            <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
 
-              <InfoSection />
+            <InfoSection />
 
-              <ChartSection chartData={chartData} data={data} />
-            </Grid>
-
-            <InventorySection title="Inventory SM" />
-            <InventorySection title="Inventory ETO" />
-            <InventorySection title="Inventory EFO" />
-          </>
+            <ChartSection chartData={chartData} data={data} />
+          </Grid>
         ) : (
           <>
             <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
@@ -219,6 +213,14 @@ export default function Dashboard() {
           </>
         )}
       </div>
+
+      {subMenu === 0 && (
+        <>
+          <InventorySection title="Inventory SM" subtitle="Kegiatan Penambangan" />
+          <InventorySection title="Inventory ETO" subtitle="Stockfile" />
+          <InventorySection title="Inventory EFO" subtitle="Stckyard" />
+        </>
+      )}
     </>
   );
 }
