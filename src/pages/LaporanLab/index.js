@@ -3,15 +3,17 @@ import { Icon } from '@iconify/react';
 
 // components
 import Header from 'components/Header';
-import { Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Grid, Button, Tab, Tabs, Typography } from '@mui/material';
 import FilterSection from './FilterSection';
 import InfoSection from './InfoSection';
 import ChartSection from './ChartSection';
 import InventorySection from './InventorySection';
+import TextField from '@mui/material/TextField';
 
 import TargetDataTable from './TargetDataTable';
 import TargetDataInformation from './TargetDataInformation';
 import CustomPagination from 'components/Pagination';
+import { nominalTypeHack } from 'prop-types';
 
 const menuList = [
   { value: 0, label: 'Produksi' },
@@ -178,83 +180,111 @@ export default function LaporanLab() {
             <h2 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '700' }}>Laporan Lab</h2>
           </div>
         </div>
-        {/* <Grid item>{children}</Grid> */}
       </Grid>
-      {/* 
-      <Header
-        icon={<Icon icon="icomoon-free:lab" color="white" fontSize="1.5rem" />}
-        title="Laporan Lab"
-        background="dashboard.png"
-      /> */}
 
-      <div className="app-content">
-        <Grid sx={{ background: 'white' }}>
-          <Tabs
-            value={menuTab}
-            onChange={handleChangeTab}
-            textColor="primary"
-            indicatorColor="primary"
-            TabIndicatorProps={{
-              sx: {
-                bgcolor: '#3F48C0',
-                height: '4px'
-              }
+      <Grid
+        container
+        sx={{
+          display: 'flex',
+          backgroundColor: 'green',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          padding: '0px',
+          width: '94%',
+          height: '9.25rem',
+          marginLeft: '3rem',
+          marginTop: '1.125rem',
+          borderRadius: '8px 8px 8px 8px'
+        }}
+      >
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            backgroundColor: 'red',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '24px',
+            height: '4.625rem',
+            borderBottom: 1,
+            borderBottomColor: '#E0E0E0',
+            borderRadius: '8px 8px 0 0'
+          }}
+        >
+          <Grid
+            item
+            sx={{ backgroundColor: 'blue', borderRadius: '4px', marginLeft: '1.5rem' }}
+            xs={7}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Cari Nomor Sample/Nama Perusahaan/Requester"
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Button
+            variant="contained"
+            sx={{ width: '160px', height: '42px', marginRight: '1.5rem' }}
+          >
+            Search
+          </Button>
+        </Grid>
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            backgroundColor: 'yellow',
+            flexDirection: 'row',
+            alignItems: 'center',
+            // justifyContent: 'space-between',
+            // gap: '24px',
+            height: '4.625rem',
+            borderBottom: 1,
+            borderBottomColor: '#E0E0E0',
+            borderRadius: '0 0 8px 8px'
+          }}
+        >
+          <Grid
+            item
+            sx={{ backgroundColor: 'blue', borderRadius: '4px', marginLeft: '1.5rem' }}
+            xs={2}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Cari Nomor Sample/Nama Perusahaan/Requester"
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+          <Grid
+            item
+            sx={{ backgroundColor: 'blue', borderRadius: '4px', marginLeft: '1rem' }}
+            xs={2}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Cari Nomor Sample/Nama Perusahaan/Requester"
+              variant="outlined"
+              fullWidth
+            />
+          </Grid>
+
+          <Button
+            sx={{
+              backgroundColor: 'transparent',
+              outline: 'none',
+              overflow: 'hidden',
+              border: 'none',
+              marginRight: '2.25rem',
+              marginLeft: 'auto'
             }}
           >
-            {menuList?.map((item) => (
-              <Tab
-                key={item.value}
-                value={item.value}
-                label={item.label}
-                sx={
-                  item.value === menuTab
-                    ? {
-                        backgroundColor: '#E5E5FE',
-                        border: '1px solid #3F48C0',
-                        borderRadius: '4px',
-                        transition: '0.3s'
-                      }
-                    : {}
-                }
-              />
-            ))}
-          </Tabs>
+            Clear All
+          </Button>
         </Grid>
-
-        {subMenu === 0 ? (
-          <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
-            <Typography variant="h5">Realisasi Produksi Tambang</Typography>
-
-            <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
-
-            <InfoSection />
-
-            <ChartSection chartData={chartData} data={data} />
-          </Grid>
-        ) : (
-          <>
-            <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
-              <Typography variant="h5">Data Target Produksi Tambang</Typography>
-
-              <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
-
-              <TargetDataInformation />
-
-              <TargetDataTable sample={sample} targetTableHead={targetTableHead} />
-
-              <CustomPagination />
-            </Grid>
-          </>
-        )}
-      </div>
-
-      {subMenu === 0 && (
-        <>
-          <InventorySection title="Inventory SM" subtitle="Kegiatan Penambangan" />
-          <InventorySection title="Inventory ETO" subtitle="Stockfile" />
-          <InventorySection title="Inventory EFO" subtitle="Stckyard" />
-        </>
-      )}
+      </Grid>
     </>
   );
 }

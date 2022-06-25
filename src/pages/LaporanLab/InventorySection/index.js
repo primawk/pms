@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
 
 import ArrowDown from '@iconify-icons/charm/chevron-down';
 import { Icon } from '@iconify/react';
@@ -10,30 +10,54 @@ import ListData from './ListData';
 const InventorySection = ({ title, subtitle }) => {
   return (
     <div className="app-content">
-      <Grid sx={{ background: 'white' }}>
-        <Grid sx={{ padding: '1em 1.5em' }}>
-          <Grid container direction="row" alignItems="center" justifyContent="flex-start" mb={3}>
-            <Typography mr={5} variant="h4">
-              {title}
-            </Typography>
-            <Button variant="text">Lihat Selengkapnya</Button>
-          </Grid>
-
-          <Summary />
-
-          <ListData subtitle={subtitle} />
-
+      <Grid
+        container
+        sx={{
+          display: 'flex',
+          backgroundColor: 'white',
+          direction: 'column',
+          alignItems: 'flex-start',
+          padding: '0px',
+          position: 'absolute',
+          width: '78.625rem',
+          height: '9.25rem',
+          left: '7.5rem',
+          top: '14.188rem'
+        }}
+      >
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            backgroundColor: 'white',
+            direction: 'row',
+            alignItems: 'center',
+            padding: '16px 24px',
+            gap: '24px',
+            width: '1258px',
+            height: '74px',
+            borderBottom: 1
+          }}
+        >
           <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            mb={1}
-            mt={2}
-            textAlign="center"
-            color="#828282"
+            item
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              direction: 'row',
+              alignItems: 'center',
+              padding: '16px 24px',
+              gap: '11px',
+              width: '640px',
+              height: '42px'
+            }}
           >
-            SHOW MORE
-            <Icon width={25} height={25} icon={ArrowDown} style={{ marginLeft: '0.5em' }} />
+            <TextField
+              id="outlined-basic"
+              label="Cari Nomor Sample/Nama Perusahaan/Requester"
+              variant="outlined"
+              fullWidth
+            />
           </Grid>
         </Grid>
       </Grid>
