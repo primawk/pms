@@ -12,6 +12,7 @@ import Dashboard from 'pages/Dashboard';
 import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
 import KegiatanTambang from 'pages/KegiatanTambang';
+import LaporanLab from 'pages/LaporanLab';
 
 export default function Routes() {
   return useRoutes([
@@ -26,6 +27,10 @@ export default function Routes() {
         {
           path: 'dashboard',
           element: <Dashboard />
+        },
+        {
+          path: 'laporan-lab',
+          element: <LaporanLab />
         },
         {
           path: 'kegiatan-tambang',
