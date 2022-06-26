@@ -21,602 +21,1205 @@ import TargetDataInformation from './TargetDataInformation';
 import CustomPagination from 'components/Pagination';
 import { nominalTypeHack } from 'prop-types';
 
-const menuList = [
-  { value: 0, label: 'Produksi' },
-  { value: 1, label: 'Penjualan' }
-];
-
-const data = [
-  {
-    name: 'Jan',
-    uv: 4000,
-    pv: 2400
-  },
-  {
-    name: 'Feb',
-    uv: 3000,
-    pv: 1398
-  },
-  {
-    name: 'Mar',
-    uv: 2000,
-    pv: 9800
-  },
-  {
-    name: 'Apr',
-    uv: 2780,
-    pv: 3908
-  },
-  {
-    name: 'Mei',
-    uv: 1890,
-    pv: 4800
-  },
-  {
-    name: 'June',
-    uv: 2390,
-    pv: 3800
-  },
-  {
-    name: 'Jul',
-    uv: 3490,
-    pv: 4300
-  },
-  {
-    name: 'Aug',
-    uv: 3490,
-    pv: 4300
-  },
-  {
-    name: 'Sep',
-    uv: 3490,
-    pv: 4300
-  },
-  {
-    name: 'Oct',
-    uv: 3490,
-    pv: 4300
-  },
-  {
-    name: 'Nov',
-    uv: 3490,
-    pv: 4300
-  },
-  {
-    name: 'Dec',
-    uv: 3490,
-    pv: 4300
-  }
-];
-
-const sample = [
-  {
-    year: 2021,
-    detail: [
-      { month: 'Januari', target: '70.000' },
-      { month: 'Februari', target: '70.000' },
-      { month: 'Maret', target: '70.000' },
-      { month: 'April', target: '70.000' },
-      { month: 'Mei', target: '70.000' },
-      { month: 'Juni', target: '70.000' },
-      { month: 'Juli', target: '70.000' },
-      { month: 'Agustus', target: '70.000' },
-      { month: 'September', target: '70.000' },
-      { month: 'Oktober', target: '70.000' },
-      { month: 'November', target: '70.000' },
-      { month: 'Desember', target: '70.000' }
-    ]
-  },
-  {
-    year: 2020,
-    detail: [
-      { month: 'Januari', target: '70.000' },
-      { month: 'Februari', target: '70.000' },
-      { month: 'Maret', target: '70.000' },
-      { month: 'April', target: '70.000' },
-      { month: 'Mei', target: '70.000' },
-      { month: 'Juni', target: '70.000' },
-      { month: 'Juli', target: '70.000' },
-      { month: 'Agustus', target: '70.000' },
-      { month: 'September', target: '70.000' },
-      { month: 'Oktober', target: '70.000' },
-      { month: 'November', target: '70.000' },
-      { month: 'Desember', target: '70.000' }
-    ]
-  }
-];
-
-const targetTableHead = ['TAHUN', 'BULAN', 'TARGET', 'ACTION'];
-
 export default function LaporanLab() {
-  const [menuTab, setMenuTab] = useState(0);
-  const [subMenu, setSubMenu] = useState(0);
-  const [chartData] = useState({
-    labels: data.map((item) => item.name),
-    legend: false,
-    datasets: [
-      {
-        label: 'Realisasi (Ton)',
-        data: data.map((item) => item.uv),
-        backgroundColor: ['#3F48C0'],
-        borderWidth: 2
-      },
-      {
-        label: 'Data Produksi',
-        data: data.map((item) => item.pv),
-        backgroundColor: ['#DA4540'],
-        borderWidth: 2
-      }
-    ]
-  });
-
-  const handleChangeTab = (event, newValue) => {
-    setMenuTab(newValue);
-  };
-
-  const handleChangeSubMenu = (value) => {
-    setSubMenu(value);
-  };
-
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={2}
-        sx={{
-          backgroundImage: `url(/img/dashboard.png)`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          width: '100%',
-          height: '21vh',
-          margin: 0
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', height: '9.375rem' }}>
-          <div
-            style={{ marginLeft: '3rem', display: 'flex', direction: 'row', alignItems: 'center' }}
-          >
-            <div style={{ marginTop: '0.4rem', marginRight: '1.5rem' }}>
-              <Icon icon="icomoon-free:lab" color="white" fontSize="1.5rem" />
-            </div>
-            <h2 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '700' }}>Laporan Lab</h2>
-          </div>
-        </div>
-      </Grid>
-
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          backgroundColor: 'white',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          padding: '0px',
-          width: '94%',
-          height: '9.25rem',
-          marginLeft: '3%',
-          marginTop: '1.125rem',
-          borderRadius: '8px 8px 8px 8px'
-        }}
-      >
+      {/* <div className="app-content-laporan-lab"> */}
         <Grid
           container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
           sx={{
-            display: 'flex',
-            backgroundColor: 'white',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '24px',
-            height: '4.625rem',
-            borderBottom: 1,
-            borderBottomColor: '#E0E0E0',
-            borderRadius: '8px 8px 0 0'
+            backgroundImage: `url(/img/dashboard.png)`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '100%',
+            height: '21vh',
+            margin: 0
           }}
         >
-          <Grid
-            item
-            sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1.5rem' }}
-            xs={7}
-          >
-            <TextField
-              id="outlined-basic"
-              placeholder="Cari Nomor Sample/Nama Perusahaan/Requester"
-              variant="outlined"
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Icon icon="il:search" color="#828282" />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Grid>
-          <Button
-            variant="contained"
-            sx={{ width: '160px', height: '42px', marginRight: '1.5rem', boxShadow: 0 }}
-          >
-            Search
-          </Button>
-        </Grid>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            backgroundColor: 'white',
-            flexDirection: 'row',
-            alignItems: 'center',
-            height: '4.625rem',
-            borderRadius: '0 0 8px 8px'
-          }}
-        >
-          <Grid
-            item
-            sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1.5rem' }}
-            xs={2}
-          >
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Jenis Laporan</InputLabel>
-
-              <Select labelId="demo-simple-select-label" id="demo-simple-select">
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid
-            item
-            sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1rem' }}
-            xs={2}
-          >
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
-
-              <Select labelId="demo-simple-select-label" id="demo-simple-select">
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Button
-            sx={{
-              backgroundColor: 'transparent',
-              outline: 'none',
-              overflow: 'hidden',
-              border: 'none',
-              marginRight: '2.25rem',
-              marginLeft: 'auto'
-            }}
-          >
-            Clear All
-          </Button>
-        </Grid>
-      </Grid>
-
-      {/*  */}
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          backgroundColor: 'white',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          padding: '0px',
-          width: '94%',
-          height: '78.625rem',
-          marginLeft: '3%', // percentage to make it responsive
-          marginTop: '1.125rem',
-          borderRadius: '8px 8px 8px 8px'
-        }}
-      >
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            backgroundColor: 'white',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-          }}
-        >
-          <Grid
-            item
-            sx={{
-              backgroundColor: 'white',
-              border: '1px solid #E0E0E0',
-              borderRadius: '0.25rem',
-              width: '10rem',
-              height: '6.4375rem',
-              margin: '1.5rem 1rem 1.5rem 1.5rem '
-            }}
-            xs={2}
-          >
-            <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Semua Laporan</Box>
-            <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>171</Box>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              backgroundColor: 'white',
-              border: '1px solid #E0E0E0',
-              borderRadius: '0.25rem',
-              marginLeft: '1rem',
-              width: '10rem',
-              height: '6.4375rem',
-              margin: '1.5rem 1rem 1.5rem 1rem '
-            }}
-            xs={2}
-          >
-            <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Internal</Box>
-            <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>71</Box>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              backgroundColor: 'white',
-              border: '1px solid #E0E0E0',
-              borderRadius: '0.25rem',
-              marginLeft: '1.5rem',
-              width: '10rem',
-              height: '6.4375rem',
-              margin: '1.5rem 1rem 1.5rem 1rem'
-            }}
-            xs={2}
-          >
-            <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Eksternal</Box>
-            <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>100</Box>
-          </Grid>
-          <Button
-            variant="contained"
-            sx={{
-              width: '15.625',
-              height: '42px',
-              marginRight: '1.5rem',
-              marginLeft: 'auto',
-              boxShadow: 0
-            }}
-          >
-            Input Laporan Lab
-          </Button>
-        </Grid>
-        <Box sx={{ margin: '0 0 1.5rem 1.5rem' }}>
-          <h3>List Laporan Lab</h3>
-        </Box>
-
-        {/* Ekesternal */}
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            backgroundColor: 'white',
-            flexDirection: 'row',
-            alignItems: 'center',
-            margin: '0 1.5rem 0 1.5rem',
-            width: '96.5%',
-            height: '4.625rem',
-            borderBottom: 1,
-            borderBottomColor: '#E0E0E0',
-            gap: '4.5rem'
-          }}
-        >
-          <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
-            <Grid
-              container
-              sx={{
+          <div style={{ display: 'flex', alignItems: 'center', height: '9.375rem' }}>
+            <div
+              style={{
+                marginLeft: '3rem',
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: '1rem'
+                direction: 'row',
+                alignItems: 'center'
               }}
             >
-              <Box>
-                <img src="/img/eksternal.png"></img>
-              </Box>
-              <Grid item>
+              <div style={{ marginTop: '0.4rem', marginRight: '1.5rem' }}>
+                <Icon icon="icomoon-free:lab" color="white" fontSize="1.5rem" />
+              </div>
+              <h2 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '700' }}>Laporan Lab</h2>
+            </div>
+          </div>
+        </Grid>
+
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            backgroundColor: 'white',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            padding: '0px',
+            width: '94%',
+            height: '9.25rem',
+            marginLeft: '3%',
+            marginTop: '1.125rem',
+            borderRadius: '8px 8px 8px 8px'
+          }}
+        >
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '24px',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              borderRadius: '8px 8px 0 0'
+            }}
+          >
+            <Grid
+              item
+              sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1.5rem' }}
+              xs={7}
+            >
+              <TextField
+                id="outlined-basic"
+                placeholder="Cari Nomor Sample/Nama Perusahaan/Requester"
+                variant="outlined"
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Icon icon="il:search" color="#828282" />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Grid>
+            <Button
+              variant="contained"
+              sx={{ width: '160px', height: '42px', marginRight: '1.5rem', boxShadow: 0 }}
+            >
+              Search
+            </Button>
+          </Grid>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: '4.625rem',
+              borderRadius: '0 0 8px 8px'
+            }}
+          >
+            <Grid
+              item
+              sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1.5rem' }}
+              xs={2}
+            >
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Jenis Laporan</InputLabel>
+
+                <Select labelId="demo-simple-select-label" id="demo-simple-select">
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1rem' }}
+              xs={2}
+            >
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
+
+                <Select labelId="demo-simple-select-label" id="demo-simple-select">
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Button
+              sx={{
+                backgroundColor: 'transparent',
+                outline: 'none',
+                overflow: 'hidden',
+                border: 'none',
+                marginRight: '2.25rem',
+                marginLeft: 'auto'
+              }}
+            >
+              Clear All
+            </Button>
+          </Grid>
+        </Grid>
+
+        {/*  */}
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            backgroundColor: 'white',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            padding: '0px',
+            width: '94%',
+            height: '78.625rem',
+            marginLeft: '3%', // percentage to make it responsive
+            marginTop: '1.125rem',
+            borderRadius: '8px 8px 8px 8px'
+          }}
+        >
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start'
+            }}
+          >
+            <Grid
+              item
+              sx={{
+                backgroundColor: 'white',
+                border: '1px solid #E0E0E0',
+                borderRadius: '0.25rem',
+                width: '10rem',
+                height: '6.4375rem',
+                margin: '1.5rem 1rem 1.5rem 1.5rem '
+              }}
+              xs={2}
+            >
+              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Semua Laporan</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>171</Box>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                backgroundColor: 'white',
+                border: '1px solid #E0E0E0',
+                borderRadius: '0.25rem',
+                marginLeft: '1rem',
+                width: '10rem',
+                height: '6.4375rem',
+                margin: '1.5rem 1rem 1.5rem 1rem '
+              }}
+              xs={2}
+            >
+              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Internal</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>71</Box>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                backgroundColor: 'white',
+                border: '1px solid #E0E0E0',
+                borderRadius: '0.25rem',
+                marginLeft: '1.5rem',
+                width: '10rem',
+                height: '6.4375rem',
+                margin: '1.5rem 1rem 1.5rem 1rem'
+              }}
+              xs={2}
+            >
+              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Eksternal</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>100</Box>
+            </Grid>
+            <Button
+              variant="contained"
+              sx={{
+                width: '15.625',
+                height: '42px',
+                marginRight: '1.5rem',
+                marginLeft: 'auto',
+                boxShadow: 0
+              }}
+            >
+              Input Laporan Lab
+            </Button>
+          </Grid>
+          <Box sx={{ margin: '0 0 1.5rem 1.5rem' }}>
+            <h3>List Laporan Lab</h3>
+          </Box>
+
+          {/* Ekesternal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
                 <Box>
-                  <h5>PT Mandala Jaya</h5>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
+                <Grid item>
+                  <Box>
+                    <h5>PT Mandala Jaya</h5>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Jumlah Pengajuan</h5>
+                </Box>
+                <Box>
+                  <h5>6</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Informasi Sample</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
                 </Box>
               </Grid>
             </Grid>
           </Grid>
 
-          {/* Column 2 */}
-          <Grid item xs={1.5}>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5 style={{ color: '#828282' }}>Jumlah Pengajuan</h5>
-              </Box>
-              <Box>
-                <h5>6</h5>
-              </Box>
-            </Grid>
-          </Grid>
+          {/* internal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
+                <Box>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
 
-          {/* Column 3 */}
-          <Grid item xs={1.5}>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5 style={{ color: '#828282' }}>Informasi Sample</h5>
-              </Box>
-              <Box>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Box>
-                    <h5>2 Preparasi</h5>
-                  </Box>
-                  <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
-                  </Box>
-                  <Box>
-                    <h5>4 Analisa</h5>
-                  </Box>
+                <Grid item>
+                  <Grid
+                    container
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <Box sx={{ marginBottom: '0.5rem' }}>
+                      <h5>Sample Test PIT</h5>
+                    </Box>
+                    <Box>
+                      <h5 style={{ color: '#828282' }}>MS102-1098P</h5>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Box>
+              </Grid>
+            </Grid>
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Bukit</h5>
+                </Box>
+                <Box>
+                  <h5>Bukit IV</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dome/Tumpukan</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 4 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dibuat Oleh</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                      <img src={avatarLogo}></img>
+                    </Box>
+                    <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
+                      <h5>Putri Devina</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 5 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>12/01/2022</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        {/* internal */}
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            backgroundColor: 'white',
-            flexDirection: 'row',
-            alignItems: 'center',
-            margin: '0 1.5rem 0 1.5rem',
-            width: '96.5%',
-            height: '4.625rem',
-            borderBottom: 1,
-            borderBottomColor: '#E0E0E0',
-            gap: '4.5rem'
-          }}
-        >
-          <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: '1rem'
-              }}
-            >
-              <Box>
-                <img src="/img/eksternal.png"></img>
-              </Box>
-
-              <Grid item>
-                <Grid
-                  container
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}
-                >
-                  <Box sx={{ marginBottom: '0.5rem' }}>
-                    <h5>Sample Test PIT</h5>
-                  </Box>
+          {/* Ekesternal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
+                <Box>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
+                <Grid item>
                   <Box>
-                    <h5 style={{ color: '#828282' }}>MS102-1098P</h5>
+                    <h5>PT Mandala Jaya</h5>
                   </Box>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          {/* Column 2 */}
-          <Grid item xs={1.5}>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5 style={{ color: '#828282' }}>Bukit</h5>
-              </Box>
-              <Box>
-                <h5>Bukit IV</h5>
-              </Box>
+
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Jumlah Pengajuan</h5>
+                </Box>
+                <Box>
+                  <h5>6</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Informasi Sample</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
 
-          {/* Column 3 */}
-          <Grid item xs={1.5}>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5 style={{ color: '#828282' }}>Dome/Tumpukan</h5>
-              </Box>
-              <Box>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Box>
-                    <h5>2 Preparasi</h5>
-                  </Box>
-                  <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
-                  </Box>
-                  <Box>
-                    <h5>4 Analisa</h5>
-                  </Box>
+          {/* internal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
+                <Box>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
+
+                <Grid item>
+                  <Grid
+                    container
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <Box sx={{ marginBottom: '0.5rem' }}>
+                      <h5>Sample Test PIT</h5>
+                    </Box>
+                    <Box>
+                      <h5 style={{ color: '#828282' }}>MS102-1098P</h5>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Box>
+              </Grid>
+            </Grid>
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Bukit</h5>
+                </Box>
+                <Box>
+                  <h5>Bukit IV</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dome/Tumpukan</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 4 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dibuat Oleh</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                      <img src={avatarLogo}></img>
+                    </Box>
+                    <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
+                      <h5>Putri Devina</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 5 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>12/01/2022</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
 
-          {/* Column 4 */}
-          <Grid item xs={1.5}>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5 style={{ color: '#828282' }}>Dibuat Oleh</h5>
-              </Box>
-              <Box>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                    <img src={avatarLogo}></img>
-                  </Box>
-                  <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
-                    <h5>Putri Devina</h5>
+          {/* Ekesternal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
+                <Box>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
+                <Grid item>
+                  <Box>
+                    <h5>PT Mandala Jaya</h5>
                   </Box>
                 </Grid>
-              </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Jumlah Pengajuan</h5>
+                </Box>
+                <Box>
+                  <h5>6</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Informasi Sample</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
 
-          {/* Column 5 */}
-          <Grid item xs={1.5}>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
-              </Box>
-              <Box>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Box>
-                    <h5>12/01/2022</h5>
-                  </Box>
+          {/* internal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
+                <Box>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
+
+                <Grid item>
+                  <Grid
+                    container
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <Box sx={{ marginBottom: '0.5rem' }}>
+                      <h5>Sample Test PIT</h5>
+                    </Box>
+                    <Box>
+                      <h5 style={{ color: '#828282' }}>MS102-1098P</h5>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Box>
+              </Grid>
+            </Grid>
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Bukit</h5>
+                </Box>
+                <Box>
+                  <h5>Bukit IV</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dome/Tumpukan</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 4 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dibuat Oleh</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                      <img src={avatarLogo}></img>
+                    </Box>
+                    <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
+                      <h5>Putri Devina</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 5 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>12/01/2022</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
+
+          {/* Ekesternal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
+                <Box>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
+                <Grid item>
+                  <Box>
+                    <h5>PT Mandala Jaya</h5>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Jumlah Pengajuan</h5>
+                </Box>
+                <Box>
+                  <h5>6</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Informasi Sample</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {/* internal */}
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '0 1.5rem 0 1.5rem',
+              width: '96.5%',
+              height: '4.625rem',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+              >
+                <Box>
+                  <img src="/img/eksternal.png"></img>
+                </Box>
+
+                <Grid item>
+                  <Grid
+                    container
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <Box sx={{ marginBottom: '0.5rem' }}>
+                      <h5>Sample Test PIT</h5>
+                    </Box>
+                    <Box>
+                      <h5 style={{ color: '#828282' }}>MS102-1098P</h5>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+            {/* Column 2 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Bukit</h5>
+                </Box>
+                <Box>
+                  <h5>Bukit IV</h5>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 3 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dome/Tumpukan</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>2 Preparasi</h5>
+                    </Box>
+                    <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                      <img src="/img/eksternal.png"></img>
+                    </Box>
+                    <Box>
+                      <h5>4 Analisa</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 4 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Dibuat Oleh</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                      <img src={avatarLogo}></img>
+                    </Box>
+                    <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
+                      <h5>Putri Devina</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+
+            {/* Column 5 */}
+            <Grid item xs={1.5}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
+                </Box>
+                <Box>
+                  <Grid container sx={{ alignItems: 'center' }}>
+                    <Box>
+                      <h5>12/01/2022</h5>
+                    </Box>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {/* Pagination */}
+          <Box
+            container
+            sx={{
+              display: 'inline-flex', // to use inline-flex use box
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: '1.5rem 0 1.5rem 1.5rem',
+              // width: '96.5%',
+              height: '4.625rem',
+              border: '1px solid #E0E0E0',
+              borderRadius: '4px',
+
+              gap: '4.5rem'
+            }}
+          >
+            <Grid item>
+              <Box sx={{ margin: '0 0 0 1.438rem' }}>
+                <Icon icon="eva:arrow-ios-upward-outline" rotate={3} fontSize="1.5rem" />
+              </Box>
+            </Grid>
+            <Grid item>
+              <Box>
+                <h5>1</h5>
+              </Box>
+            </Grid>
+            <Grid item>
+              <Box>
+                <h5>2</h5>
+              </Box>
+            </Grid>
+            <Grid item>
+              <Box>
+                <h5>3</h5>
+              </Box>
+            </Grid>
+            <Grid item>
+              <Box>
+                <h5>4</h5>
+              </Box>
+            </Grid>
+            <Grid item>
+              <Box>
+                <h5>5</h5>
+              </Box>
+            </Grid>
+            <Grid item>
+              <Box sx={{ margin: '0 1.5rem 0 0' }}>
+                <Icon icon="eva:arrow-ios-upward-outline" rotate={1} fontSize="1.5rem" />
+              </Box>
+            </Grid>
+          </Box>
         </Grid>
-      </Grid>
+      {/* </div> */}
     </>
   );
 }
