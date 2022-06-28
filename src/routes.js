@@ -13,6 +13,10 @@ import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
 import KegiatanTambang from 'pages/KegiatanTambang';
 import LaporanLab from 'pages/LaporanLab';
+import InputLaporanEksternal from 'pages/LaporanLab/InputLaporanEksternal';
+import InputLaporanInternal from 'pages/LaporanLab/InputLaporanInternal';
+import DetailInternal from 'pages/LaporanLab/DetailInternal';
+import DetailEksternal from 'pages/LaporanLab/DetailEksternal';
 
 export default function Routes() {
   return useRoutes([
@@ -32,12 +36,29 @@ export default function Routes() {
           path: 'laporan-lab',
           element: <LaporanLab />
         },
+
         {
           path: 'kegiatan-tambang',
           element: <KegiatanTambang />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
+    },
+    {
+      path: '/input-laporan-eksternal',
+      element: <InputLaporanEksternal />
+    },
+    {
+      path: '/input-laporan-internal',
+      element: <InputLaporanInternal />
+    },
+    {
+      path: '/detail-internal',
+      element: <DetailInternal />
+    },
+    {
+      path: '/detail-eksternal',
+      element: <DetailEksternal />
     },
     {
       path: '/auth',
