@@ -26,7 +26,6 @@ export default function Sidebar({ children, toggleSidebar, handleToggle }) {
     setAnchorEl(null);
   };
 
-  const roles = localStorage.getItem('active-role');
   return (
     <>
       <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
@@ -46,18 +45,16 @@ export default function Sidebar({ children, toggleSidebar, handleToggle }) {
               >
                 Collapse
               </MenuItem>
-              {sidebarConfig
-                .filter((access) => access.permissions.includes(roles))
-                .map((item) => (
-                  <MenuItem
-                    key="user-management"
-                    active={location.pathname.includes(item.path)}
-                    icon={item.icon}
-                    onClick={() => navigate(item.path)}
-                  >
-                    {item.title}
-                  </MenuItem>
-                ))}
+              {sidebarConfig.map((item) => (
+                <MenuItem
+                  key={item.path}
+                  active={location.pathname.includes(item.path.split('/')[0])}
+                  icon={item.icon}
+                  onClick={() => navigate(item.path)}
+                >
+                  {item.title}
+                </MenuItem>
+              ))}
             </Menu>
 
             {isMobile && (
@@ -86,6 +83,7 @@ export default function Sidebar({ children, toggleSidebar, handleToggle }) {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
+          vertical: 'bottom',
           horizontal: 'right'
         }}
         PaperProps={{

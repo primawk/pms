@@ -9,7 +9,7 @@ import { FormUser } from '.';
 import CustomPagination from 'components/Pagination';
 import BasicTable from 'components/Table/BasicTable/BasicTable';
 
-export default function UserTable({ search }) {
+export default function UserTable({ search, isSearch }) {
   // const required variable inside component ( fixed value )
   const headCells = [
     {
@@ -115,6 +115,8 @@ export default function UserTable({ search }) {
       function: toggle
     }
   ];
+
+  console.log(search, isSearch);
   return (
     <>
       <BasicTable
@@ -134,5 +136,6 @@ export default function UserTable({ search }) {
 }
 
 UserTable.propTypes = {
-  search: PropTypes.string
+  search: PropTypes.object,
+  isSearch: PropTypes.bool
 };

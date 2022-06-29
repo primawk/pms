@@ -21,7 +21,17 @@ export default function Routes() {
         { path: '/', element: <Navigate to="/auth/login" replace /> },
         {
           path: 'user-management',
-          element: <UserManagement />
+          element: <UserManagement />,
+          children: [
+            {
+              path: 'user',
+              element: []
+            },
+            {
+              path: 'role',
+              element: []
+            }
+          ]
         },
         {
           path: 'dashboard',

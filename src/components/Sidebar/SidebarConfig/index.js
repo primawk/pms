@@ -11,20 +11,18 @@ const sidebarConfig = [
   {
     title: 'Dashboard',
     path: 'dashboard',
-    icon: getIcon(HomeIcon),
-    permissions: ['Super Admin']
+    icon: getIcon(HomeIcon)
+    // permissions: ['Super Admin'] for permission if needed
   },
   {
     title: 'User Management',
-    path: 'user-management',
-    icon: getIcon(UserIcon),
-    permissions: ['Super Admin']
+    path: 'user-management/user',
+    icon: getIcon(UserIcon)
   },
   {
     title: 'Kegiatan Tambang',
     path: 'kegiatan-tambang',
-    icon: getIcon(OreGettingIcon),
-    permissions: ['Super Admin']
+    icon: getIcon(OreGettingIcon)
   }
 ];
 
