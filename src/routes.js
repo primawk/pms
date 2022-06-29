@@ -17,6 +17,7 @@ import InputLaporanEksternal from 'pages/LaporanLab/InputLaporanEksternal';
 import InputLaporanInternal from 'pages/LaporanLab/InputLaporanInternal';
 import DetailInternal from 'pages/LaporanLab/DetailInternal';
 import DetailEksternal from 'pages/LaporanLab/DetailEksternal';
+import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
 
 export default function Routes() {
   return useRoutes([
@@ -69,6 +70,10 @@ export default function Routes() {
     {
       path: '/detail-eksternal',
       element: <DetailEksternal />
+    },
+    {
+      path: '/history-edit',
+      element: <HistoryEdit />
     },
     {
       path: '/auth',
