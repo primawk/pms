@@ -235,7 +235,7 @@ const InputLaporanEksternal = () => {
             <Button>Back</Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" sx={{ width: '130%' }}>
+            <Button variant="contained" sx={{ width: '130%', boxShadow: '0' }}>
               Submit Laporan
             </Button>
           </Grid>

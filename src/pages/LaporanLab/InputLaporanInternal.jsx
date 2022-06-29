@@ -367,7 +367,7 @@ const InputLaporanInternal = () => {
         </Grid>
         <Grid item sx={{ borderTop: 1, borderTopColor: '#E0E0E0' }}>
           <Grid container sx={{ marginTop: '1.5rem', justifyContent: 'center' }}>
-            <Button variant="contained">
+            <Button variant="contained" sx={{ boxShadow: '0' }}>
               <Box sx={{ margin: '5px 12px 0 0 ' }}>
                 <Icon icon="carbon:add-alt" color="white" fontSize={16} />
               </Box>
@@ -396,7 +396,7 @@ const InputLaporanInternal = () => {
             <Button>Back</Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" sx={{ width: '130%' }}>
+            <Button variant="contained" sx={{ width: '130%', boxShadow: '0' }}>
               Submit Laporan
             </Button>
           </Grid>
