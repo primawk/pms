@@ -56,7 +56,12 @@ const HistoryEdit = () => {
         </Grid>
         <Grid
           item
-          sx={{ height: '14%', borderBottom: 1, borderBottomColor: '#E0E0E0', width: '30vw' }}
+          sx={{
+            height: '14%',
+            borderBottom: 1,
+            borderBottomColor: '#E0E0E0',
+            width: '50rem'
+          }}
         >
           <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1.25rem' }}>12 Juni 2022</Box>
@@ -90,7 +95,7 @@ const HistoryEdit = () => {
         </Grid>
         <Grid
           item
-          sx={{ height: '14%', borderBottom: 1, borderBottomColor: '#E0E0E0', width: '30vw' }}
+          sx={{ height: '14%', borderBottom: 1, borderBottomColor: '#E0E0E0', width: '50rem' }}
         >
           <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1.25rem' }}>09 Juni 2022</Box>

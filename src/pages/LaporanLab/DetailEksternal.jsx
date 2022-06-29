@@ -54,9 +54,17 @@ const DetailInternal = () => {
             Laporan Eksternal Lab
           </Box>
           <h2 style={{ margin: '0 0.5rem 1em 2rem' }}>MS12-IO98P</h2>
-          <Box style={{ margin: '0 0.5rem 1rem 2rem', color: '#3F48C0', fontSize: '0.875rem' }}>
+          <Box
+            style={{
+              margin: '0 0.5rem 1rem 2rem',
+              color: '#3F48C0',
+              fontSize: '0.875rem',
+              width: '50rem'
+            }}
+          >
             Terakhir diedit oleh Putri Devina, pada 12 Juni 2022, 12:21 WITA
           </Box>
+          <Box>
           <Button
             variant="outlined"
             sx={{
@@ -85,6 +93,8 @@ const DetailInternal = () => {
           >
             Delete Laporan
           </Button>
+          </Box>
+         
         </Grid>
         <Grid item sx={{}}>
           <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
