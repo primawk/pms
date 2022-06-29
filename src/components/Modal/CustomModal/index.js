@@ -42,7 +42,7 @@ CustomModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   isShowing: PropTypes.bool.isRequired,
   handleClose: PropTypes.func,
-  width: PropTypes.func
+  width: PropTypes.string
 };
 
 CustomModal.defaultProps = {

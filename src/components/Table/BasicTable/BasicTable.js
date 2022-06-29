@@ -16,11 +16,34 @@ import BasicTableToolbar from './BasicTableToolbar';
 import BasicTableHead from './BasicTableHead';
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
+  const arrayHeader = orderBy.split('.');
+  if (arrayHeader.length === 2) {
+    if (arrayHeader[0].includes('[')) {
+      // for array of array
+      const firstId = arrayHeader[0].slice(0, -3);
+      if (b[firstId][0][arrayHeader[1]] < a[firstId][0][arrayHeader[1]]) {
+        return -1;
+      }
+      if (b[firstId][0][arrayHeader[1]] > a[firstId][0][arrayHeader[1]]) {
+        return 1;
+      }
+    } else {
+      // for array object of object
+      if (b[arrayHeader[0]][arrayHeader[1]] < a[arrayHeader[0]][arrayHeader[1]]) {
+        return -1;
+      }
+      if (b[arrayHeader[0]][arrayHeader[1]] > a[arrayHeader[0]][arrayHeader[1]]) {
+        return 1;
+      }
+    }
+  } else {
+    // for array object
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
   }
   return 0;
 }
@@ -106,7 +129,7 @@ export default function BasicTable({
   withSelect
 }) {
   const classes = useStyles();
-  const [order, setOrder] = React.useState('');
+  const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('');
   const [selected, setSelected] = React.useState([]);
   const [page] = React.useState(0);

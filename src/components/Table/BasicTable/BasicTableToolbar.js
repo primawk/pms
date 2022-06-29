@@ -90,7 +90,7 @@ export default function BasicTableToolbar(props) {
 
 BasicTableToolbar.propTypes = {
   title: PropTypes.string.isRequired,
-  actions: PropTypes.array.isRequired,
+  actions: PropTypes.array,
   numSelected: PropTypes.number.isRequired,
   onSelectOneActions: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onSelectActions: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
