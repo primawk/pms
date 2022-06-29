@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Box, Button } from '@mui/material';
+import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 
 const DetailInternal = () => {
@@ -37,9 +38,10 @@ const DetailInternal = () => {
             sx={{ display: 'flex', flexDirection: 'row', margin: '1rem 0.5rem 0.3rem 2rem' }}
           >
             <Button variant="outlined" sx={{ marginRight: '1rem' }}>
-              Back
+              <Icon icon="akar-icons:arrow-back" color="#3f48c0" fontSize={16} />
+              <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
             </Button>
-            <Button variant="contained" sx={{ boxShadow: 0 }}>
+            <Button variant="contained" sx={{ boxShadow: 0, fontWeight: '400' }}>
               Download Laporan
             </Button>
           </Grid>
@@ -63,7 +65,8 @@ const DetailInternal = () => {
               color: '#3F48C0',
               boxShadow: 0,
               border: '1px solid #3F48C0',
-              width: '40%'
+              width: '40%',
+              fontWeight: '400'
             }}
           >
             Edit Laporan
@@ -76,7 +79,8 @@ const DetailInternal = () => {
               color: '#3F48C0',
               boxShadow: 0,
               border: '1px solid #3F48C0',
-              width: '40%'
+              width: '40%',
+              fontWeight: '400'
             }}
           >
             Delete Laporan
