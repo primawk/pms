@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import TextField from '@mui/material/TextField';
 
 import Navbar from '../../components/Navbar';
-import { textAlign } from '@mui/system';
 
 const InputLaporanInternal = () => {
+  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <div
       style={{
@@ -21,7 +30,6 @@ const InputLaporanInternal = () => {
         container
         sx={{
           display: 'flex',
-          //   alignItems: 'flex-start',
           flexDirection: 'column',
           backgroundColor: 'white',
           height: '72.5rem',
@@ -43,8 +51,15 @@ const InputLaporanInternal = () => {
               sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
               xs={2}
             >
-              <Box>Tanggal</Box>
-              <Box>Tanggal</Box>
+              <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DesktopDatePicker
+                  inputFormat="dd/MM/yyyy"
+                  value={value}
+                  onChange={handleChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid
               sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
