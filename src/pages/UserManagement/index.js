@@ -24,7 +24,7 @@ export default function UserManagement() {
   const handleChangeTab = (e, _tab) => {
     setTab(_tab);
     if (_tab === 0) {
-      navigate('user', { state: { value: _tab } });
+      navigate('', { state: { value: _tab } });
     } else {
       navigate('role', { state: { value: _tab } });
     }

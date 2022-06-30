@@ -1,9 +1,7 @@
 import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
 
-import ArrowDown from '@iconify-icons/charm/chevron-down';
-import { Icon } from '@iconify/react';
-
+//components
 import Summary from './Summary';
 import ListData from './ListData';
 
@@ -22,19 +20,6 @@ const InventorySection = ({ title, subtitle }) => {
           <Summary />
 
           <ListData subtitle={subtitle} />
-
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            mb={1}
-            mt={2}
-            textAlign="center"
-            color="#828282"
-          >
-            SHOW MORE
-            <Icon width={25} height={25} icon={ArrowDown} style={{ marginLeft: '0.5em' }} />
-          </Grid>
         </Grid>
       </Grid>
     </div>

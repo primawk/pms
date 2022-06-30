@@ -18,6 +18,7 @@ import InputLaporanInternal from 'pages/LaporanLab/InputLaporanInternal';
 import DetailInternal from 'pages/LaporanLab/DetailInternal';
 import DetailEksternal from 'pages/LaporanLab/DetailEksternal';
 import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
+import MiningActivity from 'pages/MiningActivity';
 
 export default function Routes() {
   return useRoutes([
@@ -50,7 +51,25 @@ export default function Routes() {
 
         {
           path: 'kegiatan-tambang',
-          element: <KegiatanTambang />
+          element: <MiningActivity />,
+          children: [
+            {
+              path: 'all-activity',
+              element: []
+            },
+            {
+              path: 'ore-getting',
+              element: []
+            },
+            {
+              path: 'ore-hauling-to-eto',
+              element: []
+            },
+            {
+              path: 'eto-to-fo',
+              element: []
+            }
+          ]
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
