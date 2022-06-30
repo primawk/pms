@@ -11,7 +11,7 @@ import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
 import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
-import KegiatanTambang from 'pages/KegiatanTambang';
+import MiningActivity from 'pages/MiningActivity';
 
 export default function Routes() {
   return useRoutes([
@@ -39,7 +39,25 @@ export default function Routes() {
         },
         {
           path: 'kegiatan-tambang',
-          element: <KegiatanTambang />
+          element: <MiningActivity />,
+          children: [
+            {
+              path: 'all-activity',
+              element: []
+            },
+            {
+              path: 'ore-getting',
+              element: []
+            },
+            {
+              path: 'ore-hauling-to-eto',
+              element: []
+            },
+            {
+              path: 'eto-to-fo',
+              element: []
+            }
+          ]
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]

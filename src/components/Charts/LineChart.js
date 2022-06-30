@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
 
-function LineChart({ chartData }) {
+function LineChart({ chartData, style }) {
   const options = {
+    maintainAspectRatio: style ? false : true,
     plugins: {
       legend: {
         display: true
@@ -20,7 +20,17 @@ function LineChart({ chartData }) {
       }
     }
   };
-  return <Line data={chartData} options={options} />;
+  return (
+    <>
+      {style ? (
+        <div style={style || {}}>
+          <Line data={chartData} options={options} />
+        </div>
+      ) : (
+        <Line data={chartData} options={options} />
+      )}
+    </>
+  );
 }
 
 export default LineChart;
