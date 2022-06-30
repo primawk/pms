@@ -303,7 +303,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png" alt=""></img>
+                <img src="/img/eksternal.png" alt='' ></img>
               </Box>
               <Grid item>
                 <Box>
@@ -349,7 +349,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=''></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
