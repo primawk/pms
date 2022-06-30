@@ -140,8 +140,11 @@ export default function LaporanLab() {
           >
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Jenis Laporan</InputLabel>
-
-              <Select labelId="demo-simple-select-label" id="demo-simple-select">
+              <Select
+                labelId="demo-simple-select-label"
+                label="Jenis Laporan"
+                id="demo-simple-select"
+              >
                 <MenuItem value={10}>Ten</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem>
@@ -156,7 +159,11 @@ export default function LaporanLab() {
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
 
-              <Select labelId="demo-simple-select-label" id="demo-simple-select">
+              <Select
+                labelId="demo-simple-select-label"
+                label="Filter Tanggal | Hari ini"
+                id="demo-simple-select"
+              >
                 <MenuItem value={10}>Ten</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem>
@@ -296,7 +303,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
               <Grid item>
                 <Box>

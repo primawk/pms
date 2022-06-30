@@ -20,6 +20,7 @@ import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
 import MiningActivity from 'pages/MiningActivity';
 import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
 import HasilKosong from 'pages/LaporanLab/HasilKosong';
+import PilihLaporan from './components/Modal/LaporanLab/PilihLaporan';
 
 export default function Routes() {
   return useRoutes([
@@ -102,6 +103,10 @@ export default function Routes() {
     {
       path: 'history-edit',
       element: <HistoryEdit />
+    },
+    {
+      path: 'pilih-laporan',
+      element: <PilihLaporan />
     },
 
     {
