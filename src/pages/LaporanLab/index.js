@@ -15,20 +15,21 @@ import InfoSection from './InfoSection';
 import ChartSection from './ChartSection';
 import InventorySection from './InventorySection';
 import TextField from '@mui/material/TextField';
+import CustomPagination from '../../components/Pagination/index';
 
 import TargetDataTable from './TargetDataTable';
 import TargetDataInformation from './TargetDataInformation';
-import CustomPagination from 'components/Pagination';
+// import CustomPagination from 'components/Pagination';
 import { nominalTypeHack } from 'prop-types';
 
 export default function LaporanLab() {
   return (
     <div
       style={{
-        backgroundColor: 'gray',
+        backgroundColor: '#F9FBFC',
         width: '100%',
-        height: '100%',
-        overflow: 'auto', // it makes this container follow the height of its content
+        height: 'auto',
+        overflow: 'visible', // it makes this container follow the height of its content
         position: 'relative'
       }}
     >
@@ -44,7 +45,7 @@ export default function LaporanLab() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           width: '100%',
-          height: '21vh',
+          height: '9.375rem',
           margin: 0
         }}
       >
@@ -188,10 +189,10 @@ export default function LaporanLab() {
           alignItems: 'flex-start',
           padding: '0px',
           width: '94%',
-          height: '78.625rem',
+          height: 'auto',
           marginLeft: '3%', // percentage to make it responsive
           marginTop: '1.125rem',
-          borderRadius: '8px 8px 8px 8px'
+          marginBottom: '1.125rem'
         }}
       >
         <Grid
@@ -278,7 +279,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -362,7 +363,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -504,7 +505,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -588,7 +589,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -730,7 +731,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -814,7 +815,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -956,7 +957,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -1040,7 +1041,7 @@ export default function LaporanLab() {
             alignItems: 'center',
             margin: '0 1.5rem 0 1.5rem',
             width: '96.5%',
-            height: '4.625rem',
+            height: '6.125rem',
             borderBottom: 1,
             borderBottomColor: '#E0E0E0',
             gap: '4.5rem'
@@ -1173,59 +1174,20 @@ export default function LaporanLab() {
         </Grid>
 
         {/* Pagination */}
-        <div className=".MuiPagination-root">
-          <Box
-            container
-            sx={{
-              display: 'inline-flex', // to use inline-flex use box
-              backgroundColor: 'white',
-              flexDirection: 'row',
-              alignItems: 'center',
-              margin: '1.5rem 0 1.5rem 1.5rem',
-              // width: '96.5%',
-              height: '2.375rem',
-              border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              gap: '4.5rem'
-            }}
-          >
-            <Grid item>
-              <Box sx={{ margin: '0 0 0 1.5rem' }}>
-                <Icon icon="eva:arrow-ios-upward-outline" rotate={3} fontSize="1.5rem" />
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box>
-                <h5>1</h5>
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box>
-                <h5>2</h5>
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box>
-                <h5>3</h5>
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box>
-                <h5>4</h5>
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box>
-                <h5>5</h5>
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box sx={{ margin: '0 1.5rem 0 0' }}>
-                <Icon icon="eva:arrow-ios-upward-outline" rotate={1} fontSize="1.5rem" />
-              </Box>
-            </Grid>
-          </Box>
-        </div>
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            marginRight: '3rem'
+          }}
+        >
+          <Grid item sx={{}}>
+            <CustomPagination />
+          </Grid>
+        </Grid>
       </Grid>
     </div>
   );
