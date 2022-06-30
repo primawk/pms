@@ -79,23 +79,8 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 750
   },
-  input: {
-    fontSize: '20px',
-    padding: '20px 50px 20px 50px',
-    '@media (max-width:780px)': {
-      padding: '5px 10px 5px 10px',
-      fontSize: '1.5 vw'
-    }
-  },
-  icon: {
-    width: '100%',
-    height: 'auto',
-    maxWidth: '40px',
-    maxHeight: '40px',
-    '@media (max-width:780px)': {
-      maxWidth: '20px',
-      maxHeight: '20px'
-    }
+  customTableContainer: {
+    overflowX: 'auto !important'
   },
   shadow: {
     boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.6)',
@@ -185,7 +170,7 @@ export default function BasicTable({
           onEdit={onEdit}
           onDelete={() => onDelete(selected)}
         />
-        <TableContainer>
+        <TableContainer classes={{ root: classes.customTableContainer }}>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
