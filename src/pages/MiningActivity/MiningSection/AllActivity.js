@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 
 // components
-import { ChartSection, InfoSection, InventorySection } from '.';
+import { ChartSection, InfoSection, InventorySection, ReportSection } from '.';
 
 const data = [
   {
@@ -69,6 +69,9 @@ export default function AllActivity() {
         </Grid>
       </Grid>
       <InventorySection title="Realisasi Produksi Inventory SM" subtitle="Kegiatan Penambangan" />
+      <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Kegiatan Penambangan" />
+      <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Kegiatan Penambangan" />
+      <ReportSection />
     </>
   );
 }

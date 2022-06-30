@@ -21,7 +21,7 @@ const sidebarConfig = [
   },
   {
     title: 'Kegiatan Tambang',
-    path: 'kegiatan-tambang',
+    path: 'kegiatan-tambang/all-activity',
     icon: getIcon(OreGettingIcon)
   }
 ];

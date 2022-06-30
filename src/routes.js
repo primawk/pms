@@ -38,26 +38,8 @@ export default function Routes() {
           element: <Dashboard />
         },
         {
-          path: 'kegiatan-tambang',
-          element: <MiningActivity />,
-          children: [
-            {
-              path: 'all-activity',
-              element: []
-            },
-            {
-              path: 'ore-getting',
-              element: []
-            },
-            {
-              path: 'ore-hauling-to-eto',
-              element: []
-            },
-            {
-              path: 'eto-to-fo',
-              element: []
-            }
-          ]
+          path: 'kegiatan-tambang/:activityType',
+          element: <MiningActivity />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]

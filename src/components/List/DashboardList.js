@@ -11,13 +11,13 @@ const DashboardList = () => {
       sx={{
         border: '1px solid #E0E0E0',
         borderRadius: '4px',
-        height: '85px',
+        minHeight: '85px',
         padding: '0.5em',
         mb: 1,
         mt: 1
       }}
     >
-      <Grid item md={1} xs={1}>
+      <Grid item md={1} xs={12}>
         <Typography variant="h4">1</Typography>
       </Grid>
       <Grid
@@ -42,6 +42,7 @@ const DashboardList = () => {
         alignItems="flex-start"
         justifyContent="space-between"
         md={2}
+        xs={6}
         height="100%"
       >
         <Typography variant="body1" color="#828282">
@@ -56,6 +57,7 @@ const DashboardList = () => {
         alignItems="flex-start"
         justifyContent="space-between"
         md={3}
+        xs={6}
         height="100%"
       >
         <Typography variant="body1" color="#828282">
@@ -90,6 +92,7 @@ const DashboardList = () => {
         alignItems="flex-start"
         justifyContent="space-between"
         md={3}
+        xs={6}
         height="100%"
       >
         <Typography variant="body1" color="#828282">

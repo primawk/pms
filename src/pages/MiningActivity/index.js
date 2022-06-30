@@ -1,47 +1,65 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Grid, Tab, Tabs } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Grid, Tab, Tabs, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Icon } from '@iconify/react';
+import ArrowIcon from '@iconify/icons-bi/caret-down-fill';
 
 // components
 import Header from 'components/Header';
-import { AllActivity, OreGetting, OreHauling, EtoToEfo } from './MiningSection';
+import { AllActivity, SpecificActivity } from './MiningSection';
+
+// custom button
+const WhiteButton = styled(Button)(({ theme }) => ({
+  backgroundColor: 'white',
+  color: 'black',
+  '&:hover': {
+    backgroundColor: '#E5E5FE'
+  }
+}));
 
 const menuList = [
-  { value: 0, label: 'Semua' },
-  { value: 1, label: 'Ore Getting' },
-  { value: 2, label: 'Ore Hauling Front to ETO' },
-  { value: 3, label: 'Ore Hauling ETO to EFO' }
+  { value: 'all-activity', label: 'Semua' },
+  { value: 'ore-getting', label: 'Ore Getting' },
+  { value: 'ore-hauling-to-eto', label: 'Ore Hauling Front to ETO' },
+  { value: 'eto-to-efo', label: 'Ore Hauling ETO to EFO' }
 ];
 
 export default function MiningActivity() {
-  const location = useLocation();
+  const { activityType } = useParams();
   const navigate = useNavigate();
 
-  const [menuTab, setMenuTab] = useState(location?.state?.value || 0);
+  const [menuTab, setMenuTab] = useState(activityType || '');
 
   const handleChangeTab = (event, _menuTab) => {
     setMenuTab(_menuTab);
     switch (_menuTab) {
-      case 0:
-        navigate('all-activity', { state: { value: _menuTab } });
+      case 'ore-getting':
+        navigate('/kegiatan-tambang/ore-getting');
         break;
-      case 1:
-        navigate('ore-getting', { state: { value: _menuTab } });
+      case 'ore-hauling-to-eto':
+        navigate('/kegiatan-tambang/ore-hauling-to-eto');
         break;
-      case 2:
-        navigate('ore-hauling-to-eto', { state: { value: _menuTab } });
-        break;
-      case 3:
-        navigate('eto-to-fo', { state: { value: _menuTab } });
+      case 'eto-to-efo':
+        navigate('/kegiatan-tambang/eto-to-efo');
         break;
       default:
-        navigate('ore-getting', { state: { value: 0 } });
+        navigate('/kegiatan-tambang/all-activity');
     }
   };
 
   return (
     <>
-      <Header title="KEGIATAN TAMBANG" background="dashboard.png" />
+      <Header title="KEGIATAN TAMBANG" background="dashboard.png">
+        <WhiteButton
+          variant="contained"
+          size="medium"
+          sx={{ background: 'white', fontColor: 'black' }}
+          endIcon={<Icon width={10} height={10} icon={ArrowIcon} color="#gray" />}
+        >
+          Periode | Hari Ini
+        </WhiteButton>
+      </Header>
 
       <div>
         <Grid sx={{ background: 'white' }}>
@@ -76,10 +94,7 @@ export default function MiningActivity() {
             ))}
           </Tabs>
         </Grid>
-        {menuTab === 0 && <AllActivity />}
-        {menuTab === 1 && <OreGetting />}
-        {menuTab === 2 && <OreHauling />}
-        {menuTab === 3 && <EtoToEfo />}
+        {menuTab === 'all-activity' ? <AllActivity /> : <SpecificActivity />}
       </div>
     </>
   );

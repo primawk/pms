@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Grid } from '@mui/material';
 
 // components
-import { ChartSection, InventorySection } from '.';
+import { ChartSection, InventorySection, ReportSection } from '.';
 
 const data = [
   {
@@ -42,7 +43,7 @@ const data = [
   }
 ];
 
-export default function OreHauling() {
+export default function SpecificActivity() {
   const [subMenu, setSubMenu] = useState(0);
   const [chartData] = useState({
     labels: data.map((item) => item.name),
@@ -57,6 +58,8 @@ export default function OreHauling() {
       }
     ]
   });
+
+  const { activityType } = useParams();
 
   const handleChangeSubMenu = (value) => {
     setSubMenu(value);
@@ -78,7 +81,17 @@ export default function OreHauling() {
           chartStyle={{ width: '100%', height: '40vh' }}
         />
       </Grid>
-      <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="List Tumpukan/Dome" />
+      <InventorySection
+        title={
+          activityType === 'ore-getting'
+            ? 'Realisasi Produksi Inventory SM'
+            : activityType === 'ore-hauling-to-eto'
+            ? 'Realisasi Produksi Inventory ETO'
+            : 'Realisasi Produksi Inventory EFO'
+        }
+        subtitle={activityType === 'ore-getting' ? 'Kegiatan Penambangan' : 'List Tumpukan/Dome'}
+      />
+      <ReportSection />
     </>
   );
 }
