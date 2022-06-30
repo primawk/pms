@@ -1,10 +1,13 @@
 import { Grid, Typography } from '@mui/material';
+
+//components
 import InfoCard from 'components/Card/InfoCard';
 
-import Tonase from '../../assets/Images/Dashboard/Tonase.png';
-import JumlahLot from '../../assets/Images/Dashboard/JumlahLot.png';
-import KadarNi from '../../assets/Images/Dashboard/Ni.png';
-import KadarSimgo from '../../assets/Images/Dashboard/Kadar.png';
+//assets
+import Tonase from 'assets/Images/Dashboard/Tonase.png';
+import JumlahLot from 'assets/Images/Dashboard/JumlahLot.png';
+import KadarNi from 'assets/Images/Dashboard/Ni.png';
+import KadarSimgo from 'assets/Images/Dashboard/Kadar.png';
 
 const InfoSection = () => {
   return (
