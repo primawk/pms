@@ -18,6 +18,8 @@ import DetailInternal from 'pages/LaporanLab/DetailInternal';
 import DetailEksternal from 'pages/LaporanLab/DetailEksternal';
 import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
 import MiningActivity from 'pages/MiningActivity';
+import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
+import HasilKosong from 'pages/LaporanLab/HasilKosong';
 
 export default function Routes() {
   return useRoutes([
@@ -44,11 +46,6 @@ export default function Routes() {
           element: <Dashboard />
         },
         {
-          path: 'laporan-lab',
-          element: <LaporanLab />
-        },
-
-        {
           path: 'kegiatan-tambang',
           element: <MiningActivity />,
           children: [
@@ -70,29 +67,43 @@ export default function Routes() {
             }
           ]
         },
+        {
+          path: 'laporan-lab',
+          element: <LaporanLab />
+        },
+        {
+          path: 'hasil-pencarian',
+          element: <HasilPencarian />
+        },
+        {
+          path: 'hasil-kosong',
+          element: <HasilKosong />
+        },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
     },
+
     {
-      path: '/input-laporan-eksternal',
+      path: 'input-laporan-eksternal',
       element: <InputLaporanEksternal />
     },
     {
-      path: '/input-laporan-internal',
+      path: 'input-laporan-internal',
       element: <InputLaporanInternal />
     },
     {
-      path: '/detail-internal',
+      path: 'detail-internal',
       element: <DetailInternal />
     },
     {
-      path: '/detail-eksternal',
+      path: 'detail-eksternal',
       element: <DetailEksternal />
     },
     {
-      path: '/history-edit',
+      path: 'history-edit',
       element: <HistoryEdit />
     },
+
     {
       path: '/auth',
       element: <LayoutAuth />,
