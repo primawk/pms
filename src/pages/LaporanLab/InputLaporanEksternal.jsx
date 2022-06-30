@@ -59,36 +59,52 @@ const InputLaporanEksternal = () => {
           <h4 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Informasi Sample</h4>
           <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
             <Grid
-              sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
-              xs={2}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '1.5rem 0.5rem 0.5rem 2rem',
+                width: '22.5rem'
+              }}
             >
               <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDatePicker
-                  inputFormat="dd/MM/yyyy"
-                  value={value}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField {...params} size="small" />}
-                />
-              </LocalizationProvider>
+              <Grid item sx={{ width: '22.5rem' }}>
+                <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
+                  <DesktopDatePicker
+                    inputFormat="dd/MM/yyyy"
+                    value={value}
+                    onChange={handleChange}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+              </Grid>
             </Grid>
             <Grid
-              sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
-              xs={2}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '1.5rem 0.5rem 0.5rem 2rem',
+                width: '22.5rem'
+              }}
             >
               <Box sx={{ marginBottom: '1rem' }}>Nama Pengaju Sample</Box>
+              {/* <Grid item sx={{ width: '22.5rem' }}> */}
               <TextField
                 id="outlined-basic"
                 label="Nama Pengaju Sample"
                 variant="outlined"
                 size="small"
               />
+              {/* </Grid> */}
             </Grid>
           </Grid>
           <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
             <Grid
-              sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
-              xs={2}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '1.5rem 0.5rem 0.5rem 2rem',
+                width: '22.5rem'
+              }}
             >
               <Box sx={{ marginBottom: '1rem' }}>Nama Perusahaan</Box>
               <TextField
@@ -103,20 +119,22 @@ const InputLaporanEksternal = () => {
               xs={2}
             >
               <Box sx={{ marginBottom: '1rem' }}>Nomor Kontak Pengaju Sample</Box>
-              <FormControl size="small" variant="outlined" fullWidth>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  // value={values.password}
-                  // onChange={handleChange('password')}
-                  startAdornment={
-                    <InputAdornment position="start" backgroundColor="gray">
-                      +62
-                    </InputAdornment>
-                  }
-                  placeholder="Nomor Kontak Pengaju Sample"
-                  fullWidth
-                />
-              </FormControl>
+              <Grid item sx={{ width: '22.5rem' }}>
+                <FormControl size="small" variant="outlined" fullWidth>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    // value={values.password}
+                    // onChange={handleChange('password')}
+                    startAdornment={
+                      <InputAdornment position="start" backgroundColor="gray">
+                        +62
+                      </InputAdornment>
+                    }
+                    placeholder="Nomor Kontak Pengaju Sample"
+                    fullWidth
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
