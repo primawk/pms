@@ -11,7 +11,6 @@ import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
 import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
-import KegiatanTambang from 'pages/KegiatanTambang';
 import LaporanLab from 'pages/LaporanLab';
 import InputLaporanEksternal from 'pages/LaporanLab/InputLaporanEksternal';
 import InputLaporanInternal from 'pages/LaporanLab/InputLaporanInternal';
