@@ -11,7 +11,16 @@ import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
 import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
+import LaporanLab from 'pages/LaporanLab';
+import InputLaporanEksternal from 'pages/LaporanLab/InputLaporanEksternal';
+import InputLaporanInternal from 'pages/LaporanLab/InputLaporanInternal';
+import DetailInternal from 'pages/LaporanLab/DetailInternal';
+import DetailEksternal from 'pages/LaporanLab/DetailEksternal';
+import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
 import MiningActivity from 'pages/MiningActivity';
+import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
+import HasilKosong from 'pages/LaporanLab/HasilKosong';
+import PilihLaporan from './components/Modal/LaporanLab/PilihLaporan';
 
 export default function Routes() {
   return useRoutes([
@@ -41,9 +50,47 @@ export default function Routes() {
           path: 'kegiatan-tambang/:activityType',
           element: <MiningActivity />
         },
+        {
+          path: 'laporan-lab',
+          element: <LaporanLab />
+        },
+        {
+          path: 'hasil-pencarian',
+          element: <HasilPencarian />
+        },
+        {
+          path: 'hasil-kosong',
+          element: <HasilKosong />
+        },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
     },
+
+    {
+      path: 'input-laporan-eksternal',
+      element: <InputLaporanEksternal />
+    },
+    {
+      path: 'input-laporan-internal',
+      element: <InputLaporanInternal />
+    },
+    {
+      path: 'detail-internal',
+      element: <DetailInternal />
+    },
+    {
+      path: 'detail-eksternal',
+      element: <DetailEksternal />
+    },
+    {
+      path: 'history-edit',
+      element: <HistoryEdit />
+    },
+    {
+      path: 'pilih-laporan',
+      element: <PilihLaporan />
+    },
+
     {
       path: '/auth',
       element: <LayoutAuth />,
