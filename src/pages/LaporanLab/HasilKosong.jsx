@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from '@iconify/react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
@@ -7,11 +7,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 // components
-import avatarLogo from 'assets/Images/avatar.png';
 import Header from 'components/Header';
-import { Grid, Button, Tab, Tabs, Typography, Box } from '@mui/material';
+import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import CustomPagination from '../../components/Pagination/index';
 
 export default function HasilPencarian() {
   return (

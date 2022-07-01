@@ -5,7 +5,6 @@ import ThemeConfig from './theme';
 import ScrollToTop from './components/ScrollToTop';
 // css global
 import './styles/global.scss';
-import Reacteses from 'react';
 
 // ----------------------------------------------------------------------
 
