@@ -14,14 +14,36 @@ import PropTypes from 'prop-types';
 // components
 import BasicTableToolbar from './BasicTableToolbar';
 import BasicTableHead from './BasicTableHead';
-import CustomPagination from 'components/Pagination';
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
+  const arrayHeader = orderBy.split('.');
+  if (arrayHeader.length === 2) {
+    if (arrayHeader[0].includes('[')) {
+      // for array of array
+      const firstId = arrayHeader[0].slice(0, -3);
+      if (b[firstId][0][arrayHeader[1]] < a[firstId][0][arrayHeader[1]]) {
+        return -1;
+      }
+      if (b[firstId][0][arrayHeader[1]] > a[firstId][0][arrayHeader[1]]) {
+        return 1;
+      }
+    } else {
+      // for array object of object
+      if (b[arrayHeader[0]][arrayHeader[1]] < a[arrayHeader[0]][arrayHeader[1]]) {
+        return -1;
+      }
+      if (b[arrayHeader[0]][arrayHeader[1]] > a[arrayHeader[0]][arrayHeader[1]]) {
+        return 1;
+      }
+    }
+  } else {
+    // for array object
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
   }
   return 0;
 }
@@ -50,30 +72,15 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '20px',
+    marginTop: '15px',
     marginBottom: theme.spacing(2),
     boxShadow: 'none'
   },
   table: {
     minWidth: 750
   },
-  input: {
-    fontSize: '20px',
-    padding: '20px 50px 20px 50px',
-    '@media (max-width:780px)': {
-      padding: '5px 10px 5px 10px',
-      fontSize: '1.5 vw'
-    }
-  },
-  icon: {
-    width: '100%',
-    height: 'auto',
-    maxWidth: '40px',
-    maxHeight: '40px',
-    '@media (max-width:780px)': {
-      maxWidth: '20px',
-      maxHeight: '20px'
-    }
+  customTableContainer: {
+    overflowX: 'auto !important'
   },
   shadow: {
     boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.6)',
@@ -103,10 +110,11 @@ export default function BasicTable({
   onSelectActions,
   onSelectOneActions,
   edit,
-  remove
+  remove,
+  withSelect
 }) {
   const classes = useStyles();
-  const [order, setOrder] = React.useState('');
+  const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('');
   const [selected, setSelected] = React.useState([]);
   const [page] = React.useState(0);
@@ -143,18 +151,8 @@ export default function BasicTable({
         selected.slice(selectedIndex + 1)
       );
     }
-    console.log(selected);
     setSelected(newSelected);
   };
-
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (event) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -172,7 +170,7 @@ export default function BasicTable({
           onEdit={onEdit}
           onDelete={() => onDelete(selected)}
         />
-        <TableContainer>
+        <TableContainer classes={{ root: classes.customTableContainer }}>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -205,18 +203,26 @@ export default function BasicTable({
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell color="secondary" padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell>
+                      {withSelect && (
+                        <TableCell color="secondary" padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        </TableCell>
+                      )}
                       {headCells.map((header) => {
                         const arrHeader = header.id.split('.');
                         if (arrHeader.length === 2) {
                           return (
                             <TableCell color="secondary" key={header.id}>
                               {row[arrHeader[0]][arrHeader[1]]}
+                            </TableCell>
+                          );
+                        } else if (header.cell) {
+                          return (
+                            <TableCell color="secondary" key={header.id}>
+                              {header.cell(row)}
                             </TableCell>
                           );
                         } else {
@@ -232,7 +238,6 @@ export default function BasicTable({
                 })}
             </TableBody>
           </Table>
-          <CustomPagination />
         </TableContainer>
       </Paper>
     </div>
@@ -243,13 +248,14 @@ BasicTable.propTypes = {
   title: PropTypes.string.isRequired,
   headCells: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired,
-  actions: PropTypes.array.isRequired,
+  actions: PropTypes.array,
   onSelectOneActions: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onSelectActions: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
   edit: PropTypes.bool,
-  remove: PropTypes.bool
+  remove: PropTypes.bool,
+  withSelect: PropTypes.bool
 };
 
 BasicTable.defaultProps = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { Grid, Typography } from '@mui/material';
-import ArrowDown from '@iconify-icons/akar-icons/arrow-down';
+import ArrowDown from '@iconify-icons/charm/arrow-down';
 
 const InventoryCard = () => {
   return (

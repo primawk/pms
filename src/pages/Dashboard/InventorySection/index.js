@@ -1,8 +1,11 @@
 import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
-import InventoryCard from 'components/Card/InventoryCard';
 
-const InventorySection = ({ title }) => {
+//components
+import Summary from './Summary';
+import ListData from './ListData';
+
+const InventorySection = ({ title, subtitle }) => {
   return (
     <div className="app-content">
       <Grid sx={{ background: 'white' }}>
@@ -14,20 +17,9 @@ const InventorySection = ({ title }) => {
             <Button variant="text">Lihat Selengkapnya</Button>
           </Grid>
 
-          <Grid container direction="row" alignItems="center" justifyContent="space-between">
-            <Grid item md={3} xs={6}>
-              <InventoryCard />
-            </Grid>
-            <Grid item md={3} xs={6}>
-              <InventoryCard />
-            </Grid>
-            <Grid item md={3} xs={6}>
-              <InventoryCard />
-            </Grid>
-            <Grid item md={3} xs={6}>
-              <InventoryCard />
-            </Grid>
-          </Grid>
+          <Summary />
+
+          <ListData subtitle={subtitle} />
         </Grid>
       </Grid>
     </div>
