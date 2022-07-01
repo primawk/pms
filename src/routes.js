@@ -65,7 +65,6 @@ export default function Routes() {
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
     },
-
     {
       path: 'input-laporan-eksternal',
       element: <InputLaporanEksternal />
