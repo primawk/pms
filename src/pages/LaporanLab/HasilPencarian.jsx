@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from '@iconify/react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,9 +9,8 @@ import Select from '@mui/material/Select';
 // components
 import avatarLogo from 'assets/Images/avatar.png';
 import Header from 'components/Header';
-import { Grid, Button, Tab, Tabs, Typography, Box } from '@mui/material';
+import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import CustomPagination from '../../components/Pagination/index';
 
 export default function HasilPencarian() {
   return (
@@ -242,7 +241,7 @@ export default function HasilPencarian() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
 
               <Grid item>
@@ -299,7 +298,7 @@ export default function HasilPencarian() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=''></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -324,7 +323,7 @@ export default function HasilPencarian() {
               <Box>
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                    <img src={avatarLogo}></img>
+                    <img src={avatarLogo} alt=""></img>
                   </Box>
                   <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
                     <h5>Putri Devina</h5>

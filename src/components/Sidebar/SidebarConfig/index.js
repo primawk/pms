@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react';
 import UserIcon from '@iconify/icons-carbon/user-avatar-filled';
 import HomeIcon from '@iconify/icons-carbon/home';
 import OreGettingIcon from '@iconify/icons-eos-icons/data-mining';
+import labIcon from '@iconify/icons-icomoon-free/lab';
 
 const getIcon = (name) => <Icon icon={name} height={24} width={24} color="#3f48c0" />;
 
@@ -23,6 +24,11 @@ const sidebarConfig = [
     title: 'Kegiatan Tambang',
     path: 'kegiatan-tambang/all-activity',
     icon: getIcon(OreGettingIcon)
+  },
+  {
+    title: 'Laporan Lab',
+    path: 'laporan-lab',
+    icon: getIcon(labIcon)
   }
 ];
 

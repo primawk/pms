@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from '@iconify/react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,18 +9,9 @@ import Select from '@mui/material/Select';
 // components
 import avatarLogo from 'assets/Images/avatar.png';
 import Header from 'components/Header';
-import { Grid, Button, Tab, Tabs, Typography, Box } from '@mui/material';
-import FilterSection from './FilterSection';
-import InfoSection from './InfoSection';
-import ChartSection from './ChartSection';
-import InventorySection from './InventorySection';
+import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CustomPagination from '../../components/Pagination/index';
-
-import TargetDataTable from './TargetDataTable';
-import TargetDataInformation from './TargetDataInformation';
-// import CustomPagination from 'components/Pagination';
-import { nominalTypeHack } from 'prop-types';
 
 export default function LaporanLab() {
   return (
@@ -158,7 +149,6 @@ export default function LaporanLab() {
           >
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
-
               <Select
                 labelId="demo-simple-select-label"
                 label="Filter Tanggal | Hari ini"
@@ -170,7 +160,6 @@ export default function LaporanLab() {
               </Select>
             </FormControl>
           </Grid>
-
           <Button
             sx={{
               backgroundColor: 'transparent',
@@ -387,7 +376,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
 
               <Grid item>
@@ -444,7 +433,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=""></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -469,7 +458,7 @@ export default function LaporanLab() {
               <Box>
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                    <img src={avatarLogo}></img>
+                    <img src={avatarLogo} alt=""></img>
                   </Box>
                   <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
                     <h5>Putri Devina</h5>
@@ -529,7 +518,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
               <Grid item>
                 <Box>
@@ -575,7 +564,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=""></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -613,7 +602,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
 
               <Grid item>
@@ -670,7 +659,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=""></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -695,7 +684,7 @@ export default function LaporanLab() {
               <Box>
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                    <img src={avatarLogo}></img>
+                    <img src={avatarLogo} alt=""></img>
                   </Box>
                   <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
                     <h5>Putri Devina</h5>
@@ -755,7 +744,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
               <Grid item>
                 <Box>
@@ -801,7 +790,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=""></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -839,7 +828,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
 
               <Grid item>
@@ -896,7 +885,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=""></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -921,7 +910,7 @@ export default function LaporanLab() {
               <Box>
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                    <img src={avatarLogo}></img>
+                    <img src={avatarLogo} alt=""></img>
                   </Box>
                   <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
                     <h5>Putri Devina</h5>
@@ -981,7 +970,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
               <Grid item>
                 <Box>
@@ -1027,7 +1016,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=""></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -1065,7 +1054,7 @@ export default function LaporanLab() {
               }}
             >
               <Box>
-                <img src="/img/eksternal.png"></img>
+                <img src="/img/eksternal.png" alt=""></img>
               </Box>
 
               <Grid item>
@@ -1122,7 +1111,7 @@ export default function LaporanLab() {
                     <h5>2 Preparasi</h5>
                   </Box>
                   <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                    <img src="/img/eksternal.png"></img>
+                    <img src="/img/eksternal.png" alt=""></img>
                   </Box>
                   <Box>
                     <h5>4 Analisa</h5>
@@ -1147,7 +1136,7 @@ export default function LaporanLab() {
               <Box>
                 <Grid container sx={{ alignItems: 'center' }}>
                   <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                    <img src={avatarLogo}></img>
+                    <img src={avatarLogo} alt=""></img>
                   </Box>
                   <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
                     <h5>Putri Devina</h5>
@@ -1188,10 +1177,10 @@ export default function LaporanLab() {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'flex-start',
-            marginRight: '3rem'
+            marginRight: '3rem',
           }}
         >
-          <Grid item sx={{}}>
+          <Grid item sx={{  width: '100%'}}>
             <CustomPagination />
           </Grid>
         </Grid>

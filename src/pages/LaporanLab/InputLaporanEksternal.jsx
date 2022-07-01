@@ -5,13 +5,9 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { Icon } from '@iconify/react';
-
 import Navbar from '../../components/Navbar';
 
 const InputLaporanEksternal = () => {
