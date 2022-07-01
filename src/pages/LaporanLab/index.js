@@ -1177,10 +1177,10 @@ export default function LaporanLab() {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'flex-start',
-            marginRight: '3rem'
+            marginRight: '3rem',
           }}
         >
-          <Grid item sx={{}}>
+          <Grid item sx={{  width: '100%'}}>
             <CustomPagination />
           </Grid>
         </Grid>

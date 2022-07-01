@@ -63,6 +63,7 @@
     "@iconify/icons-bi": "^1.2.4",
     "@iconify/icons-carbon": "^1.2.6",
     "@iconify/icons-eos-icons": "^1.2.2",
+    "@iconify/icons-icomoon-free": "^1.2.2",
     "@iconify/react": "^3.2.2",
     "sass": "^1.52.1"
   }
