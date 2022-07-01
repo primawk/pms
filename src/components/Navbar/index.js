@@ -32,15 +32,15 @@ export default function Navbar() {
         <Grid
           item
           container
-          lg={2}
-          md={4}
-          sm={5}
-          xs={5}
-          justifyContent="space-between"
+          lg={6}
+          md={6}
+          sm={6}
+          xs={6}
+          justifyContent="flex-start"
           alignItems="center"
           className="navbar-brand"
         >
-          <img src="/PMSLogo.png" alt="logo" />
+          <img src="/PMSLogo.png" alt="logo" style={{ marginRight: '10px  ' }} />
           <h4>PMS Smart Dashboard</h4>
         </Grid>
 
