@@ -14,7 +14,7 @@ export const currencyFormatter = new Intl.NumberFormat("id-ID", {
 });
 
 export const currencyFormatterWOSymbol = new Intl.NumberFormat("id-ID", {
-  maximumFractionDigits: 0,
+  maximumFractionDigits: 0 ,
 });
 
 export function dateToStringFormatter(date) {
