@@ -16,9 +16,9 @@ deploy_staging:
     - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
   script:
     - echo "Building deploy package"
-    #   - cp configs/.env.staging ./.env
+    - cp configs/.env.staging ./.env
     - yarn install
-    - CI=false && yarn run build
+    - yarn run build
     - echo "Build successful"
     - cd build/
     - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_USER@$DEPLOY_HOST:$PROJECT_LOCATION_STAGING
@@ -40,7 +40,7 @@ deploy_production:
     - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
   script:
     - echo "Building deploy package"
-    #  - cp configs/.env.production ./.env
+    - cp configs/.env.production ./.env
     - yarn install
     - yarn run build
     - echo "Build successful"
