@@ -21,6 +21,7 @@ import MiningActivity from 'pages/MiningActivity';
 import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
 import HasilKosong from 'pages/LaporanLab/HasilKosong';
 import PilihLaporan from './components/Modal/LaporanLab/PilihLaporan';
+import EditData from './components/Modal/DashboardHome/EditData';
 
 export default function Routes() {
   return useRoutes([
@@ -88,6 +89,10 @@ export default function Routes() {
     {
       path: 'pilih-laporan',
       element: <PilihLaporan />
+    },
+    {
+      path: 'edit-data',
+      element: <EditData />
     },
 
     {
