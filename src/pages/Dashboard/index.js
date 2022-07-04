@@ -218,7 +218,7 @@ export default function Dashboard() {
         <>
           <InventorySection title="Inventory SM" subtitle="Kegiatan Penambangan" />
           <InventorySection title="Inventory ETO" subtitle="Stockfile" />
-          <InventorySection title="Inventory EFO" subtitle="Stckyard" />
+          <InventorySection title="Inventory EFO" subtitle="Stockyard" />
         </>
       )}
     </>

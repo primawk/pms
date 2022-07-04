@@ -28,7 +28,7 @@ const InfoCard = ({ name, image, value }) => {
         sx={{ mb: 2, minHeight: '3rem' }}
       >
         <Typography variant="body" sx={{ width: '52%'}}>{name}</Typography>
-        <img src={image} alt={name} style={{ maxWidth: '60px', maxHeight: '25px' }} />
+        <img src={image} alt={name} style={{ maxWidth: '80px', maxHeight: '25px' }} />
       </Grid>
       <Typography variant="h4">{value}</Typography>
     </Grid>
