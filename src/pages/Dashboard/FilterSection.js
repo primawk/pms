@@ -3,66 +3,10 @@ import { Button, Grid, TextField, MenuItem } from '@mui/material';
 import { Icon } from '@iconify/react';
 import filterIcon from '@iconify/icons-carbon/filter';
 
-const months = [
-  {
-    value: 1,
-    label: 'Januari'
-  },
-  {
-    value: 2,
-    label: 'Februari'
-  },
-  {
-    value: 3,
-    label: 'Maret'
-  },
-  {
-    value: 4,
-    label: 'April'
-  },
-  {
-    value: 5,
-    label: 'Mei'
-  },
-  {
-    value: 6,
-    label: 'Juni'
-  },
-  {
-    value: 7,
-    label: 'Juli'
-  },
-  {
-    value: 8,
-    label: 'Agustus'
-  },
-  {
-    value: 9,
-    label: 'Septemer'
-  },
-  {
-    value: 10,
-    label: 'Oktober'
-  },
-  {
-    value: 11,
-    label: 'November'
-  },
-  {
-    value: 12,
-    label: 'Desember'
-  }
-];
-
 const years = ['2020', '2021', '2022'];
 
 const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
-  const [selectedMonth, setSelectedMonth] = useState(1);
   const [selectedYear, setSelectedYear] = useState('2022');
-
-  const handleChangeMonth = (event) => {
-    setSelectedMonth(event.target.value);
-  };
 
   const handleChangeYear = (event) => {
     setSelectedYear(event.target.value);
@@ -121,7 +65,7 @@ const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
         }}
       >
         <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
-          <TextField
+          {/* <TextField
             id="outlined-select-currency"
             select
             label="Bulan"
@@ -135,7 +79,7 @@ const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
                 {option.label}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField> */}
         </Grid>
 
         <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
