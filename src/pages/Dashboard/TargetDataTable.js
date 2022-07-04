@@ -9,9 +9,9 @@ import {
   TableHead,
   TableRow
 } from '@mui/material';
-// import { Icon } from '@iconify/react';
-// import EditIcon from '@iconify/icons-ant-design/edit-filled';
-// import DeleteIcon from '@iconify/icons-ant-design/delete-filled';
+import { Icon } from '@iconify/react';
+import EditIcon from '@iconify/icons-ant-design/edit-filled';
+import DeleteIcon from '@iconify/icons-ant-design/delete-filled';
 
 const TargetDataTable = ({ sample, targetTableHead }) => {
   return (
@@ -53,14 +53,25 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                   <TableCell sx={{ border: '1px solid #F2F2F2' }}>
                     <Grid container justifyContent="space-around" alignItems="center">
                       <Grid item md={5} xs={12} padding="0.2em 0">
-                        <Button sx={{ background: '#E5E5FE' }} fullWidth variant="outlined">
-                          {/* <Icon style={{ fontSize: '17px', marginLeft: '-15px' }} icon={EditIcon} /> */}
+                        <Button
+                          sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
+                          fullWidth
+                          variant="contained"
+                        >
+                          <Icon style={{ fontSize: '17px', marginRight: '1rem' }} icon={EditIcon} />
                           Edit Data
                         </Button>
                       </Grid>
-                      <Grid item md={5} xs={12} padding="0.2em 0">
-                        <Button sx={{ background: '#E5E5FE' }} fullWidth variant="outlined">
-                          {/* <Icon style={{ fontSize: '17px' }} icon={DeleteIcon} /> */}
+                      <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
+                        <Button
+                          sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
+                          fullWidth
+                          variant="contained"
+                        >
+                          <Icon
+                            style={{ fontSize: '17px', marginRight: '1rem' }}
+                            icon={DeleteIcon}
+                          />
                           Delete Data
                         </Button>
                       </Grid>
