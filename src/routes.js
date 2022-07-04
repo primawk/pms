@@ -22,6 +22,7 @@ import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
 import HasilKosong from 'pages/LaporanLab/HasilKosong';
 import PilihLaporan from './components/Modal/LaporanLab/PilihLaporan';
 import EditData from './components/Modal/DashboardHome/EditData';
+import DeleteHome from './components/Modal/DashboardHome/DeleteHome';
 
 export default function Routes() {
   return useRoutes([
@@ -93,6 +94,10 @@ export default function Routes() {
     {
       path: 'edit-data',
       element: <EditData />
+    },
+    {
+      path: 'delete-home',
+      element: <DeleteHome />
     },
 
     {
