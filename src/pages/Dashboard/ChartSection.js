@@ -13,28 +13,66 @@ const ChartSection = ({ chartData, data }) => {
         <Table>
           <TableRow>
             <TableCell
-              sx={{ width: '50px', background: '#3F48C0', color: '#FFFFFF' }}
+              sx={{ width: '14%', border: '1px solid #E0E0E0' }}
               align="center"
               variant="head"
             >
-              R
+              <Grid container sx={{ alignItems: 'center' }}>
+                <Grid
+                  item
+                  sx={{
+                    width: '20px',
+                    height: '20px',
+                    border: '1px solid rgba(0, 0, 0, .2)',
+                    backgroundColor: 'red',
+                    marginRight: '0.5rem'
+                  }}
+                ></Grid>
+                <Grid item>Realisasi (Ton)</Grid>
+              </Grid>
             </TableCell>
             {data?.map((item) => (
-              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }}>
+              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
                 {item?.uv}
               </TableCell>
             ))}
           </TableRow>
           <TableRow>
             <TableCell
+              sx={{ width: '15%', border: '1px solid #E0E0E0' }}
               align="center"
-              sx={{ maxWidth: '20px', background: '#DA4540' }}
               variant="head"
             >
-              DP
+              <Grid container sx={{ alignItems: 'center' }}>
+                <Grid
+                  item
+                  sx={{
+                    width: '20px',
+                    height: '20px',
+                    border: '1px solid rgba(0, 0, 0, .2)',
+                    backgroundColor: 'blue',
+                    marginRight: '0.5rem'
+                  }}
+                ></Grid>
+                <Grid item>Target Produksi</Grid>
+              </Grid>
             </TableCell>
             {data?.map((item) => (
-              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }}>
+              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
+                {item?.pv}
+              </TableCell>
+            ))}
+          </TableRow>
+          <TableRow>
+            <TableCell
+              sx={{ width: '15%', border: '1px solid #E0E0E0' }}
+              align="start"
+              variant="head"
+            >
+              Presentase
+            </TableCell>
+            {data?.map((item) => (
+              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
                 {item?.pv}
               </TableCell>
             ))}

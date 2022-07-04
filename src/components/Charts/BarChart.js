@@ -7,7 +7,7 @@ function BarChart({ chartData }) {
   const options = {
     plugins: {
       legend: {
-        display: true
+        display: false
       },
       scales: {
         x: {
