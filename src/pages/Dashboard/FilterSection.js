@@ -13,15 +13,15 @@ const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
   };
 
   return (
-    <Grid container direction="row" alignItems="center" justifyContent="flex-start">
+    <Grid container direction="row" alignItems="center" justifyContent="space-between">
       <Grid
         container
         direction="row"
         alignItems="center"
         justifyContent="flex-start"
         width="25%"
-        xs={12}
-        lg={3}
+        // xs={12}
+        // lg={3}
         item
         sx={{
           padding: '24px 0'
@@ -55,32 +55,15 @@ const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
         alignItems="center"
         justifyContent="space-between"
         item
-        width="75%"
-        xs={12}
-        lg={9}
+        width="55%"
+        // xs={12}
+        // lg={9}
         sx={{
           border: '1px solid #E0E0E0',
           borderRadius: '8px',
           padding: '12px 24px'
         }}
       >
-        <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
-          {/* <TextField
-            id="outlined-select-currency"
-            select
-            label="Bulan"
-            value={selectedMonth}
-            onChange={handleChangeMonth}
-            placeholder="Bulan"
-            fullWidth
-          >
-            {months.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField> */}
-        </Grid>
 
         <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
           <TextField
