@@ -2,8 +2,11 @@ import React from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const DetailInternal = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -37,7 +40,7 @@ const DetailInternal = () => {
             container
             sx={{ display: 'flex', flexDirection: 'row', margin: '1rem 0.5rem 0.3rem 2rem' }}
           >
-            <Button variant="outlined" sx={{ marginRight: '1rem' }}>
+            <Button variant="outlined" sx={{ marginRight: '1rem' }} onClick={() => navigate(-1)}>
               <Icon icon="akar-icons:arrow-back" color="#3f48c0" fontSize={16} />
               <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
             </Button>
@@ -65,36 +68,35 @@ const DetailInternal = () => {
             Terakhir diedit oleh Putri Devina, pada 12 Juni 2022, 12:21 WITA
           </Box>
           <Box>
-          <Button
-            variant="outlined"
-            sx={{
-              backgroundColor: '#E5E5FE',
-              margin: '0 1rem 0.3rem 2rem',
-              color: '#3F48C0',
-              boxShadow: 0,
-              border: '1px solid #3F48C0',
-              width: '40%',
-              fontWeight: '400'
-            }}
-          >
-            Edit Laporan
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              backgroundColor: 'white',
-              margin: '0 0.5rem 0.3rem 0',
-              color: '#3F48C0',
-              boxShadow: 0,
-              border: '1px solid #3F48C0',
-              width: '40%',
-              fontWeight: '400'
-            }}
-          >
-            Delete Laporan
-          </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                backgroundColor: '#E5E5FE',
+                margin: '0 1rem 0.3rem 2rem',
+                color: '#3F48C0',
+                boxShadow: 0,
+                border: '1px solid #3F48C0',
+                width: '40%',
+                fontWeight: '400'
+              }}
+            >
+              Edit Laporan
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                backgroundColor: 'white',
+                margin: '0 0.5rem 0.3rem 0',
+                color: '#3F48C0',
+                boxShadow: 0,
+                border: '1px solid #3F48C0',
+                width: '40%',
+                fontWeight: '400'
+              }}
+            >
+              Delete Laporan
+            </Button>
           </Box>
-         
         </Grid>
         <Grid item sx={{}}>
           <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>

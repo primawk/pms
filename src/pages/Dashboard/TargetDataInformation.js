@@ -22,8 +22,9 @@ const TargetDataInformation = () => {
       >
         <Icon color="#3F48C0" width="3%" icon={InfoIcon} />
         <Typography variant="body2" width="95%" ml={2}>
-          Input data target untuk dapat membandingkan realisasi produksi tambang. Data target
-          berdasarkan tahun dan bulan, Untuk menambahkan data target, silahkan klik tambah target
+          Input data target untuk dapat <b>membandingkan realisasi produksi tambang</b>. Data target
+          berdasarkan tahun dan bulan, Untuk menambahkan data target, silahkan klik{' '}
+          <b>tambah target</b>.
         </Typography>
       </Grid>
       <Grid width="20%" container alignItems="center" justifyContent="flex-end">

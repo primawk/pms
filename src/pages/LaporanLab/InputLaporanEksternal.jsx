@@ -7,11 +7,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 
 const InputLaporanEksternal = () => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+
+  const navigate = useNavigate();
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -245,7 +248,7 @@ const InputLaporanEksternal = () => {
           container
           sx={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: '5rem' }}
         >
-          <Grid item sx={{ marginRight: '4rem' }}>
+          <Grid item sx={{ marginRight: '4rem' }} onClick={() => navigate(-1)}>
             <Button>Back</Button>
           </Grid>
           <Grid item>

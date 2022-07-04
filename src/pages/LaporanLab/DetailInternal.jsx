@@ -2,8 +2,11 @@ import React from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const DetailInternal = () => {
+  const navigate = useNavigate();
+  
   return (
     <div
       style={{
@@ -37,7 +40,7 @@ const DetailInternal = () => {
             container
             sx={{ display: 'flex', flexDirection: 'row', margin: '1rem 0.5rem 0.3rem 2rem' }}
           >
-            <Button variant="outlined" sx={{ marginRight: '1rem' }}>
+            <Button variant="outlined" sx={{ marginRight: '1rem' }} onClick={() => navigate(-1)}>
               <Icon icon="akar-icons:arrow-back" color="#3f48c0" fontSize={16} />
               <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
             </Button>

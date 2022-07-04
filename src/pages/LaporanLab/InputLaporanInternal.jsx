@@ -11,11 +11,13 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { Icon } from '@iconify/react';
+import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../../components/Navbar';
 
 const InputLaporanInternal = () => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+  const navigate = useNavigate();
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -392,7 +394,7 @@ const InputLaporanInternal = () => {
           sx={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: '5rem' }}
         >
           <Grid item sx={{ marginRight: '4rem' }}>
-            <Button>Back</Button>
+            <Button onClick={() => navigate(-1)}>Back</Button>
           </Grid>
           <Grid item>
             <Button variant="contained" sx={{ width: '130%', boxShadow: '0' }}>

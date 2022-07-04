@@ -8,9 +8,14 @@ import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { useNavigate } from 'react-router-dom';
 
 const PilihLaporan = () => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+  const navigate = useNavigate();
+
+  const [jenisLaporan, setJenisLaporan] = useState('');
+  console.log(jenisLaporan);
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -56,9 +61,10 @@ const PilihLaporan = () => {
                 labelId="demo-simple-select-label"
                 label="Jenis Laporan"
                 id="demo-simple-select"
+                onChange={(e) => setJenisLaporan(e.target.value)}
               >
-                <MenuItem value={10}>Laporan Internal</MenuItem>
-                <MenuItem value={20}>Laporan Eksternal</MenuItem>
+                <MenuItem value={'input-laporan-internal'}>Laporan Internal</MenuItem>
+                <MenuItem value={'input-laporan-eksternal'}>Laporan Eksternal</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -87,7 +93,7 @@ const PilihLaporan = () => {
             }}
           >
             <Grid item sx={{ marginRight: '1rem' }}>
-              <Button variant="outlined" sx={{ fontWeight: '400' }}>
+              <Button variant="outlined" sx={{ fontWeight: '400' }} onClick={() => navigate(-1)}>
                 Cancel
               </Button>
             </Grid>
@@ -95,6 +101,7 @@ const PilihLaporan = () => {
               <Button
                 variant="contained"
                 sx={{ boxShadow: '0', fontWeight: '400', marginRight: '1.5rem' }}
+                onClick={() => navigate(`/${jenisLaporan}`)}
               >
                 Submit
               </Button>
