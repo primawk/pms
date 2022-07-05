@@ -21,6 +21,8 @@ import MiningActivity from 'pages/MiningActivity';
 import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
 import HasilKosong from 'pages/LaporanLab/HasilKosong';
 import PilihLaporan from './components/Modal/LaporanLab/PilihLaporan';
+import LayoutNavbar from 'components/Layout/LayoutNavbar';
+import DetailActivity from 'pages/MiningActivity/MiningSection/DetailActivity';
 
 export default function Routes() {
   return useRoutes([
@@ -47,6 +49,10 @@ export default function Routes() {
           element: <Dashboard />
         },
         {
+          path: 'kegiatan-tambang',
+          element: <Navigate to="/kegiatan-tambang/all-activity" replace />
+        },
+        {
           path: 'kegiatan-tambang/:activityType',
           element: <MiningActivity />
         },
@@ -63,6 +69,28 @@ export default function Routes() {
           element: <HasilKosong />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
+      ]
+    },
+    {
+      // navbar only layout ( detail, history, input , etc )
+      element: <LayoutNavbar />,
+      children: [
+        {
+          path: 'kegiatan-tambang/:activityType/add',
+          element: <DetailActivity />
+        },
+        {
+          path: 'kegiatan-tambang/:activityType/edit/:id',
+          element: <DetailActivity />
+        },
+        {
+          path: 'kegiatan-tambang/:activityType/detail/:id',
+          element: <DetailActivity />
+        },
+        {
+          path: 'kegiatan-tambang/:activityType/detail/history/:id',
+          element: <DetailActivity />
+        }
       ]
     },
     {
