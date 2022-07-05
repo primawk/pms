@@ -12,9 +12,9 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useNavigate } from 'react-router-dom';
 
 // components
-import { CustomModal } from 'components/Modal';
+import CustomModal2 from 'components/Modal/CustomModal/PilihLaporan';
 
-const PilihLaporan = ({ isShowing, toggle, width }) => {
+const PilihLaporan = ({ isShowing, toggle }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
   const navigate = useNavigate();
 
@@ -25,14 +25,14 @@ const PilihLaporan = ({ isShowing, toggle, width }) => {
   };
 
   return (
-    <CustomModal isShowing={isShowing} toggle={toggle} width={'29rem'}>
+    <CustomModal2 isShowing={isShowing} toggle={toggle}>
       <Grid
         container
         sx={{
           width: '25.5rem',
           height: '36.875rem',
           backgroundColor: 'white',
-          borderRadius: '4px',
+          borderRadius: '4px'
         }}
       >
         <Grid
@@ -58,6 +58,7 @@ const PilihLaporan = ({ isShowing, toggle, width }) => {
                 id="demo-simple-select"
                 onChange={(e) => setJenisLaporan(e.target.value)}
               >
+                <MenuItem value={'laporan-lab'}></MenuItem>
                 <MenuItem value={'input-laporan-internal'}>Laporan Internal</MenuItem>
                 <MenuItem value={'input-laporan-eksternal'}>Laporan Eksternal</MenuItem>
               </Select>
@@ -104,8 +105,7 @@ const PilihLaporan = ({ isShowing, toggle, width }) => {
           </Grid>
         </Grid>
       </Grid>
-      {/* </div> */}
-    </CustomModal>
+    </CustomModal2>
   );
 };
 

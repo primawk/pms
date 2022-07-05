@@ -19,13 +19,11 @@ import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import useModal from '../../hooks/useModal';
 
 export default function LaporanLab() {
-  // const navigate = useNavigate();
-
-  const { isShowing, toggle, width } = useModal();
+  const { isShowing, toggle } = useModal();
 
   return (
     <>
-      <PilihLaporan toggle={toggle} isShowing={isShowing} width={width} />
+      <PilihLaporan toggle={toggle} isShowing={isShowing} />
       <Grid
         container
         direction="row"

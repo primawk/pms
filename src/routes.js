@@ -20,7 +20,6 @@ import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
 import MiningActivity from 'pages/MiningActivity';
 import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
 import HasilKosong from 'pages/LaporanLab/HasilKosong';
-import PilihLaporan from './components/Modal/LaporanLab/PilihLaporan';
 import EditData from './components/Modal/DashboardHome/EditData';
 import DeleteHome from './components/Modal/DashboardHome/DeleteHome';
 
@@ -86,10 +85,6 @@ export default function Routes() {
     {
       path: 'history-edit',
       element: <HistoryEdit />
-    },
-    {
-      path: 'pilih-laporan',
-      element: <PilihLaporan />
     },
     {
       path: 'edit-data',
