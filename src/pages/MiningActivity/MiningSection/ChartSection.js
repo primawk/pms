@@ -15,14 +15,14 @@ const ChartSection = ({ chartData, subMenu, handleChangeSubMenu, chartStyle }) =
             onClick={() => handleChangeSubMenu(0)}
             sx={subMenu === 0 ? { background: '#E5E5FE' } : {}}
           >
-            Grafik
+            Tonase
           </Button>
           <Button
             variant="outlined"
             onClick={() => handleChangeSubMenu(1)}
             sx={subMenu === 1 ? { background: '#E5E5FE', ml: 2 } : { ml: 2 }}
           >
-            Data Target
+            Lot
           </Button>
         </Grid>
       </Grid>

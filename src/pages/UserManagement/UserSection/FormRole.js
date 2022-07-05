@@ -28,13 +28,17 @@ export default function FormRole({ isShowing, toggle, id }) {
           <Stack spacing={2}>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Role</h4>
-              <TextField select placeholder="Role" fullWidth size="small">
-                {roles.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
+              {id ? (
+                <TextField placeholder="Role" fullWidth size="small" />
+              ) : (
+                <TextField select placeholder="Role" fullWidth size="small">
+                  {roles.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
             </FormControl>
           </Stack>
         </Grid>
