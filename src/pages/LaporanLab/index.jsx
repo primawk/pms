@@ -10,15 +10,22 @@ import Select from '@mui/material/Select';
 import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CustomPagination from '../../components/Pagination/index';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
-import ListLaporanInternal from './components/ListLaporanInternal ';
+import ListLaporanInternal from './components/ListLaporanInternal';
+import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
+
+// custom hooks
+import useModal from '../../hooks/useModal';
 
 export default function LaporanLab() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const { isShowing, toggle, width } = useModal();
 
   return (
     <>
+      <PilihLaporan toggle={toggle} isShowing={isShowing} width={width} />
       <Grid
         container
         direction="row"
@@ -246,7 +253,7 @@ export default function LaporanLab() {
             </Grid>
             <Button
               variant="contained"
-              onClick={() => navigate('/pilih-laporan')}
+              onClick={toggle}
               sx={{
                 width: '15.625',
                 height: '42px',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Button, Box } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,26 +11,21 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useNavigate } from 'react-router-dom';
 
-const PilihLaporan = () => {
+// components
+import { CustomModal } from 'components/Modal';
+
+const PilihLaporan = ({ isShowing, toggle, width }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
   const navigate = useNavigate();
 
   const [jenisLaporan, setJenisLaporan] = useState('');
-  console.log(jenisLaporan);
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
   return (
-    <div
-      style={{
-        backgroundColor: 'gray',
-        width: '100%',
-        height: '100%',
-        overflow: 'auto', // it makes this container follow the height of its content
-        position: 'relative'
-      }}
-    >
+    <CustomModal isShowing={isShowing} toggle={toggle} width={'29rem'}>
       <Grid
         container
         sx={{
@@ -37,7 +33,6 @@ const PilihLaporan = () => {
           height: '36.875rem',
           backgroundColor: 'white',
           borderRadius: '4px',
-          margin: 'auto'
         }}
       >
         <Grid
@@ -93,7 +88,7 @@ const PilihLaporan = () => {
             }}
           >
             <Grid item sx={{ marginRight: '1rem' }}>
-              <Button variant="outlined" sx={{ fontWeight: '400' }} onClick={() => navigate(-1)}>
+              <Button variant="outlined" sx={{ fontWeight: '400' }} onClick={toggle}>
                 Cancel
               </Button>
             </Grid>
@@ -109,8 +104,15 @@ const PilihLaporan = () => {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+      {/* </div> */}
+    </CustomModal>
   );
+};
+
+PilihLaporan.propTypes = {
+  isShowing: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
+  width: PropTypes.string
 };
 
 export default PilihLaporan;
