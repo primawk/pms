@@ -8,6 +8,7 @@ import ArrowDown from '@iconify/icons-ant-design/caret-down-filled';
 // assets
 import ExcavatorIcon from 'assets/Images/MiningActivity/ore-getting.png';
 import TruckIcon from 'assets/Images/MiningActivity/ore-hauling-to-eto.png';
+import avatarLogo from 'assets/Images/avatar.png';
 
 const ReportList = ({ activity_type }) => {
   return (
@@ -77,8 +78,8 @@ const ReportList = ({ activity_type }) => {
           Dibuat Oleh
         </Typography>
         <Stack direction="row" alignItems="center" spacing={1}>
-          <img src={ExcavatorIcon} alt={ExcavatorIcon} width={35} height={35} />
-          <Typography variant="body1">Bukit 7/ Dome A</Typography>
+          <img src={avatarLogo} alt={avatarLogo} width={35} height={35} />
+          <Typography variant="body1">Putri Devina</Typography>
         </Stack>
       </Grid>
       <Grid item lg={2} md={2} xs={6}>

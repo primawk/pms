@@ -89,7 +89,13 @@ export default function SpecificActivity() {
             ? 'Realisasi Produksi Inventory ETO'
             : 'Realisasi Produksi Inventory EFO'
         }
-        subtitle={activityType === 'ore-getting' ? 'Kegiatan Penambangan' : 'List Tumpukan/Dome'}
+        subtitle={
+          activityType === 'ore-getting'
+            ? 'Kegiatan Penambangan'
+            : activityType === 'ore-hauling-to-eto'
+            ? 'Stockfile'
+            : 'Stockyard'
+        }
       />
       <ReportSection />
     </>

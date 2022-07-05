@@ -69,8 +69,8 @@ export default function AllActivity() {
         </Grid>
       </Grid>
       <InventorySection title="Realisasi Produksi Inventory SM" subtitle="Kegiatan Penambangan" />
-      <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Kegiatan Penambangan" />
-      <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Kegiatan Penambangan" />
+      <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Stockfile" />
+      <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Stockyard" />
       <ReportSection />
     </>
   );

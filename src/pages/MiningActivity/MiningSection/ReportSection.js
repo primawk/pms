@@ -36,10 +36,18 @@ export default function ReportSection() {
         </Stack>
         <Button variant="contained">Input Kegiatan Tambang</Button>
       </Stack>
-      <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
-      <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
-      <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
-      <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
+      <a href="/anjas" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
+      </a>
+      <a href="/anjas" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
+      </a>
+      <a href="/anjas" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
+      </a>
+      <a href="/anjas" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
+      </a>
 
       <CustomPagination />
     </div>
