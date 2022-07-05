@@ -23,6 +23,7 @@ import HasilKosong from 'pages/LaporanLab/HasilKosong';
 import PilihLaporan from './components/Modal/LaporanLab/PilihLaporan';
 import LayoutNavbar from 'components/Layout/LayoutNavbar';
 import DetailActivity from 'pages/MiningActivity/MiningSection/DetailActivity';
+import HistoryActivity from 'pages/MiningActivity/MiningSection/HistoryActivity';
 
 export default function Routes() {
   return useRoutes([
@@ -89,7 +90,7 @@ export default function Routes() {
         },
         {
           path: 'kegiatan-tambang/:activityType/detail/history/:id',
-          element: <DetailActivity />
+          element: <HistoryActivity />
         }
       ]
     },
