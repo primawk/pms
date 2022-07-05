@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, TextField, MenuItem, Stack, FormControl, Button } from '@mui/material';
+import {
+  Grid,
+  TextField,
+  MenuItem,
+  Stack,
+  FormControl,
+  Button,
+  InputAdornment
+} from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -56,7 +64,21 @@ export default function FormUser({ isShowing, toggle, id }) {
             </FormControl>
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Password</h4>
-              <TextField placeholder="Password" fullWidth size="small" />
+              <TextField
+                placeholder="Password"
+                fullWidth
+                size="small"
+                style={{ padding: '0' }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end" style={{ marginRight: '0 !important' }}>
+                      <Button variant="text" style={{ marginRight: '0 !important' }}>
+                        Generate Password
+                      </Button>
+                    </InputAdornment>
+                  )
+                }}
+              />
             </FormControl>
           </Stack>
         </Grid>
