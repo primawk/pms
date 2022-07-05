@@ -6,10 +6,12 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-
 const HasilAnalisa = () => {
   return (
-    <Grid item sx={{ height: '55%' }}>
+    <Grid
+      item
+      sx={{ height: '55%', borderBottom: 1, borderBottomColor: '#E0E0E0', paddingBottom: '1.5rem' }}
+    >
       <h2 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Hasil Analisa </h2>
       <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
         <Grid

@@ -3,13 +3,11 @@ import { Grid, Box, Button } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,6 +16,17 @@ import HasilAnalisa from './components/HasilAnalisa';
 
 const InputLaporanInternal = () => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+  const [analisaList, setAnalisaList] = useState([]);
+
+  const AnalisaList = () => {
+    return <HasilAnalisa />;
+  };
+
+  const onAddBtnClick = () => {
+    if (analisaList.length < 5)
+      setAnalisaList(analisaList.concat(<AnalisaList key={analisaList.length} />));
+  };
+
   const navigate = useNavigate();
 
   const handleChange = (newValue) => {
@@ -30,7 +39,7 @@ const InputLaporanInternal = () => {
         backgroundColor: '#F5F5F5',
         width: '100%',
         height: '100%',
-        overflow: 'auto', // it makes this container follow the height of its content
+        overflowY: 'auto', // it makes this container follow the height of its content
         position: 'relative'
       }}
     >
@@ -42,12 +51,12 @@ const InputLaporanInternal = () => {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: 'white',
-          height: '72.5rem',
+          height: 'auto',
           width: '90%',
           marginTop: '6rem',
           marginLeft: 'auto',
           marginRight: 'auto',
-          marginBottom: 'auto',
+          marginBottom: '6rem',
           borderRadius: '4px'
         }}
       >
@@ -150,11 +159,15 @@ const InputLaporanInternal = () => {
         </Grid>
 
         {/* Hasil Analisa */}
-        <HasilAnalisa />
-        
-        <Grid item sx={{ borderTop: 1, borderTopColor: '#E0E0E0' }}>
-          <Grid container sx={{ marginTop: '1.5rem', justifyContent: 'center' }}>
-            <Button variant="contained" sx={{ boxShadow: '0' }}>
+        <Grid item>
+          <HasilAnalisa />
+          {analisaList}
+        </Grid>
+
+        {/* button add data */}
+        <Grid item >
+          <Grid container sx={{ margin: '1.5rem', justifyContent: 'center' }}>
+            <Button variant="contained" sx={{ boxShadow: '0' }} onClick={onAddBtnClick}>
               <Box sx={{ margin: '5px 12px 0 0 ' }}>
                 <Icon icon="carbon:add-alt" color="white" fontSize={16} />
               </Box>
@@ -163,6 +176,8 @@ const InputLaporanInternal = () => {
           </Grid>
         </Grid>
       </Grid>
+
+      {/* submit */}
       <div
         style={{
           position: 'fixed',
