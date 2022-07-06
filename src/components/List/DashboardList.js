@@ -17,7 +17,7 @@ const DashboardList = () => {
         mt: 1
       }}
     >
-      <Grid item md={1} xs={12}>
+      <Grid item md={1} xs={12} sx={{marginLeft: '0.5rem'}}>
         <Typography variant="h4">1</Typography>
       </Grid>
       <Grid

@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import UserIcon from '@iconify/icons-carbon/user-avatar-filled';
 import HomeIcon from '@iconify/icons-carbon/home';
 import OreGettingIcon from '@iconify/icons-eos-icons/data-mining';
-import labIcon from '@iconify/icons-icomoon-free/lab';
+import LabIcon from '@iconify/icons-icomoon-free/lab';
 
 const getIcon = (name) => <Icon icon={name} height={24} width={24} color="#3f48c0" />;
 
@@ -28,7 +28,7 @@ const sidebarConfig = [
   {
     title: 'Laporan Lab',
     path: 'laporan-lab',
-    icon: getIcon(labIcon)
+    icon: getIcon(LabIcon)
   }
 ];
 
