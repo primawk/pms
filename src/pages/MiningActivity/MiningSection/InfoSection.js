@@ -17,7 +17,7 @@ const InfoSection = () => {
       </Grid>
       <Grid container direction="row" alignItems="flex-start" justifyContent="space-between">
         <Grid item md={5} xs={5}>
-          <InfoCard value="100" image={TotalActivity} name="Kadar Ni" date="Hari ini" />
+          <InfoCard value="100" image={TotalActivity} name="Total Kegiatan" date="Hari ini" />
         </Grid>
         <Grid item md={5} xs={5}>
           <InfoCard value="1,768%" image={KadarNi} name="Kadar Ni" date="Hari ini" />

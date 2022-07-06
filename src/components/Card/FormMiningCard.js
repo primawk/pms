@@ -9,7 +9,7 @@ import {
   InputAdornment
 } from '@mui/material';
 
-const measurementType = ['Sumlot SM'];
+const measurementType = ['Sumlot SM', 'Dump Truck', 'Timbangan'];
 
 const hillList = ['Bukit I', 'Bukit IX'];
 
@@ -185,7 +185,7 @@ export default function FormMiningCard() {
                   </Typography>
                   <FormControl>
                     <TextField
-                      placeholder="Jumlah Retase"
+                      placeholder="Jumlah Sublot"
                       fullWidth
                       sx={{
                         '& .MuiOutlinedInput-root': {
@@ -217,7 +217,7 @@ export default function FormMiningCard() {
                   </Typography>
                   <FormControl>
                     <TextField
-                      placeholder="Jumlah Retase"
+                      placeholder="Jumlah Tonase"
                       fullWidth
                       sx={{
                         '& .MuiOutlinedInput-root': {
