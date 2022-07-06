@@ -20,8 +20,6 @@ import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
 import MiningActivity from 'pages/MiningActivity';
 import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
 import HasilKosong from 'pages/LaporanLab/HasilKosong';
-import EditData from './components/Modal/DashboardHome/EditData';
-import DeleteHome from './components/Modal/DashboardHome/DeleteHome';
 import LayoutNavbar from 'components/Layout/LayoutNavbar';
 import DetailActivity from 'pages/MiningActivity/MiningSection/DetailActivity';
 import FormMiningActivity from 'pages/MiningActivity/MiningSection/FormMiningActivity';
@@ -96,6 +94,7 @@ export default function Routes() {
         }
       ]
     },
+    // Laporan Lab
     {
       path: 'input-laporan-eksternal',
       element: <InputLaporanEksternal />
@@ -116,15 +115,6 @@ export default function Routes() {
       path: 'history-edit',
       element: <HistoryEdit />
     },
-    {
-      path: 'edit-data',
-      element: <EditData />
-    },
-    {
-      path: 'delete-home',
-      element: <DeleteHome />
-    },
-
     {
       path: '/auth',
       element: <LayoutAuth />,

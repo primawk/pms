@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Button, Box } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -11,22 +9,18 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-const PilihLaporan = () => {
+// components
+import CustomModalEdit from 'components/Modal/CustomModal/EditData';
+
+const TambahTarget = ({ isShowing, toggle, width }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
   return (
-    <div
-      style={{
-        backgroundColor: 'gray',
-        width: '100%',
-        height: '100%',
-        overflow: 'auto', // it makes this container follow the height of its content
-        position: 'relative'
-      }}
-    >
+    <CustomModalEdit isShowing={isShowing} toggle={toggle} width={width}>
       <Grid
         container
         sx={{
@@ -42,7 +36,8 @@ const PilihLaporan = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start'
+            alignItems: 'flex-start',
+            marginLeft: '1rem'
           }}
         >
           <Grid item sx={{ margin: '1rem auto 1rem auto' }}>
@@ -55,10 +50,10 @@ const PilihLaporan = () => {
               flexDirection: 'column'
             }}
           >
-            <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+            <Grid item sx={{ margin: '0 auto 1rem 25.5rem' }}>
               <Box sx={{ fontSize: '0.875rem' }}>Tahun</Box>
             </Grid>
-            <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+            <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 25.5rem' }}>
               <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
                 <DesktopDatePicker
                   inputFormat="yyyy"
@@ -489,14 +484,23 @@ const PilihLaporan = () => {
             }}
           >
             <Grid item sx={{ marginRight: '1rem' }}>
-              <Button variant="outlined" sx={{ fontWeight: '400' }}>
+              <Button
+                variant="outlined"
+                sx={{ fontWeight: '400', width: '10.813rem' }}
+                onClick={toggle}
+              >
                 Cancel
               </Button>
             </Grid>
             <Grid item>
               <Button
                 variant="contained"
-                sx={{ boxShadow: '0', fontWeight: '400', marginRight: '1.5rem' }}
+                sx={{
+                  boxShadow: '0',
+                  fontWeight: '400',
+                  marginRight: '3.1rem',
+                  width: '10.813rem'
+                }}
               >
                 Save
               </Button>
@@ -504,8 +508,14 @@ const PilihLaporan = () => {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </CustomModalEdit>
   );
 };
 
-export default PilihLaporan;
+TambahTarget.propTypes = {
+  isShowing: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
+  width: PropTypes.string
+};
+
+export default TambahTarget;
