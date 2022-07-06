@@ -22,6 +22,10 @@ import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
 import HasilKosong from 'pages/LaporanLab/HasilKosong';
 import EditData from './components/Modal/DashboardHome/EditData';
 import DeleteHome from './components/Modal/DashboardHome/DeleteHome';
+import LayoutNavbar from 'components/Layout/LayoutNavbar';
+import DetailActivity from 'pages/MiningActivity/MiningSection/DetailActivity';
+import FormMiningActivity from 'pages/MiningActivity/MiningSection/FormMiningActivity';
+import HistoryActivity from 'pages/MiningActivity/MiningSection/HistoryActivity';
 
 export default function Routes() {
   return useRoutes([
@@ -48,7 +52,11 @@ export default function Routes() {
           element: <Dashboard />
         },
         {
-          path: 'kegiatan-tambang/:activityType',
+          path: 'mining-activity',
+          element: <Navigate to="/mining-activity/all-activity" replace />
+        },
+        {
+          path: 'mining-activity/:activityType',
           element: <MiningActivity />
         },
         {
@@ -64,6 +72,28 @@ export default function Routes() {
           element: <HasilKosong />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
+      ]
+    },
+    {
+      // navbar only layout ( detail, history, input , etc )
+      element: <LayoutNavbar />,
+      children: [
+        {
+          path: 'mining-activity/:activityType/add',
+          element: <FormMiningActivity />
+        },
+        {
+          path: 'mining-activity/:activityType/edit/:id',
+          element: <FormMiningActivity />
+        },
+        {
+          path: 'mining-activity/:activityType/detail/:id',
+          element: <DetailActivity />
+        },
+        {
+          path: 'mining-activity/:activityType/detail/history/:id',
+          element: <HistoryActivity />
+        }
       ]
     },
     {

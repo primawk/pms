@@ -22,7 +22,7 @@ const sidebarConfig = [
   },
   {
     title: 'Kegiatan Tambang',
-    path: 'kegiatan-tambang/all-activity',
+    path: 'mining-activity/all-activity',
     icon: getIcon(OreGettingIcon)
   },
   {

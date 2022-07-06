@@ -41,7 +41,7 @@ export default function UserManagement() {
         <Grid container direction="row" justifyContent="center" alignItems="center">
           <Filter onSubmit={onSubmit} onChange={handleChangeSearch} filter={search} />
         </Grid>
-        <div className="user-table" style={{ background: 'white', borderRadius: '5px' }}>
+        <div className="user-table bg-white" style={{ borderRadius: '5px' }}>
           <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '0px !important' }}>
             <Tab label="List Pengguna" />
             <Tab label="Role & Hak Akses" />

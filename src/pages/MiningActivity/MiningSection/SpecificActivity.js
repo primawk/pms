@@ -72,7 +72,8 @@ export default function SpecificActivity() {
         direction="row"
         alignItems="flex-start"
         justifyContent="space-between"
-        sx={{ background: 'white', padding: '1em 1.5em' }}
+        sx={{ padding: '1em 1.5em' }}
+        className="bg-white"
       >
         <ChartSection
           subMenu={subMenu}
