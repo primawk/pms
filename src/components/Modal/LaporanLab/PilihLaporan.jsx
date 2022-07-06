@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Button, Box } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,31 +9,30 @@ import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { useNavigate } from 'react-router-dom';
 
-const PilihLaporan = () => {
+// components
+import CustomModal2 from 'components/Modal/CustomModal/PilihLaporan';
+
+const PilihLaporan = ({ isShowing, toggle }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+  const navigate = useNavigate();
+
+  const [jenisLaporan, setJenisLaporan] = useState('');
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
   return (
-    <div
-      style={{
-        backgroundColor: 'gray',
-        width: '100%',
-        height: '100%',
-        overflow: 'auto', // it makes this container follow the height of its content
-        position: 'relative'
-      }}
-    >
+    <CustomModal2 isShowing={isShowing} toggle={toggle}>
       <Grid
         container
         sx={{
           width: '25.5rem',
           height: '36.875rem',
           backgroundColor: 'white',
-          borderRadius: '4px',
-          margin: 'auto'
+          borderRadius: '4px'
         }}
       >
         <Grid
@@ -56,9 +56,11 @@ const PilihLaporan = () => {
                 labelId="demo-simple-select-label"
                 label="Jenis Laporan"
                 id="demo-simple-select"
+                onChange={(e) => setJenisLaporan(e.target.value)}
               >
-                <MenuItem value={10}>Laporan Internal</MenuItem>
-                <MenuItem value={20}>Laporan Eksternal</MenuItem>
+                <MenuItem value={'laporan-lab'}></MenuItem>
+                <MenuItem value={'input-laporan-internal'}>Laporan Internal</MenuItem>
+                <MenuItem value={'input-laporan-eksternal'}>Laporan Eksternal</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -87,7 +89,7 @@ const PilihLaporan = () => {
             }}
           >
             <Grid item sx={{ marginRight: '1rem' }}>
-              <Button variant="outlined" sx={{ fontWeight: '400' }}>
+              <Button variant="outlined" sx={{ fontWeight: '400' }} onClick={toggle}>
                 Cancel
               </Button>
             </Grid>
@@ -95,6 +97,7 @@ const PilihLaporan = () => {
               <Button
                 variant="contained"
                 sx={{ boxShadow: '0', fontWeight: '400', marginRight: '1.5rem' }}
+                onClick={() => navigate(`/${jenisLaporan}`)}
               >
                 Submit
               </Button>
@@ -102,8 +105,14 @@ const PilihLaporan = () => {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </CustomModal2>
   );
+};
+
+PilihLaporan.propTypes = {
+  isShowing: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
+  width: PropTypes.string
 };
 
 export default PilihLaporan;

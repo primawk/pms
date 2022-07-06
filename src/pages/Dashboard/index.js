@@ -7,7 +7,6 @@ import FilterSection from './FilterSection';
 import InfoSection from './InfoSection';
 import ChartSection from './ChartSection';
 import InventorySection from './InventorySection';
-
 import TargetDataTable from './TargetDataTable';
 import TargetDataInformation from './TargetDataInformation';
 import CustomPagination from 'components/Pagination';
@@ -152,7 +151,6 @@ export default function Dashboard() {
   return (
     <>
       <Header title="DASHBOARD" background="dashboard.png" />
-
       <div className="app-content">
         <Grid sx={{ background: 'white' }}>
           <Tabs
@@ -218,7 +216,7 @@ export default function Dashboard() {
         <>
           <InventorySection title="Inventory SM" subtitle="Kegiatan Penambangan" />
           <InventorySection title="Inventory ETO" subtitle="Stockfile" />
-          <InventorySection title="Inventory EFO" subtitle="Stckyard" />
+          <InventorySection title="Inventory EFO" subtitle="Stockyard" />
         </>
       )}
     </>

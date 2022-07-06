@@ -11,16 +11,16 @@ const Summary = () => {
       <Typography variant="h5">Summary</Typography>
       <Grid container direction="row" alignItems="center" justifyContent="space-between">
         <Grid item md={2.75} xs={5}>
-          <InfoCard value="1000231" image={Tonase} name="Tonase" />
+          <InfoCard value="1000231" image={Tonase} name="Jumlah Tonase" />
         </Grid>
         <Grid item md={2.75} xs={5}>
           <InfoCard value="723" image={JumlahLot} name="Jumlah Lot" />
         </Grid>
         <Grid item md={2.75} xs={5}>
-          <InfoCard value="1,768%" image={KadarNi} name="Kadar Ni" />
+          <InfoCard value="1,768%" image={KadarNi} name="Rata-Rata Kadar Ni" />
         </Grid>
         <Grid item md={2.75} xs={5}>
-          <InfoCard value="2,1768%" image={KadarSimgo} name="KadarSiMgO" />
+          <InfoCard value="2,1768%" image={KadarSimgo} name="Rata-Rata Kadar SiMgO" />
         </Grid>
       </Grid>
     </>
