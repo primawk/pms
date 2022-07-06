@@ -4,11 +4,11 @@ export default function ReportDetailCard() {
   return (
     <div
       style={{
-        background: 'white',
         borderTopRightRadius: '5px',
         borderTopLeftRadius: '5px',
         padding: '20px'
       }}
+      className="bg-white"
     >
       <Typography variant="h4" sx={{ mb: 3 }}>
         Bukit IX
@@ -31,7 +31,7 @@ export default function ReportDetailCard() {
             alignItems="center"
             spacing={10}
           >
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Jadwal Kegiatan
               </Typography>
@@ -39,7 +39,7 @@ export default function ReportDetailCard() {
                 11 April 2022, 15:00
               </Typography>
             </Grid>
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Jenis Produk
               </Typography>
@@ -55,7 +55,7 @@ export default function ReportDetailCard() {
             alignItems="center"
             spacing={10}
           >
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Jenis Pengukuran
               </Typography>
@@ -63,7 +63,7 @@ export default function ReportDetailCard() {
                 Sumlot SM
               </Typography>
             </Grid>
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Blok
               </Typography>
@@ -84,7 +84,7 @@ export default function ReportDetailCard() {
             alignItems="center"
             spacing={10}
           >
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Jumlah Sublot
               </Typography>
@@ -92,7 +92,7 @@ export default function ReportDetailCard() {
                 6 Lot
               </Typography>
             </Grid>
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Jumlah Tonase
               </Typography>
@@ -111,7 +111,7 @@ export default function ReportDetailCard() {
             alignItems="center"
             spacing={10}
           >
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Nilai Kadar
               </Typography>
@@ -119,7 +119,7 @@ export default function ReportDetailCard() {
                 1.742%
               </Typography>
             </Grid>
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Ekuivalen Logam
               </Typography>
@@ -138,7 +138,7 @@ export default function ReportDetailCard() {
             alignItems="center"
             spacing={10}
           >
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Nilai Kadar
               </Typography>
@@ -146,7 +146,7 @@ export default function ReportDetailCard() {
                 1.742%
               </Typography>
             </Grid>
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Ekuivalen Logam
               </Typography>
@@ -165,7 +165,7 @@ export default function ReportDetailCard() {
             alignItems="center"
             spacing={10}
           >
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Nilai Kadar
               </Typography>
@@ -173,7 +173,7 @@ export default function ReportDetailCard() {
                 1.742%
               </Typography>
             </Grid>
-            <Grid item container lg={5} xs={12} direction="column">
+            <Grid item container lg={5} xs={6} direction="column">
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Ekuivalen Logam
               </Typography>

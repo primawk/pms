@@ -37,13 +37,13 @@ export default function DetailActivity() {
               >
                 Back
               </Button>
-              <Typography variant="h3">Ore Getting</Typography>
+              <Typography variant="h4">Ore Getting</Typography>
               <Button variant="contained">Edit Laporan</Button>
             </Stack>
           </Grid>
           <Grid item lg={6} xs={12} sx={{ float: 'right' }}>
             <a
-              href={`/kegiatan-tambang/${activityType}/detail/history/1`}
+              href={`/mining-activity/${activityType}/detail/history/1`}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <Typography variant="body1" color="#3F48C0" align={isMobile ? 'left' : 'right'}>

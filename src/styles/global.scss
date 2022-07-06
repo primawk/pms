@@ -164,6 +164,15 @@ $breakpoint-xxl: 1600px !default;
   }
 }
 
+.footer {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  box-shadow: 4px -10px 24px rgba(0, 0, 0, 0.04);
+  background-color: white;
+}
+
 // for background color
 .bg-white {
   background-color: white;

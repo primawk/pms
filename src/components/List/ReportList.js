@@ -18,13 +18,13 @@ const ReportList = ({ activity_type }) => {
       alignItems="flex-start"
       justifyContent="flex-start"
       sx={{
-        background: 'white',
         borderBottom: '1px solid #F2F2F2',
         borderRadius: '4px',
         minHeight: '85px',
         padding: '0.8em',
         mb: 1
       }}
+      className="bg-white"
     >
       <Grid item lg={2.5} md={2.5} xs={6}>
         <Stack direction="row" alignItems="center" spacing={3}>

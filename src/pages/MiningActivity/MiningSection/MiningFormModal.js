@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { Grid, TextField, MenuItem, Stack, FormControl, Button } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -29,6 +30,7 @@ const productList = ['Biji Nikel'];
 const blockList = ['Utara', 'Selatan'];
 
 export default function MiningFormModal({ isShowing, toggle }) {
+  const navigate = useNavigate();
   return (
     <CustomModal isShowing={isShowing} toggle={toggle} width="40%">
       <center>
@@ -97,7 +99,11 @@ export default function MiningFormModal({ isShowing, toggle }) {
             <Button variant="outlined" fullWidth onClick={toggle}>
               Cancel
             </Button>
-            <Button variant="contained" fullWidth>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => navigate('/mining-activity/ore-hauling-to-eto/add')}
+            >
               Save
             </Button>
           </Stack>

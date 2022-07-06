@@ -22,7 +22,8 @@ export default function ReportSection() {
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        sx={{ p: 3, background: 'white', mb: 0 }}
+        className="bg-white"
+        sx={{ p: 3, mb: 0 }}
       >
         <Stack direction="row" spacing={3} alignItems="center">
           {activityType !== 'all-activity' && (
@@ -46,25 +47,25 @@ export default function ReportSection() {
         </Button>
       </Stack>
       <a
-        href={`/kegiatan-tambang/${activityType}/detail/1`}
+        href={`/mining-activity/${activityType}/detail/1`}
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
         <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
       </a>
       <a
-        href={`/kegiatan-tambang/${activityType}/detail/1`}
+        href={`/mining-activity/${activityType}/detail/1`}
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
         <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
       </a>
       <a
-        href={`/kegiatan-tambang/${activityType}/detail/1`}
+        href={`/mining-activity/${activityType}/detail/1`}
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
         <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />
       </a>
       <a
-        href={`/kegiatan-tambang/${activityType}/detail/1`}
+        href={`/mining-activity/${activityType}/detail/1`}
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
         <ReportList activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'} />

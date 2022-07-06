@@ -8,11 +8,11 @@ export default function HistoryMiningCard() {
   return (
     <div
       style={{
-        background: 'white',
         borderTopRightRadius: '5px',
         borderTopLeftRadius: '5px',
         padding: '20px'
       }}
+      className="bg-white"
     >
       <Grid
         container

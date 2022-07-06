@@ -65,13 +65,27 @@ export default function FormUser({ isShowing, toggle, id }) {
             <FormControl>
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Password</h4>
               <TextField
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    paddingRight: 0
+                  }
+                }}
                 placeholder="Password"
                 fullWidth
                 size="small"
                 style={{ padding: '0' }}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position="end" style={{ marginRight: '0 !important' }}>
+                    <InputAdornment
+                      position="end"
+                      sx={{
+                        padding: '19px',
+                        marginRight: '0 !important',
+                        backgroundColor: (theme) => theme.palette.divider,
+                        borderTopRightRadius: (theme) => theme.shape.borderRadius + 'px',
+                        borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
+                      }}
+                    >
                       <Button variant="text" style={{ marginRight: '0 !important' }}>
                         Generate Password
                       </Button>

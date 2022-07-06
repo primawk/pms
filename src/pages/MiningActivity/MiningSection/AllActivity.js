@@ -54,7 +54,8 @@ export default function AllActivity() {
         direction="row"
         alignItems="flex-start"
         justifyContent="space-between"
-        sx={{ background: 'white', padding: '1em 1.5em' }}
+        className="bg-white"
+        sx={{ padding: '1em 1.5em' }}
       >
         <Grid container item md={6.5}>
           <ChartSection
