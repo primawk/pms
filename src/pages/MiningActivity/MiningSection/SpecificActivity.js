@@ -72,7 +72,8 @@ export default function SpecificActivity() {
         direction="row"
         alignItems="flex-start"
         justifyContent="space-between"
-        sx={{ background: 'white', padding: '1em 1.5em' }}
+        sx={{ padding: '1em 1.5em' }}
+        className="bg-white"
       >
         <ChartSection
           subMenu={subMenu}
@@ -89,7 +90,13 @@ export default function SpecificActivity() {
             ? 'Realisasi Produksi Inventory ETO'
             : 'Realisasi Produksi Inventory EFO'
         }
-        subtitle={activityType === 'ore-getting' ? 'Kegiatan Penambangan' : 'List Tumpukan/Dome'}
+        subtitle={
+          activityType === 'ore-getting'
+            ? 'Kegiatan Penambangan'
+            : activityType === 'ore-hauling-to-eto'
+            ? 'Stockfile'
+            : 'Stockyard'
+        }
       />
       <ReportSection />
     </>

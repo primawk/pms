@@ -35,16 +35,16 @@ export default function MiningActivity() {
     setMenuTab(_menuTab);
     switch (_menuTab) {
       case 'ore-getting':
-        navigate('/kegiatan-tambang/ore-getting');
+        navigate('/mining-activity/ore-getting');
         break;
       case 'ore-hauling-to-eto':
-        navigate('/kegiatan-tambang/ore-hauling-to-eto');
+        navigate('/mining-activity/ore-hauling-to-eto');
         break;
       case 'eto-to-efo':
-        navigate('/kegiatan-tambang/eto-to-efo');
+        navigate('/mining-activity/eto-to-efo');
         break;
       default:
-        navigate('/kegiatan-tambang/all-activity');
+        navigate('/mining-activity/all-activity');
     }
   };
 

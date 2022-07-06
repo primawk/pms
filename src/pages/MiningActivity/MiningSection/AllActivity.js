@@ -54,7 +54,8 @@ export default function AllActivity() {
         direction="row"
         alignItems="flex-start"
         justifyContent="space-between"
-        sx={{ background: 'white', padding: '1em 1.5em' }}
+        className="bg-white"
+        sx={{ padding: '1em 1.5em' }}
       >
         <Grid container item md={6.5}>
           <ChartSection
@@ -69,8 +70,8 @@ export default function AllActivity() {
         </Grid>
       </Grid>
       <InventorySection title="Realisasi Produksi Inventory SM" subtitle="Kegiatan Penambangan" />
-      <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Kegiatan Penambangan" />
-      <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Kegiatan Penambangan" />
+      <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Stockfile" />
+      <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Stockyard" />
       <ReportSection />
     </>
   );

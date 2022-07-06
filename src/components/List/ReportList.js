@@ -8,6 +8,7 @@ import ArrowDown from '@iconify/icons-ant-design/caret-down-filled';
 // assets
 import ExcavatorIcon from 'assets/Images/MiningActivity/ore-getting.png';
 import TruckIcon from 'assets/Images/MiningActivity/ore-hauling-to-eto.png';
+import avatarLogo from 'assets/Images/avatar.png';
 
 const ReportList = ({ activity_type }) => {
   return (
@@ -17,13 +18,13 @@ const ReportList = ({ activity_type }) => {
       alignItems="flex-start"
       justifyContent="flex-start"
       sx={{
-        background: 'white',
         borderBottom: '1px solid #F2F2F2',
         borderRadius: '4px',
         minHeight: '85px',
         padding: '0.8em',
         mb: 1
       }}
+      className="bg-white"
     >
       <Grid item lg={2.5} md={2.5} xs={6}>
         <Stack direction="row" alignItems="center" spacing={3}>
@@ -77,8 +78,8 @@ const ReportList = ({ activity_type }) => {
           Dibuat Oleh
         </Typography>
         <Stack direction="row" alignItems="center" spacing={1}>
-          <img src={ExcavatorIcon} alt={ExcavatorIcon} width={35} height={35} />
-          <Typography variant="body1">Bukit 7/ Dome A</Typography>
+          <img src={avatarLogo} alt={avatarLogo} width={35} height={35} />
+          <Typography variant="body1">Putri Devina</Typography>
         </Stack>
       </Grid>
       <Grid item lg={2} md={2} xs={6}>

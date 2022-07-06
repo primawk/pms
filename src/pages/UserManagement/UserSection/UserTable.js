@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import useModal from 'hooks/useModal';
 
 // components
+import { DeleteModal } from 'components/Modal';
 import { FormUser } from '.';
 import CustomPagination from 'components/Pagination';
 import BasicTable from 'components/Table/BasicTable/BasicTable';
@@ -105,14 +106,14 @@ export default function UserTable({ search, isSearch }) {
     }
   ];
 
-  const { isShowing, toggle } = useModal();
+  const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
+  const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
   const actions = [
     {
       title: 'Tambah User',
       label: 'tambah user',
-      icon: 'person_add',
-      function: toggle
+      function: toggleForm
     }
   ];
 
@@ -125,12 +126,14 @@ export default function UserTable({ search, isSearch }) {
         rows={tableData}
         actions={actions}
         edit
-        onEdit={toggle}
+        onEdit={toggleForm}
         remove
+        onDelete={toggleDelete}
         title="User"
       />
       <CustomPagination />
-      <FormUser toggle={toggle} isShowing={isShowing} />
+      <FormUser toggle={toggleForm} isShowing={isShowingForm} />
+      <DeleteModal toggle={toggleDelete} isShowing={isShowingDelete} title="User" />
     </>
   );
 }
