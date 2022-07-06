@@ -25,7 +25,7 @@ const miningActivityList = [
   }
 ];
 
-const productList = ['Biji Nikel'];
+const productList = ['Biji Nikel', 'Limonite'];
 
 const blockList = ['Utara', 'Selatan'];
 
@@ -74,18 +74,18 @@ export default function MiningFormModal({ isShowing, toggle }) {
               <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Produk</h4>
               <TextField select placeholder="Pilih jenis produk" fullWidth size="small">
                 {productList.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                  <MenuItem key={option} value={option}>
+                    {option}
                   </MenuItem>
                 ))}
               </TextField>
             </FormControl>
             <FormControl>
-              <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Kegiatan</h4>
+              <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Block</h4>
               <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
                 {blockList.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                  <MenuItem key={option} value={option}>
+                    {option}
                   </MenuItem>
                 ))}
               </TextField>
