@@ -4,6 +4,7 @@ import authHeader from './authHeader';
 
 const getUser = ({ page, row = 10, role, search }) => {
   return request(`${ACCOUNT_MODEL}/user`, {
+    method: 'GET',
     params: {
       page,
       row,
@@ -14,8 +15,16 @@ const getUser = ({ page, row = 10, role, search }) => {
   });
 };
 
+const loginUser = ({ email, password }) => {
+  return request(`${ACCOUNT_MODEL}/login`, {
+    method: 'POST',
+    data: { email, password }
+  });
+};
+
 const UserManagementService = {
-  getUser
+  getUser,
+  loginUser
 };
 
 export default UserManagementService;

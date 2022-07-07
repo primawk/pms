@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function useAuth() {
-  // using cookies to get user detail
+  const userPms = JSON.parse(localStorage.getItem('user-pms'));
+
   const [user, setUser] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
@@ -10,9 +12,9 @@ export default function useAuth() {
       if (!user) {
         navigate('/auth/login');
       } else {
-        setUser({});
+        setUser(userPms);
       }
     }
-  }, []);
+  }, [userPms]);
   return { user, setUser };
 }

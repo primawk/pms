@@ -3,7 +3,6 @@ import { Pagination, PaginationItem } from '@mui/material';
 import PropTypes from 'prop-types';
 
 export default function CustomPagination({ count, page, handleChangePage }) {
-  console.log({ count, page, handleChangePage });
   return (
     <Pagination
       count={count}
@@ -25,5 +24,5 @@ export default function CustomPagination({ count, page, handleChangePage }) {
 CustomPagination.propTypes = {
   count: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
-  handleChangePage: PropTypes.number.isRequired
+  handleChangePage: PropTypes.func.isRequired
 };
