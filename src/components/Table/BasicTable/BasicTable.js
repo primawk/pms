@@ -167,7 +167,7 @@ export default function BasicTable({
           onSelectOneActions={onSelectOneActions}
           edit={edit}
           remove={remove}
-          onEdit={onEdit}
+          onEdit={(event) => onEdit(event, selected)}
           onDelete={() => onDelete(selected)}
         />
         <TableContainer classes={{ root: classes.customTableContainer }}>

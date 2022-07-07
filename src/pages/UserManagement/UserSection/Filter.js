@@ -71,7 +71,9 @@ const Filter = ({ onSubmit, filter, onChange }) => {
                 </MenuItem>
               ))
             ) : (
-              <MenuItem value="" />
+              <MenuItem value="" disabled>
+                Loading . . .
+              </MenuItem>
             )}
           </TextField>
         </Grid>

@@ -10,10 +10,13 @@ export default function usePagination({ total_data }) {
     setPage(_page);
   };
 
+  const resetPage = () => setPage(1);
+
   return {
     page,
     totalPage,
-    handleChangePage
+    handleChangePage,
+    resetPage
   };
 }
 

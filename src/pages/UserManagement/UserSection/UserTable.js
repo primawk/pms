@@ -16,47 +16,48 @@ import BasicTable from 'components/Table/BasicTable/BasicTable';
 // services
 import UserManagementService from 'services/UserManagementService';
 
+const headCells = [
+  {
+    id: 'created_at',
+    numeric: false,
+    disablePadding: false,
+    label: 'DIBUAT PADA'
+  },
+  {
+    id: 'username',
+    numeric: false,
+    disablePadding: false,
+    label: 'USERNAME'
+  },
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'NAMA LENGKAP'
+  },
+  {
+    id: 'phone',
+    numeric: false,
+    disablePadding: false,
+    label: 'NOMOR TELEPON'
+  },
+  {
+    id: 'birthdate',
+    numeric: false,
+    disablePadding: false,
+    label: 'TANGGAL LAHIR'
+  },
+  {
+    id: 'role_name',
+    numeric: false,
+    disablePadding: false,
+    label: 'ROLE'
+  }
+];
+
 export default function UserTable({ search, isSearch }) {
   const [pagination, setPagination] = useState({});
-
-  const headCells = [
-    {
-      id: 'created_at',
-      numeric: false,
-      disablePadding: false,
-      label: 'DIBUAT PADA'
-    },
-    {
-      id: 'username',
-      numeric: false,
-      disablePadding: false,
-      label: 'USERNAME'
-    },
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: false,
-      label: 'NAMA LENGKAP'
-    },
-    {
-      id: 'phone',
-      numeric: false,
-      disablePadding: false,
-      label: 'NOMOR TELEPON'
-    },
-    {
-      id: 'birthdate',
-      numeric: false,
-      disablePadding: false,
-      label: 'TANGGAL LAHIR'
-    },
-    {
-      id: 'role_name',
-      numeric: false,
-      disablePadding: false,
-      label: 'ROLE'
-    }
-  ];
+  const [id, setId] = useState('');
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
@@ -70,7 +71,7 @@ export default function UserTable({ search, isSearch }) {
         page,
         row: 10,
         search: search.search,
-        role: 'Admin Operasional Test 5 juli kedua edited'
+        role: search.role
       }),
     { keepPreviousData: true, retry: false }
   );
@@ -79,17 +80,28 @@ export default function UserTable({ search, isSearch }) {
     setPagination(data?.data?.pagination);
   }, [data]);
 
+  const handleAdd = () => {
+    setId('');
+    toggleForm();
+  };
+
+  const handleEdit = (e, _id) => {
+    setId(_id.toString());
+    toggleForm();
+  };
+
   const actions = [
     {
       title: 'Tambah User',
       label: 'tambah user',
-      function: toggleForm
+      function: handleAdd
     }
   ];
 
   return (
     <>
-      {!isLoading && (
+      {isLoading && <LoadingModal />}
+      {!isLoading && data && (
         <>
           {isFetching ? (
             <LoadingModal />
@@ -100,7 +112,7 @@ export default function UserTable({ search, isSearch }) {
               rows={data?.data?.data}
               actions={actions}
               edit
-              onEdit={toggleForm}
+              onEdit={handleEdit}
               remove
               onDelete={toggleDelete}
               title="User"
@@ -109,7 +121,7 @@ export default function UserTable({ search, isSearch }) {
         </>
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
-      <FormUser toggle={toggleForm} isShowing={isShowingForm} />
+      <FormUser toggle={toggleForm} isShowing={isShowingForm} id={id} />
       <DeleteModal toggle={toggleDelete} isShowing={isShowingDelete} title="User" />
     </>
   );
