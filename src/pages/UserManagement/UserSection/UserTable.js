@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 
 // custom hooks
 import useModal from 'hooks/useModal';
+import usePagination from 'hooks/usePagination';
 
 // components
 import { DeleteModal } from 'components/Modal';
 import { FormUser } from '.';
 import CustomPagination from 'components/Pagination';
 import BasicTable from 'components/Table/BasicTable/BasicTable';
+
+// services
+import UserManagementService from 'services/UserManagementService';
 
 export default function UserTable({ search, isSearch }) {
   // const required variable inside component ( fixed value )
@@ -48,13 +53,6 @@ export default function UserTable({ search, isSearch }) {
       numeric: false,
       disablePadding: false,
       label: 'ROLE'
-    },
-    {
-      id: 'action',
-      numeric: false,
-      disablePadding: false,
-      label: 'Action',
-      cell: (row) => <p>{row.id}</p>
     }
   ];
 
@@ -109,6 +107,20 @@ export default function UserTable({ search, isSearch }) {
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
+  const { page, totalPage, handleChangePage } = usePagination({ total_data: 50 });
+
+  const { isLoading, isError, error, data, isFetching, isPreviousData } = useQuery(
+    ['users', page],
+    () =>
+      UserManagementService.getUser({
+        page,
+        row: 10
+      }),
+    { keepPreviousData: true, retry: false }
+  );
+
+  console.log(data);
+
   const actions = [
     {
       title: 'Tambah User',
@@ -117,7 +129,6 @@ export default function UserTable({ search, isSearch }) {
     }
   ];
 
-  console.log(search, isSearch);
   return (
     <>
       <BasicTable
@@ -131,7 +142,7 @@ export default function UserTable({ search, isSearch }) {
         onDelete={toggleDelete}
         title="User"
       />
-      <CustomPagination />
+      <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
       <FormUser toggle={toggleForm} isShowing={isShowingForm} />
       <DeleteModal toggle={toggleDelete} isShowing={isShowingDelete} title="User" />
     </>

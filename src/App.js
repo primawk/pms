@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 import Router from './routes';
 // theme
 import ThemeConfig from './theme';
@@ -8,11 +10,15 @@ import './styles/global.scss';
 
 // ----------------------------------------------------------------------
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
-    <ThemeConfig>
-      <ScrollToTop />
-      <Router />
-    </ThemeConfig>
+    <QueryClientProvider client={queryClient}>
+      <ThemeConfig>
+        <ScrollToTop />
+        <Router />
+      </ThemeConfig>
+    </QueryClientProvider>
   );
 }
