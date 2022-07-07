@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Grid, Tabs, Tab } from '@mui/material';
 
 // components
@@ -7,12 +7,12 @@ import Header from 'components/Header';
 import { Filter, UserTable, RoleTable } from './UserSection';
 
 export default function UserManagement() {
-  const location = useLocation();
   const navigate = useNavigate();
+  const { tabType } = useParams();
 
   const [search, setSearch] = useState({ search: '', role: '' });
   const [isSearch, setIsSearch] = useState(false);
-  const [tab, setTab] = useState(location?.state?.value || 0);
+  const [tab, setTab] = useState(tabType || '');
 
   const handleChangeSearch = (e) => {
     setSearch({
@@ -24,9 +24,9 @@ export default function UserManagement() {
   const handleChangeTab = (e, _tab) => {
     setTab(_tab);
     if (_tab === 0) {
-      navigate('', { state: { value: _tab } });
+      navigate('/user-management/user');
     } else {
-      navigate('role', { state: { value: _tab } });
+      navigate('/user-management/role');
     }
   };
 
@@ -45,11 +45,10 @@ export default function UserManagement() {
         </Grid>
         <div className="user-table bg-white" style={{ borderRadius: '5px' }}>
           <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '0px !important' }}>
-            <Tab label="List Pengguna" />
-            <Tab label="Role & Hak Akses" />
+            <Tab label="List Pengguna" value="user" />
+            <Tab label="Role & Hak Akses" value="role" />
           </Tabs>
-          {tab === 0 && <UserTable search={search} isSearch={isSearch} />}
-          {tab === 1 && <RoleTable />}
+          {tab === 'user' ? <UserTable search={search} isSearch={isSearch} /> : <RoleTable />}
         </div>
       </div>
     </>
