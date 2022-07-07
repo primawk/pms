@@ -1,46 +1,37 @@
-/**
- *
- * Copyright shared ownership by PT Telkom Indonesia Tbk and PT Insan Agritama Teknologi
- * Both parties may use and modify this file and any modifications will be owned by modifiers
- * Both parties may use this file for commercial purpose
- * For more information, please contact reza.dwi@telkom.co.id, dita.aprilani@telkom.co.id or shiddiq@inagri.asia
- *
- */
-
-export const currencyFormatter = new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-  minimumFractionDigits: 0,
+export const currencyFormatter = new Intl.NumberFormat('id-ID', {
+  style: 'currency',
+  currency: 'IDR',
+  minimumFractionDigits: 0
 });
 
-export const currencyFormatterWOSymbol = new Intl.NumberFormat("id-ID", {
-  maximumFractionDigits: 0 ,
+export const currencyFormatterWOSymbol = new Intl.NumberFormat('id-ID', {
+  maximumFractionDigits: 0
 });
 
 export function dateToStringFormatter(date) {
-  const day = String(date.getDate()).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, '0');
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 }
 
 export function dateToStringPPOBFormatter(date) {
-  const day = String(date.getDate()).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, '0');
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   return `${year}${month}${day}`;
 }
 
 export function stringToDateFormatter(date) {
-  const dateSplit = date.split("/");
+  const dateSplit = date.split('/');
   const newDate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);
   return newDate;
 }
 
 export function stringToDateTimeFormatter(startDate) {
-  const dateTimeSplit = startDate.split(" ");
-  const dateSplit = dateTimeSplit[0].split("/");
-  const timeSplit = dateTimeSplit[1].split(":");
+  const dateTimeSplit = startDate.split(' ');
+  const dateSplit = dateTimeSplit[0].split('/');
+  const timeSplit = dateTimeSplit[1].split(':');
   const date = new Date(
     dateSplit[2],
     parseFloat(dateSplit[1] - 1),
@@ -51,9 +42,9 @@ export function stringToDateTimeFormatter(startDate) {
   return date;
 }
 export function stringISOToDateTimeFormatter(startDate) {
-  const dateTimeSplit = startDate.split("T");
-  const dateSplit = dateTimeSplit[0].split("-");
-  const timeSplit = dateTimeSplit[1].split(":");
+  const dateTimeSplit = startDate.split('T');
+  const dateSplit = dateTimeSplit[0].split('-');
+  const timeSplit = dateTimeSplit[1].split(':');
   const date = new Date(
     dateSplit[0],
     parseFloat(dateSplit[1]) - 1,
@@ -74,6 +65,4 @@ export const getUserLocation = () =>
   });
 
 export const genRanHex = (size) =>
-  [...Array(size)]
-    .map(() => Math.floor(Math.random() * 16).toString(16))
-    .join("");
+  [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');

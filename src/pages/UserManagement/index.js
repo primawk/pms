@@ -33,6 +33,7 @@ export default function UserManagement() {
   const onSubmit = () => {
     setIsSearch(true);
   };
+
   return (
     <>
       <Header title="USER MANAGEMENT" background="user-management.png" />
