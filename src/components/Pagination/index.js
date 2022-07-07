@@ -1,10 +1,13 @@
 import React from 'react';
 import { Pagination, PaginationItem } from '@mui/material';
+import PropTypes from 'prop-types';
 
-export default function CustomPagination() {
+export default function CustomPagination({ count, page, handleChangePage }) {
   return (
     <Pagination
-      count={10}
+      count={count}
+      page={page}
+      onChange={handleChangePage}
       shape="rounded"
       color="primary"
       size="large"
@@ -17,3 +20,9 @@ export default function CustomPagination() {
     />
   );
 }
+
+CustomPagination.propTypes = {
+  count: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  handleChangePage: PropTypes.func.isRequired
+};

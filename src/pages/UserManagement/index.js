@@ -30,9 +30,11 @@ export default function UserManagement() {
     }
   };
 
-  const onSubmit = () => {
-    setIsSearch(true);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setIsSearch(!isSearch);
   };
+
   return (
     <>
       <Header title="USER MANAGEMENT" background="user-management.png" />

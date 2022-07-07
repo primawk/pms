@@ -1,17 +1,24 @@
-import React from 'react';
+/* eslint-disable no-use-before-define */
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 
 // custom hooks
 import useModal from 'hooks/useModal';
+import usePagination from 'hooks/usePagination';
 
 // components
-import { DeleteModal } from 'components/Modal';
+import { DeleteModal, LoadingModal } from 'components/Modal';
 import { FormUser } from '.';
 import CustomPagination from 'components/Pagination';
 import BasicTable from 'components/Table/BasicTable/BasicTable';
 
+// services
+import UserManagementService from 'services/UserManagementService';
+
 export default function UserTable({ search, isSearch }) {
-  // const required variable inside component ( fixed value )
+  const [pagination, setPagination] = useState({});
+
   const headCells = [
     {
       id: 'created_at',
@@ -26,7 +33,7 @@ export default function UserTable({ search, isSearch }) {
       label: 'USERNAME'
     },
     {
-      id: 'full_name',
+      id: 'name',
       numeric: false,
       disablePadding: false,
       label: 'NAMA LENGKAP'
@@ -44,70 +51,33 @@ export default function UserTable({ search, isSearch }) {
       label: 'TANGGAL LAHIR'
     },
     {
-      id: 'role',
+      id: 'role_name',
       numeric: false,
       disablePadding: false,
       label: 'ROLE'
-    },
-    {
-      id: 'action',
-      numeric: false,
-      disablePadding: false,
-      label: 'Action',
-      cell: (row) => <p>{row.id}</p>
-    }
-  ];
-
-  const tableData = [
-    {
-      id: 0,
-      created_at: '20/11/2000',
-      username: 'syarif',
-      full_name: 'Syarif Hidayat',
-      phone: '0895385293200',
-      birthdate: '09/05/2003',
-      role: 'Super Admin'
-    },
-    {
-      id: 1,
-      created_at: '20/11/2000',
-      username: 'syarif',
-      full_name: 'Syarif Hidayat',
-      phone: '0895385293200',
-      birthdate: '09/05/2003',
-      role: 'Super Admin'
-    },
-    {
-      id: 2,
-      created_at: '20/11/2000',
-      username: 'syarif',
-      full_name: 'Syarif Hidayat',
-      phone: '0895385293200',
-      birthdate: '09/05/2003',
-      role: 'Super Admin'
-    },
-    {
-      id: 3,
-      created_at: '20/11/2000',
-      username: 'syarif',
-      full_name: 'Syarif Hidayat',
-      phone: '0895385293200',
-      birthdate: '09/05/2003',
-      role: 'Super Admin'
-    },
-    {
-      id: 4,
-      created_at: '20/11/2000',
-      username: 'syarif',
-      full_name: 'Syarif Hidayat',
-      phone: '0895385293200',
-      birthdate: '09/05/2003',
-      role: 'Super Admin'
     }
   ];
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+
+  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+
+  const { data, isLoading, isFetching } = useQuery(
+    ['users', page, isSearch],
+    () =>
+      UserManagementService.getUser({
+        page,
+        row: 10,
+        search: search.search,
+        role: 'Admin Operasional Test 5 juli kedua edited'
+      }),
+    { keepPreviousData: true, retry: false }
+  );
+
+  useEffect(() => {
+    setPagination(data?.data?.pagination);
+  }, [data]);
 
   const actions = [
     {
@@ -117,21 +87,28 @@ export default function UserTable({ search, isSearch }) {
     }
   ];
 
-  console.log(search, isSearch);
   return (
     <>
-      <BasicTable
-        headCells={headCells}
-        withSelect
-        rows={tableData}
-        actions={actions}
-        edit
-        onEdit={toggleForm}
-        remove
-        onDelete={toggleDelete}
-        title="User"
-      />
-      <CustomPagination />
+      {!isLoading && (
+        <>
+          {isFetching ? (
+            <LoadingModal />
+          ) : (
+            <BasicTable
+              headCells={headCells}
+              withSelect
+              rows={data?.data?.data}
+              actions={actions}
+              edit
+              onEdit={toggleForm}
+              remove
+              onDelete={toggleDelete}
+              title="User"
+            />
+          )}
+        </>
+      )}
+      <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
       <FormUser toggle={toggleForm} isShowing={isShowingForm} />
       <DeleteModal toggle={toggleDelete} isShowing={isShowingDelete} title="User" />
     </>
