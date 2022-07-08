@@ -112,7 +112,7 @@ export default function UserTable({ search, isSearch }) {
   const handleDelete = () => {
     toggleLoading(true);
     UserManagementService.deleteUser({ id })
-      .then((res) => {
+      .then(() => {
         toast.success('Data berhasil dihapus !');
         toggleLoading(false);
         toggleDelete();
@@ -155,7 +155,14 @@ export default function UserTable({ search, isSearch }) {
         </>
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
-      <FormUser toggle={toggleForm} isShowing={isShowingForm} id={id} resetPage={resetPage} />
+      <FormUser
+        toggle={toggleForm}
+        isShowing={isShowingForm}
+        id={id}
+        resetPage={resetPage}
+        page={page}
+        isSearch={isSearch}
+      />
       <DeleteModal
         toggle={toggleDelete}
         isShowing={isShowingDelete}

@@ -27,7 +27,7 @@ import { CustomModal, LoadingModal } from 'components/Modal';
 import RoleService from 'services/RoleService';
 import UserManagementService from 'services/UserManagementService';
 
-export default function FormUser({ isShowing, toggle, id, resetPage }) {
+export default function FormUser({ isShowing, toggle, id, resetPage, page, isSearch }) {
   const queryClient = useQueryClient();
 
   const { data: roleData, isFetching: isFetchingRole } = useQuery('roles', () =>
@@ -70,6 +70,8 @@ export default function FormUser({ isShowing, toggle, id, resetPage }) {
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
+            resetPage();
+            queryClient.invalidateQueries(['users', page, isSearch]);
           })
           .catch((err) => {
             const { data: response } = err.response;
@@ -89,7 +91,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage }) {
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
-            queryClient.invalidateQueries(['users', 1, false]);
+            queryClient.invalidateQueries(['users', page, isSearch]);
           })
           .catch((err) => {
             const { data: response } = err.response;
