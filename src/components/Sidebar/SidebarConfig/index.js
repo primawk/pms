@@ -17,7 +17,7 @@ const sidebarConfig = [
   },
   {
     title: 'User Management',
-    path: 'user-management',
+    path: 'user-management/user',
     icon: getIcon(UserIcon)
   },
   {
