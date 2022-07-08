@@ -105,7 +105,7 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                               onClick={toggleDelete}
                             >
                               <Icon
-                                style={{ fontSize: '17px', marginRight: '1rem' }}
+                                style={{ fontSize: '17px', marginRight: '0.5rem' }}
                                 icon={DeleteIcon}
                               />
                               Delete Data
