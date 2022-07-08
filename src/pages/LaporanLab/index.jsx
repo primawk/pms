@@ -65,11 +65,7 @@ export default function LaporanLab() {
             backgroundColor: 'white',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            padding: '0px',
-            width: '94%',
             height: '9.25rem',
-            marginLeft: '3%',
-            marginTop: '1.125rem',
             borderRadius: '8px 8px 8px 8px'
           }}
         >
@@ -167,7 +163,7 @@ export default function LaporanLab() {
                 outline: 'none',
                 overflow: 'hidden',
                 border: 'none',
-                marginRight: '2.25rem',
+                marginRight: '1.5rem',
                 marginLeft: 'auto'
               }}
             >
@@ -184,12 +180,8 @@ export default function LaporanLab() {
             backgroundColor: 'white',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            padding: '0px',
-            width: '94%',
             height: 'auto',
-            marginLeft: '3%', // percentage to make it responsive
             marginTop: '1.125rem',
-            marginBottom: '1.125rem'
           }}
         >
           <Grid
