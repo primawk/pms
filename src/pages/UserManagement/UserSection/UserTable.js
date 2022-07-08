@@ -107,8 +107,6 @@ export default function UserTable({ search, isSearch }) {
     toggleDelete();
   };
 
-  console.log(id);
-
   const handleDelete = () => {
     toggleLoading(true);
     UserManagementService.deleteUser({ id })
