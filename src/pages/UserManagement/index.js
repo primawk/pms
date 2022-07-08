@@ -6,7 +6,11 @@ import { Grid, Tabs, Tab } from '@mui/material';
 import Header from 'components/Header';
 import { Filter, UserTable, RoleTable } from './UserSection';
 
+// custom hooks
+import useAuth from 'hooks/useAuth';
+
 export default function UserManagement() {
+  useAuth();
   const navigate = useNavigate();
   const { tabType } = useParams();
 
