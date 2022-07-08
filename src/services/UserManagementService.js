@@ -15,6 +15,29 @@ const getUser = ({ page, row = 10, role, search }) => {
   });
 };
 
+const createUser = (userData) => {
+  return request(`${ACCOUNT_MODEL}/register`, {
+    method: 'POST',
+    data: userData,
+    headers: authHeader()
+  });
+};
+
+const updateUser = (userData, id) => {
+  return request(`${ACCOUNT_MODEL}/user/${id}`, {
+    method: 'PUT',
+    data: userData,
+    headers: authHeader()
+  });
+};
+
+const getUserById = ({ id }) => {
+  return request(`${ACCOUNT_MODEL}/user/${id}`, {
+    method: 'GET',
+    headers: authHeader()
+  });
+};
+
 const loginUser = ({ email, password }) => {
   return request(`${ACCOUNT_MODEL}/login`, {
     method: 'POST',
@@ -22,9 +45,20 @@ const loginUser = ({ email, password }) => {
   });
 };
 
+const deleteUser = ({ id }) => {
+  return request(`${ACCOUNT_MODEL}/user/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const UserManagementService = {
   getUser,
-  loginUser
+  loginUser,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
 };
 
 export default UserManagementService;

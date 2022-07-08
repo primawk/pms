@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import { Button, Stack } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 // components
 import { CustomModal } from '..';
 
-export default function DeleteModal({ isShowing, toggle, title, action }) {
+export default function DeleteModal({ isShowing, toggle, title, action, loading }) {
   return (
     <CustomModal isShowing={isShowing} toggle={toggle} width="30%">
       <center>
@@ -14,9 +15,9 @@ export default function DeleteModal({ isShowing, toggle, title, action }) {
           <Button variant="outlined" fullWidth onClick={toggle}>
             Cancel
           </Button>
-          <Button variant="contained" fullWidth onClick={action}>
+          <LoadingButton variant="contained" fullWidth onClick={action} loading={loading}>
             Yes
-          </Button>
+          </LoadingButton>
         </Stack>
       </center>
     </CustomModal>
@@ -27,5 +28,6 @@ DeleteModal.propTypes = {
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   title: PropTypes.string,
-  action: PropTypes.func
+  action: PropTypes.func,
+  loading: PropTypes.bool
 };
