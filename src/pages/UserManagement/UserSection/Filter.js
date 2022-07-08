@@ -1,12 +1,22 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import { Button, Grid, TextField, MenuItem, InputAdornment } from '@mui/material';
 import { Icon } from '@iconify/react';
 import SearchIcon from '@iconify-icons/akar-icons/search';
 import PropTypes from 'prop-types';
 
-const roles = ['Super Admin', 'Komisaris', 'Direksi', 'Admin Lab', 'Admin Operasional'];
+// services
+import RoleService from 'services/RoleService';
 
 const Filter = ({ onSubmit, filter, onChange }) => {
+  const { data, isFetching } = useQuery('roles', () => RoleService.getRole());
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onSubmit(event);
+    }
+  };
+
   return (
     <Grid
       container
@@ -30,6 +40,7 @@ const Filter = ({ onSubmit, filter, onChange }) => {
             placeholder="Cari Username/Nama Lengkap"
             fullWidth
             name="search"
+            onKeyDown={handleKeyDown}
             value={filter.search}
             onChange={onChange}
             size="small"
@@ -53,18 +64,24 @@ const Filter = ({ onSubmit, filter, onChange }) => {
             value={filter.role}
             onChange={onChange}
           >
-            {roles.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
+            {!isFetching ? (
+              data?.data?.data.map((option) => (
+                <MenuItem key={option.id} value={option.name}>
+                  {option.name}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem value="" disabled>
+                Loading . . .
               </MenuItem>
-            ))}
+            )}
           </TextField>
         </Grid>
       </Grid>
 
       <Grid item md={2} lg={1} sm={10} xs={10} className="user-submit-filter">
-        <Button fullWidth variant="contained" onClick={onSubmit}>
-          Cari
+        <Button fullWidth variant="contained" onClick={onSubmit} disabled={isFetching}>
+          {isFetching ? 'Loading' : 'Cari'}
         </Button>
       </Grid>
     </Grid>

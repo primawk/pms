@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Grid, CssBaseline } from '@mui/material';
-import LoginImage from '../../../assets/Images/LoginImage.png';
+import LoginImage from '../../../assets/Images/Login4.png';
 
 export default function LayoutAuth() {
   return (
@@ -16,7 +16,7 @@ export default function LayoutAuth() {
           backgroundImage: `url(${LoginImage})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
         }}
       />
       <Grid container alignItems="center" justifyContent="center" item xs={12} sm={8} md={6}>

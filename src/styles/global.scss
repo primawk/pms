@@ -202,10 +202,17 @@ $breakpoint-xxl: 1600px !default;
   width: 95%;
   position: absolute;
   @include sm {
+    margin-top: 30px;
     position: relative !important;
   }
 
   @include md {
+    margin-top: 30px;
+    position: relative !important;
+  }
+
+  @include lg {
+    margin-top: 30px;
     position: relative !important;
   }
 }
@@ -227,6 +234,9 @@ $breakpoint-xxl: 1600px !default;
   @include md {
     margin-top: 10px;
   }
+  @include lg {
+    margin-top: 10px;
+  }
 }
 
 // Custom Pagination
@@ -234,4 +244,8 @@ $breakpoint-xxl: 1600px !default;
   width: 50%;
   margin: auto;
   padding: 20px 0 20px 0;
+}
+
+.MuiPagination-ul {
+  justify-content: center;
 }

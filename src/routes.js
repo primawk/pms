@@ -33,17 +33,11 @@ export default function Routes() {
         { path: '/', element: <Navigate to="/auth/login" replace /> },
         {
           path: 'user-management',
-          element: <UserManagement />,
-          children: [
-            {
-              path: 'user',
-              element: []
-            },
-            {
-              path: 'role',
-              element: []
-            }
-          ]
+          element: <Navigate to="/user-management/user" replace />
+        },
+        {
+          path: 'user-management/:tabType',
+          element: <UserManagement />
         },
         {
           path: 'dashboard',
