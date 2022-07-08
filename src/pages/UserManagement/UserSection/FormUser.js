@@ -37,7 +37,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage }) {
   const { data: userData, isFetching } = useQuery(
     ['users', id],
     () => UserManagementService.getUserById({ id }),
-    { keepPreviousData: true, enabled: !!id }
+    { keepPreviousData: true, enabled: !!id && isShowing }
   );
 
   const detailUser = userData?.data?.data;

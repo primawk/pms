@@ -1,11 +1,13 @@
 /* eslint-disable no-use-before-define */
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
 // custom hooks
 import useModal from 'hooks/useModal';
 import usePagination from 'hooks/usePagination';
+import useLoading from 'hooks/useLoading';
 
 // components
 import { DeleteModal, LoadingModal } from 'components/Modal';
@@ -56,13 +58,19 @@ const headCells = [
 ];
 
 export default function UserTable({ search, isSearch }) {
+  const queryClient = useQueryClient();
+
   const [pagination, setPagination] = useState({});
   const [id, setId] = useState('');
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
-  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+  const { isLoadingAction, toggleLoading } = useLoading();
+
+  const { page, totalPage, handleChangePage, resetPage } = usePagination(
+    pagination || { total_data: 0 }
+  );
 
   const { data, isLoading, isFetching } = useQuery(
     ['users', page, isSearch],
@@ -90,6 +98,33 @@ export default function UserTable({ search, isSearch }) {
     toggleForm();
   };
 
+  const handleOpenDelete = (e, _id) => {
+    if (_id !== undefined) {
+      setId(_id.toString());
+    } else {
+      setId('');
+    }
+    toggleDelete();
+  };
+
+  console.log(id);
+
+  const handleDelete = () => {
+    toggleLoading(true);
+    UserManagementService.deleteUser({ id })
+      .then((res) => {
+        toast.success('Data berhasil dihapus !');
+        toggleLoading(false);
+        toggleDelete();
+        queryClient.invalidateQueries(['users', page, isSearch]);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.detail_message);
+        toggleLoading(false);
+        toggleDelete();
+      });
+  };
+
   const actions = [
     {
       title: 'Tambah User',
@@ -100,7 +135,6 @@ export default function UserTable({ search, isSearch }) {
 
   return (
     <>
-      {isLoading && <LoadingModal />}
       {!isLoading && data && (
         <>
           {isFetching ? (
@@ -114,15 +148,21 @@ export default function UserTable({ search, isSearch }) {
               edit
               onEdit={handleEdit}
               remove
-              onDelete={toggleDelete}
+              onDelete={handleOpenDelete}
               title="User"
             />
           )}
         </>
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
-      <FormUser toggle={toggleForm} isShowing={isShowingForm} id={id} />
-      <DeleteModal toggle={toggleDelete} isShowing={isShowingDelete} title="User" />
+      <FormUser toggle={toggleForm} isShowing={isShowingForm} id={id} resetPage={resetPage} />
+      <DeleteModal
+        toggle={toggleDelete}
+        isShowing={isShowingDelete}
+        title="User"
+        loading={isLoadingAction}
+        action={handleDelete}
+      />
     </>
   );
 }

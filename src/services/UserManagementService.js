@@ -45,12 +45,20 @@ const loginUser = ({ email, password }) => {
   });
 };
 
+const deleteUser = ({ id }) => {
+  return request(`${ACCOUNT_MODEL}/user/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const UserManagementService = {
   getUser,
   loginUser,
   getUserById,
   createUser,
-  updateUser
+  updateUser,
+  deleteUser
 };
 
 export default UserManagementService;
