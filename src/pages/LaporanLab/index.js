@@ -11,6 +11,7 @@ import { Grid, Button, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CustomPagination from '../../components/Pagination/index';
 // import { useNavigate } from 'react-router-dom';
+import Header from 'components/Header';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
 import ListLaporanInternal from './components/ListLaporanInternal';
 import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
@@ -24,38 +25,7 @@ export default function LaporanLab() {
   return (
     <>
       <PilihLaporan toggle={toggle} isShowing={isShowing} />
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={2}
-        sx={{
-          backgroundImage: `url(/img/dashboard.png)`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          width: '100%',
-          height: '9.375rem',
-          margin: 0
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', height: '9.375rem' }}>
-          <div
-            style={{
-              marginLeft: '3rem',
-              display: 'flex',
-              direction: 'row',
-              alignItems: 'center'
-            }}
-          >
-            <div style={{ marginTop: '0.4rem', marginRight: '1.5rem' }}>
-              <Icon icon="icomoon-free:lab" color="white" fontSize="1.5rem" />
-            </div>
-            <h2 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '700' }}>Laporan Lab</h2>
-          </div>
-        </div>
-      </Grid>
+      <Header title="Laporan Lab" background="dashboard.png" />
 
       <div className="app-content">
         <Grid
@@ -65,11 +35,7 @@ export default function LaporanLab() {
             backgroundColor: 'white',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            padding: '0px',
-            width: '94%',
             height: '9.25rem',
-            marginLeft: '3%',
-            marginTop: '1.125rem',
             borderRadius: '8px 8px 8px 8px'
           }}
         >
@@ -167,7 +133,7 @@ export default function LaporanLab() {
                 outline: 'none',
                 overflow: 'hidden',
                 border: 'none',
-                marginRight: '2.25rem',
+                marginRight: '1.5rem',
                 marginLeft: 'auto'
               }}
             >
@@ -184,12 +150,8 @@ export default function LaporanLab() {
             backgroundColor: 'white',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            padding: '0px',
-            width: '94%',
             height: 'auto',
-            marginLeft: '3%', // percentage to make it responsive
-            marginTop: '1.125rem',
-            marginBottom: '1.125rem'
+            marginTop: '1.125rem'
           }}
         >
           <Grid

@@ -6,7 +6,8 @@ export default function CustomModalEdit({ children, toggle, isShowing, handleClo
   const style = {
     position: 'absolute',
     maxHeight: '90vh',
-    // overflow: 'auto',
+    overflowY: 'auto',
+    overflowX: 'hidden',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',

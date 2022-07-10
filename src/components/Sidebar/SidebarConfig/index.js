@@ -3,8 +3,14 @@ import UserIcon from '@iconify/icons-carbon/user-avatar-filled';
 import HomeIcon from '@iconify/icons-carbon/home';
 import OreGettingIcon from '@iconify/icons-eos-icons/data-mining';
 import LabIcon from '@iconify/icons-icomoon-free/lab';
+import Inventory from '../../../assets/Images/Vector.png';
 
 const getIcon = (name) => <Icon icon={name} height={24} width={24} color="#3f48c0" />;
+const getImg = (name) => (
+  <>
+    <img src={name} alt=""></img>
+  </>
+);
 
 // Add list sidebar menu here, use icon from @iconify/{icon_pack} based from figma icon
 
@@ -24,6 +30,11 @@ const sidebarConfig = [
     title: 'Kegiatan Tambang',
     path: 'mining-activity/all-activity',
     icon: getIcon(OreGettingIcon)
+  },
+  {
+    title: 'Inventory',
+    path: 'inventory',
+    icon: getImg(Inventory)
   },
   {
     title: 'Laporan Lab',
