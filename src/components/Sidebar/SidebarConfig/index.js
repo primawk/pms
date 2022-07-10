@@ -33,7 +33,7 @@ const sidebarConfig = [
   },
   {
     title: 'Inventory',
-    path: 'hasil-kosong',
+    path: 'inventory',
     icon: getImg(Inventory)
   },
   {

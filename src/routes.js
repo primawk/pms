@@ -24,6 +24,7 @@ import LayoutNavbar from 'components/Layout/LayoutNavbar';
 import DetailActivity from 'pages/MiningActivity/MiningSection/DetailActivity';
 import FormMiningActivity from 'pages/MiningActivity/MiningSection/FormMiningActivity';
 import HistoryActivity from 'pages/MiningActivity/MiningSection/HistoryActivity';
+import AllInventory from 'pages/Inventory';
 
 export default function Routes() {
   return useRoutes([
@@ -50,6 +51,14 @@ export default function Routes() {
         {
           path: 'mining-activity/:activityType',
           element: <MiningActivity />
+        },
+        {
+          path: 'inventory',
+          element: <Navigate to="/inventory/all-inventory" replace />
+        },
+        {
+          path: 'inventory/:activityType',
+          element: <AllInventory />
         },
         {
           path: 'laporan-lab',
