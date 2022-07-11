@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Grid, Popover, Button, Stack, IconButton, Avatar, Typography, Badge } from '@mui/material';
 import { Icon } from '@iconify/react';
 import DropIcon from '@iconify/icons-bi/caret-down-fill';
 import NotificationIcon from '@iconify/icons-carbon/notification-filled';
+import { toast } from 'react-toastify';
 
 // components
 import avatarLogo from 'assets/Images/avatar.png';
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClickPopOver = (event) => {
@@ -20,6 +23,12 @@ export default function Navbar() {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
+  const handleLogout = () => {
+    localStorage.removeItem('user-pms');
+    navigate('/auth/login');
+    toast.success('Logout berhasil !');
+  };
   return (
     <>
       <Grid
@@ -77,7 +86,7 @@ export default function Navbar() {
           mr={3}
           ml={3}
         >
-          <Button>Logout</Button>
+          <Button onClick={handleLogout}>Logout</Button>
         </Stack>
       </Popover>
     </>

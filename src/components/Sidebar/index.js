@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Hamburger from '@iconify-icons/charm/menu-hamburger';
 import { Icon } from '@iconify/react';
 import { Grid, useMediaQuery, Popover, Avatar, Stack, Button, Box } from '@mui/material';
+import { toast } from 'react-toastify';
 
 // component
 import sidebarConfig from './SidebarConfig';
@@ -24,6 +25,12 @@ export default function Sidebar({ children, toggleSidebar, handleToggle }) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user-pms');
+    navigate('/auth/login');
+    toast.success('Logout berhasil !');
   };
 
   return (
@@ -122,7 +129,7 @@ export default function Sidebar({ children, toggleSidebar, handleToggle }) {
           mr={3}
           ml={3}
         >
-          <Button>Logout</Button>
+          <Button onClick={handleLogout}>Logout</Button>
         </Stack>
       </Popover>
     </>
