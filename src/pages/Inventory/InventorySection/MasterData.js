@@ -13,37 +13,13 @@ const MasterData = () => {
 
   const sample = [
     {
-      year: 2021,
+      inventory: 'Inventory SM',
       detail: [
-        { month: 'Januari', target: '70.000' },
-        { month: 'Februari', target: '70.000' },
-        { month: 'Maret', target: '70.000' },
-        { month: 'April', target: '70.000' },
-        { month: 'Mei', target: '70.000' },
-        { month: 'Juni', target: '70.000' },
-        { month: 'Juli', target: '70.000' },
-        { month: 'Agustus', target: '70.000' },
-        { month: 'September', target: '70.000' },
-        { month: 'Oktober', target: '70.000' },
-        { month: 'November', target: '70.000' },
-        { month: 'Desember', target: '70.000' }
-      ]
-    },
-    {
-      year: 2020,
-      detail: [
-        { month: 'Januari', target: '70.000' },
-        { month: 'Februari', target: '70.000' },
-        { month: 'Maret', target: '70.000' },
-        { month: 'April', target: '70.000' },
-        { month: 'Mei', target: '70.000' },
-        { month: 'Juni', target: '70.000' },
-        { month: 'Juli', target: '70.000' },
-        { month: 'Agustus', target: '70.000' },
-        { month: 'September', target: '70.000' },
-        { month: 'Oktober', target: '70.000' },
-        { month: 'November', target: '70.000' },
-        { month: 'Desember', target: '70.000' }
+        { bukit: 'Bukit I', dome: ['Dome A', 'Dome B', 'Dome C', 'Dome D', 'Dome E'] },
+        { bukit: 'Bukit II', dome: ['Dome F', 'Dome G', 'Dome H', 'Dome I', 'Dome J'] },
+        { bukit: 'Bukit III', dome: ['Dome K', 'Dome L', 'Dome M', 'Dome N', 'Dome O'] },
+        { bukit: 'Bukit IV', dome: ['Dome P', 'Dome Q', 'Dome R', 'Dome S', 'Dome T'] },
+        { bukit: 'Bukit V', dome: ['Dome U', 'Dome V', 'Dome W', 'Dome X', 'Dome Y'] }
       ]
     }
   ];

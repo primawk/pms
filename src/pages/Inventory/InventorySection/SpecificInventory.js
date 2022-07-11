@@ -31,27 +31,28 @@ export default function SpecificInventory() {
         />
       </Grid> */}
       {activityType !== 'master-data' ? (
-        <InventorySection
-          title={
-            activityType === 'inventory-sm'
-              ? 'Inventory SM'
-              : activityType === 'inventory-eto'
-              ? 'Inventory ETO'
-              : 'Inventory EFO'
-          }
-          subtitle={
-            activityType === 'inventory-sm'
-              ? 'Kegiatan Penambangan'
-              : activityType === 'inventory-eto'
-              ? 'Stockfile'
-              : 'Stockyard'
-          }
-        />
+        <>
+          <InventorySection
+            title={
+              activityType === 'inventory-sm'
+                ? 'Inventory SM'
+                : activityType === 'inventory-eto'
+                ? 'Inventory ETO'
+                : 'Inventory EFO'
+            }
+            subtitle={
+              activityType === 'inventory-sm'
+                ? 'Kegiatan Penambangan'
+                : activityType === 'inventory-eto'
+                ? 'Stockfile'
+                : 'Stockyard'
+            }
+          />
+          <ReportSection />
+        </>
       ) : (
         <MasterData />
       )}
-
-      <ReportSection />
     </>
   );
 }

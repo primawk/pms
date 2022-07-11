@@ -11,20 +11,17 @@ import {
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import EditIcon from '@iconify/icons-ant-design/edit-filled';
-import DeleteIcon from '@iconify/icons-ant-design/delete-filled';
 import EditData from '../../components/Modal/DashboardHome/EditData';
-import DeleteData from '../../components/Modal/DeleteModal/index';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
 const TargetDataTable = ({ sample, targetTableHead }) => {
   const { isShowing: isShowingForm, toggle: toggleForm, width } = useModal();
-  const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+
   return (
     <>
       <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} />
-      <DeleteData toggle={toggleDelete} isShowing={isShowingDelete} title="Data" />
       <TableContainer sx={{ mt: 3, width: '100%' }}>
         <Table>
           <TableHead>
@@ -46,30 +43,33 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                 <TableRow>
                   <TableCell
                     align="center"
-                    sx={{ border: '1px solid #F2F2F2', minWidth: '10vw' }}
+                    sx={{ border: '1px solid #F2F2F2', minWidth: '25%' }}
                     rowSpan={item.detail.length + 1}
                   >
-                    {item.year}
+                    {item.inventory}
                   </TableCell>
                 </TableRow>
                 {item.detail.map((detail) => (
-                  <TableRow key={detail.month}>
-                    <TableCell
-                      align="center"
-                      sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
-                    >
-                      {detail.month}
+                  <TableRow key={detail.bukit}>
+                    <TableCell align="center" sx={{ border: '1px solid #F2F2F2', minWidth: '25%' }}>
+                      {detail.bukit}
                     </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
-                    >
-                      {detail.target}
-                    </TableCell>
-                    {detail.month === 'Januari' ? (
+                    {detail.dome.map((dome, i) => (
+                      <TableRow>
+                        <TableCell
+                          key={i}
+                          align="center"
+                          sx={{ border: '1px solid #F2F2F2', minWidth: '25%' }}
+                        >
+                          {dome}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {detail.bukit === 'Bukit I' ? (
                       <TableCell
                         sx={{
                           border: '1px solid #F2F2F2',
+                          minWidth: '20vw',
                           justifyContent: 'flex-start',
                           alignItems: 'flex-start'
                         }}
@@ -83,34 +83,22 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                             marginBottom: '40rem'
                           }}
                         >
-                          <Grid item md={5} xs={12} padding="0.2em 0">
-                            <Button
-                              sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
-                              fullWidth
-                              variant="contained"
-                              onClick={toggleForm}
-                            >
-                              <Icon
-                                style={{ fontSize: '17px', marginRight: '1rem' }}
-                                icon={EditIcon}
-                              />
-                              Edit Data
-                            </Button>
-                          </Grid>
-                          <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
-                            <Button
-                              sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
-                              fullWidth
-                              variant="contained"
-                              onClick={toggleDelete}
-                            >
-                              <Icon
-                                style={{ fontSize: '17px', marginRight: '0.5rem' }}
-                                icon={DeleteIcon}
-                              />
-                              Delete Data
-                            </Button>
-                          </Grid>
+                          <Button
+                            sx={{
+                              background: '#E5E5FE',
+                              boxShadow: '0',
+                              color: '#3F48C0',
+                              width: '8.313rem'
+                            }}
+                            variant="contained"
+                            onClick={toggleForm}
+                          >
+                            <Icon
+                              style={{ fontSize: '1rem', marginRight: '0.5rem' }}
+                              icon={EditIcon}
+                            />
+                            Edit Data
+                          </Button>
                         </Grid>
                       </TableCell>
                     ) : null}
