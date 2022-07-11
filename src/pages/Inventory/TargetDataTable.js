@@ -80,7 +80,7 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                           sx={{
                             justifyContent: 'space-around',
                             alignItems: 'flex-start',
-                            marginBottom: '40rem'
+                            marginBottom: '80rem'
                           }}
                         >
                           <Button
