@@ -188,5 +188,5 @@ export default function FormRole({ isShowing, toggle, id }) {
 FormRole.propTypes = {
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  id: PropTypes.number
+  id: PropTypes.string
 };

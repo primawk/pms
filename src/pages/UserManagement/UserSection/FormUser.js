@@ -70,7 +70,6 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
-            resetPage();
             queryClient.invalidateQueries(['users', page, isSearch]);
           })
           .catch((err) => {
@@ -319,6 +318,6 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
 FormUser.propTypes = {
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  id: PropTypes.number,
+  id: PropTypes.string,
   resetPage: PropTypes.func
 };

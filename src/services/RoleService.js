@@ -8,7 +8,7 @@ const getRole = ({ page, row } = {}) => {
     params.push(['page', page]);
   }
   if (row) {
-    params.push(['group', row]);
+    params.push(['row', row]);
   }
   return request(`${ACCOUNT_MODEL}/role`, {
     method: 'GET',
@@ -17,8 +17,16 @@ const getRole = ({ page, row } = {}) => {
   });
 };
 
+const deleteRole = ({ id }) => {
+  return request(`${ACCOUNT_MODEL}/role/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const RoleService = {
-  getRole
+  getRole,
+  deleteRole
 };
 
 export default RoleService;

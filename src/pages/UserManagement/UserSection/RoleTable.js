@@ -1,79 +1,119 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
 // custom hooks
 import useModal from 'hooks/useModal';
+import usePagination from 'hooks/usePagination';
+import useLoading from 'hooks/useLoading';
 
 // components
-import { DeleteModal } from 'components/Modal';
+import { DeleteModal, LoadingModal } from 'components/Modal';
 import { FormRole } from '.';
 import CustomPagination from 'components/Pagination';
 import BasicTable from 'components/Table/BasicTable/BasicTable';
 
+// services
+import RoleService from 'services/RoleService';
+
 const headCells = [
   {
-    id: 'role',
+    id: 'name',
     numeric: false,
     disablePadding: false,
     label: 'Role'
   },
   {
-    id: 'dashboard',
+    id: 'action.dashboard',
     numeric: false,
     disablePadding: false,
     label: 'DASHBOARD'
   },
   {
-    id: 'user_management',
+    id: 'action.user_management',
     numeric: false,
     disablePadding: false,
     label: 'MANAJEMENT PENGGUNA'
   },
   {
-    id: 'kegiatan_tambang',
+    id: 'action.mining_activity',
     numeric: false,
     disablePadding: false,
     label: 'KEGIATAN TAMBANG'
   },
   {
-    id: 'inventory',
+    id: 'action.inventory',
     numeric: false,
     disablePadding: false,
     label: 'INVENTORY'
   },
   {
-    id: 'lab',
+    id: 'action.lab_report',
     numeric: false,
     disablePadding: false,
     label: 'LAPORAN LAB'
   }
 ];
 
-const tableData = [
-  {
-    id: 0,
-    role: 'Super Admin',
-    dashboard: 'Edid & Delete',
-    user_management: 'Edit & Delete',
-    kegiatan_tambang: 'Edit & Delete',
-    inventory: 'Edit & Delete',
-    lab: 'Edit & Delete'
-  }
-];
-
 export default function RoleTable() {
+  const queryClient = useQueryClient();
+
   const [id, setId] = useState([]);
+  const [pagination, setPagination] = useState({});
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
-  const handleEdit = (e, _id) => {
-    setId(_id);
-    toggleForm();
-  };
+  const { isLoadingAction, toggleLoading } = useLoading();
+
+  // reset page
+  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+
+  const { data, isLoading, isFetching } = useQuery(['roles', page], () =>
+    RoleService.getRole({
+      page,
+      row: 10
+    })
+  );
+
+  useEffect(() => {
+    setPagination(data?.data?.pagination);
+  }, [data]);
 
   const handleAdd = () => {
     setId([]);
     toggleForm();
+  };
+
+  const handleEdit = (e, _id) => {
+    setId(_id.toString());
+    toggleForm();
+  };
+
+  const handleOpenDelete = (e, _id) => {
+    if (_id !== undefined) {
+      setId(_id.toString());
+    } else {
+      setId('');
+    }
+    toggleDelete();
+  };
+
+  const handleDelete = () => {
+    toggleLoading(true);
+    RoleService.deleteRole({ id })
+      .then(() => {
+        toast.success('Data berhasil dihapus !');
+        toggleLoading(false);
+        toggleDelete();
+        queryClient.invalidateQueries(['roles', page]);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.detail_message);
+        toggleLoading(false);
+        toggleDelete();
+      });
   };
 
   const actions = [
@@ -86,19 +126,34 @@ export default function RoleTable() {
 
   return (
     <>
-      <BasicTable
-        headCells={headCells}
-        withSelect
-        rows={tableData}
-        actions={actions}
-        edit
-        onEdit={handleEdit}
-        remove
-        onDelete={toggleDelete}
-        title="Role & Hak Akses"
-      />
-      <CustomPagination />
+      {!isLoading && data && (
+        <>
+          {isFetching ? (
+            <LoadingModal />
+          ) : (
+            <BasicTable
+              headCells={headCells}
+              withSelect
+              rows={data?.data?.data}
+              actions={actions}
+              edit
+              onEdit={handleEdit}
+              remove
+              onDelete={handleOpenDelete}
+              title="Role & Hak Akses"
+            />
+          )}
+        </>
+      )}
+      <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
       <FormRole toggle={toggleForm} isShowing={isShowingForm} id={id} />
+      <DeleteModal
+        toggle={toggleDelete}
+        isShowing={isShowingDelete}
+        title="Role & Hak Akses"
+        loading={isLoadingAction}
+        action={handleDelete}
+      />
       <DeleteModal toggle={toggleDelete} isShowing={isShowingDelete} title="Role & Hak Akses" />
     </>
   );
