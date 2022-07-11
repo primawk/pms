@@ -4,6 +4,33 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
+// For GET requests
+axios.interceptors.request.use((config) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user?.access_token) {
+    config.headers.Authorization = `Bearer ${user.access_token}`;
+  }
+  config.headers['Access-Control-Allow-Origin'] = '*';
+  return config;
+});
+
+// For POST requests
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      toast.error(error.response?.data?.detail_message?.message);
+      toast.clearWaitingQueue();
+    }
+    if (error.response?.status === 404) {
+      toast.error('The requested resource was not found.');
+    }
+    return Promise.reject(error);
+  }
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

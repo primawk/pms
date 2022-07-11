@@ -23,10 +23,10 @@ const createUser = (userData) => {
   });
 };
 
-const updateUser = (userData, id) => {
+const updateUser = ({ id, name, birthdate, phone, username, role_id, password }) => {
   return request(`${ACCOUNT_MODEL}/user/${id}`, {
     method: 'PUT',
-    data: userData,
+    data: { name, birthdate, phone, username, role_id, new_password: password },
     headers: authHeader()
   });
 };
