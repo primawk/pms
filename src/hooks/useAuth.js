@@ -1,20 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import JwtDecode from 'jwt-decode';
 
 export default function useAuth() {
   const userPms = JSON.parse(localStorage.getItem('user-pms'));
-
-  const [user, setUser] = useState(userPms);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (!user) {
+      if (!userPms) {
         navigate('/auth/login');
       } else {
-        setUser(userPms);
         const decoded = JwtDecode(userPms.access_token);
         if (Date.now() > decoded.exp * 1000) {
           localStorage.clear();
@@ -23,6 +21,6 @@ export default function useAuth() {
         }
       }
     }
-  }, [userPms]);
-  return { user, setUser };
+  }, [userPms, location.pathname]);
+  return <></>;
 }

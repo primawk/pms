@@ -10,13 +10,14 @@ import { Filter, UserTable, RoleTable } from './UserSection';
 import useAuth from 'hooks/useAuth';
 
 export default function UserManagement() {
-  useAuth();
   const navigate = useNavigate();
   const { tabType } = useParams();
 
+  useAuth();
+
   const [search, setSearch] = useState({ search: '', role: '' });
   const [isSearch, setIsSearch] = useState(false);
-  const [tab, setTab] = useState(tabType || '');
+  const [tab, setTab] = useState(tabType || 'user');
 
   const handleChangeSearch = (e) => {
     setSearch({
@@ -27,7 +28,7 @@ export default function UserManagement() {
 
   const handleChangeTab = (e, _tab) => {
     setTab(_tab);
-    if (_tab === 0) {
+    if (_tab === 'user') {
       navigate('/user-management/user');
     } else {
       navigate('/user-management/role');
@@ -52,7 +53,7 @@ export default function UserManagement() {
             <Tab label="List Pengguna" value="user" />
             <Tab label="Role & Hak Akses" value="role" />
           </Tabs>
-          {tab === 'user' ? <UserTable search={search} isSearch={isSearch} /> : <RoleTable />}
+          {tabType === 'user' ? <UserTable search={search} isSearch={isSearch} /> : <RoleTable />}
         </div>
       </div>
     </>
