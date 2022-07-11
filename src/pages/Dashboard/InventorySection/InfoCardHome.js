@@ -6,9 +6,8 @@ const InfoCard = ({ name, image, value }) => {
     <Grid
       container
       direction="column"
-      alignItems="flex-start"
+      alignItems="stretch"
       justifyContent="space-between"
-      item
       md={2}
       sx={{
         border: '1px solid #E0E0E0',
@@ -25,10 +24,10 @@ const InfoCard = ({ name, image, value }) => {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ mb: 2, minHeight: '3rem' }}
+        sx={{ mb: 2, minHeight: '3.5rem'}}
       >
-        <Typography variant="body" sx={{ width: '52%'}}>{name}</Typography>
-        <img src={image} alt={name} style={{ maxWidth: '80px', maxHeight: '25px' }} />
+        <Typography variant="body" sx={{ width: '60%', fontSize: '0.8rem'}}>{name}</Typography>
+        <img src={image} alt={name} style={{ maxWidth: '50px', maxHeight: '25px' }} />
       </Grid>
       <Typography variant="h4">{value}</Typography>
     </Grid>
