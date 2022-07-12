@@ -42,13 +42,23 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
 
   const detailUser = userData?.data?.data;
 
-  const LoginSchema = Yup.object().shape({
+  const CreateSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     birthdate: Yup.string().required('Birthdate is required'),
     email: Yup.string(),
     phone: Yup.string().required('Phone is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
+    role_id: Yup.string().required('Role is required')
+  });
+
+  const UpdateSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    birthdate: Yup.string().required('Birthdate is required'),
+    email: Yup.string(),
+    phone: Yup.string().required('Phone is required'),
+    username: Yup.string().required('Username is required'),
+    password: Yup.string(),
     role_id: Yup.string().required('Role is required')
   });
 
@@ -63,10 +73,10 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
       password: '',
       role_id: id ? detailUser?.role_id : ''
     },
-    validationSchema: LoginSchema,
+    validationSchema: id ? UpdateSchema : CreateSchema,
     onSubmit: (values) => {
       if (id) {
-        UserManagementService.updateUser(values, id)
+        UserManagementService.updateUser({ ...values, id })
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
@@ -90,7 +100,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
-            queryClient.invalidateQueries(['users', page, isSearch]);
+            queryClient.invalidateQueries(['users', 1, false]);
           })
           .catch((err) => {
             const { data: response } = err.response;
@@ -132,6 +142,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
     // clear form on close
     resetForm();
   }, [isShowing]);
+
   return (
     <CustomModal isShowing={isShowing} toggle={toggle}>
       {isFetching && <LoadingModal />}
@@ -319,5 +330,7 @@ FormUser.propTypes = {
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   id: PropTypes.string,
-  resetPage: PropTypes.func
+  resetPage: PropTypes.func,
+  page: PropTypes.number,
+  isSearch: PropTypes.bool
 };

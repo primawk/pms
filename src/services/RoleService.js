@@ -17,6 +17,29 @@ const getRole = ({ page, row } = {}) => {
   });
 };
 
+const createRole = (roleData) => {
+  return request(`${ACCOUNT_MODEL}/role`, {
+    method: 'POST',
+    data: roleData,
+    headers: authHeader()
+  });
+};
+
+const updateRole = (roleData, id) => {
+  return request(`${ACCOUNT_MODEL}/role/${id}`, {
+    method: 'PUT',
+    data: roleData,
+    headers: authHeader()
+  });
+};
+
+const getRoleById = ({ id }) => {
+  return request(`${ACCOUNT_MODEL}/role/${id}`, {
+    method: 'GET',
+    headers: authHeader()
+  });
+};
+
 const deleteRole = ({ id }) => {
   return request(`${ACCOUNT_MODEL}/role/${id}`, {
     method: 'DELETE',
@@ -26,7 +49,10 @@ const deleteRole = ({ id }) => {
 
 const RoleService = {
   getRole,
-  deleteRole
+  deleteRole,
+  createRole,
+  getRoleById,
+  updateRole
 };
 
 export default RoleService;

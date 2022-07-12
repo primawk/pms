@@ -44,7 +44,7 @@ const Login = () => {
           navigate('/user-management');
         })
         .catch((err) => {
-          toast.error(err.response.data.detail_message);
+          toast.error(err.response.data.detail_message || 'Terjadi kesalahan !');
         });
     }
   });

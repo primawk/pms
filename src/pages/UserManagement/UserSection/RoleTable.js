@@ -31,13 +31,13 @@ const headCells = [
     label: 'DASHBOARD'
   },
   {
-    id: 'action.user_management',
+    id: 'action.user-management',
     numeric: false,
     disablePadding: false,
     label: 'MANAJEMENT PENGGUNA'
   },
   {
-    id: 'action.mining_activity',
+    id: 'action.mining-activity',
     numeric: false,
     disablePadding: false,
     label: 'KEGIATAN TAMBANG'
@@ -49,7 +49,7 @@ const headCells = [
     label: 'INVENTORY'
   },
   {
-    id: 'action.lab_report',
+    id: 'action.lab-report',
     numeric: false,
     disablePadding: false,
     label: 'LAPORAN LAB'
@@ -59,7 +59,7 @@ const headCells = [
 export default function RoleTable() {
   const queryClient = useQueryClient();
 
-  const [id, setId] = useState([]);
+  const [id, setId] = useState('');
   const [pagination, setPagination] = useState({});
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
@@ -68,7 +68,9 @@ export default function RoleTable() {
   const { isLoadingAction, toggleLoading } = useLoading();
 
   // reset page
-  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+  const { page, totalPage, handleChangePage, resetPage } = usePagination(
+    pagination || { total_data: 0 }
+  );
 
   const { data, isLoading, isFetching } = useQuery(['roles', page], () =>
     RoleService.getRole({
@@ -82,7 +84,7 @@ export default function RoleTable() {
   }, [data]);
 
   const handleAdd = () => {
-    setId([]);
+    setId('');
     toggleForm();
   };
 
@@ -146,7 +148,13 @@ export default function RoleTable() {
         </>
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
-      <FormRole toggle={toggleForm} isShowing={isShowingForm} id={id} />
+      <FormRole
+        toggle={toggleForm}
+        isShowing={isShowingForm}
+        id={id}
+        page={page}
+        resetPage={resetPage}
+      />
       <DeleteModal
         toggle={toggleDelete}
         isShowing={isShowingDelete}
@@ -154,7 +162,6 @@ export default function RoleTable() {
         loading={isLoadingAction}
         action={handleDelete}
       />
-      <DeleteModal toggle={toggleDelete} isShowing={isShowingDelete} title="Role & Hak Akses" />
     </>
   );
 }
