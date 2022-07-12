@@ -20,6 +20,9 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'react-toastify';
 
+// custom hooks
+import useLoading from 'hooks/useLoading';
+
 // components
 import { CustomModal, LoadingModal } from 'components/Modal';
 
@@ -29,6 +32,8 @@ import UserManagementService from 'services/UserManagementService';
 
 export default function FormUser({ isShowing, toggle, id, resetPage, page, isSearch }) {
   const queryClient = useQueryClient();
+
+  const { isLoadingAction, toggleLoading } = useLoading();
 
   const { data: roleData, isFetching: isFetchingRole } = useQuery('roles', () =>
     RoleService.getRole()
@@ -42,13 +47,23 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
 
   const detailUser = userData?.data?.data;
 
-  const LoginSchema = Yup.object().shape({
+  const CreateSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     birthdate: Yup.string().required('Birthdate is required'),
     email: Yup.string(),
     phone: Yup.string().required('Phone is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
+    role_id: Yup.string().required('Role is required')
+  });
+
+  const UpdateSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    birthdate: Yup.string().required('Birthdate is required'),
+    email: Yup.string(),
+    phone: Yup.string().required('Phone is required'),
+    username: Yup.string().required('Username is required'),
+    password: Yup.string(),
     role_id: Yup.string().required('Role is required')
   });
 
@@ -63,17 +78,19 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
       password: '',
       role_id: id ? detailUser?.role_id : ''
     },
-    validationSchema: LoginSchema,
+    validationSchema: id ? UpdateSchema : CreateSchema,
     onSubmit: (values) => {
+      toggleLoading();
       if (id) {
-        UserManagementService.updateUser(values, id)
+        UserManagementService.updateUser({ ...values, id })
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
-            resetPage();
+            toggleLoading();
             queryClient.invalidateQueries(['users', page, isSearch]);
           })
           .catch((err) => {
+            toggleLoading();
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -91,9 +108,11 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
-            queryClient.invalidateQueries(['users', page, isSearch]);
+            toggleLoading();
+            queryClient.invalidateQueries(['users', 1, false]);
           })
           .catch((err) => {
+            toggleLoading();
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -109,16 +128,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
     }
   });
 
-  const {
-    errors,
-    touched,
-    handleSubmit,
-    getFieldProps,
-    setFieldValue,
-    values,
-    resetForm,
-    isSubmitting
-  } = formik;
+  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values, resetForm } = formik;
 
   const generatePassword = () => {
     let result = '';
@@ -133,6 +143,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
     // clear form on close
     resetForm();
   }, [isShowing]);
+
   return (
     <CustomModal isShowing={isShowing} toggle={toggle}>
       {isFetching && <LoadingModal />}
@@ -301,7 +312,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
                       variant="contained"
                       fullWidth
                       type="submit"
-                      loading={isSubmitting}
+                      loading={isLoadingAction}
                     >
                       Save
                     </LoadingButton>
@@ -319,6 +330,8 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
 FormUser.propTypes = {
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  id: PropTypes.number,
-  resetPage: PropTypes.func
+  id: PropTypes.string,
+  resetPage: PropTypes.func,
+  page: PropTypes.number,
+  isSearch: PropTypes.bool
 };
