@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {
   Grid,
   TextField,
-  MenuItem,
   Stack,
   FormControl,
   Button,
@@ -19,6 +18,9 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'react-toastify';
 import { useQuery, useQueryClient } from 'react-query';
 
+// custom hooks
+import useLoading from 'hooks/useLoading';
+
 // components
 import { CustomModal, LoadingModal } from 'components/Modal';
 
@@ -27,6 +29,8 @@ import RoleService from 'services/RoleService';
 
 export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
   const queryClient = useQueryClient();
+
+  const { isLoadingAction, toggleLoading } = useLoading();
 
   const { data, isFetching } = useQuery('roles', () => RoleService.getRole(), {
     keepPreviousData: true,
@@ -62,14 +66,17 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
     },
     validationSchema: RoleSchema,
     onSubmit: (values) => {
+      toggleLoading();
       if (id) {
         RoleService.updateRole(values, id)
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
+            toggleLoading();
             queryClient.invalidateQueries(['roles', page]);
           })
           .catch((err) => {
+            toggleLoading();
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -84,12 +91,14 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
       } else {
         RoleService.createRole(values)
           .then(() => {
+            toggleLoading();
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
             queryClient.invalidateQueries(['roles', page]);
           })
           .catch((err) => {
+            toggleLoading();
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -105,7 +114,7 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
     }
   });
 
-  const { errors, touched, handleSubmit, getFieldProps, isSubmitting, resetForm } = formik;
+  const { errors, touched, handleSubmit, getFieldProps, resetForm } = formik;
 
   useEffect(() => {
     // clear form on close
@@ -133,34 +142,15 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
                   <Stack spacing={2}>
                     <FormControl>
                       <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Role</h4>
-                      {id ? (
-                        <TextField
-                          select
-                          placeholder="Role"
-                          fullWidth
-                          size="small"
-                          name="name"
-                          {...getFieldProps('name')}
-                          error={Boolean(touched.name && errors.name)}
-                          helperText={touched.name && errors.name}
-                        >
-                          {data?.data?.data.map((option) => (
-                            <MenuItem key={option.name} value={option.name}>
-                              {option.name}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      ) : (
-                        <TextField
-                          placeholder="Role"
-                          fullWidth
-                          size="small"
-                          name="name"
-                          {...getFieldProps('name')}
-                          error={Boolean(touched.name && errors.name)}
-                          helperText={touched.name && errors.name}
-                        />
-                      )}
+                      <TextField
+                        placeholder="Role"
+                        fullWidth
+                        size="small"
+                        name="name"
+                        {...getFieldProps('name')}
+                        error={Boolean(touched.name && errors.name)}
+                        helperText={touched.name && errors.name}
+                      />
                     </FormControl>
                   </Stack>
                 </Grid>
@@ -331,7 +321,7 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
                     <LoadingButton
                       variant="contained"
                       type="submit"
-                      loading={isSubmitting}
+                      loading={isLoadingAction}
                       fullWidth
                     >
                       Save

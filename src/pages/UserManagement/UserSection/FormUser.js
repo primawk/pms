@@ -20,6 +20,9 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'react-toastify';
 
+// custom hooks
+import useLoading from 'hooks/useLoading';
+
 // components
 import { CustomModal, LoadingModal } from 'components/Modal';
 
@@ -29,6 +32,8 @@ import UserManagementService from 'services/UserManagementService';
 
 export default function FormUser({ isShowing, toggle, id, resetPage, page, isSearch }) {
   const queryClient = useQueryClient();
+
+  const { isLoadingAction, toggleLoading } = useLoading();
 
   const { data: roleData, isFetching: isFetchingRole } = useQuery('roles', () =>
     RoleService.getRole()
@@ -75,14 +80,17 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
     },
     validationSchema: id ? UpdateSchema : CreateSchema,
     onSubmit: (values) => {
+      toggleLoading();
       if (id) {
         UserManagementService.updateUser({ ...values, id })
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
+            toggleLoading();
             queryClient.invalidateQueries(['users', page, isSearch]);
           })
           .catch((err) => {
+            toggleLoading();
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -100,9 +108,11 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
+            toggleLoading();
             queryClient.invalidateQueries(['users', 1, false]);
           })
           .catch((err) => {
+            toggleLoading();
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -118,16 +128,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
     }
   });
 
-  const {
-    errors,
-    touched,
-    handleSubmit,
-    getFieldProps,
-    setFieldValue,
-    values,
-    resetForm,
-    isSubmitting
-  } = formik;
+  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values, resetForm } = formik;
 
   const generatePassword = () => {
     let result = '';
@@ -311,7 +312,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
                       variant="contained"
                       fullWidth
                       type="submit"
-                      loading={isSubmitting}
+                      loading={isLoadingAction}
                     >
                       Save
                     </LoadingButton>
