@@ -8,7 +8,7 @@ const getRole = ({ page, row } = {}) => {
     params.push(['page', page]);
   }
   if (row) {
-    params.push(['group', row]);
+    params.push(['row', row]);
   }
   return request(`${ACCOUNT_MODEL}/role`, {
     method: 'GET',
@@ -17,8 +17,42 @@ const getRole = ({ page, row } = {}) => {
   });
 };
 
+const createRole = (roleData) => {
+  return request(`${ACCOUNT_MODEL}/role`, {
+    method: 'POST',
+    data: roleData,
+    headers: authHeader()
+  });
+};
+
+const updateRole = (roleData, id) => {
+  return request(`${ACCOUNT_MODEL}/role/${id}`, {
+    method: 'PUT',
+    data: roleData,
+    headers: authHeader()
+  });
+};
+
+const getRoleById = ({ id }) => {
+  return request(`${ACCOUNT_MODEL}/role/${id}`, {
+    method: 'GET',
+    headers: authHeader()
+  });
+};
+
+const deleteRole = ({ id }) => {
+  return request(`${ACCOUNT_MODEL}/role/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const RoleService = {
-  getRole
+  getRole,
+  deleteRole,
+  createRole,
+  getRoleById,
+  updateRole
 };
 
 export default RoleService;
