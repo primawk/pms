@@ -24,9 +24,11 @@ const createUser = (userData) => {
 };
 
 const updateUser = ({ id, name, birthdate, phone, username, role_id, password }) => {
+  const changePasswordData = { name, birthdate, phone, username, role_id, new_password: password };
+  const oldPasswordData = { name, birthdate, phone, username, role_id };
   return request(`${ACCOUNT_MODEL}/user/${id}`, {
     method: 'PUT',
-    data: { name, birthdate, phone, username, role_id, new_password: password },
+    data: !!password ? changePasswordData : oldPasswordData,
     headers: authHeader()
   });
 };

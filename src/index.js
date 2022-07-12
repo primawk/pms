@@ -19,7 +19,12 @@ axios.interceptors.request.use((config) => {
 
 // For POST requests
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response?.data?.data?.status_code === 500) {
+      toast.error(`Terjadi kesalahan error ${response?.data?.data?.status_code}`);
+    }
+    return response;
+  },
   (error) => {
     if (error.response?.status === 401) {
       toast.error(error.response?.data?.detail_message?.message);

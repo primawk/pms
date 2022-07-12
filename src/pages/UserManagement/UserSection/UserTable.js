@@ -81,7 +81,7 @@ export default function UserTable({ search, isSearch }) {
         search: search.search,
         role: search.role
       }),
-    { keepPreviousData: true, retry: false }
+    { keepPreviousData: true }
   );
 
   useEffect(() => {
