@@ -50,7 +50,6 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
   const CreateSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     birthdate: Yup.string().required('Birthdate is required'),
-    email: Yup.string(),
     phone: Yup.string().required('Phone is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
@@ -60,7 +59,6 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
   const UpdateSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     birthdate: Yup.string().required('Birthdate is required'),
-    email: Yup.string(),
     phone: Yup.string().required('Phone is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string(),
@@ -72,7 +70,6 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
     initialValues: {
       name: id ? detailUser?.name : '',
       birthdate: id ? dayjs(detailUser?.birthdate).format('MM/DD/YYYY') : new Date('2010/01/01'),
-      email: id ? detailUser?.email : '',
       phone: id ? detailUser?.phone : '',
       username: id ? detailUser?.username : '',
       password: '',
