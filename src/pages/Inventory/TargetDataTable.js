@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import EditIcon from '@iconify/icons-ant-design/edit-filled';
-import EditData from '../../components/Modal/DashboardHome/EditData';
+import EditInventory from '../../components/Modal/Inventory/EditInventory';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -21,7 +21,7 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
 
   return (
     <>
-      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} />
+      <EditInventory toggle={toggleForm} isShowing={isShowingForm} width={width} />
       <TableContainer sx={{ mt: 3, width: '100%' }}>
         <Table>
           <TableHead>
