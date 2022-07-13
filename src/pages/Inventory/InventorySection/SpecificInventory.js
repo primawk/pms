@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 // import { Grid } from '@mui/material';
 
 // components
-import { InventorySection, ReportSection } from '.';
+import { InventorySection, ReportSection, MasterData } from '.';
 
 export default function SpecificInventory() {
   // const [subMenu, setSubMenu] = useState(0);
@@ -30,23 +30,29 @@ export default function SpecificInventory() {
           chartStyle={{ width: '100%', height: '40vh' }}
         />
       </Grid> */}
-      <InventorySection
-        title={
-          activityType === 'inventory-sm'
-            ? 'Inventory SM'
-            : activityType === 'inventory-eto'
-            ? 'Inventory ETO'
-            : 'Inventory EFO'
-        }
-        subtitle={
-          activityType === 'inventory-sm'
-            ? 'Kegiatan Penambangan'
-            : activityType === 'inventory-eto'
-            ? 'Stockfile'
-            : 'Stockyard'
-        }
-      />
-      <ReportSection />
+      {activityType !== 'master-data' ? (
+        <>
+          <InventorySection
+            title={
+              activityType === 'inventory-sm'
+                ? 'Inventory SM'
+                : activityType === 'inventory-eto'
+                ? 'Inventory ETO'
+                : 'Inventory EFO'
+            }
+            subtitle={
+              activityType === 'inventory-sm'
+                ? 'Kegiatan Penambangan'
+                : activityType === 'inventory-eto'
+                ? 'Stockfile'
+                : 'Stockyard'
+            }
+          />
+          <ReportSection />
+        </>
+      ) : (
+        <MasterData />
+      )}
     </>
   );
 }

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 // components
 import Header from 'components/Header';
-import { AllInventory, SpecificInventory } from './InventorySection';
+import { AllInventory, SpecificInventory, MasterData } from './InventorySection';
 
 export default function Inventory() {
   const menuList = [
@@ -33,7 +33,7 @@ export default function Inventory() {
         navigate('/inventory/inventory-efo');
         break;
       case 'master-inventory':
-        navigate('/inventory/master-inventory');
+        navigate('/inventory/master-data');
         break;
       default:
         navigate('/inventory/all-inventory');
@@ -76,7 +76,13 @@ export default function Inventory() {
             ))}
           </Tabs>
         </Grid>
-        {menuTab === 'all-inventory' ? <AllInventory /> : <SpecificInventory />}
+        {menuTab === 'all-inventory' ? (
+          <AllInventory />
+        ) : menuTab === 'master-data' ? (
+          <MasterData />
+        ) : (
+          <SpecificInventory />
+        )}
       </div>
     </>
   );
