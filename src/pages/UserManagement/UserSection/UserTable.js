@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import useModal from 'hooks/useModal';
 import usePagination from 'hooks/usePagination';
 import useLoading from 'hooks/useLoading';
+import useAuth from 'hooks/useAuth';
 
 // components
 import { DeleteModal, LoadingModal } from 'components/Modal';
@@ -65,6 +66,8 @@ export default function UserTable({ search, isSearch }) {
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+
+  const { isGranted } = useAuth();
 
   const { isLoadingAction, toggleLoading } = useLoading();
 
@@ -140,12 +143,13 @@ export default function UserTable({ search, isSearch }) {
           ) : (
             <BasicTable
               headCells={headCells}
-              withSelect
+              withSelect={isGranted}
+              withToolbar={isGranted}
               rows={data?.data?.data}
-              actions={actions}
-              edit
+              actions={isGranted ? actions : []}
+              edit={isGranted}
               onEdit={handleEdit}
-              remove
+              remove={isGranted}
               onDelete={handleOpenDelete}
               title="User"
             />
