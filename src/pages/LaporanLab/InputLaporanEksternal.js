@@ -214,8 +214,12 @@ const InputLaporanEksternal = () => {
                     </Grid>
                   </Grid>
                 </Grid>
+
+                {/* PDF */}
                 <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Box sx={{ marginBottom: '1rem' }}>File Laporan</Box>
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h3>File Laporan</h3>
+                  </Box>
                   <Grid
                     item
                     sx={{
@@ -244,6 +248,7 @@ const InputLaporanEksternal = () => {
                       </Grid>
                     </Grid>
                   </Grid>
+                  <Box fontSize={'0.875rem'}>Laporan Eksternal.pdf</Box>
                 </Grid>
               </Grid>
             </Grid>

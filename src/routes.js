@@ -11,7 +11,6 @@ import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
 import UserManagement from 'pages/UserManagement';
 import NotFound from 'pages/NotFound';
-import LaporanLab from 'pages/LaporanLab';
 import InputLaporanEksternal from 'pages/LaporanLab/InputLaporanEksternal';
 import InputLaporanInternal from 'pages/LaporanLab/InputLaporanInternal';
 import DetailInternal from 'pages/LaporanLab/DetailInternal';
@@ -25,6 +24,8 @@ import DetailActivity from 'pages/MiningActivity/MiningSection/DetailActivity';
 import FormMiningActivity from 'pages/MiningActivity/MiningSection/FormMiningActivity';
 import HistoryActivity from 'pages/MiningActivity/MiningSection/HistoryActivity';
 import AllInventory from 'pages/Inventory';
+import LaporanLab from 'pages/LaporanLab';
+import ListDetailEksternal from 'pages/LaporanLab/ListDetailEksternal';
 
 export default function Routes() {
   return useRoutes([
@@ -60,10 +61,7 @@ export default function Routes() {
           path: 'inventory/:activityType',
           element: <AllInventory />
         },
-        {
-          path: 'laporan-lab',
-          element: <LaporanLab />
-        },
+
         {
           path: 'hasil-pencarian',
           element: <HasilPencarian />
@@ -71,6 +69,18 @@ export default function Routes() {
         {
           path: 'hasil-kosong',
           element: <HasilKosong />
+        },
+        {
+          path: 'laporan-lab',
+          element: <Navigate to="/laporan-lab/list-internal" replace />
+        },
+        {
+          path: 'laporan-lab/:activityType',
+          element: <LaporanLab />
+        },
+        {
+          path: 'list-detail-eksternal',
+          element: <ListDetailEksternal />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
@@ -98,6 +108,7 @@ export default function Routes() {
       ]
     },
     // Laporan Lab
+
     {
       path: 'input-laporan-eksternal',
       element: <InputLaporanEksternal />

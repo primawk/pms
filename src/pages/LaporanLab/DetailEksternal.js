@@ -107,393 +107,41 @@ const DetailInternal = () => {
               </Button>
             </Box>
           </Grid>
-          <Grid item sx={{}}>
-            <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-              <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ margin: '2.5rem 0.5rem 1.5rem 2rem' }}>Informasi Sample</h3>
-                <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <Grid item>
-                    <Box
-                      style={{
-                        margin: '0 0.5rem 0.5rem 2rem',
-                        fontSize: '0.875rem',
-                        width: '5.5rem'
-                      }}
-                    >
-                      Tanggal
-                    </Box>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      12/02/2021
-                    </Box>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      Nama Perusahaan
-                    </Box>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      PT Mandala Jaya
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Grid>
+
+          {/* PDF */}
+          <Grid sx={{ display: 'flex', flexDirection: 'column', margin: '2.5rem 0 0 2rem' }}>
+            <Box sx={{ marginBottom: '1rem', fontSize: '20px' }}>
+              <h3>File Laporan</h3>
+            </Box>
+            <Grid
+              item
+              sx={{
+                backgroundColor: 'white',
+                width: '7.438rem',
+                height: '9.063rem',
+                border: '1px solid #3F48C0',
+                borderRadius: '4px'
+              }}
+            >
               <Grid
+                container // container to make the justify content works
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  marginLeft: '8rem'
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  marginTop: '0.5rem'
                 }}
               >
-                <h3 style={{ margin: '2.5rem 0.5rem 1.5rem 0' }}>Hasil Analisa</h3>
-                <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Inc</Box>
-                    <Box
-                      sx={{
-                        margin: '0.75rem 1rem 1rem 1rem',
-                        fontSize: '1.5rem',
-                        fontWeight: '700'
-                      }}
-                    >
-                      546
-                    </Box>
-                  </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Tonase</Box>
-                    <Box
-                      sx={{
-                        margin: '0.75rem 1rem 1rem 1rem',
-                        fontSize: '1.5rem',
-                        fontWeight: '700'
-                      }}
-                    >
-                      12,3 Ton
-                    </Box>
-                  </Grid>
+                <Grid item sx={{ marginLeft: '5rem' }}>
+                  <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
                 </Grid>
-                <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Grid
-                      container
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar Ni</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          1,70%
-                        </Box>
-                      </Grid>
-                      <Grid item sx={{ margin: '1rem 1rem 0 0' }}>
-                        <img src="/img/ni.png" alt=""></img>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Grid
-                      container
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar SiO</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          1,70%
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Grid item sx={{ margin: '1rem 0.3rem 0 0', fontSize: '1rem' }}>
-                            <img src="/img/si.png" alt=""></img>
-                          </Grid>
-                          <Grid item sx={{ margin: '1rem 1rem 0 0', fontSize: '1rem' }}>
-                            <img src="/img/o.png" alt=""></img>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Grid
-                      container
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar MgO</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          1,70%
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Grid item sx={{ margin: '1rem 0.3rem 0 0', fontSize: '1rem' }}>
-                            <img src="/img/si.png" alt=""></img>
-                          </Grid>
-                          <Grid item sx={{ margin: '1rem 1rem 0 0', fontSize: '1rem' }}>
-                            <img src="/img/o.png" alt=""></img>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Grid
-                      container
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar Fe</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          1,70%
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Grid item sx={{ margin: '1rem 1rem 0 0', fontSize: '1rem' }}>
-                            <img src="/img/fe.png" alt=""></img>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Grid
-                      container
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar CaO</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          1,70%
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Grid item sx={{ margin: '1rem 0.3rem 0 0', fontSize: '1rem' }}>
-                            <img src="/img/ca.png" alt=""></img>
-                          </Grid>
-                          <Grid item sx={{ margin: '1rem 1rem 0 0', fontSize: '1rem' }}>
-                            <img src="/img/o.png" alt=""></img>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Grid
-                      container
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar SiMgO</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          1,70%
-                        </Box>
-                      </Grid>
-                      <Grid item>
-                        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Grid item sx={{ margin: '1rem 0.1rem 0 0', width: '1.5rem' }}>
-                            <img src="/img/si.png" alt=""></img>
-                          </Grid>
-                          <Grid item sx={{ margin: '1rem 0.1rem 0 0', width: '1.5rem' }}>
-                            <img src="/img/mg.png" alt=""></img>
-                          </Grid>
-                          <Grid item sx={{ margin: '1rem 1rem 0 0', width: '1.5rem' }}>
-                            <img src="/img/o.png" alt=""></img>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'white',
-                      border: '1px solid #E0E0E0',
-                      borderRadius: '0.25rem',
-                      marginLeft: '1rem',
-                      width: '14rem',
-                      height: '6.4375rem',
-                      margin: '0 1rem 1.5rem 0'
-                    }}
-                  >
-                    <Grid
-                      container
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar Co</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          1,70%
-                        </Box>
-                      </Grid>
-                      <Grid item sx={{ margin: '1rem 1rem 0 0' }}>
-                        <img src="/img/co.png" alt=""></img>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                <Grid item sx={{ margin: 'auto' }} fontSize={80}>
+                  <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
                 </Grid>
               </Grid>
             </Grid>
+            <Box fontSize={'0.875rem'}>Laporan Eksternal.pdf</Box>
           </Grid>
         </Grid>
       </div>
