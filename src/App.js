@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastContainer } from 'react-toastify';
 
 import Router from './routes';
@@ -33,6 +34,7 @@ export default function App() {
         <ScrollToTop />
         <Router />
       </ThemeConfig>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

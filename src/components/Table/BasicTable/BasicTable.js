@@ -189,6 +189,7 @@ export default function BasicTable({
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              withSelect={withSelect}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))

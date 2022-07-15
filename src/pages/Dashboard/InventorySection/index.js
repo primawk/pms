@@ -5,7 +5,7 @@ import { Button, Grid, Typography } from '@mui/material';
 import Summary from './Summary';
 import ListData from './ListData';
 
-const InventorySection = ({ title, subtitle }) => {
+const InventorySection = ({ title, subtitle, summary, listData }) => {
   return (
     <div className="app-content">
       <Grid sx={{ background: 'white' }}>

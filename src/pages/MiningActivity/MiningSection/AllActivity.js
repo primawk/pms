@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
+import { useQuery } from 'react-query';
 
 // components
 import { ChartSection, InfoSection, InventorySection, ReportSection } from '.';
+import { LoadingModal } from 'components/Modal';
+
+// services
+import MiningActivityService from 'services/MiningActivityService';
 
 const data = [
   {
@@ -47,31 +52,102 @@ export default function AllActivity() {
     setSubMenu(value);
   };
 
+  // summary
+  const {
+    data: dataSummary,
+    isLoading: isLoadingSummary,
+    isFetching: isFetchingSummary
+  } = useQuery(['mining', 'summary', 'all-activity'], () => MiningActivityService.getSummary());
+
+  const summary = {
+    total_activity: dataSummary?.data?.data?.reduce(
+      (total, num) => total?.total_activity + num?.total_activity
+    ),
+    average_ni: dataSummary?.data?.data?.reduce(
+      (total, num) => parseFloat(total?.average_ni) + parseFloat(num?.average_ni)
+    ),
+    tonnage_total: dataSummary?.data?.data?.reduce(
+      (total, num) => total?.tonnage_total + num?.tonnage_total
+    ),
+    sublot_total: dataSummary?.data?.data?.reduce(
+      (total, num) => total?.sublot_total + num?.sublot_total
+    )
+  };
+
+  // list activity
+  const {
+    data: dataOreGetting,
+    isLoading: isLoadingOreGetting,
+    isFetching: isFetchingOreGetting
+  } = useQuery(['mining', 'ore-getting'], () =>
+    MiningActivityService.getActivity({
+      page: 1,
+      row: 3,
+      activity_type: 'ore-getting'
+    })
+  );
+
+  const {
+    data: dataOreHauling,
+    isLoading: isLoadingOreHauling,
+    isFetching: isFetchingOreHauling
+  } = useQuery(['mining', 'ore-hauling-to-eto'], () =>
+    MiningActivityService.getActivity({
+      page: 1,
+      row: 3,
+      activity_type: 'ore-hauling-to-eto'
+    })
+  );
+
+  const {
+    data: dataEtoToEfo,
+    isLoading: isLoadingEtoToEfo,
+    isFetching: isFetchingEtoToEfo
+  } = useQuery(['mining', 'eto-to-efo'], () =>
+    MiningActivityService.getActivity({
+      page: 1,
+      row: 3,
+      activity_type: 'eto-to-efo'
+    })
+  );
+
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        alignItems="flex-start"
-        justifyContent="space-between"
-        className="bg-white"
-        sx={{ padding: '1em 1.5em' }}
-      >
-        <Grid container item md={6.5}>
-          <ChartSection
-            subMenu={subMenu}
-            chartData={chartData}
-            handleChangeSubMenu={handleChangeSubMenu}
-          />
-        </Grid>
+      {
+        (isFetchingSummary && isFetchingOreGetting && isFetchingEtoToEfo && isFetchingOreGetting,
+        isFetchingOreHauling && <LoadingModal />)
+      }
+      {!isLoadingSummary && dataSummary && (
+        <Grid
+          container
+          direction="row"
+          alignItems="flex-start"
+          justifyContent="space-between"
+          className="bg-white"
+          sx={{ padding: '1em 1.5em' }}
+        >
+          <Grid container item md={6.5}>
+            <ChartSection
+              subMenu={subMenu}
+              chartData={chartData}
+              handleChangeSubMenu={handleChangeSubMenu}
+            />
+          </Grid>
 
-        <Grid container item md={5}>
-          <InfoSection />
+          <Grid container item md={5}>
+            <InfoSection summary={summary} />
+          </Grid>
         </Grid>
-      </Grid>
-      <InventorySection title="Realisasi Produksi Inventory SM" subtitle="Kegiatan Penambangan" />
-      <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Stockfile" />
-      <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Stockyard" />
+      )}
+      {!isLoadingOreGetting && dataOreGetting && (
+        <InventorySection title="Realisasi Produksi Inventory SM" subtitle="Kegiatan Penambangan" />
+      )}
+      {!isLoadingOreHauling && dataOreHauling && (
+        <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Stockfile" />
+      )}
+      {!isLoadingEtoToEfo && dataEtoToEfo && (
+        <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Stockyard" />
+      )}
       <ReportSection />
     </>
   );

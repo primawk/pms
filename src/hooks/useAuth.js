@@ -40,7 +40,7 @@ export default function useAuth() {
         }
       }
     }
-  }, [userPms, location.pathname, data]);
+  }, [data]);
   return {
     isGranted
   };

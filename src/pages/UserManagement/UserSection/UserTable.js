@@ -136,25 +136,20 @@ export default function UserTable({ search, isSearch }) {
 
   return (
     <>
+      {isFetching && <LoadingModal />}
       {!isLoading && data && (
-        <>
-          {isFetching ? (
-            <LoadingModal />
-          ) : (
-            <BasicTable
-              headCells={headCells}
-              withSelect={isGranted}
-              withToolbar={isGranted}
-              rows={data?.data?.data}
-              actions={isGranted ? actions : []}
-              edit={isGranted}
-              onEdit={handleEdit}
-              remove={isGranted}
-              onDelete={handleOpenDelete}
-              title="User"
-            />
-          )}
-        </>
+        <BasicTable
+          headCells={headCells}
+          withSelect={isGranted}
+          withToolbar={isGranted}
+          rows={data?.data?.data}
+          actions={isGranted ? actions : []}
+          edit={isGranted}
+          onEdit={handleEdit}
+          remove={isGranted}
+          onDelete={handleOpenDelete}
+          title="User"
+        />
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
       <FormUser

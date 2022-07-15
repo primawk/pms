@@ -130,25 +130,20 @@ export default function RoleTable() {
 
   return (
     <>
+      {isFetching && <LoadingModal />}
       {!isLoading && data && (
-        <>
-          {isFetching ? (
-            <LoadingModal />
-          ) : (
-            <BasicTable
-              headCells={headCells}
-              withSelect={isGranted}
-              withToolbar={isGranted}
-              rows={data?.data?.data}
-              actions={isGranted ? actions : []}
-              edit={isGranted}
-              onEdit={handleEdit}
-              remove={isGranted}
-              onDelete={handleOpenDelete}
-              title="Role & Hak Akses"
-            />
-          )}
-        </>
+        <BasicTable
+          headCells={headCells}
+          withSelect={isGranted}
+          withToolbar={isGranted}
+          rows={data?.data?.data}
+          actions={isGranted ? actions : []}
+          edit={isGranted}
+          onEdit={handleEdit}
+          remove={isGranted}
+          onDelete={handleOpenDelete}
+          title="Role & Hak Akses"
+        />
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
       <FormRole
