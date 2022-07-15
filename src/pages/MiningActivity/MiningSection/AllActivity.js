@@ -54,27 +54,14 @@ export default function AllActivity() {
 
   // summary
   const {
-    data: dataSummary,
-    isLoading: isLoadingSummary,
-    isFetching: isFetchingSummary
-  } = useQuery(['mining', 'summary', 'all-activity'], () => MiningActivityService.getSummary());
+    data: dataAllSummary,
+    isLoading: isLoadingAllSummary,
+    isFetching: isFetchingAllSummary
+  } = useQuery(['mining', 'summary', 'all'], () =>
+    MiningActivityService.getSummary({ activity_type: 'all' })
+  );
 
-  const summary = {
-    total_activity: dataSummary?.data?.data?.reduce(
-      (total, num) => total?.total_activity + num?.total_activity
-    ),
-    average_ni: dataSummary?.data?.data?.reduce(
-      (total, num) => parseFloat(total?.average_ni) + parseFloat(num?.average_ni)
-    ),
-    tonnage_total: dataSummary?.data?.data?.reduce(
-      (total, num) => total?.tonnage_total + num?.tonnage_total
-    ),
-    sublot_total: dataSummary?.data?.data?.reduce(
-      (total, num) => total?.sublot_total + num?.sublot_total
-    )
-  };
-
-  // list activity
+  // ore getting
   const {
     data: dataOreGetting,
     isLoading: isLoadingOreGetting,
@@ -88,6 +75,15 @@ export default function AllActivity() {
   );
 
   const {
+    data: dataOreGettingSummary,
+    isLoading: isLoadingOreGettingSummary,
+    isFetching: isFetchingOreGettingSummary
+  } = useQuery(['mining', 'summary', 'ore-getting'], () =>
+    MiningActivityService.getSummary({ activity_type: 'ore-getting' })
+  );
+
+  // ore hauling to eto
+  const {
     data: dataOreHauling,
     isLoading: isLoadingOreHauling,
     isFetching: isFetchingOreHauling
@@ -100,6 +96,15 @@ export default function AllActivity() {
   );
 
   const {
+    data: dataOreHaulingSummary,
+    isLoading: isLoadingOreHaulingSummary,
+    isFetching: isFetchingOreHaulingSummary
+  } = useQuery(['mining', 'summary', 'ore-hauling-to-eto'], () =>
+    MiningActivityService.getSummary({ activity_type: 'ore-hauling-to-eto' })
+  );
+
+  // eto to efo
+  const {
     data: dataEtoToEfo,
     isLoading: isLoadingEtoToEfo,
     isFetching: isFetchingEtoToEfo
@@ -111,13 +116,24 @@ export default function AllActivity() {
     })
   );
 
+  const {
+    data: dataEtoToEfoSummary,
+    isLoading: isLoadingEtoToEfoSummary,
+    isFetching: isFetchingEtoToEfoSummary
+  } = useQuery(['mining', 'summary', 'eto-to-efo'], () =>
+    MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
+  );
+
   return (
     <>
       {
-        (isFetchingSummary && isFetchingOreGetting && isFetchingEtoToEfo && isFetchingOreGetting,
-        isFetchingOreHauling && <LoadingModal />)
+        (isFetchingAllSummary && isFetchingOreGetting && isFetchingEtoToEfo && isFetchingOreGetting,
+        isFetchingOreHauling &&
+          isFetchingOreGettingSummary &&
+          isFetchingOreHaulingSummary &&
+          isFetchingEtoToEfoSummary && <LoadingModal />)
       }
-      {!isLoadingSummary && dataSummary && (
+      {!isLoadingAllSummary && dataAllSummary && (
         <Grid
           container
           direction="row"
@@ -135,18 +151,39 @@ export default function AllActivity() {
           </Grid>
 
           <Grid container item md={5}>
-            <InfoSection summary={summary} />
+            <InfoSection summary={dataAllSummary?.data?.data} />
           </Grid>
         </Grid>
       )}
-      {!isLoadingOreGetting && dataOreGetting && (
-        <InventorySection title="Realisasi Produksi Inventory SM" subtitle="Kegiatan Penambangan" />
-      )}
-      {!isLoadingOreHauling && dataOreHauling && (
-        <InventorySection title="Realisasi Produksi Inventory ETO" subtitle="Stockfile" />
-      )}
-      {!isLoadingEtoToEfo && dataEtoToEfo && (
-        <InventorySection title="Realisasi Produksi Inventory EFO" subtitle="Stockyard" />
+      {!isLoadingOreGetting &&
+        !isLoadingOreGettingSummary &&
+        dataOreGetting &&
+        dataOreGettingSummary && (
+          <InventorySection
+            title="Realisasi Produksi Inventory SM"
+            subtitle="Kegiatan Penambangan"
+            summary={dataOreGettingSummary?.data?.data[0]}
+            listData={dataOreGetting?.data?.data}
+          />
+        )}
+      {!isLoadingOreHauling &&
+        !isLoadingOreHaulingSummary &&
+        dataOreHauling &&
+        dataOreHaulingSummary && (
+          <InventorySection
+            title="Realisasi Produksi Inventory ETO"
+            subtitle="Stockfile"
+            summary={dataOreHaulingSummary?.data?.data[0]}
+            listData={dataOreHauling?.data?.data}
+          />
+        )}
+      {!isLoadingEtoToEfo && !isLoadingEtoToEfoSummary && dataEtoToEfo && dataEtoToEfoSummary && (
+        <InventorySection
+          title="Realisasi Produksi Inventory EFO"
+          subtitle="Stockyard"
+          summary={dataEtoToEfoSummary?.data?.data[0]}
+          listData={dataEtoToEfo?.data?.data}
+        />
       )}
       <ReportSection />
     </>

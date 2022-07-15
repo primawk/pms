@@ -17,9 +17,9 @@ const InventorySection = ({ title, subtitle, summary, listData }) => {
             <Button variant="text">Lihat Selengkapnya</Button>
           </Grid>
 
-          <Summary />
+          <Summary summary={summary} />
 
-          <ListData subtitle={subtitle} />
+          <ListData subtitle={subtitle} listData={listData} />
         </Grid>
       </Grid>
     </div>

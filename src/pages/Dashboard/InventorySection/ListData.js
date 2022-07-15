@@ -1,18 +1,24 @@
 import { Grid, Typography } from '@mui/material';
 import DashboardList from 'components/List/DashboardList';
 
-const ListData = ({ subtitle }) => {
+const ListData = ({ subtitle, listData }) => {
   return (
     <>
       <Typography variant="h5" mb={2}>
         {subtitle}
       </Typography>
 
-      <Grid container direction="column" alignItems="flex-start" justifyContent="space-between">
-        <DashboardList />
-        <DashboardList />
-        <DashboardList />
-      </Grid>
+      {listData?.length > 0 ? (
+        listData?.map((_list, index) => (
+          <Grid container direction="column" alignItems="flex-start" justifyContent="space-between">
+            <DashboardList listData={{ ..._list, index }} />
+          </Grid>
+        ))
+      ) : (
+        <center>
+          <h1>Data tidak ditemukan !</h1>
+        </center>
+      )}
     </>
   );
 };

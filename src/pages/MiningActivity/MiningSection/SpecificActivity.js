@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid } from '@mui/material';
+import { useQuery } from 'react-query';
+
+// services
+import MiningActivityService from 'services/MiningActivityService';
 
 // components
 import { ChartSection, InventorySection, ReportSection } from '.';
+import { LoadingModal } from 'components/Modal';
 
 const data = [
   {
@@ -65,8 +70,36 @@ export default function SpecificActivity() {
     setSubMenu(value);
   };
 
+  // summary
+  const {
+    data: dataSummary,
+    isLoading: isLoadingSummary,
+    isFetching: isFetchingSummary
+  } = useQuery(
+    ['mining', 'summary', activityType],
+    () => MiningActivityService.getSummary({ activity_type: activityType }),
+    { keepPreviousData: true }
+  );
+
+  // activity
+  const {
+    data: dataActivity,
+    isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['mining', activityType],
+    () =>
+      MiningActivityService.getActivity({
+        page: 1,
+        row: 3,
+        activity_type: activityType
+      }),
+    { keepPreviousData: true }
+  );
+
   return (
     <>
+      {isFetchingSummary && isFetchingActivity && <LoadingModal />}
       <Grid
         container
         direction="row"
@@ -82,22 +115,26 @@ export default function SpecificActivity() {
           chartStyle={{ width: '100%', height: '40vh' }}
         />
       </Grid>
-      <InventorySection
-        title={
-          activityType === 'ore-getting'
-            ? 'Realisasi Produksi Inventory SM'
-            : activityType === 'ore-hauling-to-eto'
-            ? 'Realisasi Produksi Inventory ETO'
-            : 'Realisasi Produksi Inventory EFO'
-        }
-        subtitle={
-          activityType === 'ore-getting'
-            ? 'Kegiatan Penambangan'
-            : activityType === 'ore-hauling-to-eto'
-            ? 'Stockfile'
-            : 'Stockyard'
-        }
-      />
+      {!isLoadingSummary && !isLoadingActivity && dataSummary && dataActivity && (
+        <InventorySection
+          title={
+            activityType === 'ore-getting'
+              ? 'Realisasi Produksi Inventory SM'
+              : activityType === 'ore-hauling-to-eto'
+              ? 'Realisasi Produksi Inventory ETO'
+              : 'Realisasi Produksi Inventory EFO'
+          }
+          subtitle={
+            activityType === 'ore-getting'
+              ? 'Kegiatan Penambangan'
+              : activityType === 'ore-hauling-to-eto'
+              ? 'Stockfile'
+              : 'Stockyard'
+          }
+          summary={dataSummary?.data?.data[0]}
+          listData={dataActivity?.data?.data}
+        />
+      )}
       <ReportSection />
     </>
   );

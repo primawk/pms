@@ -26,7 +26,7 @@ const InfoSection = ({ summary }) => {
         </Grid>
         <Grid item md={5} xs={5}>
           <InfoCard
-            value={summary?.average_ni || '-'}
+            value={summary?.average_ni ? parseFloat(summary?.average_ni) : '-'}
             image={KadarNi}
             name="Kadar Ni"
             date="Hari ini"
