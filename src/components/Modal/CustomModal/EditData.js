@@ -7,7 +7,7 @@ export default function CustomModalEdit({ children, toggle, isShowing, handleClo
     position: 'absolute',
     maxHeight: '90vh',
     overflowY: 'auto',
-    overflowX: 'hidden',
+    overflowX: 'auto',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',

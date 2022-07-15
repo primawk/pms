@@ -6,7 +6,8 @@ export default function CustomModal2({ children, toggle, isShowing, handleClose,
   const style = {
     position: 'absolute',
     maxHeight: '90vh',
-    // overflow: 'auto',
+    overflowY: 'auto',
+    overflowX: 'auto',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -15,7 +16,7 @@ export default function CustomModal2({ children, toggle, isShowing, handleClose,
     borderRadius: '5px',
     // p: 7,
     // pt: 3,
-    width: '25.5rem'
+    width: '31.563rem'
   };
 
   return (

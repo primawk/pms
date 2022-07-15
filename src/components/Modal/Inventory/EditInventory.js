@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button, Box } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
@@ -7,23 +7,13 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import IconButton from '@mui/material/IconButton';
 
 // components
 import CustomModal2 from 'components/Modal/CustomModal/PilihLaporan';
 
-const PilihLaporan = ({ isShowing, toggle }) => {
-  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
-  const navigate = useNavigate();
-
-  const [jenisLaporan, setJenisLaporan] = useState('');
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
+const EditInventory = ({ isShowing, toggle }) => {
   return (
     <CustomModal2 isShowing={isShowing} toggle={toggle}>
       <Grid
@@ -32,8 +22,7 @@ const PilihLaporan = ({ isShowing, toggle }) => {
           width: '31.563rem',
           height: '51.313rem',
           backgroundColor: 'white',
-          borderRadius: '4px',
-          overflowY: 'scroll'
+          borderRadius: '4px'
         }}
       >
         <Grid
@@ -57,7 +46,7 @@ const PilihLaporan = ({ isShowing, toggle }) => {
                 labelId="demo-simple-select-label"
                 label="Jenis Laporan"
                 id="demo-simple-select"
-                onChange={(e) => setJenisLaporan(e.target.value)}
+                // onChange={(e) => setJenisLaporan(e.target.value)}
               >
                 <MenuItem value={'laporan-lab'}></MenuItem>
                 <MenuItem value={'input-laporan-internal'}>Inventory SM</MenuItem>
@@ -98,7 +87,8 @@ const PilihLaporan = ({ isShowing, toggle }) => {
                     paddingTop: '0.5rem',
                     color: 'white',
                     fontSize: '0.875rem',
-                    padding: '12px', cursor: 'pointer'
+                    padding: '12px',
+                    cursor: 'pointer'
                   }}
                 >
                   + Tambah Bukit
@@ -112,13 +102,18 @@ const PilihLaporan = ({ isShowing, toggle }) => {
                     fontSize: '0.875rem',
                     padding: '12px',
                     border: '1px solid #3F48C0',
-                    borderRadius: '0px 4px 0px 0px', cursor: 'pointer'
+                    borderRadius: '0px 4px 0px 0px',
+                    cursor: 'pointer'
                   }}
                 >
                   <Grid container>
-                  <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                  <Grid item sx={{marginLeft: '0.5rem'}}>Hapus Bukit</Grid>
-                  </Grid>       
+                    <Grid item>
+                      <Icon icon="ant-design:delete-filled" color="#3f48c0" />
+                    </Grid>
+                    <Grid item sx={{ marginLeft: '0.5rem' }}>
+                      Hapus Bukit
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
               <Grid
@@ -130,106 +125,73 @@ const PilihLaporan = ({ isShowing, toggle }) => {
                   marginTop: '1.5rem'
                 }}
               >
-                <Box sx={{marginRight: '19.5rem'}}>Dome</Box>
-                     <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'stretch',
-                  border: '1px solid #E0E0E0',
-                  borderBottom: '1',
-                  justifyContent: 'flex-end',width: '22.063rem', border: '1px solid #E0E0E0',
-                  borderRadius: '4px 4px 4px 4px', width: '22.063rem'
-                }}
-              >
-                <Box sx={{ margin: '0.7rem auto 0.5rem 1rem', width: '2rem', backgroundColor:'blue' }}>
-                  Dome
-                </Box>
-              
-                <Grid
-                  item
-                  sx={{
-                    backgroundColor: '#E5E5FE',
-                    paddingTop: '0.5rem',
-                    color: '#3F48C0',
-                    fontSize: '0.875rem',
-                    padding: '12px',
-                    border: '1px solid #3F48C0',
-                    borderRadius: '0px 4px 0px 0px', cursor: 'pointer'
-                  }}
-                >
-                  <Grid container>
-                  <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                  <Grid item sx={{marginLeft: '0.5rem'}}>Hapus Bukit</Grid>
-                  </Grid>       
-                </Grid>
-              </Grid>
                 <Grid item>
                   <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
                   <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel htmlFor="outlined-adornment-password">Dome</InputLabel>
+                    <InputLabel>Dome</InputLabel>
                     <OutlinedInput
-                      id="outlined-adornment-password"
                       // value={values.password}
                       // onChange={handleChange('password')}
                       endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                             <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                        </InputAdornment>
+                        <IconButton>
+                          <Icon icon="ant-design:delete-filled" color="#3f48c0" />
+                        </IconButton>
                       }
-                      label="Password"
+                      label="Dome"
                     />
                   </FormControl>
                 </Grid>
                 <Grid item>
                   <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
                   <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel htmlFor="outlined-adornment-password">Dome</InputLabel>
+                    <InputLabel>Dome</InputLabel>
                     <OutlinedInput
-                      id="outlined-adornment-password"
                       // value={values.password}
                       // onChange={handleChange('password')}
                       endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                     <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                        </InputAdornment>
+                        <IconButton>
+                          <Icon icon="ant-design:delete-filled" color="#3f48c0" />
+                        </IconButton>
                       }
-                      label="Password"
+                      label="Dome"
                     />
                   </FormControl>
                 </Grid>
                 <Grid item>
                   <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
                   <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel htmlFor="outlined-adornment-password">Dome</InputLabel>
+                    <InputLabel>Dome</InputLabel>
                     <OutlinedInput
-                      id="outlined-adornment-password"
                       // value={values.password}
                       // onChange={handleChange('password')}
                       endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray" sx={{cursor: 'pointer'}}>
-                             <IconButton icon="ant-design:delete-filled" />
+                        <InputAdornment
+                          position="end"
+                          backgroundColor="gray"
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          <IconButton>
+                            <Icon icon="ant-design:delete-filled" color="#3f48c0" />
+                          </IconButton>
                         </InputAdornment>
                       }
-                      label="Password"
+                      label="Dome"
                     />
                   </FormControl>
                 </Grid>
                 <Grid item>
                   <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
                   <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel htmlFor="outlined-adornment-password">Dome</InputLabel>
+                    <InputLabel>Dome</InputLabel>
                     <OutlinedInput
-                      id="outlined-adornment-password"
                       // value={values.password}
                       // onChange={handleChange('password')}
                       endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                             <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                        </InputAdornment>
+                        <IconButton>
+                          <Icon icon="ant-design:delete-filled" color="#3f48c0" />
+                        </IconButton>
                       }
-                      label="Password"
+                      label="Dome"
                     />
                   </FormControl>
                 </Grid>
@@ -286,10 +248,10 @@ const PilihLaporan = ({ isShowing, toggle }) => {
   );
 };
 
-PilihLaporan.propTypes = {
+EditInventory.propTypes = {
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   width: PropTypes.string
 };
 
-export default PilihLaporan;
+export default EditInventory;
