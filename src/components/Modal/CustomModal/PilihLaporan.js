@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Fade, Box, Backdrop } from '@mui/material';
 
-export default function CustomModal2({ children, toggle, isShowing, handleClose, width }) {
+export default function PilihLaporan({ children, toggle, isShowing, handleClose }) {
   const style = {
     position: 'absolute',
     maxHeight: '90vh',
-    // overflow: 'auto',
+    overflowY: 'auto',
+    overflowX: 'auto',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -37,7 +38,7 @@ export default function CustomModal2({ children, toggle, isShowing, handleClose,
   );
 }
 
-CustomModal2.propTypes = {
+PilihLaporan.propTypes = {
   children: PropTypes.node.isRequired,
   toggle: PropTypes.func.isRequired,
   isShowing: PropTypes.bool.isRequired,
@@ -45,6 +46,6 @@ CustomModal2.propTypes = {
   width: PropTypes.string
 };
 
-CustomModal2.defaultProps = {
+PilihLaporan.defaultProps = {
   width: '60%'
 };
