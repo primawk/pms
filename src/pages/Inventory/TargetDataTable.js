@@ -17,11 +17,11 @@ import EditInventory from '../../components/Modal/Inventory/EditInventory';
 import useModal from '../../hooks/useModal';
 
 const TargetDataTable = ({ sample, targetTableHead }) => {
-  const { isShowing: isShowingForm, toggle: toggleForm, width } = useModal();
+  const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
 
   return (
     <>
-      <EditInventory toggle={toggleForm} isShowing={isShowingForm} width={width} />
+      <EditInventory toggle={toggleForm} isShowing={isShowingForm} />
       <TableContainer sx={{ mt: 3, width: '100%' }}>
         <Table>
           <TableHead>

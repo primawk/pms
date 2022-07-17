@@ -5,13 +5,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import { Icon } from '@iconify/react';
-import IconButton from '@mui/material/IconButton';
 
 // components
-import CustomModal2 from 'components/Modal/CustomModal/PilihLaporan';
+import CustomModal2 from 'components/Modal/CustomModal/EditInventory';
+import Dome from './Dome';
 
 const EditInventory = ({ isShowing, toggle }) => {
   return (
@@ -19,7 +17,6 @@ const EditInventory = ({ isShowing, toggle }) => {
       <Grid
         container
         sx={{
-          width: '31.563rem',
           height: '51.313rem',
           backgroundColor: 'white',
           borderRadius: '4px'
@@ -61,7 +58,6 @@ const EditInventory = ({ isShowing, toggle }) => {
                 height: '28.875rem',
                 width: '28.563rem',
                 fontSize: '0.875rem',
-                // backgroundColor: 'blue',
                 border: '1px solid #E0E0E0',
                 borderRadius: '4px 4px 0px 0px'
               }}
@@ -116,6 +112,8 @@ const EditInventory = ({ isShowing, toggle }) => {
                   </Grid>
                 </Grid>
               </Grid>
+
+              {/* Dome */}
               <Grid
                 container
                 sx={{
@@ -125,89 +123,23 @@ const EditInventory = ({ isShowing, toggle }) => {
                   marginTop: '1.5rem'
                 }}
               >
-                <Grid item>
-                  <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
-                  <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel>Dome</InputLabel>
-                    <OutlinedInput
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <IconButton>
-                          <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                        </IconButton>
-                      }
-                      label="Dome"
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
-                  <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel>Dome</InputLabel>
-                    <OutlinedInput
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <IconButton>
-                          <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                        </IconButton>
-                      }
-                      label="Dome"
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
-                  <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel>Dome</InputLabel>
-                    <OutlinedInput
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment
-                          position="end"
-                          backgroundColor="gray"
-                          sx={{ cursor: 'pointer' }}
-                        >
-                          <IconButton>
-                            <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label="Dome"
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  <Box sx={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Dome</Box>
-                  <FormControl size="small" variant="outlined" sx={{ width: '22.063rem' }}>
-                    <InputLabel>Dome</InputLabel>
-                    <OutlinedInput
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <IconButton>
-                          <Icon icon="ant-design:delete-filled" color="#3f48c0" />
-                        </IconButton>
-                      }
-                      label="Dome"
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item sx={{ margin: '1rem 3.2rem 1rem auto' }}>
-                  <Button
-                    variant="outlined"
-                    sx={{ fontWeight: '400', width: '10.813rem', backgroundColor: '#E5E5FE' }}
-                    // onClick={toggle}
-                  >
-                    + Tambah Dome
-                  </Button>
-                </Grid>
+                <Dome />
+                <Dome />
+                <Dome />
+              </Grid>
+              <Grid item sx={{ margin: '1rem 1rem 1rem 14.4rem' }}>
+                <Button
+                  variant="outlined"
+                  sx={{ fontWeight: '400', width: '10.813rem', backgroundColor: '#E5E5FE' }}
+                  // onClick={toggle}
+                >
+                  + Tambah Dome
+                </Button>
               </Grid>
             </Box>
           </Grid>
 
+          {/* Button */}
           <Grid
             container
             sx={{
