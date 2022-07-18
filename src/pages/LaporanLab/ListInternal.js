@@ -33,15 +33,18 @@ export default function ListInternal() {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '24px',
             height: '4.625rem',
             borderRadius: '8px 8px 0 0'
           }}
         >
           <Grid
             item
-            sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1.5rem' }}
-            xs={7}
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: '4px',
+              marginLeft: '1.5rem',
+              width: '45%'
+            }}
           >
             <TextField
               id="outlined-basic"
@@ -59,8 +62,7 @@ export default function ListInternal() {
           </Grid>
           <Grid
             item
-            sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1rem' }}
-            xs={2}
+            sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1rem', width: '20%' }}
           >
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
@@ -77,7 +79,7 @@ export default function ListInternal() {
           </Grid>
           <Button
             variant="contained"
-            sx={{ width: '160px', height: '42px', marginRight: '1.5rem', boxShadow: 0 }}
+            sx={{ width: '14%', height: '3.4rem', marginLeft: '1rem', boxShadow: 0 }}
           >
             Search
           </Button>
@@ -89,7 +91,7 @@ export default function ListInternal() {
                 overflow: 'hidden',
                 border: 'none',
                 marginRight: '1.5rem',
-                marginLeft: 'auto'
+                marginLeft: '1rem'
               }}
             >
               Clear All
@@ -152,11 +154,10 @@ export default function ListInternal() {
                 backgroundColor: 'white',
                 border: '1px solid #E0E0E0',
                 borderRadius: '0.25rem',
-                width: '10rem',
+                width: '11rem',
                 height: '6.4375rem',
                 margin: '1.5rem 1rem 1.5rem 1.5rem '
               }}
-              xs={2}
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Semua Laporan</Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>171</Box>
@@ -168,11 +169,10 @@ export default function ListInternal() {
                 border: '1px solid #E0E0E0',
                 borderRadius: '0.25rem',
                 marginLeft: '1rem',
-                width: '10rem',
+                width: '11rem',
                 height: '6.4375rem',
                 margin: '1.5rem 1rem 1.5rem 1rem '
               }}
-              xs={2}
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Internal</Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>71</Box>
@@ -184,11 +184,10 @@ export default function ListInternal() {
                 border: '1px solid #E0E0E0',
                 borderRadius: '0.25rem',
                 marginLeft: '1.5rem',
-                width: '10rem',
+                width: '11rem',
                 height: '6.4375rem',
                 margin: '1.5rem 1rem 1.5rem 1rem'
               }}
-              xs={2}
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Eksternal</Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>100</Box>

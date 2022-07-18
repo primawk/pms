@@ -23,7 +23,7 @@ const ListLaporanEksternal = () => {
       }}
       onClick={() => navigate('/list-detail-eksternal')}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '20%' }}>
         <Grid
           container
           sx={{
@@ -46,7 +46,7 @@ const ListLaporanEksternal = () => {
       </Grid>
 
       {/* Column 2 */}
-      <Grid item xs={1.5}>
+      <Grid item>
         <Grid
           container
           sx={{
@@ -64,7 +64,7 @@ const ListLaporanEksternal = () => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item xs={1.5}>
+      <Grid item>
         <Grid
           container
           sx={{

@@ -26,6 +26,7 @@ import HistoryActivity from 'pages/MiningActivity/MiningSection/HistoryActivity'
 import AllInventory from 'pages/Inventory';
 import LaporanLab from 'pages/LaporanLab';
 import ListDetailEksternal from 'pages/LaporanLab/ListDetailEksternal';
+import DetailDome from 'pages/Inventory/DetailDome';
 
 export default function Routes() {
   return useRoutes([
@@ -108,7 +109,6 @@ export default function Routes() {
       ]
     },
     // Laporan Lab
-
     {
       path: 'input-laporan-eksternal',
       element: <InputLaporanEksternal />
@@ -128,6 +128,10 @@ export default function Routes() {
     {
       path: 'history-edit',
       element: <HistoryEdit />
+    },
+    {
+      path: 'detail-dome',
+      element: <DetailDome />
     },
     {
       path: '/auth',

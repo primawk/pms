@@ -1,9 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Stack, Button, Typography } from '@mui/material';
-
-// custom hooks
-import useModal from 'hooks/useModal';
+import { Stack, Typography } from '@mui/material';
 
 //components
 import ReportList from 'components/List/ReportList';

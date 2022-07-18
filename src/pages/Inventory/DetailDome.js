@@ -3,7 +3,7 @@ import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 
-const HistoryEdit = () => {
+const DetailDome = () => {
   return (
     <>
       <Navbar />
@@ -40,7 +40,7 @@ const HistoryEdit = () => {
               </Grid>
               <Grid item>
                 <Box>
-                  <h2>Riwayat Edit 'Laporan Lab - MS12-IO98P'</h2>
+                  <h2>Bukit 7 / DOME A</h2>
                 </Box>
               </Grid>
             </Grid>
@@ -134,4 +134,4 @@ const HistoryEdit = () => {
   );
 };
 
-export default HistoryEdit;
+export default DetailDome;
