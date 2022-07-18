@@ -66,3 +66,10 @@ export const getUserLocation = () =>
 
 export const genRanHex = (size) =>
   [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+
+export function capitalizeFirstLetter(string) {
+  return string
+    .split('-')
+    .map((_string) => _string.charAt(0).toUpperCase() + _string.substring(1).toLowerCase())
+    .join(' ');
+}

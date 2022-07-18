@@ -6,12 +6,10 @@ import DropIcon from '@iconify/icons-bi/caret-down-fill';
 import NotificationIcon from '@iconify/icons-carbon/notification-filled';
 import { toast } from 'react-toastify';
 
-// components
-import avatarLogo from 'assets/Images/avatar.png';
-
 export default function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+  const name = JSON.parse(localStorage.getItem('user-pms'))?.name;
 
   const handleClickPopOver = (event) => {
     setAnchorEl(event.currentTarget);
@@ -58,8 +56,10 @@ export default function Navbar() {
             <Badge color="error" badgeContent={50} showZero>
               <Icon icon={NotificationIcon} height={24} width={24} color="#3f48c0" />
             </Badge>
-            <Avatar alt="avatar logo" src={avatarLogo} sx={{ width: 35, height: 35 }}></Avatar>
-            <Typography>Putri Devina</Typography>
+            <Avatar sx={{ width: 35, height: 35, bgcolor: '#3F48C0' }}>
+              {name?.substring(0, 1)}
+            </Avatar>
+            <Typography>{name}</Typography>
             <IconButton onClick={handleClickPopOver}>
               <Icon icon={DropIcon} height={15} width={15} color="#828282" />
             </IconButton>

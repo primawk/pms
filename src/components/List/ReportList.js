@@ -1,16 +1,19 @@
 import React from 'react';
-import { Grid, Typography, Stack } from '@mui/material';
+import { Grid, Typography, Stack, Avatar } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
+import dayjs from 'dayjs';
 import ArrowUp from '@iconify/icons-ant-design/caret-up-filled';
 import ArrowDown from '@iconify/icons-ant-design/caret-down-filled';
 
 // assets
 import ExcavatorIcon from 'assets/Images/MiningActivity/ore-getting.png';
 import TruckIcon from 'assets/Images/MiningActivity/ore-hauling-to-eto.png';
-import avatarLogo from 'assets/Images/avatar.png';
 
-const ReportList = ({ activity_type }) => {
+// utils
+import { capitalizeFirstLetter } from 'utils/helper';
+
+const ReportList = ({ listData }) => {
   return (
     <Grid
       container
@@ -29,12 +32,12 @@ const ReportList = ({ activity_type }) => {
       <Grid item lg={2.5} md={2.5} xs={6}>
         <Stack direction="row" alignItems="center" spacing={3}>
           <img
-            src={activity_type === 'ore-getting' ? ExcavatorIcon : TruckIcon}
+            src={listData?.activity_type === 'ore-getting' ? ExcavatorIcon : TruckIcon}
             alt="this-is-logo"
           />
           <Stack>
-            <Typography variant="h5">OreGetting</Typography>
-            <Typography variant="body1">Bukit 7/ Dome A</Typography>
+            <Typography variant="h5">{capitalizeFirstLetter(listData?.activity_type)}</Typography>
+            <Typography variant="body1">{`${listData?.hill_name} / ${listData?.dome_name}`}</Typography>
           </Stack>
         </Stack>
       </Grid>
@@ -42,13 +45,13 @@ const ReportList = ({ activity_type }) => {
         <Typography variant="body1" color="#828282">
           Jenis Produk
         </Typography>
-        <Typography variant="h6">Biji Nikel</Typography>
+        <Typography variant="h6">{listData?.product_type}</Typography>
       </Grid>
       <Grid item lg={1.25} md={1.25} xs={3}>
         <Typography variant="body1" color="#828282">
           Block
         </Typography>
-        <Typography variant="h6">Utara</Typography>
+        <Typography variant="h6">{listData?.block}</Typography>
       </Grid>
       <Grid item lg={3} md={3} xs={6}>
         <Typography variant="body1" color="#828282">
@@ -78,15 +81,17 @@ const ReportList = ({ activity_type }) => {
           Dibuat Oleh
         </Typography>
         <Stack direction="row" alignItems="center" spacing={1}>
-          <img src={avatarLogo} alt={avatarLogo} width={35} height={35} />
-          <Typography variant="body1">Putri Devina</Typography>
+          <Avatar sx={{ width: 35, height: 35, bgcolor: '#3F48C0' }}>
+            {listData?.account_name.substring(0, 1)}
+          </Avatar>
+          <Typography variant="body1">{listData?.account_name}</Typography>
         </Stack>
       </Grid>
       <Grid item lg={2} md={2} xs={6}>
         <Typography variant="body1" color="#828282">
           Tanggal Laporan Dibuat
         </Typography>
-        <Typography variant="h6">12/01/2022</Typography>
+        <Typography variant="h6">{dayjs(listData?.created_at).format('DD/MM/YYYY')}</Typography>
       </Grid>
     </Grid>
   );
@@ -95,5 +100,5 @@ const ReportList = ({ activity_type }) => {
 export default ReportList;
 
 ReportList.propTypes = {
-  activity_type: PropTypes.string
+  listData: PropTypes.object
 };
