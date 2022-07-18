@@ -41,7 +41,7 @@ const Login = () => {
         .then((res) => {
           localStorage.setItem('user-pms', JSON.stringify(res.data.data));
           toast.success('Login berhasil !');
-          navigate('/user-management');
+          navigate('/dashboard');
         })
         .catch((err) => {
           toast.error(err.response.data.detail_message || 'Terjadi kesalahan !');
