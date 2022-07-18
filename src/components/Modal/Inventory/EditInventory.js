@@ -8,12 +8,12 @@ import Select from '@mui/material/Select';
 import { Icon } from '@iconify/react';
 
 // components
-import CustomModal2 from 'components/Modal/CustomModal/EditInventory';
+import CustomModal from 'components/Modal/CustomModal/CustomModal';
 import Dome from './Dome';
 
 const EditInventory = ({ isShowing, toggle }) => {
   return (
-    <CustomModal2 isShowing={isShowing} toggle={toggle}>
+    <CustomModal isShowing={isShowing} toggle={toggle} width="31.563rem">
       <Grid
         container
         sx={{
@@ -176,7 +176,7 @@ const EditInventory = ({ isShowing, toggle }) => {
           </Grid>
         </Grid>
       </Grid>
-    </CustomModal2>
+    </CustomModal>
   );
 };
 
