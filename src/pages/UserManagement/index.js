@@ -6,14 +6,9 @@ import { Grid, Tabs, Tab } from '@mui/material';
 import Header from 'components/Header';
 import { Filter, UserTable, RoleTable } from './UserSection';
 
-// custom hooks
-import useAuth from 'hooks/useAuth';
-
 export default function UserManagement() {
   const navigate = useNavigate();
   const { tabType } = useParams();
-
-  useAuth();
 
   const [search, setSearch] = useState({ search: '', role: '' });
   const [isSearch, setIsSearch] = useState(false);
@@ -45,9 +40,11 @@ export default function UserManagement() {
       <Header title="USER MANAGEMENT" background="user-management.png" />
 
       <div className="app-content pt-0">
-        <Grid container direction="row" justifyContent="center" alignItems="center">
-          <Filter onSubmit={onSubmit} onChange={handleChangeSearch} filter={search} />
-        </Grid>
+        {tabType === 'user' && (
+          <Grid container direction="row" justifyContent="center" alignItems="center">
+            <Filter onSubmit={onSubmit} onChange={handleChangeSearch} filter={search} />
+          </Grid>
+        )}
         <div className="user-table bg-white" style={{ borderRadius: '5px' }}>
           <Tabs value={tab} onChange={handleChangeTab} style={{ marginBottom: '0px !important' }}>
             <Tab label="List Pengguna" value="user" />

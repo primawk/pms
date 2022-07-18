@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import useModal from 'hooks/useModal';
 import usePagination from 'hooks/usePagination';
 import useLoading from 'hooks/useLoading';
+import useAuth from 'hooks/useAuth';
 
 // components
 import { DeleteModal, LoadingModal } from 'components/Modal';
@@ -65,9 +66,10 @@ export default function RoleTable() {
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
+  const { isGranted } = useAuth();
+
   const { isLoadingAction, toggleLoading } = useLoading();
 
-  // reset page
   const { page, totalPage, handleChangePage, resetPage } = usePagination(
     pagination || { total_data: 0 }
   );
@@ -128,24 +130,20 @@ export default function RoleTable() {
 
   return (
     <>
+      {isFetching && <LoadingModal />}
       {!isLoading && data && (
-        <>
-          {isFetching ? (
-            <LoadingModal />
-          ) : (
-            <BasicTable
-              headCells={headCells}
-              withSelect
-              rows={data?.data?.data}
-              actions={actions}
-              edit
-              onEdit={handleEdit}
-              remove
-              onDelete={handleOpenDelete}
-              title="Role & Hak Akses"
-            />
-          )}
-        </>
+        <BasicTable
+          headCells={headCells}
+          withSelect={isGranted}
+          withToolbar={isGranted}
+          rows={data?.data?.data}
+          actions={isGranted ? actions : []}
+          edit={isGranted}
+          onEdit={handleEdit}
+          remove={isGranted}
+          onDelete={handleOpenDelete}
+          title="Role & Hak Akses"
+        />
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
       <FormRole

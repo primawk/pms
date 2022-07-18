@@ -1,12 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import JwtDecode from 'jwt-decode';
 
+// custom hooks
+import RoleService from 'services/RoleService';
+
 export default function useAuth() {
-  const userPms = JSON.parse(localStorage.getItem('user-pms'));
   const navigate = useNavigate();
   const location = useLocation();
+
+  const userPms = JSON.parse(localStorage.getItem('user-pms'));
+  const id = userPms?.role_id;
+  const currentPath = location.pathname.split('/')[1];
+
+  const [isGranted, setIsGranted] = useState(false);
+
+  const { data } = useQuery(['roles', id], () => RoleService.getRoleById({ id }), {
+    keepPreviousData: true,
+    enabled: !!id
+  });
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -19,8 +33,15 @@ export default function useAuth() {
           navigate('/');
           window.location.reload();
         }
+        if (data?.data?.data?.action?.[currentPath] === 'Edit and Delete') {
+          setIsGranted(true);
+        } else {
+          setIsGranted(false);
+        }
       }
     }
-  }, [userPms, location.pathname]);
-  return <></>;
+  }, [data]);
+  return {
+    isGranted
+  };
 }

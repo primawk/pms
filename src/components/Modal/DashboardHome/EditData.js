@@ -12,7 +12,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 // components
 import CustomModalEdit from 'components/Modal/CustomModal/EditData';
 
-const EditData = ({ isShowing, toggle, width }) => {
+const EditData = ({ isShowing, toggle }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
 
   const handleChange = (newValue) => {
@@ -20,7 +20,7 @@ const EditData = ({ isShowing, toggle, width }) => {
   };
 
   return (
-    <CustomModalEdit isShowing={isShowing} toggle={toggle} width={width}>
+    <CustomModalEdit isShowing={isShowing} toggle={toggle}>
       <Grid
         container
         sx={{

@@ -111,7 +111,8 @@ export default function BasicTable({
   onSelectOneActions,
   edit,
   remove,
-  withSelect
+  withSelect,
+  withToolbar
 }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
@@ -159,17 +160,19 @@ export default function BasicTable({
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <BasicTableToolbar
-          numSelected={selected.length}
-          actions={actions}
-          title={title}
-          onSelectActions={onSelectActions}
-          onSelectOneActions={onSelectOneActions}
-          edit={edit}
-          remove={remove}
-          onEdit={(event) => onEdit(event, selected)}
-          onDelete={(event) => onDelete(event, selected)}
-        />
+        {withToolbar && (
+          <BasicTableToolbar
+            numSelected={selected.length}
+            actions={actions}
+            title={title}
+            onSelectActions={onSelectActions}
+            onSelectOneActions={onSelectOneActions}
+            edit={edit}
+            remove={remove}
+            onEdit={(event) => onEdit(event, selected)}
+            onDelete={(event) => onDelete(event, selected)}
+          />
+        )}
         <TableContainer classes={{ root: classes.customTableContainer }}>
           <Table
             className={classes.table}
@@ -186,6 +189,7 @@ export default function BasicTable({
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              withSelect={withSelect}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -255,7 +259,8 @@ BasicTable.propTypes = {
   onDelete: PropTypes.func,
   edit: PropTypes.bool,
   remove: PropTypes.bool,
-  withSelect: PropTypes.bool
+  withSelect: PropTypes.bool,
+  withToolbar: PropTypes.bool
 };
 
 BasicTable.defaultProps = {

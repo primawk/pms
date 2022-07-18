@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import useModal from 'hooks/useModal';
 import usePagination from 'hooks/usePagination';
 import useLoading from 'hooks/useLoading';
+import useAuth from 'hooks/useAuth';
 
 // components
 import { DeleteModal, LoadingModal } from 'components/Modal';
@@ -65,6 +66,8 @@ export default function UserTable({ search, isSearch }) {
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+
+  const { isGranted } = useAuth();
 
   const { isLoadingAction, toggleLoading } = useLoading();
 
@@ -133,24 +136,20 @@ export default function UserTable({ search, isSearch }) {
 
   return (
     <>
+      {isFetching && <LoadingModal />}
       {!isLoading && data && (
-        <>
-          {isFetching ? (
-            <LoadingModal />
-          ) : (
-            <BasicTable
-              headCells={headCells}
-              withSelect
-              rows={data?.data?.data}
-              actions={actions}
-              edit
-              onEdit={handleEdit}
-              remove
-              onDelete={handleOpenDelete}
-              title="User"
-            />
-          )}
-        </>
+        <BasicTable
+          headCells={headCells}
+          withSelect={isGranted}
+          withToolbar={isGranted}
+          rows={data?.data?.data}
+          actions={isGranted ? actions : []}
+          edit={isGranted}
+          onEdit={handleEdit}
+          remove={isGranted}
+          onDelete={handleOpenDelete}
+          title="User"
+        />
       )}
       <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
       <FormUser

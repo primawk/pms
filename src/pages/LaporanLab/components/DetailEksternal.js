@@ -2,8 +2,9 @@ import React from 'react';
 import { Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import avatarLogo from 'assets/Images/avatar.png';
+import { Icon } from '@iconify/react';
 
-const ListLaporanInternal = () => {
+const DetailEksternal = () => {
   const navigate = useNavigate();
 
   return (
@@ -22,7 +23,7 @@ const ListLaporanInternal = () => {
         gap: '4.5rem',
         cursor: 'pointer'
       }}
-      onClick={() => navigate('/detail-internal')}
+      onClick={() => navigate('/detail-eksternal')}
     >
       <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
         <Grid
@@ -34,6 +35,9 @@ const ListLaporanInternal = () => {
             gap: '1rem'
           }}
         >
+          <Grid item md={1} xs={12} sx={{ marginLeft: '0.5rem' }}>
+            <h4>1</h4>
+          </Grid>
           <Box>
             <img src="/img/eksternal.png" alt=""></img>
           </Box>
@@ -47,34 +51,16 @@ const ListLaporanInternal = () => {
               }}
             >
               <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5>Sample Test PIT</h5>
+                <h5 style={{ color: '#828282' }}>Kode Sample</h5>
               </Box>
               <Box>
-                <h5 style={{ color: '#828282' }}>MS102-1098P</h5>
+                <h5>MS102-1098P</h5>
               </Box>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
       {/* Column 2 */}
-      <Grid item xs={1.5}>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Box sx={{ marginBottom: '0.5rem' }}>
-            <h5 style={{ color: '#828282' }}>Bukit</h5>
-          </Box>
-          <Box>
-            <h5>Bukit IV</h5>
-          </Box>
-        </Grid>
-      </Grid>
-
-      {/* Column 3 */}
       <Grid item xs={1.5}>
         <Grid
           container
@@ -102,7 +88,7 @@ const ListLaporanInternal = () => {
         </Grid>
       </Grid>
 
-      {/* Column 4 */}
+      {/* Column 3 */}
       <Grid item xs={1.5}>
         <Grid
           container
@@ -124,6 +110,27 @@ const ListLaporanInternal = () => {
               </Box>
             </Grid>
           </Box>
+        </Grid>
+      </Grid>
+
+      {/* Column 4 */}
+      <Grid item xs={1.5}>
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Box sx={{ marginBottom: '0.5rem' }}>
+            <h5 style={{ color: '#828282' }}>Attachment</h5>
+          </Box>
+          <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Icon icon="ph:file-pdf-duotone" color="#3f48c0" fontSize={24} />
+            <Box>
+              <h5 style={{ marginLeft: '1rem' }}>Laporan Lab.pdf</h5>
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -152,4 +159,4 @@ const ListLaporanInternal = () => {
   );
 };
 
-export default ListLaporanInternal;
+export default DetailEksternal;

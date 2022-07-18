@@ -18,8 +18,10 @@ const ListLaporanEksternal = () => {
         height: '6.125rem',
         borderBottom: 1,
         borderBottomColor: '#E0E0E0',
-        gap: '4.5rem'
+        gap: '4.5rem',
+        cursor: 'pointer'
       }}
+      onClick={() => navigate('/list-detail-eksternal')}
     >
       <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
         <Grid
@@ -31,7 +33,6 @@ const ListLaporanEksternal = () => {
             gap: '1rem',
             cursor: 'pointer'
           }}
-          onClick={() => navigate('/detail-eksternal')}
         >
           <Box>
             <img src="/img/eksternal.png" alt=""></img>

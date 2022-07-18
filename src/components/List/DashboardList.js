@@ -1,7 +1,8 @@
+/* eslint-disable no-useless-concat */
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
-const DashboardList = () => {
+const DashboardList = ({ listData }) => {
   return (
     <Grid
       container
@@ -17,8 +18,10 @@ const DashboardList = () => {
         mt: 1
       }}
     >
-      <Grid item md={1} xs={12} sx={{marginLeft: '0.5rem'}}>
-        <Typography variant="h4">1</Typography>
+      <Grid item md={1} xs={12} sx={{ marginLeft: '0.5rem' }}>
+        <Typography variant="h4">
+          {listData?.index !== undefined ? listData?.index + 1 : '-'}
+        </Typography>
       </Grid>
       <Grid
         container
@@ -33,7 +36,7 @@ const DashboardList = () => {
         <Typography variant="body1" color="#828282">
           Tumpukan
         </Typography>
-        <Typography variant="h6">Bukit 7/ Dome A</Typography>
+        <Typography variant="h6">{listData?.dome_name || '-'}</Typography>
       </Grid>
       <Grid
         container
@@ -48,7 +51,7 @@ const DashboardList = () => {
         <Typography variant="body1" color="#828282">
           Tonase
         </Typography>
-        <Typography variant="h6">123,45 Ton</Typography>
+        <Typography variant="h6">{listData?.tonnage_total || '-'}</Typography>
       </Grid>
       <Grid
         container
@@ -72,7 +75,7 @@ const DashboardList = () => {
           >
             Ni
           </Typography>
-          <Typography variant="body1">= 1,75%</Typography>
+          <Typography variant="body1">{`= ${listData?.ni_level || '-'}`}</Typography>
           <Typography
             variant="body2"
             fontWeight="bold"
@@ -80,9 +83,13 @@ const DashboardList = () => {
             mr={1}
             ml={2}
           >
-            SiMg
+            {listData?.activity_type === 'eto-to-efo' ? 'SiMg' : 'Fe'}
           </Typography>
-          <Typography variant="body1">= 2,18%</Typography>
+          <Typography variant="body1">
+            {listData?.activity_type === 'eto-to-efo'
+              ? '= ' + listData?.simgo_level || ''
+              : '= ' + listData?.fe_level || ''}
+          </Typography>
         </Grid>
       </Grid>
       <Grid

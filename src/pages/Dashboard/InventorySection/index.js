@@ -5,7 +5,7 @@ import { Button, Grid, Typography } from '@mui/material';
 import Summary from './Summary';
 import ListData from './ListData';
 
-const InventorySection = ({ title, subtitle }) => {
+const InventorySection = ({ title, subtitle, summary, listData }) => {
   return (
     <div className="app-content">
       <Grid sx={{ background: 'white' }}>
@@ -17,9 +17,9 @@ const InventorySection = ({ title, subtitle }) => {
             <Button variant="text">Lihat Selengkapnya</Button>
           </Grid>
 
-          <Summary />
+          <Summary summary={summary} />
 
-          <ListData subtitle={subtitle} />
+          <ListData subtitle={subtitle} listData={listData} />
         </Grid>
       </Grid>
     </div>
