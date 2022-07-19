@@ -36,7 +36,9 @@ const ReportList = ({ listData }) => {
             alt="this-is-logo"
           />
           <Stack>
-            <Typography variant="h5">{capitalizeFirstLetter(listData?.activity_type)}</Typography>
+            <Typography variant="h5">
+              {listData?.activity_type ? capitalizeFirstLetter(listData?.activity_type) : ''}
+            </Typography>
             <Typography variant="body1">{`${listData?.hill_name} / ${listData?.dome_name}`}</Typography>
           </Stack>
         </Stack>

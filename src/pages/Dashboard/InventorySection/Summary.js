@@ -18,7 +18,7 @@ const Summary = ({ summary }) => {
         </Grid>
         <Grid item md={2.75} xs={5}>
           <InfoCard
-            value={summary?.average_ni ? parseFloat(summary?.average_ni) : '-'}
+            value={`${summary?.average_ni ? parseFloat(summary?.average_ni) : '0'} %`}
             image={KadarNi}
             name="Rata-Rata Kadar Ni"
           />
@@ -26,12 +26,16 @@ const Summary = ({ summary }) => {
         <Grid item md={2.75} xs={5}>
           {summary?.activity_type === 'eto-to-efo' ? (
             <InfoCard
-              value={summary?.average_simgo || '-'}
+              value={`${summary?.average_simgo ? parseFloat(summary?.average_simgo) : '0'} %`}
               image={KadarSimgo}
               name="Rata-Rata Kadar SiMgO"
             />
           ) : (
-            <InfoCard value="-" image={KadarSimgo} name="Rata-Rata Kadar FE" />
+            <InfoCard
+              value={`${summary?.average_fe ? parseFloat(summary?.average_fe) : '0'} %`}
+              image="/img/fe.png"
+              name="Rata-Rata Kadar FE"
+            />
           )}
         </Grid>
       </Grid>
