@@ -88,7 +88,7 @@ const ListLaporanInternal = () => {
           </Box>
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>
-              <Box>
+              {/* <Box>
                 <h5>2 Preparasi</h5>
               </Box>
               <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
@@ -96,7 +96,8 @@ const ListLaporanInternal = () => {
               </Box>
               <Box>
                 <h5>4 Analisa</h5>
-              </Box>
+              </Box> */}
+              Dome 1
             </Grid>
           </Box>
         </Grid>
@@ -128,7 +129,7 @@ const ListLaporanInternal = () => {
       </Grid>
 
       {/* Column 5 */}
-      <Grid item sx={{ width: '11%' }}>
+      <Grid item sx={{ width: '15%' }}>
         <Grid
           container
           sx={{

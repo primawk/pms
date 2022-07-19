@@ -20,6 +20,12 @@ const HasilAnalisa = () => {
           <Box sx={{ marginBottom: '1rem' }}>Kode Sample</Box>
           <TextField id="outlined-basic" label="Kode Sample" variant="outlined" size="small" />
         </Grid>
+        <Grid
+          sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
+        >
+          <Box sx={{ marginBottom: '1rem' }}>Inputan Preparasi</Box>
+          <TextField id="outlined-basic" label="Inputan Preparasi" variant="outlined" size="small" />
+        </Grid>
       </Grid>
       <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
         <Grid

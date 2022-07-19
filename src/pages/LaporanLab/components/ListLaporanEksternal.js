@@ -90,6 +90,27 @@ const ListLaporanEksternal = () => {
           </Box>
         </Grid>
       </Grid>
+      {/* Column 4 */}
+      <Grid item>
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Box sx={{ marginBottom: '0.5rem' }}>
+            <h5 style={{ color: '#828282' }}>Sample Terakhir</h5>
+          </Box>
+          <Box>
+            <Grid container sx={{ alignItems: 'center' }}>
+              <Box>
+                <h5>12 / 07 / 2022</h5>
+              </Box>
+            </Grid>
+          </Box>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
