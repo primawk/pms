@@ -12,7 +12,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useNavigate } from 'react-router-dom';
 
 // components
-import CustomModal2 from 'components/Modal/CustomModal/PilihLaporan';
+import CustomModal from 'components/Modal/CustomModal/CustomModal';
 
 const PilihLaporan = ({ isShowing, toggle }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
@@ -25,11 +25,10 @@ const PilihLaporan = ({ isShowing, toggle }) => {
   };
 
   return (
-    <CustomModal2 isShowing={isShowing} toggle={toggle}>
+    <CustomModal isShowing={isShowing} toggle={toggle} width="25.5rem">
       <Grid
         container
         sx={{
-          width: '25.5rem',
           height: '36.875rem',
           backgroundColor: 'white',
           borderRadius: '4px'
@@ -105,7 +104,7 @@ const PilihLaporan = ({ isShowing, toggle }) => {
           </Grid>
         </Grid>
       </Grid>
-    </CustomModal2>
+    </CustomModal>
   );
 };
 

@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
 // components
-import CustomModalEdit from 'components/Modal/CustomModal/EditData';
+import CustomModal from 'components/Modal/CustomModal/CustomModal';
 
 const TambahTarget = ({ isShowing, toggle, width }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
@@ -20,11 +20,10 @@ const TambahTarget = ({ isShowing, toggle, width }) => {
   };
 
   return (
-    <CustomModalEdit isShowing={isShowing} toggle={toggle} width={width}>
+    <CustomModal isShowing={isShowing} toggle={toggle} width="52.125rem">
       <Grid
         container
         sx={{
-          width: '52.125rem',
           height: '48.063rem',
           backgroundColor: 'white',
           borderRadius: '4px',
@@ -508,7 +507,7 @@ const TambahTarget = ({ isShowing, toggle, width }) => {
           </Grid>
         </Grid>
       </Grid>
-    </CustomModalEdit>
+    </CustomModal>
   );
 };
 

@@ -23,7 +23,7 @@ const ListLaporanEksternal = () => {
       }}
       onClick={() => navigate('/list-detail-eksternal')}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '20%' }}>
         <Grid
           container
           sx={{
@@ -46,7 +46,7 @@ const ListLaporanEksternal = () => {
       </Grid>
 
       {/* Column 2 */}
-      <Grid item xs={1.5}>
+      <Grid item>
         <Grid
           container
           sx={{
@@ -64,7 +64,7 @@ const ListLaporanEksternal = () => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item xs={1.5}>
+      <Grid item>
         <Grid
           container
           sx={{
@@ -85,6 +85,27 @@ const ListLaporanEksternal = () => {
               </Box>
               <Box>
                 <h5>4 Analisa</h5>
+              </Box>
+            </Grid>
+          </Box>
+        </Grid>
+      </Grid>
+      {/* Column 4 */}
+      <Grid item>
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Box sx={{ marginBottom: '0.5rem' }}>
+            <h5 style={{ color: '#828282' }}>Sample Terakhir</h5>
+          </Box>
+          <Box>
+            <Grid container sx={{ alignItems: 'center' }}>
+              <Box>
+                <h5>12 / 07 / 2022</h5>
               </Box>
             </Grid>
           </Box>
