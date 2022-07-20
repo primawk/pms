@@ -84,6 +84,8 @@ const DetailDome = () => {
             </Grid>
           </Grid>
         </Grid>
+
+        {/* List Dome */}
         <Grid
           container
           sx={{

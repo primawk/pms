@@ -10,7 +10,7 @@ const InfoSection = () => {
   return (
     <Grid container direction="row" alignItems="flex-start">
       <Grid item sx={{ marginLeft: '2rem', width: '17.313rem' }}>
-        <InfoCard value="1000231" image={Tonase} name="Sisa Inventory" />
+        <InfoCard value="1000231" name="Sisa Inventory" />
       </Grid>
       <Grid item sx={{ marginLeft: '2rem', width: '13.125rem' }}>
         <InfoCard value="723" image={JumlahLot} name="Jumlah Lot" />
