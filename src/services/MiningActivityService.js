@@ -20,7 +20,7 @@ const getActivity = ({ page, row, activity_type } = {}) => {
   });
 };
 
-const getSummary = ({ page, row, activity_type } = {}) => {
+const getSummary = ({ activity_type } = {}) => {
   const params = [];
   if (activity_type) {
     params.push(['activity_type', activity_type]);
@@ -32,9 +32,28 @@ const getSummary = ({ page, row, activity_type } = {}) => {
   });
 };
 
+const getDomeSummary = ({ page, row, inventory_type } = {}) => {
+  const params = [];
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (row) {
+    params.push(['row', row]);
+  }
+  if (inventory_type) {
+    params.push(['inventory_type', inventory_type]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/activity/dome`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
 const MiningActivityService = {
   getActivity,
-  getSummary
+  getSummary,
+  getDomeSummary
 };
 
 export default MiningActivityService;

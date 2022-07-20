@@ -75,7 +75,9 @@ const DashboardList = ({ listData }) => {
           >
             Ni
           </Typography>
-          <Typography variant="body1">{`= ${listData?.ni_level || '-'}`}</Typography>
+          <Typography variant="body1">{`= ${
+            listData?.average_ni ? parseFloat(listData?.average_ni) : '0'
+          } %`}</Typography>
           <Typography
             variant="body2"
             fontWeight="bold"
@@ -83,13 +85,11 @@ const DashboardList = ({ listData }) => {
             mr={1}
             ml={2}
           >
-            {listData?.activity_type === 'eto-to-efo' ? 'SiMg' : 'Fe'}
+            Fe
           </Typography>
-          <Typography variant="body1">
-            {listData?.activity_type === 'eto-to-efo'
-              ? '= ' + listData?.simgo_level || ''
-              : '= ' + listData?.fe_level || ''}
-          </Typography>
+          <Typography variant="body1">{`= ${
+            listData?.average_fe ? parseFloat(listData?.average_fe) : '0'
+          } %`}</Typography>
         </Grid>
       </Grid>
       <Grid
