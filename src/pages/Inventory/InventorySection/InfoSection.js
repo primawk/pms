@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import InfoCard from './InfoCardHome';
-import Tonase from '../../../assets/Images/Dashboard/Tonase.png';
 import JumlahLot from '../../../assets/Images/Dashboard/JumlahLot.png';
 import KadarNi from '../../../assets/Images/Dashboard/Ni.png';
 import KadarSimgo from '../../../assets/Images/Dashboard/simgo.png';
