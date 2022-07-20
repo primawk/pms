@@ -1,24 +1,34 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import InfoCard from './InfoCardHome';
+import InfoCard from 'components/Card/InfoCard';
 import JumlahLot from '../../../assets/Images/Dashboard/JumlahLot.png';
 import KadarNi from '../../../assets/Images/Dashboard/Ni.png';
 import KadarSimgo from '../../../assets/Images/Dashboard/simgo.png';
 
-const InfoSection = () => {
+const InfoSection = ({ dataSummary }) => {
   return (
-    <Grid container direction="row" alignItems="flex-start">
-      <Grid item sx={{ marginLeft: '2rem', width: '17.313rem' }}>
-        <InfoCard value="1000231" name="Sisa Inventory" />
+    <Grid container direction="row" alignItems="flex-start" justifyContent="center" spacing={3}>
+      <Grid item lg={4} sm={4}>
+        <InfoCard value={`${dataSummary?.tonnage_total || 0} Ton`} name="Sisa Inventory">
+          <p>kelass</p>
+        </InfoCard>
       </Grid>
-      <Grid item sx={{ marginLeft: '2rem', width: '13.125rem' }}>
-        <InfoCard value="723" image={JumlahLot} name="Jumlah Lot" />
+      <Grid item lg={2.5} sm={2.5}>
+        <InfoCard value={dataSummary?.sublot_total || 0} image={JumlahLot} name="Jumlah Lot" />
       </Grid>
-      <Grid item sx={{ marginLeft: '2rem', width: '13.125rem' }}>
-        <InfoCard value="1,768%" image={KadarNi} name="Rata-Rata Kadar Ni" />
+      <Grid item lg={2.5} sm={2.5}>
+        <InfoCard
+          value={`${dataSummary?.average_ni ? parseFloat(dataSummary?.average_ni) : '0'} %`}
+          image={KadarNi}
+          name="Rata-Rata Kadar Ni"
+        />
       </Grid>
-      <Grid item sx={{ marginLeft: '2rem', width: '13.125rem' }}>
-        <InfoCard value="2,1768%" image={KadarSimgo} name="Rata-Rata Kadar SiMgO" />
+      <Grid item lg={3} sm={3}>
+        <InfoCard
+          value={`${dataSummary?.average_simgo ? parseFloat(dataSummary?.average_simgo) : '0'} %`}
+          image={KadarSimgo}
+          name="Rata-Rata Kadar SiMgO"
+        />
       </Grid>
     </Grid>
   );

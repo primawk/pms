@@ -1,11 +1,8 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
-const ListDome = () => {
-  const navigate = useNavigate();
-
+const ListDome = ({ data }) => {
   return (
     <>
       <Grid
@@ -20,10 +17,8 @@ const ListDome = () => {
           height: '6.125rem',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
-          gap: '4.5rem',
-          cursor: 'pointer'
+          gap: '4.5rem'
         }}
-        onClick={() => navigate('/list-detail-eksternal')}
       >
         <Grid item>
           <Grid
@@ -42,7 +37,7 @@ const ListDome = () => {
                 <Icon icon="bxs:up-arrow" color="#27ae60" />
               </Box>
               <Box>
-                <h3 style={{ color: '#27ae60' }}>2,4 Ton</h3>
+                <h3 style={{ color: '#27ae60' }}>{`${data?.tonnage_total} Ton`}</h3>
               </Box>
             </Grid>
           </Grid>
@@ -61,7 +56,7 @@ const ListDome = () => {
               <h5 style={{ color: '#828282' }}>Jenis Produk</h5>
             </Box>
             <Box>
-              <h5>Biji Nikel</h5>
+              <h5>{data?.product_type}</h5>
             </Box>
           </Grid>
         </Grid>
@@ -81,7 +76,7 @@ const ListDome = () => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>Utara</h5>
+                  <h5>{data?.block}</h5>
                 </Box>
               </Grid>
             </Box>

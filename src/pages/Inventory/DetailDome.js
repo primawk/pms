@@ -1,130 +1,143 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
-import Navbar from '../../components/Navbar';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { useQuery } from 'react-query';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import ArrowBack from '@iconify-icons/akar-icons/arrow-back';
+
+// custom hooks
+import usePagination from 'hooks/usePagination';
+
+// components
 import InfoSection from './InventorySection/InfoSection';
 import ListDome from './ListDome';
 import CustomPagination from '../../components/Pagination/index';
+import { LoadingModal } from 'components/Modal';
+
+// services
+import MiningActivityService from 'services/MiningActivityService';
 
 const DetailDome = () => {
+  const navigate = useNavigate();
+  const [pagination, setPagination] = useState({});
+
+  const { inventoryType, idDome } = useParams();
+
+  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+
+  const {
+    data,
+    isFetching: isFetchingSummary,
+    isLoading: isLoadingSummary
+  } = useQuery(
+    ['summary', 'detail-dome', inventoryType, idDome],
+    () =>
+      MiningActivityService.getDomeSummary({
+        inventory_type: 'SM',
+        dome_id: idDome
+      }),
+    {
+      keepPreviousData: true,
+      enabled: !!idDome
+    }
+  );
+
+  const dataSummary = data?.data?.data[0];
+
+  const {
+    data: dataActivity,
+    isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['mining', inventoryType, page, idDome],
+    () =>
+      MiningActivityService.getActivity({
+        page: page,
+        row: 10,
+        dome_id: idDome
+      }),
+    { keepPreviousData: true }
+  );
+
+  useEffect(() => {
+    setPagination(dataActivity?.data?.pagination);
+  }, [dataActivity]);
+
   return (
     <>
-      <Navbar />
       <div className="app-content">
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'white',
-            width: '90%',
-            marginTop: '2.5rem',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            marginBottom: 'auto',
-            borderRadius: '4px'
+        <div
+          style={{
+            background: 'white',
+            borderTopRightRadius: '5px',
+            borderTopLeftRadius: '5px',
+            padding: '20px'
           }}
         >
-          <Grid item>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                margin: '1rem 0.5rem 0.3rem 2rem',
-                alignItems: 'center'
-              }}
-            >
-              <Grid item>
-                <Button variant="outlined" sx={{ marginRight: '1rem' }}>
-                  <Icon icon="akar-icons:arrow-back" color="#3f48c0" fontSize={16} />
-                  <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
-                </Button>
+          {isFetchingSummary && isFetchingActivity && <LoadingModal />}
+          {!isLoadingSummary && !isLoadingActivity && dataSummary && dataActivity && (
+            <>
+              <Grid container direction="column">
+                <Grid item>
+                  <Grid container justifyContent="flex-start" alignItems="center" spacing={3}>
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        startIcon={<Icon width={25} height={25} icon={ArrowBack} />}
+                        onClick={() => navigate(-1)}
+                      >
+                        Back
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <h2>{`${dataSummary?.hill_name} / ${dataSummary?.dome_name}`}</h2>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <InfoSection dataSummary={dataSummary} />
+                </Grid>
               </Grid>
-              <Grid item>
-                <h2>Bukit 7 / DOME A</h2>
-              </Grid>
+
+              {/* List Dome */}
               <Grid
-                item
+                container
                 sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
                   backgroundColor: 'white',
-                  borderRadius: '4px',
-                  margin: '0 0 1rem 1rem',
-                  width: '14rem',
-                  height: '3rem'
+                  width: '90%',
+                  marginTop: '2.5rem',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  marginBottom: 'auto',
+                  borderRadius: '4px'
                 }}
               >
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    label="Filter Tanggal | Hari ini"
-                    id="demo-simple-select"
-                  >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
+                <Box sx={{ margin: '1rem 1rem 1rem 2rem' }}>
+                  <h3>{`Kegiatan Terakhir (${dataActivity?.data?.pagination?.total_data})`}</h3>
+                </Box>
+                {dataActivity?.data?.data.map((_list) => (
+                  <div key={_list?.id}>
+                    <Link
+                      to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      key={_list.id}
+                    >
+                      <ListDome data={_list} />
+                    </Link>
+                  </div>
+                ))}
+
+                <CustomPagination
+                  count={totalPage}
+                  page={page}
+                  handleChangePage={handleChangePage}
+                />
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              height: '14%'
-            }}
-          >
-            <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-              <InfoSection />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        {/* List Dome */}
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'white',
-            width: '90%',
-            marginTop: '2.5rem',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            marginBottom: 'auto',
-            borderRadius: '4px'
-          }}
-        >
-          <Box sx={{ margin: '1rem 1rem 1rem 2rem' }}>
-            <h3>Kegiatan Terakhir (32)</h3>
-          </Box>
-          <ListDome />
-          <ListDome />
-          <ListDome />
-          <ListDome />
-          <ListDome />
-
-           {/* Pagination */}
-           <Grid
-            container
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              marginRight: '3rem'
-            }}
-          >
-            <Grid item sx={{ width: '100%' }}>
-              <CustomPagination />
-            </Grid>
-          </Grid>
-        </Grid>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

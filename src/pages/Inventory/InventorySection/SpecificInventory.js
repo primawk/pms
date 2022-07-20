@@ -1,53 +1,80 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-// import { Grid } from '@mui/material';
+import { useQuery } from 'react-query';
 
 // components
 import { InventorySection, ReportSection, MasterData } from '.';
+import { LoadingModal } from 'components/Modal';
+
+// services
+import MiningActivityService from 'services/MiningActivityService';
 
 export default function SpecificInventory() {
-  // const [subMenu, setSubMenu] = useState(0);
-  const { activityType } = useParams();
+  const { inventoryType } = useParams();
 
-  // const handleChangeSubMenu = (value) => {
-  //   setSubMenu(value);
-  // };
+  const activityType =
+    inventoryType === 'inventory-sm'
+      ? // inventory-sm
+        'ore-getting'
+      : inventoryType === 'inventory-eto'
+      ? 'ore-hauling-to-eto'
+      : inventoryType === 'inventory-efo'
+      ? 'eto-to-efo'
+      : undefined;
+
+  // summary
+  const {
+    data: dataSummary,
+    isLoading: isLoadingSummary,
+    isFetching: isFetchingSummary
+  } = useQuery(
+    ['mining', 'summary', activityType],
+    () => MiningActivityService.getSummary({ activity_type: activityType }),
+    { keepPreviousData: true }
+  );
+
+  // activity
+  const {
+    data: dataActivity,
+    isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+    // inventoryType
+  } = useQuery(
+    ['mining', 'dome-list', inventoryType],
+    () =>
+      MiningActivityService.getDomeSummary({
+        page: 1,
+        row: 3,
+        inventory_type: 'SM'
+      }),
+    { keepPreviousData: true }
+  );
 
   return (
     <>
-      {/* <Grid
-        container
-        direction="row"
-        alignItems="flex-start"
-        justifyContent="space-between"
-        sx={{ padding: '1em 1.5em' }}
-        className="bg-white"
-      >
-        <ChartSection
-          subMenu={subMenu}
-          chartData={chartData}
-          handleChangeSubMenu={handleChangeSubMenu}
-          chartStyle={{ width: '100%', height: '40vh' }}
-        />
-      </Grid> */}
-      {activityType !== 'master-data' ? (
+      {isFetchingSummary && isFetchingActivity && <LoadingModal />}
+      {inventoryType !== 'master-data' ? (
         <>
-          <InventorySection
-            title={
-              activityType === 'inventory-sm'
-                ? 'Inventory SM'
-                : activityType === 'inventory-eto'
-                ? 'Inventory ETO'
-                : 'Inventory EFO'
-            }
-            subtitle={
-              activityType === 'inventory-sm'
-                ? 'Kegiatan Penambangan'
-                : activityType === 'inventory-eto'
-                ? 'Stockfile'
-                : 'Stockyard'
-            }
-          />
+          {!isLoadingSummary && !isLoadingActivity && dataSummary && dataActivity && (
+            <InventorySection
+              title={
+                activityType === 'ore-getting'
+                  ? 'Realisasi Produksi Inventory SM'
+                  : activityType === 'ore-hauling-to-eto'
+                  ? 'Realisasi Produksi Inventory ETO'
+                  : 'Realisasi Produksi Inventory EFO'
+              }
+              subtitle={
+                activityType === 'ore-getting'
+                  ? 'Kegiatan Penambangan'
+                  : activityType === 'ore-hauling-to-eto'
+                  ? 'Stockfile'
+                  : 'Stockyard'
+              }
+              summary={dataSummary?.data?.data[0]}
+              listData={dataActivity?.data?.data}
+            />
+          )}
           <ReportSection />
         </>
       ) : (

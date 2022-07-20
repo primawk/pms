@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { Grid, Tab, Tabs } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
+// custom hooks
+import useAuth from 'hooks/useAuth';
+
 // components
 import Header from 'components/Header';
 import { AllInventory, SpecificInventory, MasterData } from './InventorySection';
 
 export default function Inventory() {
+  useAuth();
   const menuList = [
     { value: 'all-inventory', label: 'Semua' },
     { value: 'inventory-sm', label: 'Inventory SM' },
@@ -15,10 +19,10 @@ export default function Inventory() {
     { value: 'master-inventory', label: 'Master Data Inventory' }
   ];
 
-  const { activityType } = useParams();
+  const { inventoryType } = useParams();
   const navigate = useNavigate();
 
-  const [menuTab, setMenuTab] = useState(activityType || '');
+  const [menuTab, setMenuTab] = useState(inventoryType || '');
 
   const handleChangeTab = (event, _menuTab) => {
     setMenuTab(_menuTab);
