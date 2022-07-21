@@ -14,8 +14,7 @@ export default function SpecificInventory() {
 
   const activityType =
     inventoryType === 'inventory-sm'
-      ? // inventory-sm
-        'ore-getting'
+      ? 'ore-getting'
       : inventoryType === 'inventory-eto'
       ? 'ore-hauling-to-eto'
       : inventoryType === 'inventory-efo'

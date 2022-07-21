@@ -9,9 +9,7 @@ const InfoSection = ({ dataSummary }) => {
   return (
     <Grid container direction="row" alignItems="flex-start" justifyContent="center" spacing={3}>
       <Grid item lg={4} sm={4}>
-        <InfoCard value={`${dataSummary?.tonnage_total || 0} Ton`} name="Sisa Inventory">
-          <p>kelass</p>
-        </InfoCard>
+        <InfoCard value={`${dataSummary?.tonnage_total || 0} Ton`} name="Sisa Inventory" />
       </Grid>
       <Grid item lg={2.5} sm={2.5}>
         <InfoCard value={dataSummary?.sublot_total || 0} image={JumlahLot} name="Jumlah Lot" />
