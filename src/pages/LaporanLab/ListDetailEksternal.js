@@ -133,8 +133,12 @@ export default function ListDetailEksternal() {
           >
             <Grid
               item
-              sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1rem' }}
-              xs={2}
+              sx={{
+                backgroundColor: 'white',
+                borderRadius: '4px',
+                marginLeft: '1rem',
+                width: '20%'
+              }}
             >
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
