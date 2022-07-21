@@ -90,14 +90,14 @@ const InputLaporanInternal = () => {
             >
               <Box sx={{ marginBottom: '1rem' }}>Bukit</Box>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" size="small">
+                <InputLabel id="Bukit" size="small">
                   Pilih Bukit
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="Bukit"
+                  id="Bukit"
                   // value={age}
-                  label="Age"
+                  label="Pilih Bukit"
                   onChange={handleChange}
                   size="small"
                 >
@@ -115,20 +115,23 @@ const InputLaporanInternal = () => {
             >
               <Box sx={{ marginBottom: '1rem' }}>Jenis Sample</Box>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" size="small">
+                <InputLabel id="Jenis Sample" size="small">
                   Pilih Jenis Sample
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="Jenis Sample"
+                  id="Jenis Sample"
                   // value={age}
-                  label="Age"
+                  label="Pilih Jenis Sample"
                   onChange={handleChange}
                   size="small"
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={'Sample test PIT'}>Sample test PIT</MenuItem>
+                  <MenuItem value={'Sample Spesial Check'}>Sample Spesial Check</MenuItem>
+                  <MenuItem value={'Sample Selective Mining'}>Sample Selective Mining</MenuItem>
+                  <MenuItem value={'Sample ETO'}>Sample ETO</MenuItem>
+                  <MenuItem value={'Sample EFO'}>Sample EFO</MenuItem>
+                  <MenuItem value={'Sample Barging'}>Sample Barging</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -138,14 +141,14 @@ const InputLaporanInternal = () => {
             >
               <Box sx={{ marginBottom: '1rem' }}>Tumpukan/Dome</Box>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" size="small">
+                <InputLabel id="tumpukan" size="small">
                   Pilih Tumpukan/Dome
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="tumpukan"
+                  id="tumpukan"
                   // value={age}
-                  label="Age"
+                  label="Pilih Tumpukan/Dome"
                   onChange={handleChange}
                   size="small"
                 >
@@ -165,7 +168,7 @@ const InputLaporanInternal = () => {
         </Grid>
 
         {/* button add data */}
-        <Grid item >
+        {/* <Grid item >
           <Grid container sx={{ margin: '1.5rem', justifyContent: 'center' }}>
             <Button variant="contained" sx={{ boxShadow: '0' }} onClick={onAddBtnClick}>
               <Box sx={{ margin: '5px 12px 0 0 ' }}>
@@ -174,7 +177,7 @@ const InputLaporanInternal = () => {
               Tambah Data
             </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
 
       {/* submit */}

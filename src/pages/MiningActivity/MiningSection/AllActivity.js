@@ -66,11 +66,12 @@ export default function AllActivity() {
     data: dataOreGetting,
     isLoading: isLoadingOreGetting,
     isFetching: isFetchingOreGetting
-  } = useQuery(['mining', 'ore-getting'], () =>
-    MiningActivityService.getActivity({
+    // inventory-sm
+  } = useQuery(['mining', 'dome-list', 'SM'], () =>
+    MiningActivityService.getDomeSummary({
       page: 1,
       row: 3,
-      activity_type: 'ore-getting'
+      inventory_type: 'SM'
     })
   );
 
@@ -87,11 +88,11 @@ export default function AllActivity() {
     data: dataOreHauling,
     isLoading: isLoadingOreHauling,
     isFetching: isFetchingOreHauling
-  } = useQuery(['mining', 'ore-hauling-to-eto'], () =>
-    MiningActivityService.getActivity({
+  } = useQuery(['mining', 'dome-list', 'inventory-eto'], () =>
+    MiningActivityService.getDomeSummary({
       page: 1,
       row: 3,
-      activity_type: 'ore-hauling-to-eto'
+      inventory_type: 'inventory-eto'
     })
   );
 
@@ -108,11 +109,11 @@ export default function AllActivity() {
     data: dataEtoToEfo,
     isLoading: isLoadingEtoToEfo,
     isFetching: isFetchingEtoToEfo
-  } = useQuery(['mining', 'eto-to-efo'], () =>
-    MiningActivityService.getActivity({
+  } = useQuery(['mining', 'dome-list', 'inventory-efo'], () =>
+    MiningActivityService.getDomeSummary({
       page: 1,
       row: 3,
-      activity_type: 'eto-to-efo'
+      inventory_type: 'inventory-efo'
     })
   );
 

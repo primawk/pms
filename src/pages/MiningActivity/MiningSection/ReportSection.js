@@ -95,7 +95,7 @@ export default function ReportSection() {
               ))}
             </>
           ) : (
-            <center>
+            <center className="bg-white" style={{ padding: '10px' }}>
               <h1>Data tidak ditemukan !</h1>
             </center>
           )}

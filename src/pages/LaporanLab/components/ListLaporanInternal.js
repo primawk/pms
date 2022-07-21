@@ -24,7 +24,7 @@ const ListLaporanInternal = () => {
       }}
       onClick={() => navigate('/detail-internal')}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '18%' }}>
         <Grid
           container
           sx={{
@@ -57,7 +57,7 @@ const ListLaporanInternal = () => {
         </Grid>
       </Grid>
       {/* Column 2 */}
-      <Grid item xs={1.5}>
+      <Grid item sx={{ width: '6%' }}>
         <Grid
           container
           sx={{
@@ -75,7 +75,7 @@ const ListLaporanInternal = () => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item xs={1.5}>
+      <Grid item sx={{ width: '17%' }}>
         <Grid
           container
           sx={{
@@ -88,7 +88,7 @@ const ListLaporanInternal = () => {
           </Box>
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>
-              <Box>
+              {/* <Box>
                 <h5>2 Preparasi</h5>
               </Box>
               <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
@@ -96,14 +96,15 @@ const ListLaporanInternal = () => {
               </Box>
               <Box>
                 <h5>4 Analisa</h5>
-              </Box>
+              </Box> */}
+              Dome 1
             </Grid>
           </Box>
         </Grid>
       </Grid>
 
       {/* Column 4 */}
-      <Grid item xs={1.5}>
+      <Grid item sx={{ width: '14%' }}>
         <Grid
           container
           sx={{
@@ -128,7 +129,7 @@ const ListLaporanInternal = () => {
       </Grid>
 
       {/* Column 5 */}
-      <Grid item xs={1.5}>
+      <Grid item sx={{ width: '15%' }}>
         <Grid
           container
           sx={{

@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
-const InfoCard = ({ name, image, value, date }) => {
+const InfoCard = ({ name, image, value, date, children }) => {
   return (
     <Grid
       container
@@ -27,9 +27,14 @@ const InfoCard = ({ name, image, value, date }) => {
         sx={{ mb: 2 }}
       >
         <Typography variant="body">{name}</Typography>
-        <img src={image} alt={name} style={{ maxWidth: '80px', maxHeight: '25px' }} />
+        {image && <img src={image} alt={name} style={{ maxWidth: '80px', maxHeight: '25px' }} />}
       </Grid>
-      <Typography variant="h4">{value}</Typography>
+      <Grid container direction="row" justifyContent="flex-start" alignItems="center">
+        <Typography variant="h4" sx={{ marginRight: '20px' }}>
+          {value}
+        </Typography>
+        {children}
+      </Grid>
       {date && (
         <Typography variant="body" color=" #828282">
           {date}

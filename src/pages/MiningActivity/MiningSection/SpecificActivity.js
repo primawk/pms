@@ -70,6 +70,16 @@ export default function SpecificActivity() {
     setSubMenu(value);
   };
 
+  const inventoryType =
+    activityType === 'ore-getting'
+      ? // inventory-sm
+        'SM'
+      : activityType === 'ore-hauling-to-eto'
+      ? 'inventory-eto'
+      : activityType === 'eto-to-efo'
+      ? 'inventory-efo'
+      : undefined;
+
   // summary
   const {
     data: dataSummary,
@@ -87,12 +97,12 @@ export default function SpecificActivity() {
     isLoading: isLoadingActivity,
     isFetching: isFetchingActivity
   } = useQuery(
-    ['mining', activityType],
+    ['mining', 'dome-list', inventoryType],
     () =>
-      MiningActivityService.getActivity({
+      MiningActivityService.getDomeSummary({
         page: 1,
         row: 3,
-        activity_type: activityType
+        inventory_type: inventoryType
       }),
     { keepPreviousData: true }
   );

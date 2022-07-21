@@ -26,6 +26,7 @@ import HistoryActivity from 'pages/MiningActivity/MiningSection/HistoryActivity'
 import AllInventory from 'pages/Inventory';
 import LaporanLab from 'pages/LaporanLab';
 import ListDetailEksternal from 'pages/LaporanLab/ListDetailEksternal';
+import DetailDome from 'pages/Inventory/DetailDome';
 
 export default function Routes() {
   return useRoutes([
@@ -58,7 +59,7 @@ export default function Routes() {
           element: <Navigate to="/inventory/all-inventory" replace />
         },
         {
-          path: 'inventory/:activityType',
+          path: 'inventory/:inventoryType',
           element: <AllInventory />
         },
 
@@ -89,26 +90,41 @@ export default function Routes() {
       // navbar only layout ( detail, history, input , etc )
       element: <LayoutNavbar />,
       children: [
+        // mining activity
         {
-          path: 'mining-activity/:activityType/add',
-          element: <FormMiningActivity />
+          path: 'mining-activity',
+          children: [
+            {
+              path: ':activityType/add',
+              element: <FormMiningActivity />
+            },
+            {
+              path: ':activityType/edit/:id',
+              element: <FormMiningActivity />
+            },
+            {
+              path: ':activityType/detail/:id',
+              element: <DetailActivity />
+            },
+            {
+              path: ':activityType/detail/history/:id',
+              element: <HistoryActivity />
+            }
+          ]
         },
+        //
         {
-          path: 'mining-activity/:activityType/edit/:id',
-          element: <FormMiningActivity />
-        },
-        {
-          path: 'mining-activity/:activityType/detail/:id',
-          element: <DetailActivity />
-        },
-        {
-          path: 'mining-activity/:activityType/detail/history/:id',
-          element: <HistoryActivity />
+          path: 'inventory',
+          children: [
+            {
+              path: ':inventoryType/detail-dome/:idDome',
+              element: <DetailDome />
+            }
+          ]
         }
       ]
     },
     // Laporan Lab
-
     {
       path: 'input-laporan-eksternal',
       element: <InputLaporanEksternal />

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { Grid, Tab, Tabs, Typography } from '@mui/material';
 
 // components
 import Header from 'components/Header';
-import { Grid, Tab, Tabs, Typography } from '@mui/material';
 import FilterSection from './FilterSection';
 import InfoSection from './InfoSection';
 import ChartSection from './ChartSection';

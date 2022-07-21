@@ -20,12 +20,12 @@ const DetailEksternal = () => {
         height: '6.125rem',
         borderBottom: 1,
         borderBottomColor: '#E0E0E0',
-        gap: '4.5rem',
+        gap: '2rem',
         cursor: 'pointer'
       }}
       onClick={() => navigate('/detail-eksternal')}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '25%' }}>
         <Grid
           container
           sx={{
@@ -61,7 +61,7 @@ const DetailEksternal = () => {
         </Grid>
       </Grid>
       {/* Column 2 */}
-      <Grid item xs={1.5}>
+      <Grid item>
         <Grid
           container
           sx={{
@@ -89,7 +89,7 @@ const DetailEksternal = () => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item xs={1.5}>
+      <Grid item>
         <Grid
           container
           sx={{
@@ -114,7 +114,7 @@ const DetailEksternal = () => {
       </Grid>
 
       {/* Column 4 */}
-      <Grid item xs={1.5}>
+      <Grid item >
         <Grid
           container
           sx={{
@@ -135,7 +135,7 @@ const DetailEksternal = () => {
       </Grid>
 
       {/* Column 5 */}
-      <Grid item xs={1.5}>
+      <Grid item>
         <Grid
           container
           sx={{

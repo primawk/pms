@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Fade, Box, Backdrop } from '@mui/material';
 
-export default function EditInventory({ children, toggle, isShowing, handleClose }) {
+export default function PilihLaporan({ children, toggle, isShowing, handleClose, width }) {
   const style = {
     position: 'absolute',
     maxHeight: '90vh',
@@ -16,7 +16,7 @@ export default function EditInventory({ children, toggle, isShowing, handleClose
     borderRadius: '5px',
     // p: 7,
     // pt: 3,
-    width: '31.563rem'
+    width: width
   };
 
   return (
@@ -38,7 +38,7 @@ export default function EditInventory({ children, toggle, isShowing, handleClose
   );
 }
 
-EditInventory.propTypes = {
+PilihLaporan.propTypes = {
   children: PropTypes.node.isRequired,
   toggle: PropTypes.func.isRequired,
   isShowing: PropTypes.bool.isRequired,
@@ -46,6 +46,6 @@ EditInventory.propTypes = {
   width: PropTypes.string
 };
 
-EditInventory.defaultProps = {
+PilihLaporan.defaultProps = {
   width: '60%'
 };
