@@ -30,14 +30,10 @@ const SummaryLaporan = () => {
             <Grid item>
               <Box sx={{ margin: '0 1rem 0 1rem', fontSize: '1.5rem' }}>171</Box>
             </Grid>
-            <Grid item sx={{ marginLeft: '1rem' }}>
+            <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-                <li>
-                  <Box sx={{ fontSize: '0.8rem' }}>4 Preparasi</Box>
-                </li>
-                <li>
-                  <Box sx={{ fontSize: '0.8rem' }}>6 Analisa</Box>
-                </li>
+                <li style={{ fontSize: '0.8rem' }}>4 Preparasi</li>
+                <li style={{ fontSize: '0.8rem' }}>6 Analisa</li>
               </Grid>
             </Grid>
           </Grid>
@@ -58,14 +54,10 @@ const SummaryLaporan = () => {
             <Grid item>
               <Box sx={{ margin: '0 1rem 0 1rem', fontSize: '1.5rem' }}>71</Box>
             </Grid>
-            <Grid item sx={{ marginLeft: '1rem' }}>
+            <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-                <li>
-                  <Box sx={{ fontSize: '0.8rem' }}>4 Preparasi</Box>
-                </li>
-                <li>
-                  <Box sx={{ fontSize: '0.8rem' }}>6 Analisa</Box>
-                </li>
+                <li style={{ fontSize: '0.8rem' }}>4 Preparasi</li>
+                <li style={{ fontSize: '0.8rem' }}>6 Analisa</li>
               </Grid>
             </Grid>
           </Grid>
@@ -86,14 +78,10 @@ const SummaryLaporan = () => {
             <Grid item>
               <Box sx={{ margin: '0 1rem 0 1rem', fontSize: '1.5rem' }}>100</Box>
             </Grid>
-            <Grid item sx={{ marginLeft: '1rem' }}>
+            <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-                <li>
-                  <Box sx={{ fontSize: '0.8rem' }}>4 Preparasi</Box>
-                </li>
-                <li>
-                  <Box sx={{ fontSize: '0.8rem' }}>6 Analisa</Box>
-                </li>
+                <li style={{ fontSize: '0.8rem' }}>4 Preparasi</li>
+                <li style={{ fontSize: '0.8rem' }}>6 Analisa</li>
               </Grid>
             </Grid>
           </Grid>

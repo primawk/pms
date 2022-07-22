@@ -75,7 +75,7 @@ const ListLaporanInternal = () => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item sx={{ width: '17%' }}>
+      <Grid item sx={{ width: '12%' }}>
         <Grid
           container
           sx={{
@@ -88,15 +88,6 @@ const ListLaporanInternal = () => {
           </Box>
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>
-              {/* <Box>
-                <h5>2 Preparasi</h5>
-              </Box>
-              <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                <img src="/img/eksternal.png" alt=""></img>
-              </Box>
-              <Box>
-                <h5>4 Analisa</h5>
-              </Box> */}
               Dome 1
             </Grid>
           </Box>
