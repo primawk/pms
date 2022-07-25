@@ -1,7 +1,37 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
+import { useQuery } from 'react-query';
+
+// services
+import LabService from 'services/LabService';
 
 const SummaryLaporan = () => {
+  const { data: dataEksternal } = useQuery(
+    ['report', 'external'],
+    () =>
+      LabService.getReport({
+        report_type: 'external'
+      })
+    // { keepPreviousData: true }
+  );
+
+  const {
+    data,
+    isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['report', 'internal'],
+    () =>
+      LabService.getReport({
+        report_type: 'internal'
+      })
+    // { keepPreviousData: true }
+  );
+
+  const summaryInternal = parseInt(data?.data?.pagination.total_data);
+  const summaryEksternal = parseInt(dataEksternal?.data?.pagination.total_data);
+  const summaryTotal = summaryEksternal + summaryInternal;
+
   return (
     <>
       <Grid
@@ -28,7 +58,7 @@ const SummaryLaporan = () => {
           <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Semua Laporan</Box>
           <Grid container>
             <Grid item>
-              <Box sx={{ margin: '0 1rem 0 1rem', fontSize: '1.5rem' }}>171</Box>
+              <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryTotal} </Box>
             </Grid>
             <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -52,7 +82,7 @@ const SummaryLaporan = () => {
           <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Laporan Internal</Box>
           <Grid container>
             <Grid item>
-              <Box sx={{ margin: '0 1rem 0 1rem', fontSize: '1.5rem' }}>71</Box>
+              <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryInternal}</Box>
             </Grid>
             <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -76,7 +106,7 @@ const SummaryLaporan = () => {
           <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Laporan Eksternal</Box>
           <Grid container>
             <Grid item>
-              <Box sx={{ margin: '0 1rem 0 1rem', fontSize: '1.5rem' }}>100</Box>
+              <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryEksternal}</Box>
             </Grid>
             <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>

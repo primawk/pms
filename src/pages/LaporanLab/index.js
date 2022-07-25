@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 // components
 import { Grid, Tab, Tabs } from '@mui/material';
@@ -10,30 +11,38 @@ import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
+import usePagination from 'hooks/usePagination';
+
+
 
 export default function LaporanLab() {
   const { isShowing, toggle } = useModal();
-
-  const menuList = [
-    { value: 'list-internal', label: 'Laporan Internal' },
-    { value: 'list-eksternal', label: 'Laporan Eksternal' }
-  ];
-
-  const { activityType } = useParams();
+  const [pagination, setPagination] = useState({});
   const navigate = useNavigate();
 
-  const [menuTab, setMenuTab] = useState(activityType || '');
+  const menuList = [
+    { value: 'internal', label: 'Laporan Internal' },
+    { value: 'eksternal', label: 'Laporan Eksternal' }
+  ];
+
+  const { report_type } = useParams();
+
+  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+
+  const [menuTab, setMenuTab] = useState(report_type || '');
 
   const handleChangeTab = (event, _menuTab) => {
     setMenuTab(_menuTab);
     switch (_menuTab) {
-      case 'list-eksternal':
-        navigate('/laporan-lab/list-eksternal');
+      case 'eksternal':
+        navigate('/laporan-lab/eksternal');
         break;
       default:
-        navigate('/laporan-lab/list-internal');
+        navigate('/laporan-lab/internal');
     }
   };
+
+
 
   return (
     <>
@@ -72,7 +81,7 @@ export default function LaporanLab() {
             ))}
           </Tabs>
         </Grid>
-        {menuTab === 'list-internal' ? <ListInternal /> : <ListEksternal />}
+        {menuTab === 'internal' ? <ListInternal /> : <ListEksternal />}
       </div>
     </>
   );

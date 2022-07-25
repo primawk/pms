@@ -1,4 +1,6 @@
 import React from 'react';
+import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
@@ -11,8 +13,24 @@ import SummaryLaporan from './components/SummaryLaporan';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
+// services
+import LabService from 'services/LabService';
+
 export default function ListEksternal() {
   const { isShowing, toggle } = useModal();
+
+  const {
+    data,
+    isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['report', 'external'],
+    () =>
+      LabService.getReport({
+        report_type: 'external'
+      })
+    // { keepPreviousData: true }
+  );
 
   return (
     <>
@@ -64,10 +82,26 @@ export default function ListEksternal() {
           <SummaryLaporan />
 
           {/*List Laporan*/}
-          <ListLaporanEksternal />
-          <ListLaporanEksternal />
-          <ListLaporanEksternal />
-          <ListLaporanEksternal />
+          {data?.data?.data.length > 0 ? (
+            <>
+              {data?.data?.data.map((_list) => (
+                <div key={_list?.id}>
+                  <Link
+                    to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                    key={_list.id}
+                  >
+                    <ListLaporanEksternal data={_list} />
+                  </Link>
+                </div>
+              ))}
+            </>
+          ) : (
+            <Box sx={{ marginLeft: '25rem' }}>
+              <h1>Data tidak ditemukan !</h1>
+            </Box>
+          )}
+
           {/* Pagination */}
           <Grid
             container

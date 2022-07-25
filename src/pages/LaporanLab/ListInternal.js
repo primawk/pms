@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
@@ -11,8 +12,24 @@ import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
+// services
+import LabService from 'services/LabService';
+
 export default function ListInternal() {
   const { isShowing, toggle } = useModal();
+
+  const {
+    data,
+    isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['report', 'internal'],
+    () =>
+      LabService.getReport({
+        report_type: 'internal'
+      })
+    // { keepPreviousData: true }
+  );
 
   return (
     <>
@@ -63,10 +80,17 @@ export default function ListInternal() {
           <SummaryLaporan />
 
           {/*List Laporan*/}
-          <ListLaporanInternal />
-          <ListLaporanInternal />
-          <ListLaporanInternal />
-          <ListLaporanInternal />
+          {data?.data?.data.map((_list) => (
+            // <div key={_list?.id}>
+            //   <Link
+            //     to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
+            //     style={{ textDecoration: 'none', color: 'inherit' }}
+            //     key={_list.id}
+            //   >
+                <ListLaporanInternal data={_list} />
+            //   </Link>
+            // </div>
+          ))}
 
           {/* Pagination */}
           <Grid

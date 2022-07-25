@@ -73,10 +73,10 @@ export default function Routes() {
         },
         {
           path: 'laporan-lab',
-          element: <Navigate to="/laporan-lab/list-internal" replace />
+          element: <Navigate to="/laporan-lab/internal" replace />
         },
         {
-          path: 'laporan-lab/:activityType',
+          path: 'laporan-lab/:report_type',
           element: <LaporanLab />
         },
         {
@@ -134,7 +134,7 @@ export default function Routes() {
       element: <InputLaporanInternal />
     },
     {
-      path: 'detail-internal',
+      path: 'detail/internal/:id',
       element: <DetailInternal />
     },
     {

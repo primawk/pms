@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const ListLaporanEksternal = () => {
+const ListLaporanEksternal = ({ data }) => {
   const navigate = useNavigate();
 
   return (
