@@ -22,7 +22,8 @@ export default function FormMiningCard() {
         borderTopRightRadius: '5px',
         borderTopLeftRadius: '5px',
         padding: '20px',
-        borderBottom: '1px solid #E0E0E0'
+        borderBottom: '1px solid #E0E0E0',
+        paddingBottom: '60px'
       }}
       className="bg-white"
     >
@@ -32,7 +33,7 @@ export default function FormMiningCard() {
         justifyContent="flex-start"
         alignItems="flex-start"
         sx={{ mb: 3 }}
-        spacing={2}
+        spacing={5}
       >
         <Grid item lg={5} xs={12}>
           <Typography variant="h5" sx={{ mb: 3 }}>
@@ -75,23 +76,9 @@ export default function FormMiningCard() {
               <Typography variant="h6" sx={{ mb: 3 }}>
                 Jenis Pengukuran
               </Typography>
-              <FormControl sx={{ width: '80%' }}>
+              <FormControl>
                 <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
                   {measurementType.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </FormControl>
-            </Stack>
-            <Stack>
-              <Typography variant="h6" sx={{ mb: 3 }}>
-                Bukit
-              </Typography>
-              <FormControl sx={{ width: '80%' }}>
-                <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
-                  {hillList.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
@@ -103,75 +90,84 @@ export default function FormMiningCard() {
               <>
                 <Stack>
                   <Typography variant="h6" sx={{ mb: 3 }}>
-                    Tumpukan/Dome
-                  </Typography>
-                  <FormControl sx={{ width: '80%' }}>
-                    <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
-                      {hillList.map((option) => (
-                        <MenuItem key={option} value={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </FormControl>
-                </Stack>
-                <Stack>
-                  <Typography variant="h6" sx={{ mb: 3 }}>
                     Nama Mitra
                   </Typography>
-                  <FormControl sx={{ width: '80%' }}>
+                  <FormControl>
                     <TextField placeholder="Nama Mitra" fullWidth size="small" />
                   </FormControl>
                 </Stack>
               </>
             )}
+            <Typography variant="h5" sx={{ mb: 3 }}>
+              Bukit Asal
+            </Typography>
+            <Stack>
+              <Typography variant="h6" sx={{ mb: 3 }}>
+                Bukit Asal
+              </Typography>
+              <FormControl>
+                <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
+                  {hillList.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+            </Stack>
+            <Stack>
+              <Typography variant="h6" sx={{ mb: 3 }}>
+                Dome Asal
+              </Typography>
+              <FormControl>
+                <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
+                  {hillList.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+            </Stack>
+            <Typography variant="h5" sx={{ mb: 3 }}>
+              Bukit Tujuan
+            </Typography>
+            <Stack>
+              <Typography variant="h6" sx={{ mb: 3 }}>
+                Bukit Tujuan
+              </Typography>
+              <FormControl>
+                <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
+                  {hillList.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+            </Stack>
+            <Stack>
+              <Typography variant="h6" sx={{ mb: 3 }}>
+                Dome Tujuan
+              </Typography>
+              <FormControl>
+                <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
+                  {hillList.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+            </Stack>
           </Stack>
         </Grid>
         <Grid item lg={7} xs={12}>
           <Typography variant="h5" sx={{ mb: 3 }}>
             Jumlah Produksi
           </Typography>
-          {activityType !== 'ore-hauling-to-eto' && (
+          {activityType !== 'ore-hauling-to-eto' ? (
             <>
-              {activityType === 'eto-to-efo' && (
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  spacing={3}
-                  sx={{ mb: 2 }}
-                >
-                  <Grid item container lg={6} xs={6} direction="column">
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Tumpukan/Dome
-                    </Typography>
-                    <FormControl>
-                      <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
-                        {hillList.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </FormControl>
-                  </Grid>
-                  <Grid item container lg={6} xs={6} direction="column">
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Asal Tumpukan ETO
-                    </Typography>
-                    <FormControl>
-                      <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
-                        {hillList.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </FormControl>
-                  </Grid>
-                </Grid>
-              )}
               <Grid
                 container
                 direction="row"
@@ -245,8 +241,7 @@ export default function FormMiningCard() {
                 </Grid>
               </Grid>
             </>
-          )}
-          {activityType === 'ore-hauling-to-eto' && (
+          ) : (
             <Grid
               container
               direction="row"
@@ -395,7 +390,7 @@ export default function FormMiningCard() {
               </FormControl>
             </Grid>
           </Grid>
-          <Typography variant="h5" sx={{ mb: 3 }}>
+          <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
             Kadar Fe
           </Typography>
           <Grid
@@ -470,8 +465,83 @@ export default function FormMiningCard() {
               </FormControl>
             </Grid>
           </Grid>
-          <Typography variant="h5" sx={{ mb: 3 }}>
+          <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
             Kadar CO
+          </Typography>
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            spacing={3}
+          >
+            <Grid item container lg={6} xs={6} direction="column">
+              <Typography variant="h6" sx={{ mb: 3 }}>
+                Nilai Kadar
+              </Typography>
+              <FormControl>
+                <TextField
+                  placeholder="Nilai Kadar"
+                  fullWidth
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      paddingRight: 0
+                    }
+                  }}
+                  size="small"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment
+                        position="end"
+                        sx={{
+                          padding: '19px',
+                          backgroundColor: (theme) => theme.palette.divider,
+                          borderTopRightRadius: (theme) => theme.shape.borderRadius + 'px',
+                          borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
+                        }}
+                      >
+                        %
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item container lg={6} xs={6} direction="column">
+              <Typography variant="h6" sx={{ mb: 3 }}>
+                Ekuivalen Logam
+              </Typography>
+              <FormControl>
+                <TextField
+                  placeholder="Ekuivalen Logam"
+                  fullWidth
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      paddingRight: 0
+                    }
+                  }}
+                  size="small"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment
+                        position="end"
+                        sx={{
+                          padding: '19px',
+                          backgroundColor: (theme) => theme.palette.divider,
+                          borderTopRightRadius: (theme) => theme.shape.borderRadius + 'px',
+                          borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
+                        }}
+                      >
+                        Ton
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+            Kadar SiMgO
           </Typography>
           <Grid
             container

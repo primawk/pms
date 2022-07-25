@@ -76,7 +76,7 @@ export default function ReportSection() {
               <Typography variant="h5">Laporan Kegiatan Tambang</Typography>
             </Stack>
           </Stack>
-          {data?.data?.data.length > 0 ? (
+          {data?.data?.data?.length > 0 ? (
             <>
               {data?.data?.data.map((_list) => (
                 <Link

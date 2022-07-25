@@ -141,7 +141,7 @@ export default function SpecificActivity() {
               ? 'Stockfile'
               : 'Stockyard'
           }
-          summary={dataSummary?.data?.data[0]}
+          summary={dataSummary?.data?.data?.[0]}
           listData={dataActivity?.data?.data}
         />
       )}

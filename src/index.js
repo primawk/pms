@@ -20,8 +20,9 @@ axios.interceptors.request.use((config) => {
 // For POST requests
 axios.interceptors.response.use(
   (response) => {
-    if (response?.data?.data?.status_code === 500) {
-      toast.error(`Terjadi kesalahan error ${response?.data?.data?.status_code}`);
+    if (response?.data?.code === 500) {
+      toast.error(response?.data?.message);
+      toast.clearWaitingQueue();
     }
     return response;
   },

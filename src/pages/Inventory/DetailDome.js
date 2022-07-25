@@ -42,7 +42,7 @@ const DetailDome = () => {
     }
   );
 
-  const dataSummary = data?.data?.data[0];
+  const dataSummary = data?.data?.data?.[0];
 
   const {
     data: dataActivity,

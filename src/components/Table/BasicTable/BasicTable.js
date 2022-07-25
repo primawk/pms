@@ -17,7 +17,7 @@ import BasicTableHead from './BasicTableHead';
 
 function descendingComparator(a, b, orderBy) {
   const arrayHeader = orderBy.split('.');
-  if (arrayHeader.length === 2) {
+  if (arrayHeader?.length === 2) {
     if (arrayHeader[0].includes('[')) {
       // for array of array
       const firstId = arrayHeader[0].slice(0, -3);
@@ -144,7 +144,7 @@ export default function BasicTable({
       newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
+    } else if (selectedIndex === selected?.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
@@ -162,7 +162,7 @@ export default function BasicTable({
       <Paper className={classes.paper}>
         {withToolbar && (
           <BasicTableToolbar
-            numSelected={selected.length}
+            numSelected={selected?.length}
             actions={actions}
             title={title}
             onSelectActions={onSelectActions}
@@ -183,12 +183,12 @@ export default function BasicTable({
             <BasicTableHead
               classes={classes}
               headCells={headCells}
-              numSelected={selected.length}
+              numSelected={selected?.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={rows?.length}
               withSelect={withSelect}
             />
             <TableBody>
@@ -217,7 +217,7 @@ export default function BasicTable({
                       )}
                       {headCells.map((header) => {
                         const arrHeader = header.id.split('.');
-                        if (arrHeader.length === 2) {
+                        if (arrHeader?.length === 2) {
                           return (
                             <TableCell color="secondary" key={header.id}>
                               {row[arrHeader[0]][arrHeader[1]]}

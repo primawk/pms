@@ -79,7 +79,7 @@ export default function ReportSection() {
               </Button>
             )}
           </Stack>
-          {data?.data?.data.length > 0 ? (
+          {data?.data?.data?.length > 0 ? (
             <>
               {data?.data?.data.map((_list) => (
                 <Link
