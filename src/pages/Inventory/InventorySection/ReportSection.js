@@ -80,12 +80,14 @@ export default function ReportSection() {
             <>
               {data?.data?.data.map((_list) => (
                 <Link
-                  to={`/mining-activity/${activityType}/detail/${_list.id}`}
+                  to={`/mining-activity/${_list?.activity_type}/detail/${_list?.id}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                   key={_list.id}
                 >
                   <ReportList
-                    activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'}
+                    activity_type={
+                      _list?.activity_type === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'
+                    }
                     listData={_list}
                   />
                 </Link>

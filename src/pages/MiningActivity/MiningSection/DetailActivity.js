@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Button, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { Icon } from '@iconify/react';
 import ArrowBack from '@iconify-icons/akar-icons/arrow-back';
@@ -9,7 +9,7 @@ import ReportDetailCard from 'components/Card/ReportDetailCard';
 export default function DetailActivity() {
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
-  const { activityType } = useParams();
+  const { activityType, id } = useParams();
 
   return (
     <div className="app-content">
@@ -38,18 +38,23 @@ export default function DetailActivity() {
                 Back
               </Button>
               <Typography variant="h4">Ore Getting</Typography>
-              <Button variant="contained">Edit Laporan</Button>
+              <Button
+                variant="contained"
+                onClick={() => navigate(`/mining-activity/${activityType}/edit/${id}`)}
+              >
+                Edit Laporan
+              </Button>
             </Stack>
           </Grid>
           <Grid item lg={6} xs={12} sx={{ float: 'right' }}>
-            <a
-              href={`/mining-activity/${activityType}/detail/history/1`}
+            <Link
+              to={`/mining-activity/${activityType}/detail/history/${id}`}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <Typography variant="body1" color="#3F48C0" align={isMobile ? 'left' : 'right'}>
                 Terakhir diedit oleh Putri Devina, pada 12 Juni 2022, 13:21 WITA
               </Typography>
-            </a>
+            </Link>
           </Grid>
         </Grid>
       </div>

@@ -1,8 +1,26 @@
 import { Typography, Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import dayjs from 'dayjs';
+
+// components
+import { LoadingModal } from 'components/Modal';
+
+// services
+import MiningActivityService from 'services/MiningActivityService';
 
 export default function ReportDetailCard() {
-  const { activityType } = useParams();
+  const { activityType, id } = useParams();
+
+  const { data, isFetching } = useQuery(
+    ['mining-activity', 'detail-activity', id],
+    () => MiningActivityService.getActivityById({ id }),
+    { keepPreviousData: true, enabled: !!id }
+  );
+
+  const detailActivity = data?.data?.data;
+
+  console.log(detailActivity);
 
   return (
     <div
@@ -13,8 +31,9 @@ export default function ReportDetailCard() {
       }}
       className="bg-white"
     >
+      {isFetching && <LoadingModal />}
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Bukit IX
+        {detailActivity?.hill_name}
       </Typography>
       <Grid
         container
@@ -39,7 +58,9 @@ export default function ReportDetailCard() {
                 Jadwal Kegiatan
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                11 April 2022, 15:00
+                {`${detailActivity && dayjs(detailActivity?.date).format('DD MMMM YYYY')}, ${
+                  detailActivity && detailActivity?.time
+                }`}
               </Typography>
             </Grid>
             <Grid item container lg={6} xs={6} direction="column">
@@ -47,7 +68,7 @@ export default function ReportDetailCard() {
                 Jenis Produk
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                Biji Nikel
+                {detailActivity?.product_type}
               </Typography>
             </Grid>
             <Grid item container lg={6} xs={6} direction="column">
@@ -55,7 +76,7 @@ export default function ReportDetailCard() {
                 Jenis Pengukuran
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                Sumlot SM
+                {detailActivity?.measurement_type}
               </Typography>
             </Grid>
             <Grid item container lg={6} xs={6} direction="column">
@@ -63,7 +84,7 @@ export default function ReportDetailCard() {
                 Blok
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                Utara
+                {detailActivity?.block}
               </Typography>
             </Grid>
             {activityType === 'ore-hauling-to-eto' && (
@@ -72,38 +93,42 @@ export default function ReportDetailCard() {
                   Nama Mitra
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  PT Insan
+                  {detailActivity?.partner}
                 </Typography>
               </Grid>
             )}
           </Grid>
-          <Typography variant="h5" sx={{ mb: 3 }}>
-            Bukit Asal
-          </Typography>
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="center"
-            columnSpacing={10}
-          >
-            <Grid item container lg={6} xs={6} direction="column">
-              <Typography variant="h6" sx={{ mb: 3 }}>
+          {activityType !== 'ore-getting' && (
+            <>
+              <Typography variant="h5" sx={{ mb: 3 }}>
                 Bukit Asal
               </Typography>
-              <Typography variant="body1" sx={{ mb: 3 }}>
-                Bukit X
-              </Typography>
-            </Grid>
-            <Grid item container lg={6} xs={6} direction="column">
-              <Typography variant="h6" sx={{ mb: 3 }}>
-                Dome Asal
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 3 }}>
-                Dome XI
-              </Typography>
-            </Grid>
-          </Grid>
+              <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                columnSpacing={10}
+              >
+                <Grid item container lg={6} xs={6} direction="column">
+                  <Typography variant="h6" sx={{ mb: 3 }}>
+                    Bukit Asal
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 3 }}>
+                    Bukit X
+                  </Typography>
+                </Grid>
+                <Grid item container lg={6} xs={6} direction="column">
+                  <Typography variant="h6" sx={{ mb: 3 }}>
+                    Dome Asal
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 3 }}>
+                    Dome XI
+                  </Typography>
+                </Grid>
+              </Grid>
+            </>
+          )}
           <Typography variant="h5" sx={{ mb: 3 }}>
             Bukit Tujuan
           </Typography>
@@ -148,7 +173,7 @@ export default function ReportDetailCard() {
                 Jumlah Sublot
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                6 Lot
+                {`${detailActivity?.sublot_total || ''} Lot`}
               </Typography>
             </Grid>
             <Grid item container lg={5} xs={6} direction="column">
@@ -156,7 +181,7 @@ export default function ReportDetailCard() {
                 Jumlah Tonase
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                56 Ton
+                {`${detailActivity?.tonnage_total || ''} Ton`}
               </Typography>
             </Grid>
           </Grid>
@@ -175,7 +200,7 @@ export default function ReportDetailCard() {
                 Nilai Kadar
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                1.742%
+                {`${detailActivity?.ni_level || ''} %`}
               </Typography>
             </Grid>
             <Grid item container lg={5} xs={6} direction="column">
@@ -183,7 +208,7 @@ export default function ReportDetailCard() {
                 Ekuivalen Logam
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                56 Ton
+                {`${detailActivity?.ni_metal_equivalent || ''} Ton`}
               </Typography>
             </Grid>
           </Grid>
@@ -202,7 +227,7 @@ export default function ReportDetailCard() {
                 Nilai Kadar
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                1.742%
+                {`${detailActivity?.fe_level || ''} %`}
               </Typography>
             </Grid>
             <Grid item container lg={5} xs={6} direction="column">
@@ -210,7 +235,7 @@ export default function ReportDetailCard() {
                 Ekuivalen Logam
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                56 Ton
+                {`${detailActivity?.fe_metal_equivalent || ''} Ton`}
               </Typography>
             </Grid>
           </Grid>
@@ -229,7 +254,7 @@ export default function ReportDetailCard() {
                 Nilai Kadar
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                1.742%
+                {`${detailActivity?.co_level || ''} %`}
               </Typography>
             </Grid>
             <Grid item container lg={5} xs={6} direction="column">
@@ -237,7 +262,7 @@ export default function ReportDetailCard() {
                 Ekuivalen Logam
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                56 Ton
+                {`${detailActivity?.co_metal_equivalent || ''} Ton`}
               </Typography>
             </Grid>
           </Grid>
@@ -256,7 +281,7 @@ export default function ReportDetailCard() {
                 Nilai Kadar
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                1.742%
+                {`${detailActivity?.simgo_level || ''} %`}
               </Typography>
             </Grid>
             <Grid item container lg={5} xs={6} direction="column">
@@ -264,7 +289,7 @@ export default function ReportDetailCard() {
                 Ekuivalen Logam
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                56 Ton
+                {`${detailActivity?.simgo_metal_equivalent || ''} Ton`}
               </Typography>
             </Grid>
           </Grid>
