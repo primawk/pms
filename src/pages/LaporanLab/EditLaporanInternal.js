@@ -8,30 +8,69 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
+// import * as Yup from 'yup';
 
+// components
 import Navbar from '../../components/Navbar';
 import HasilAnalisa from './components/HasilAnalisa';
+import { LoadingModal } from 'components/Modal';
 
-const InputLaporanInternal = () => {
+// services
+import LabService from 'services/LabService';
+
+const EditLaporanInternal = () => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
-  // const [analisaList, setAnalisaList] = useState([]);
+  //   const [analisaList, setAnalisaList] = useState([]);
 
-  // const AnalisaList = () => {
-  //   return <HasilAnalisa />;
-  // };
+  //   const AnalisaList = () => {
+  //     return <HasilAnalisa />;
+  //   };
 
-  // const onAddBtnClick = () => {
-  //   if (analisaList.length < 5)
-  //     setAnalisaList(analisaList.concat(<AnalisaList key={analisaList.length} />));
-  // };
+  //   const onAddBtnClick = () => {
+  //     if (analisaList.length < 5)
+  //       setAnalisaList(analisaList.concat(<AnalisaList key={analisaList.length} />));
+  //   };
+
+  const { id } = useParams();
+
+  const {
+    data,
+    // isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['report'],
+    () =>
+      LabService.getReportDetail({
+        id: `${id}`
+      })
+    // { keepPreviousData: true }
+  );
+
+  const dataReport = data?.data?.data;
+
+  console.log(dataReport);
 
   const navigate = useNavigate();
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
+  // const editSchema = Yup.object().shape({
+  //   sample_code: Yup.string().required('kode sample wajib di isi'),
+  //   ni_level: Yup.string().required('Kadar Ni wajib di isi'),
+  //   mgo_level: Yup.string().required('Kadar MgO wajib di isi'),
+  //   simgo_level: Yup.string().required('Kadar SIMgO wajib di isi'),
+  //   fe_level: Yup.string().required('Kadar Fe wajib di isi'),
+  //   sio2_level: Yup.number().required('Kadar SIO2 wajib di isi'),
+  //   inc: Yup.date().required('Nilai Inc wajib di isi'),
+  //   co_level: Yup.string().required('Kadar CO wajib di isi'),
+  //   cao_level: Yup.string().required('Kadar CaO wajib di isi'),
+  //   tonnage: Yup.string().required('Nilai Tonase wajib di isi')
+  // });
 
   return (
     <div
@@ -44,6 +83,8 @@ const InputLaporanInternal = () => {
       }}
     >
       <Navbar />
+
+      {isFetchingActivity && <LoadingModal />}
 
       <Grid
         container
@@ -63,7 +104,7 @@ const InputLaporanInternal = () => {
         <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
           <Grid container>
             <Box>
-              <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Input Laporan Internal Lab</h2>
+              <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Edit Laporan Internal Lab</h2>
             </Box>
           </Grid>
         </Grid>
@@ -163,7 +204,7 @@ const InputLaporanInternal = () => {
 
         {/* Hasil Analisa */}
         <Grid item>
-          <HasilAnalisa />
+          <HasilAnalisa data={dataReport} />
           {/* {analisaList} */}
         </Grid>
 
@@ -211,4 +252,4 @@ const InputLaporanInternal = () => {
   );
 };
 
-export default InputLaporanInternal;
+export default EditLaporanInternal;

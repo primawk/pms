@@ -8,6 +8,7 @@ import SearchBar from './components/SearchBar';
 import SummaryLaporan from './components/SummaryLaporan';
 import ListLaporanInternal from './components/ListLaporanInternal';
 import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
+import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -20,7 +21,7 @@ export default function ListInternal() {
 
   const {
     data,
-    isLoading: isLoadingActivity,
+    // isLoading: isLoadingActivity,
     isFetching: isFetchingActivity
   } = useQuery(
     ['report', 'internal'],
@@ -80,17 +81,26 @@ export default function ListInternal() {
           <SummaryLaporan />
 
           {/*List Laporan*/}
-          {data?.data?.data.map((_list) => (
-            // <div key={_list?.id}>
-            //   <Link
-            //     to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
-            //     style={{ textDecoration: 'none', color: 'inherit' }}
-            //     key={_list.id}
-            //   >
+          {isFetchingActivity && <LoadingModal />}
+          {data?.data?.data.length > 0 ? (
+            <>
+              {data?.data?.data.map((_list) => (
+                // <div key={_list?.id}>
+                //   <Link
+                //     to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
+                //     style={{ textDecoration: 'none', color: 'inherit' }}
+                //     key={_list.id}
+                //   >
                 <ListLaporanInternal data={_list} />
-            //   </Link>
-            // </div>
-          ))}
+                //   </Link>
+                // </div>
+              ))}
+            </>
+          ) : (
+            <Box sx={{ marginLeft: '25rem' }}>
+              <h1>Data tidak ditemukan !</h1>
+            </Box>
+          )}
 
           {/* Pagination */}
           <Grid

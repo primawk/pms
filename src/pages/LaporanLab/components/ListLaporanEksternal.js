@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const ListLaporanEksternal = ({ data }) => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const ListLaporanEksternal = ({ data }) => {
           </Box>
           <Grid item>
             <Box>
-              <h5>PT Mandala Jaya</h5>
+              <h5>{data.company_name}</h5>
             </Box>
           </Grid>
         </Grid>
@@ -78,13 +79,13 @@ const ListLaporanEksternal = ({ data }) => {
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>
               <Box>
-                <h5>2 Preparasi</h5>
+                <h5>{data.preparation} Preparasi</h5>
               </Box>
               <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
                 <img src="/img/eksternal.png" alt=""></img>
               </Box>
               <Box>
-                <h5>4 Analisa</h5>
+                <h5>{data.analysis} Analisa</h5>
               </Box>
             </Grid>
           </Box>
@@ -105,7 +106,7 @@ const ListLaporanEksternal = ({ data }) => {
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>
               <Box>
-                <h5>12 / 07 / 2022</h5>
+                <h5>{dayjs(data?.updated_at).format('DD/MM/YYYY')}</h5>
               </Box>
             </Grid>
           </Box>

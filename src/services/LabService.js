@@ -33,9 +33,17 @@ const getReportDetail = ({ id } = {}) => {
   });
 };
 
+const deleteReport = ({ id }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const LabService = {
   getReport,
-  getReportDetail
+  getReportDetail,
+  deleteReport
 };
 
 export default LabService;

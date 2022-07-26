@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
@@ -7,6 +7,10 @@ import DeleteData from '../../components/Modal/DeleteModal/index';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
+
+// components
+import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -19,10 +23,26 @@ const DetailInternal = () => {
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+
+  const handleDelete = () => {
+    setLoading(true);
+    LabService.deleteReport({ id })
+      .then(() => {
+        toast.success('Data berhasil dihapus !');
+        setLoading(false);
+        toggleDelete();
+      })
+      .catch((err) => {
+        toast.error(err.response.data.detail_message);
+        setLoading(false);
+        toggleDelete();
+      });
+  };
 
   const {
     data,
-    isLoading: isLoadingActivity,
+    // isLoading: isLoadingActivity,
     isFetching: isFetchingActivity
   } = useQuery(
     ['report'],
@@ -37,7 +57,13 @@ const DetailInternal = () => {
 
   return (
     <>
-      <DeleteData toggle={toggleDelete} isShowing={isShowingDelete} title="Laporan Lab" />
+      <DeleteData
+        toggle={toggleDelete}
+        isShowing={isShowingDelete}
+        loading={loading}
+        action={handleDelete}
+        title="Laporan Lab"
+      />
       <div
         style={{
           backgroundColor: '#F5F5F5',
@@ -48,6 +74,8 @@ const DetailInternal = () => {
         }}
       >
         <Navbar />
+
+        {isFetchingActivity && <LoadingModal />}
 
         <Grid
           container
@@ -101,6 +129,7 @@ const DetailInternal = () => {
                 width: '40%',
                 fontWeight: '400'
               }}
+              onClick={() => navigate(`/edit/${dataReport?.report_type}/${id}`)}
             >
               Edit Laporan
             </Button>

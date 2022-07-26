@@ -1,6 +1,5 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
@@ -9,6 +8,7 @@ import CustomPagination from '../../components/Pagination/index';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
 import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import SummaryLaporan from './components/SummaryLaporan';
+import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -21,7 +21,7 @@ export default function ListEksternal() {
 
   const {
     data,
-    isLoading: isLoadingActivity,
+    // isLoading: isLoadingActivity,
     isFetching: isFetchingActivity
   } = useQuery(
     ['report', 'external'],
@@ -82,18 +82,11 @@ export default function ListEksternal() {
           <SummaryLaporan />
 
           {/*List Laporan*/}
+          {isFetchingActivity && <LoadingModal />}
           {data?.data?.data.length > 0 ? (
             <>
               {data?.data?.data.map((_list) => (
-                <div key={_list?.id}>
-                  <Link
-                    to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                    key={_list.id}
-                  >
-                    <ListLaporanEksternal data={_list} />
-                  </Link>
-                </div>
+                <ListLaporanEksternal data={_list} />
               ))}
             </>
           ) : (

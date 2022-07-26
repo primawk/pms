@@ -27,6 +27,7 @@ import AllInventory from 'pages/Inventory';
 import LaporanLab from 'pages/LaporanLab';
 import ListDetailEksternal from 'pages/LaporanLab/ListDetailEksternal';
 import DetailDome from 'pages/Inventory/DetailDome';
+import EditLaporanInternal from 'pages/LaporanLab/EditLaporanInternal';
 
 export default function Routes() {
   return useRoutes([
@@ -136,6 +137,10 @@ export default function Routes() {
     {
       path: 'detail/internal/:id',
       element: <DetailInternal />
+    },
+    {
+      path: 'edit/internal/:id',
+      element: <EditLaporanInternal />
     },
     {
       path: 'detail-eksternal',
