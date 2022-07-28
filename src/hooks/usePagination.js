@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
-export default function usePagination({ total_data }) {
+export default function usePagination() {
   const [page, setPage] = useState(1);
-
-  const totalPage = Math.ceil(total_data / 10);
 
   const handleChangePage = (e, _page) => {
     setPage(_page);
@@ -14,12 +11,7 @@ export default function usePagination({ total_data }) {
 
   return {
     page,
-    totalPage,
     handleChangePage,
     resetPage
   };
 }
-
-usePagination.propTypes = {
-  pagination: PropTypes.number
-};

@@ -73,3 +73,5 @@ export function capitalizeFirstLetter(string) {
     .map((_string) => _string.charAt(0).toUpperCase() + _string.substring(1).toLowerCase())
     .join(' ');
 }
+
+export const ceilTotalData = (data, row) => Math.ceil(data / row);

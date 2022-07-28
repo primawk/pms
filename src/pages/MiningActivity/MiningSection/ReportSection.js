@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Stack, Button, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
@@ -17,12 +16,13 @@ import { MiningFormModal } from '.';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 
+// utils
+import { ceilTotalData } from 'utils/helper';
+
 export default function ReportSection() {
   const { activityType } = useParams();
 
-  const [pagination, setPagination] = useState({});
-
-  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+  const { page, handleChangePage } = usePagination();
 
   const { isGranted } = useAuth();
 
@@ -38,10 +38,6 @@ export default function ReportSection() {
       }),
     { keepPreviousData: true }
   );
-
-  useEffect(() => {
-    setPagination(data?.data?.pagination);
-  }, [data]);
 
   return (
     <div className="app-content">
@@ -102,7 +98,11 @@ export default function ReportSection() {
             </center>
           )}
 
-          <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
+          <CustomPagination
+            count={ceilTotalData(data?.data?.pagination?.total_data || 0, 10)}
+            page={page}
+            handleChangePage={handleChangePage}
+          />
         </>
       )}
     </div>
