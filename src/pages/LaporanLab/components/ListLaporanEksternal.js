@@ -101,7 +101,7 @@ const ListLaporanEksternal = ({ data }) => {
           }}
         >
           <Box sx={{ marginBottom: '0.5rem' }}>
-            <h5 style={{ color: '#828282' }}>Sample Terakhir</h5>
+            <h5 style={{ color: '#828282' }}>Terakhir di Edit</h5>
           </Box>
           <Box>
             <Grid container sx={{ alignItems: 'center' }}>

@@ -11,7 +11,8 @@ import Select from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-// import * as Yup from 'yup';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
 // components
 import Navbar from '../../components/Navbar';
@@ -23,6 +24,7 @@ import LabService from 'services/LabService';
 
 const EditLaporanInternal = () => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+  const [loading, setLoading] = useState(false);
   //   const [analisaList, setAnalisaList] = useState([]);
 
   //   const AnalisaList = () => {
@@ -59,18 +61,71 @@ const EditLaporanInternal = () => {
     setValue(newValue);
   };
 
-  // const editSchema = Yup.object().shape({
-  //   sample_code: Yup.string().required('kode sample wajib di isi'),
-  //   ni_level: Yup.string().required('Kadar Ni wajib di isi'),
-  //   mgo_level: Yup.string().required('Kadar MgO wajib di isi'),
-  //   simgo_level: Yup.string().required('Kadar SIMgO wajib di isi'),
-  //   fe_level: Yup.string().required('Kadar Fe wajib di isi'),
-  //   sio2_level: Yup.number().required('Kadar SIO2 wajib di isi'),
-  //   inc: Yup.date().required('Nilai Inc wajib di isi'),
-  //   co_level: Yup.string().required('Kadar CO wajib di isi'),
-  //   cao_level: Yup.string().required('Kadar CaO wajib di isi'),
-  //   tonnage: Yup.string().required('Nilai Tonase wajib di isi')
-  // });
+  const editSchema = Yup.object().shape({
+    date: Yup.string().required('Tanggal wajib di isi!'),
+    hill_id: Yup.string().required('Bukit wajib di isi!'),
+    sample_type: Yup.string().required('Jenis Sample wajib di isi!'),
+    dome_id: Yup.string().required('Dome wajib di isi!'),
+    sample_code: Yup.string().required('kode sample wajib di isi'),
+    preparation: Yup.number().required('Inputan Preparasi wajib di isi!'),
+    ni_level: Yup.string().required('Kadar Ni wajib di isi'),
+    mgo_level: Yup.string().required('Kadar MgO wajib di isi'),
+    simgo_level: Yup.string().required('Kadar SIMgO wajib di isi'),
+    fe_level: Yup.string().required('Kadar Fe wajib di isi'),
+    sio2_level: Yup.number().required('Kadar SIO2 wajib di isi'),
+    inc: Yup.date().required('Nilai Inc wajib di isi'),
+    co_level: Yup.string().required('Kadar CO wajib di isi'),
+    cao_level: Yup.string().required('Kadar CaO wajib di isi'),
+    tonnage: Yup.string().required('Nilai Tonase wajib di isi')
+  });
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      date: dataReport ? dataReport.id : '',
+      hill_id: dataReport ? dataReport.hill_id : '',
+      sample_type: dataReport ? dataReport.sample_type : '',
+      dome_id: dataReport ? dataReport.dome_id : '',
+      sample_code: dataReport ? dataReport.sample_code : '',
+      preparation: dataReport ? dataReport.preparation : '',
+      ni_level: dataReport ? dataReport.ni_level : '',
+      mgo_level: dataReport ? dataReport.mgo_level : '',
+      simgo_level: dataReport ? dataReport.simgo_level : '',
+      fe_level: dataReport ? dataReport.fe_level : '',
+      sio2_level: dataReport ? dataReport.sio2_level : '',
+      inc: dataReport ? dataReport.inc : '',
+      co_level: dataReport ? dataReport.co_level : '',
+      cao_level: dataReport ? dataReport.cao_level : '',
+      tonnage: dataReport ? dataReport.tonnage : ''
+    },
+    validationSchema: editSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      const data = {
+        date: values.date,
+        hill_id: values.hill_id,
+        sample_type: values.sample_type,
+        dome_id: values.dome_id,
+        sample_code: values.sample_code,
+        preparation: values.preparation,
+        ni_level: values.ni_level,
+        mgo_level: values.mgo_level,
+        simgo_level: values.simgo_level,
+        fe_level: values.fe_level,
+        sio2_level: values.sio2_level,
+        inc: values.inc,
+        co_level: values.co_level,
+        cao_level: values.cao_level,
+        tonnage: values.tonnage
+      };
+      try {
+        await LabService.editReport(data, id);
+        navigate('/laporan-lab', { replace: true });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
 
   return (
     <div

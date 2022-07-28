@@ -40,10 +40,28 @@ const deleteReport = ({ id }) => {
   });
 };
 
+const inputReport = (data) => {
+  return request(`${MINING_ACTIVITY_MODEL}/report`, {
+    method: 'POST',
+    headers: authHeader(),
+    data
+  });
+};
+
+const editReport = ({ data, id }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
+    method: 'PUT',
+    headers: authHeader(),
+    data
+  });
+};
+
 const LabService = {
   getReport,
   getReportDetail,
-  deleteReport
+  deleteReport,
+  inputReport,
+  editReport
 };
 
 export default LabService;
