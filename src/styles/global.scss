@@ -168,6 +168,8 @@ $breakpoint-xxl: 1600px !default;
   width: 100vw;
   position: fixed;
   bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   box-shadow: 4px -10px 24px rgba(0, 0, 0, 0.04);
   background-color: white;

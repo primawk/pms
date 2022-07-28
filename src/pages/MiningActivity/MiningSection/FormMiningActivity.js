@@ -1,12 +1,14 @@
 import { Grid, Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+// utils
+import { capitalizeFirstLetter } from 'utils/helper';
 
 // components
 import FormMiningCard from 'components/Card/FormMiningCard';
-import Footer from 'components/Footer';
 
 export default function FormMiningActiviy() {
-  const navigate = useNavigate();
+  const { activityType } = useParams();
   return (
     <>
       <div className="app-content">
@@ -27,7 +29,7 @@ export default function FormMiningActiviy() {
           >
             <Grid item>
               <Stack direction="row" spacing={2}>
-                <Typography variant="h4">Ore Getting</Typography>
+                <Typography variant="h4">{capitalizeFirstLetter(activityType)}</Typography>
               </Stack>
             </Grid>
           </Grid>
@@ -35,7 +37,6 @@ export default function FormMiningActiviy() {
         <hr />
         <FormMiningCard />
       </div>
-      <Footer handleBack={() => navigate(-1)} handleSave={() => navigate(-1)} />
     </>
   );
 }

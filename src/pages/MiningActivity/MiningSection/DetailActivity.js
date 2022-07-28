@@ -3,6 +3,9 @@ import { Button, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { Icon } from '@iconify/react';
 import ArrowBack from '@iconify-icons/akar-icons/arrow-back';
 
+// utils
+import { capitalizeFirstLetter } from 'utils/helper';
+
 // components
 import ReportDetailCard from 'components/Card/ReportDetailCard';
 
@@ -37,7 +40,7 @@ export default function DetailActivity() {
               >
                 Back
               </Button>
-              <Typography variant="h4">Ore Getting</Typography>
+              <Typography variant="h4">{capitalizeFirstLetter(activityType)}</Typography>
               <Button
                 variant="contained"
                 onClick={() => navigate(`/mining-activity/${activityType}/edit/${id}`)}
