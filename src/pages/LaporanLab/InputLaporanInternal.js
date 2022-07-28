@@ -15,6 +15,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -33,8 +34,8 @@ const InputLaporanInternal = () => {
     sample_type: Yup.string().required('Jenis Sample wajib di isi!'),
     dome_id: Yup.string().required('Dome wajib di isi!'),
     sample_code: Yup.string().required('Kode Sample wajib di isi!'),
-    preparation: Yup.number().required('Inputan Preparasi wajib di isi!'),
-    ni_level: Yup.date().required('Kadar Ni wajib di isi!'),
+    preparation: Yup.string().required('Inputan Preparasi wajib di isi!'),
+    ni_level: Yup.string().required('Kadar Ni wajib di isi!'),
     mgo_level: Yup.string().required('Kadar MgO wajib di isi!'),
     simgo_level: Yup.string().required('Kadar SImgO wajib di isi!'),
     fe_level: Yup.string().required('Kadar Fe wajib di isi!'),
@@ -67,27 +68,27 @@ const InputLaporanInternal = () => {
       cao_level: '',
       tonnage: ''
     },
-    validationSchema: internalSchema,
+    // validationSchema: internalSchema,
     onSubmit: async (values) => {
       console.log('test');
       const data = {
         report_type: 'internal',
-        analysis: '1',
-        date: value,
-        hill_id: values.hill_id,
+        analysis: 1,
+        date: dateToStringPPOBFormatterv2(value),
+        hill_id: parseInt(values.hill_id),
         sample_type: values.sample_type,
-        dome_id: values.dome_id,
+        dome_id: parseInt(values.dome_id),
         sample_code: values.sample_code,
-        preparation: values.preparation,
-        ni_level: values.ni_level,
-        mgo_level: values.mgo_level,
-        simgo_level: values.simgo_level,
-        fe_level: values.fe_level,
-        sio2_level: values.sio2_level,
-        inc: values.inc,
-        co_level: values.co_level,
-        cao_level: values.cao_level,
-        tonnage: values.tonnage
+        preparation: parseInt(values.preparation),
+        ni_level: parseInt(values.ni_level),
+        mgo_level: parseInt(values.mgo_level),
+        simgo_level: parseInt(values.simgo_level),
+        fe_level: parseInt(values.fe_level),
+        sio2_level: parseInt(values.sio2_level),
+        inc: parseInt(values.inc),
+        co_level: parseInt(values.co_level),
+        cao_level: parseInt(values.cao_level),
+        tonnage: parseInt(values.tonnage)
       };
       try {
         console.log('test');
@@ -100,60 +101,13 @@ const InputLaporanInternal = () => {
     }
   });
 
-  // const handleAddFormSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const newProduct = {
-  //     name: addFormData.name,
-  //     price_buy: addFormData.price_buy,
-  //     price_sell: addFormData.price_sell,
-  //     stock: addFormData.stock,
-  //     unit: addFormData.unit,
-  //     volume: addFormData.volume,
-  //     description: addFormData.description,
-  //     appearance: addFormData.appearance,
-  //     categoryId: parseInt(categoryId.current.value)
-  //   };
-  //   formData.append('productData', JSON.stringify(newProduct));
-  //   formData.append('image', images);
-
-  //   console.log(newProduct);
-
-  //   try {
-  //     await axios.post(`${API_URL}/product/add`, formData);
-  //     navigate('/dashboard/product');
-  //     Swal.fire({
-  //       icon: 'success',
-  //       // title: "Oops...",
-  //       text: 'Product has been added!'
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //     Swal.fire({
-  //       icon: 'error',
-  //       // title: "Oops...",
-  //       text: error
-  //     });
-  //   }
-  // };
-
-  // const [analisaList, setAnalisaList] = useState([]);
-
-  // const AnalisaList = () => {
-  //   return <HasilAnalisa />;
-  // };
-
-  // const onAddBtnClick = () => {
-  //   if (analisaList.length < 5)
-  //     setAnalisaList(analisaList.concat(<AnalisaList key={analisaList.length} />));
-  // };
-
   const navigate = useNavigate();
 
   const handleOnChange = (newValue) => {
     setValue(newValue);
   };
 
-  const { errors, touched, values, handleSubmit } = formik;
+  const { errors, touched, values, handleSubmit, handleChange } = formik;
 
   return (
     <>
@@ -169,7 +123,7 @@ const InputLaporanInternal = () => {
       >
         <Navbar />
         <FormikProvider value={formik}>
-          <Form autoComplete="off" onSubmit={handleSubmit}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <Grid
               container
               sx={{
@@ -352,6 +306,8 @@ const InputLaporanInternal = () => {
                       label="Inputan Preparasi"
                       variant="outlined"
                       size="small"
+                      value={values.preparation}
+                      onChange={formik.handleChange}
                     />
                   </Grid>
                 </Grid>
@@ -401,7 +357,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar MgO">Nilai Kadar</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="mgo_level"
                         id="Kadar MgO"
                         value={values.mgo_level}
@@ -432,7 +388,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar SImgO">Nilai Kadar</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="simgo_level"
                         id="Kadar SImgO"
                         value={values.simgo_level}
@@ -465,7 +421,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar Fe">Nilai Kadar</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="fe_level"
                         id="Kadar Fe"
                         value={values.fe_level}
@@ -496,7 +452,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar SIO2">Nilai Kadar</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="sio2_level"
                         id="Kadar SIO2"
                         value={values.sio2_level}
@@ -527,7 +483,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Inc">Nilai Inc</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="inc"
                         id="Inc"
                         value={values.inc}
@@ -555,7 +511,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar CO">Nilai Kadar</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="co_level"
                         id="Kadar CO"
                         value={values.co_level}
@@ -586,7 +542,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar CaO">Nilai Kadar</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="cao_level"
                         id="Kadar CaO"
                         value={values.cao_level}
@@ -617,7 +573,7 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Tonase">Tonase</InputLabel>
                       <OutlinedInput
-                        type="number"
+                        // type="number"
                         name="tonnage"
                         id="Tonase"
                         value={values.tonnage}
@@ -635,24 +591,6 @@ const InputLaporanInternal = () => {
                   </Grid>
                 </Grid>
               </Grid>
-
-              {/* Hasil Analisa */}
-              {/* <Grid item> */}
-              {/* <HasilAnalisa /> */}
-              {/* {analisaList} */}
-              {/* </Grid> */}
-
-              {/* button add data */}
-              {/* <Grid item >
-          <Grid container sx={{ margin: '1.5rem', justifyContent: 'center' }}>
-            <Button variant="contained" sx={{ boxShadow: '0' }} onClick={onAddBtnClick}>
-              <Box sx={{ margin: '5px 12px 0 0 ' }}>
-                <Icon icon="carbon:add-alt" color="white" fontSize={16} />
-              </Box>
-              Tambah Data
-            </Button>
-          </Grid>
-        </Grid> */}
             </Grid>
             {/* submit */}
             <div
@@ -679,7 +617,7 @@ const InputLaporanInternal = () => {
                   <Button
                     type="submit"
                     variant="contained"
-                    // onClick={formik.handleSubmit}
+                    // onClick={console.log(formik.date)}
                     // loading={loading}
                     sx={{ width: '130%', boxShadow: '0' }}
                   >
