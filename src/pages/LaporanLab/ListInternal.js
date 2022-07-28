@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
@@ -7,17 +8,18 @@ import CustomPagination from '../../components/Pagination/index';
 import SearchBar from './components/SearchBar';
 import SummaryLaporan from './components/SummaryLaporan';
 import ListLaporanInternal from './components/ListLaporanInternal';
-import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
+// import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import { LoadingModal } from 'components/Modal';
 
 // custom hooks
-import useModal from '../../hooks/useModal';
+// import useModal from '../../hooks/useModal';
 
 // services
 import LabService from 'services/LabService';
 
 export default function ListInternal() {
-  const { isShowing, toggle } = useModal();
+  // const { isShowing, toggle } = useModal();
+  const navigate = useNavigate();
 
   const {
     data,
@@ -32,9 +34,11 @@ export default function ListInternal() {
     // { keepPreviousData: true }
   );
 
+  console.log(data?.data?.data);
+
   return (
     <>
-      <PilihLaporan toggle={toggle} isShowing={isShowing} />
+      {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
         <SearchBar />
@@ -64,7 +68,7 @@ export default function ListInternal() {
             </Box>
             <Button
               variant="contained"
-              onClick={toggle}
+              onClick={() => navigate(`/input-laporan-internal`)}
               sx={{
                 width: '15.625',
                 height: '42px',
@@ -85,15 +89,7 @@ export default function ListInternal() {
           {data?.data?.data.length > 0 ? (
             <>
               {data?.data?.data.map((_list) => (
-                // <div key={_list?.id}>
-                //   <Link
-                //     to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
-                //     style={{ textDecoration: 'none', color: 'inherit' }}
-                //     key={_list.id}
-                //   >
                 <ListLaporanInternal data={_list} />
-                //   </Link>
-                // </div>
               ))}
             </>
           ) : (

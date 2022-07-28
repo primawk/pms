@@ -16,9 +16,9 @@ const SummaryLaporan = () => {
   );
 
   const {
-    data,
-    isLoading: isLoadingActivity,
-    isFetching: isFetchingActivity
+    data
+    // isLoading: isLoadingActivity,
+    // isFetching: isFetchingActivity
   } = useQuery(
     ['report', 'internal'],
     () =>
@@ -87,7 +87,7 @@ const SummaryLaporan = () => {
             <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
                 <li style={{ fontSize: '0.8rem' }}>4 Preparasi</li>
-                <li style={{ fontSize: '0.8rem' }}>6 Analisa</li>
+                <li style={{ fontSize: '0.8rem' }}>{summaryInternal} Analisa</li>
               </Grid>
             </Grid>
           </Grid>

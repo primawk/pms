@@ -69,8 +69,10 @@ const InputLaporanInternal = () => {
     },
     validationSchema: internalSchema,
     onSubmit: async (values) => {
-      setLoading(true);
+      console.log('test');
       const data = {
+        report_type: 'internal',
+        analysis: '1',
         date: value,
         hill_id: values.hill_id,
         sample_type: values.sample_type,
@@ -88,13 +90,51 @@ const InputLaporanInternal = () => {
         tonnage: values.tonnage
       };
       try {
-        await LabService.inputLaporan(data);
+        console.log('test');
+        await LabService.inputReport(data);
         navigate('/laporan-lab', { replace: true });
       } catch (error) {
+        console.log(data);
         console.log(error);
       }
     }
   });
+
+  // const handleAddFormSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const newProduct = {
+  //     name: addFormData.name,
+  //     price_buy: addFormData.price_buy,
+  //     price_sell: addFormData.price_sell,
+  //     stock: addFormData.stock,
+  //     unit: addFormData.unit,
+  //     volume: addFormData.volume,
+  //     description: addFormData.description,
+  //     appearance: addFormData.appearance,
+  //     categoryId: parseInt(categoryId.current.value)
+  //   };
+  //   formData.append('productData', JSON.stringify(newProduct));
+  //   formData.append('image', images);
+
+  //   console.log(newProduct);
+
+  //   try {
+  //     await axios.post(`${API_URL}/product/add`, formData);
+  //     navigate('/dashboard/product');
+  //     Swal.fire({
+  //       icon: 'success',
+  //       // title: "Oops...",
+  //       text: 'Product has been added!'
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     Swal.fire({
+  //       icon: 'error',
+  //       // title: "Oops...",
+  //       text: error
+  //     });
+  //   }
+  // };
 
   // const [analisaList, setAnalisaList] = useState([]);
 
@@ -113,8 +153,7 @@ const InputLaporanInternal = () => {
     setValue(newValue);
   };
 
-  const { errors, touched, values, handleSubmit, setFieldValue, getFieldProps, handleChange } =
-    formik;
+  const { errors, touched, values, handleSubmit } = formik;
 
   return (
     <>
@@ -129,31 +168,33 @@ const InputLaporanInternal = () => {
         }}
       >
         <Navbar />
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" onSubmit={handleSubmit}>
+            <Grid
+              container
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: 'white',
+                height: 'auto',
+                width: '90%',
+                marginTop: '6rem',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginBottom: '6rem',
+                borderRadius: '4px'
+              }}
+            >
+              <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
+                <Grid container>
+                  <Box>
+                    <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>
+                      Input Laporan Internal Lab
+                    </h2>
+                  </Box>
+                </Grid>
+              </Grid>
 
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'white',
-            height: 'auto',
-            width: '90%',
-            marginTop: '6rem',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            marginBottom: '6rem',
-            borderRadius: '4px'
-          }}
-        >
-          <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
-            <Grid container>
-              <Box>
-                <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Input Laporan Internal Lab</h2>
-              </Box>
-            </Grid>
-          </Grid>
-          <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Grid item sx={{ height: '27%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
                 <h4 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Informasi Sample</h4>
                 <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -191,16 +232,15 @@ const InputLaporanInternal = () => {
                         Pilih Bukit
                       </InputLabel>
                       <Select
-                        labelId="Bukit"
-                        id="Bukit"
+                        name="hill_id"
                         value={values.hill_id}
                         label="Pilih Bukit"
                         onChange={formik.handleChange}
                         size="small"
                       >
-                        <MenuItem value={'1'}>1</MenuItem>
-                        <MenuItem value={'2'}>2</MenuItem>
-                        <MenuItem value={'3'}>3</MenuItem>
+                        <MenuItem value="1">1</MenuItem>
+                        <MenuItem value="2">2</MenuItem>
+                        <MenuItem value="3">3</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
@@ -220,6 +260,7 @@ const InputLaporanInternal = () => {
                         Pilih Jenis Sample
                       </InputLabel>
                       <Select
+                        name="sample_type"
                         labelId="Jenis Sample"
                         id="Jenis Sample"
                         value={values.sample_type}
@@ -252,6 +293,7 @@ const InputLaporanInternal = () => {
                         Pilih Tumpukan/Dome
                       </InputLabel>
                       <Select
+                        name="dome_id"
                         labelId="tumpukan"
                         id="tumpukan"
                         value={values.dome_id}
@@ -287,10 +329,13 @@ const InputLaporanInternal = () => {
                   >
                     <Box sx={{ marginBottom: '1rem' }}>Kode Sample</Box>
                     <TextField
+                      name="sample_code"
                       id="outlined-basic"
                       label="Kode Sample"
                       variant="outlined"
                       size="small"
+                      value={values.sample_code}
+                      onChange={formik.handleChange}
                     />
                   </Grid>
                   <Grid
@@ -302,6 +347,7 @@ const InputLaporanInternal = () => {
                   >
                     <Box sx={{ marginBottom: '1rem' }}>Inputan Preparasi</Box>
                     <TextField
+                      name="preparation"
                       id="outlined-basic"
                       label="Inputan Preparasi"
                       variant="outlined"
@@ -325,17 +371,18 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar Ni">Nilai Kadar</InputLabel>
                       <OutlinedInput
+                        name="ni_level"
                         id="Kadar Ni"
                         value={values.ni_level}
                         onChange={formik.handleChange}
-                        error={touched.ni_level && Boolean(errors.ni_level)}
-                        helperText={touched.ni_level && errors.ni_level}
+                        // error={touched.ni_level && Boolean(errors.ni_level)}
+                        // helperText={touched.ni_level && errors.ni_level}
                         endAdornment={
                           <InputAdornment position="end" backgroundColor="gray">
                             %
                           </InputAdornment>
                         }
-                        label="Kadar Ni"
+                        label="Nilai Kadar"
                       />
                     </FormControl>
                   </Grid>
@@ -354,6 +401,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar MgO">Nilai Kadar</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="mgo_level"
                         id="Kadar MgO"
                         value={values.mgo_level}
                         onChange={formik.handleChange}
@@ -383,6 +432,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar SImgO">Nilai Kadar</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="simgo_level"
                         id="Kadar SImgO"
                         value={values.simgo_level}
                         onChange={formik.handleChange}
@@ -414,6 +465,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar Fe">Nilai Kadar</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="fe_level"
                         id="Kadar Fe"
                         value={values.fe_level}
                         onChange={formik.handleChange}
@@ -443,6 +496,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar SIO2">Nilai Kadar</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="sio2_level"
                         id="Kadar SIO2"
                         value={values.sio2_level}
                         onChange={formik.handleChange}
@@ -472,6 +527,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Inc">Nilai Inc</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="inc"
                         id="Inc"
                         value={values.inc}
                         onChange={formik.handleChange}
@@ -498,6 +555,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar CO">Nilai Kadar</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="co_level"
                         id="Kadar CO"
                         value={values.co_level}
                         onChange={formik.handleChange}
@@ -527,6 +586,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Kadar CaO">Nilai Kadar</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="cao_level"
                         id="Kadar CaO"
                         value={values.cao_level}
                         onChange={formik.handleChange}
@@ -556,6 +617,8 @@ const InputLaporanInternal = () => {
                     <FormControl size="small" variant="outlined">
                       <InputLabel htmlFor="Tonase">Tonase</InputLabel>
                       <OutlinedInput
+                        type="number"
+                        name="tonnage"
                         id="Tonase"
                         value={values.tonnage}
                         onChange={formik.handleChange}
@@ -572,16 +635,15 @@ const InputLaporanInternal = () => {
                   </Grid>
                 </Grid>
               </Grid>
-            </Form>
-          </FormikProvider>
-          {/* Hasil Analisa */}
-          {/* <Grid item> */}
-          {/* <HasilAnalisa /> */}
-          {/* {analisaList} */}
-          {/* </Grid> */}
 
-          {/* button add data */}
-          {/* <Grid item >
+              {/* Hasil Analisa */}
+              {/* <Grid item> */}
+              {/* <HasilAnalisa /> */}
+              {/* {analisaList} */}
+              {/* </Grid> */}
+
+              {/* button add data */}
+              {/* <Grid item >
           <Grid container sx={{ margin: '1.5rem', justifyContent: 'center' }}>
             <Button variant="contained" sx={{ boxShadow: '0' }} onClick={onAddBtnClick}>
               <Box sx={{ margin: '5px 12px 0 0 ' }}>
@@ -591,40 +653,43 @@ const InputLaporanInternal = () => {
             </Button>
           </Grid>
         </Grid> */}
-        </Grid>
-
-        {/* submit */}
-        <div
-          style={{
-            position: 'fixed',
-            display: 'flex',
-            bottom: '0px',
-            backgroundColor: 'white',
-            width: '100%',
-            height: '4.875rem',
-            boxShadow: '4px -10px 24px rgba(0, 0, 0, 0.04)',
-            zIndex: '1'
-          }}
-        >
-          <Grid
-            container
-            sx={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: '5rem' }}
-          >
-            <Grid item sx={{ marginRight: '4rem' }}>
-              <Button onClick={() => navigate(-1)}>Back</Button>
             </Grid>
-            <Grid item>
-              <LoadingButton
-                variant="contained"
-                onClick={toggle}
-                loading={loading}
-                sx={{ width: '130%', boxShadow: '0' }}
+            {/* submit */}
+            <div
+              style={{
+                position: 'fixed',
+                display: 'flex',
+                bottom: '0px',
+                backgroundColor: 'white',
+                width: '100%',
+                height: '4.875rem',
+                marginRight: '5rem',
+                boxShadow: '4px -10px 24px rgba(0, 0, 0, 0.04)',
+                zIndex: '1'
+              }}
+            >
+              <Grid
+                container
+                sx={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: '5rem' }}
               >
-                Submit Laporan
-              </LoadingButton>
-            </Grid>
-          </Grid>
-        </div>
+                {/* <Grid item sx={{ marginRight: '4rem' }}>
+                  <Button onClick={() => navigate(-1)}>Back</Button>
+                </Grid> */}
+                <Grid item>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    // onClick={formik.handleSubmit}
+                    // loading={loading}
+                    sx={{ width: '130%', boxShadow: '0' }}
+                  >
+                    Submit Laporan
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </Form>
+        </FormikProvider>
       </div>
     </>
   );
