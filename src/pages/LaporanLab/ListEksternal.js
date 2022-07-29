@@ -33,6 +33,18 @@ export default function ListEksternal() {
     // { keepPreviousData: true }
   );
 
+  // const list = data?.data?.data;
+
+  const groups = data?.data?.data.reduce((groups, item) => {
+    const group = groups[item.company_name] || [];
+    group.push(item);
+    groups[item.company_name] = group;
+    return groups;
+  }, {});
+
+  console.log(groups);
+  // console.log(list);
+
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
@@ -80,13 +92,13 @@ export default function ListEksternal() {
           </Grid>
 
           {/* Summary Laporan */}
-          <SummaryLaporan  />
+          <SummaryLaporan />
 
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {data?.data?.data.length > 0 ? (
+          {data?.data.length > 0 ? (
             <>
-              {data?.data?.data.map((_list) => (
+              {groups.map((_list) => (
                 <ListLaporanEksternal data={_list} />
               ))}
             </>
