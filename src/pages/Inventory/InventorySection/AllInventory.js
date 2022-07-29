@@ -103,7 +103,7 @@ export default function AllInventory() {
             subtitle="Kegiatan Penambangan"
             summary={dataOreGettingSummary?.data?.data?.[0]}
             listData={dataOreGetting?.data?.data}
-            count={ceilTotalData(dataOreGetting?.data?.pagination?.total_data || 0, 10)}
+            count={ceilTotalData(dataOreGetting?.data?.pagination?.total_data || 0, 15)}
             page={pageOreGetting}
             handleChangePage={handleChangePageOreGetting}
           />
@@ -117,7 +117,7 @@ export default function AllInventory() {
             subtitle="Stockfile"
             summary={dataOreHaulingSummary?.data?.data?.[0]}
             listData={dataOreHauling?.data?.data}
-            count={ceilTotalData(dataOreHauling?.data?.pagination?.total_data || 0, 10)}
+            count={ceilTotalData(dataOreHauling?.data?.pagination?.total_data || 0, 15)}
             page={pageOreHauling}
             handleChangePage={handleChangePageOreHauling}
           />
@@ -128,7 +128,7 @@ export default function AllInventory() {
           subtitle="Stockyard"
           summary={dataEtoToEfoSummary?.data?.data?.[0]}
           listData={dataEtoToEfo?.data?.data}
-          count={ceilTotalData(dataEtoToEfo?.data?.pagination?.total_data || 0, 10)}
+          count={ceilTotalData(dataEtoToEfo?.data?.pagination?.total_data || 0, 15)}
           page={pageEtoToEfo}
           handleChangePage={handleChangePageEtoToEfo}
         />
