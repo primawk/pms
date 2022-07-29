@@ -163,7 +163,7 @@ export default function AllActivity() {
           <InventorySection
             title="Realisasi Produksi Inventory SM"
             subtitle="Kegiatan Penambangan"
-            summary={dataOreGettingSummary?.data?.data[0]}
+            summary={dataOreGettingSummary?.data?.data?.[0]}
             listData={dataOreGetting?.data?.data}
           />
         )}
@@ -174,7 +174,7 @@ export default function AllActivity() {
           <InventorySection
             title="Realisasi Produksi Inventory ETO"
             subtitle="Stockfile"
-            summary={dataOreHaulingSummary?.data?.data[0]}
+            summary={dataOreHaulingSummary?.data?.data?.[0]}
             listData={dataOreHauling?.data?.data}
           />
         )}
@@ -182,7 +182,7 @@ export default function AllActivity() {
         <InventorySection
           title="Realisasi Produksi Inventory EFO"
           subtitle="Stockyard"
-          summary={dataEtoToEfoSummary?.data?.data[0]}
+          summary={dataEtoToEfoSummary?.data?.data?.[0]}
           listData={dataEtoToEfo?.data?.data}
         />
       )}

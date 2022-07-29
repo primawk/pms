@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -18,6 +18,9 @@ import BasicTable from 'components/Table/BasicTable/BasicTable';
 
 // services
 import UserManagementService from 'services/UserManagementService';
+
+// utils
+import { ceilTotalData } from 'utils/helper';
 
 const headCells = [
   {
@@ -61,7 +64,6 @@ const headCells = [
 export default function UserTable({ search, isSearch }) {
   const queryClient = useQueryClient();
 
-  const [pagination, setPagination] = useState({});
   const [id, setId] = useState('');
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
@@ -71,9 +73,7 @@ export default function UserTable({ search, isSearch }) {
 
   const { isLoadingAction, toggleLoading } = useLoading();
 
-  const { page, totalPage, handleChangePage, resetPage } = usePagination(
-    pagination || { total_data: 0 }
-  );
+  const { page, handleChangePage, resetPage } = usePagination();
 
   const { data, isLoading, isFetching } = useQuery(
     ['users', page, isSearch],
@@ -86,10 +86,6 @@ export default function UserTable({ search, isSearch }) {
       }),
     { keepPreviousData: true }
   );
-
-  useEffect(() => {
-    setPagination(data?.data?.pagination);
-  }, [data]);
 
   const handleAdd = () => {
     setId('');
@@ -151,7 +147,11 @@ export default function UserTable({ search, isSearch }) {
           title="User"
         />
       )}
-      <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
+      <CustomPagination
+        count={ceilTotalData(data?.data?.pagination?.total_data || 0, 10)}
+        page={page}
+        handleChangePage={handleChangePage}
+      />
       <FormUser
         toggle={toggleForm}
         isShowing={isShowingForm}

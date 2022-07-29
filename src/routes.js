@@ -112,7 +112,7 @@ export default function Routes() {
             }
           ]
         },
-        //
+        // inventory
         {
           path: 'inventory',
           children: [

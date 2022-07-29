@@ -2,10 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { Grid, TextField, MenuItem, Stack, FormControl, Button } from '@mui/material';
+import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import * as Yup from 'yup';
+import { useFormik, Form, FormikProvider } from 'formik';
 
 // components
 import { CustomModal } from 'components/Modal';
@@ -31,84 +34,169 @@ const blockList = ['Utara', 'Selatan'];
 
 export default function MiningFormModal({ isShowing, toggle }) {
   const navigate = useNavigate();
+
+  const today = new Date();
+
+  const MiningFormSchema = Yup.object().shape({
+    activity_type: Yup.string().required('Activity Type is required'),
+    date: Yup.string().required('Date is required'),
+    time: Yup.string().required('Time is required'),
+    product_type: Yup.string().required('Product Type is required'),
+    block: Yup.string().required('Block is required')
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      activity_type: '',
+      date: today,
+      time: today,
+      product_type: '',
+      block: ''
+    },
+    validationSchema: MiningFormSchema,
+    onSubmit: (values) => {
+      navigate(`/mining-activity/${values?.activity_type}/add`, {
+        state: {
+          activity_type: values?.activity_type,
+          date: dayjs(values?.date).format('YYYY-MM-DD'),
+          time: dayjs(values?.time).format('HH:mm'),
+          product_type: values?.product_type,
+          block: values?.block
+        }
+      });
+    }
+  });
+
+  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values } = formik;
   return (
     <CustomModal isShowing={isShowing} toggle={toggle} width="40%">
       <center>
         <h2 style={{ marginBottom: '20px' }}>Input Realisasi Kegiatan Produksi Mineral</h2>
       </center>
-      <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-        <Grid item lg={12} md={12} sm={12} xs={12}>
-          <Stack spacing={2}>
-            <FormControl>
-              <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Kegiatan</h4>
-              <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
-                {miningActivityList.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-            <Grid container direction="row" justifyContent="space-between" alignItems="center">
-              <Grid item lg={6} sx={{ pr: 2 }}>
+      <FormikProvider value={formik}>
+        <Form autoComplete="off" onSubmit={handleSubmit}>
+          <Grid container direction="column" justifyContent="center" alignItems="flex-start">
+            <Grid item lg={12} md={12} sm={12} xs={12}>
+              <Stack spacing={2}>
                 <FormControl>
-                  <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Tanggal Kegiatan</h4>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker renderInput={(params) => <TextField {...params} size="small" />} />
-                  </LocalizationProvider>
+                  <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Kegiatan</h4>
+                  <TextField
+                    select
+                    placeholder="Pilih jenis kegiatan"
+                    fullWidth
+                    size="small"
+                    name="activity_type"
+                    {...getFieldProps('activity_type')}
+                    error={Boolean(touched.activity_type && errors.activity_type)}
+                    helperText={touched.activity_type && errors.activity_type}
+                  >
+                    {miningActivityList.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </FormControl>
-              </Grid>
-              <Grid item lg={6}>
+                <Grid container direction="row" justifyContent="space-between" alignItems="center">
+                  <Grid item lg={6} sx={{ pr: 2 }}>
+                    <FormControl>
+                      <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Tanggal Kegiatan</h4>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                          value={values?.date}
+                          onChange={(val) => {
+                            setFieldValue('date', val);
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              size="small"
+                              error={Boolean(touched.date && errors.date)}
+                              helperText={touched.date && errors.date}
+                            />
+                          )}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid>
+                  <Grid item lg={6}>
+                    <FormControl>
+                      <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Waktu Kegiatan</h4>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <TimePicker
+                          ampm={false}
+                          value={values?.time}
+                          onChange={(val) => {
+                            setFieldValue('time', val);
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              size="small"
+                              error={Boolean(touched.time && errors.time)}
+                              helperText={touched.time && errors.time}
+                            />
+                          )}
+                        />
+                      </LocalizationProvider>
+                    </FormControl>
+                  </Grid>
+                </Grid>
                 <FormControl>
-                  <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Waktu Kegiatan</h4>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TimePicker
-                      ampm={false}
-                      renderInput={(params) => <TextField {...params} size="small" />}
-                    />
-                  </LocalizationProvider>
+                  <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Produk</h4>
+                  <TextField
+                    select
+                    placeholder="Pilih jenis produk"
+                    fullWidth
+                    size="small"
+                    name="product_type"
+                    {...getFieldProps('product_type')}
+                    error={Boolean(touched.product_type && errors.product_type)}
+                    helperText={touched.product_type && errors.product_type}
+                  >
+                    {productList.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </FormControl>
-              </Grid>
+                <FormControl>
+                  <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Block</h4>
+                  <TextField
+                    select
+                    placeholder="Pilih jenis kegiatan"
+                    fullWidth
+                    size="small"
+                    name="block"
+                    {...getFieldProps('block')}
+                    error={Boolean(touched.block && errors.block)}
+                    helperText={touched.block && errors.block}
+                  >
+                    {blockList.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </FormControl>
+              </Stack>
             </Grid>
-            <FormControl>
-              <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Produk</h4>
-              <TextField select placeholder="Pilih jenis produk" fullWidth size="small">
-                {productList.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-            <FormControl>
-              <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Block</h4>
-              <TextField select placeholder="Pilih jenis kegiatan" fullWidth size="small">
-                {blockList.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-          </Stack>
-        </Grid>
-      </Grid>
-      <Grid container direction="row" justifyContent="flex-end" alignItems="center" spacing={5}>
-        <Grid item lg={6} md={12} sm={12} xs={12} sx={{ marginTop: '25px' }}>
-          <Stack spacing={2} direction="row">
-            <Button variant="outlined" fullWidth onClick={toggle}>
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={() => navigate('/mining-activity/ore-hauling-to-eto/add')}
-            >
-              Save
-            </Button>
-          </Stack>
-        </Grid>
-      </Grid>
+          </Grid>
+          <Grid container direction="row" justifyContent="flex-end" alignItems="center" spacing={5}>
+            <Grid item lg={6} md={12} sm={12} xs={12} sx={{ marginTop: '25px' }}>
+              <Stack spacing={2} direction="row">
+                <Button variant="outlined" fullWidth onClick={toggle}>
+                  Cancel
+                </Button>
+                <Button variant="contained" fullWidth type="submit">
+                  Save
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Form>
+      </FormikProvider>
     </CustomModal>
   );
 }

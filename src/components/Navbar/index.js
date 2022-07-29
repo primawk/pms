@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Grid, Popover, Button, Stack, IconButton, Avatar, Typography, Badge } from '@mui/material';
 import { Icon } from '@iconify/react';
 import DropIcon from '@iconify/icons-bi/caret-down-fill';
@@ -47,8 +47,12 @@ export default function Navbar() {
           alignItems="center"
           className="navbar-brand"
         >
-          <img src="/PMSLogo.png" alt="logo" style={{ marginRight: '10px  ' }} />
-          <h4>PMS Smart Dashboard</h4>
+          <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <img src="/PMSLogo.png" alt="logo" style={{ marginRight: '10px  ' }} />
+          </Link>
+          <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h4>PMS Smart Dashboard</h4>
+          </Link>
         </Grid>
 
         <Grid item lg={3} md={4} sm={5} xs={5} sx={{ marginRight: 3 }}>

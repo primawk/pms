@@ -47,7 +47,7 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                   <TableCell
                     align="center"
                     sx={{ border: '1px solid #F2F2F2', minWidth: '10vw' }}
-                    rowSpan={item.detail.length + 1}
+                    rowSpan={item.detail?.length + 1}
                   >
                     {item.year}
                   </TableCell>
@@ -73,7 +73,7 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                           justifyContent: 'flex-start',
                           alignItems: 'flex-start'
                         }}
-                        rowSpan={item.detail.length}
+                        rowSpan={item.detail?.length}
                       >
                         <Grid
                           container
