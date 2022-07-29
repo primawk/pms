@@ -42,8 +42,10 @@ export default function ListEksternal() {
     return groups;
   }, {});
 
+  // const value = groups['PT Gitar'];
+
   console.log(groups);
-  // console.log(list);
+  // console.log(data?.data?.data);
 
   return (
     <>
@@ -90,16 +92,14 @@ export default function ListEksternal() {
               Input Laporan Lab
             </Button>
           </Grid>
-
           {/* Summary Laporan */}
           <SummaryLaporan />
-
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {data?.data.length > 0 ? (
+          {groups ? (
             <>
-              {groups.map((_list) => (
-                <ListLaporanEksternal data={_list} />
+              {Object.keys(groups).map((item) => (
+                <ListLaporanEksternal data={item} />
               ))}
             </>
           ) : (
@@ -107,7 +107,6 @@ export default function ListEksternal() {
               <h1>Data tidak ditemukan !</h1>
             </Box>
           )}
-
           {/* Pagination */}
           <Grid
             container

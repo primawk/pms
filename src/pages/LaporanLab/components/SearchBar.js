@@ -17,11 +17,12 @@ const SearchBar = ({ posts, setSearchResults }) => {
 
     const resultsArray = posts.filter(
       (post) =>
-        post.company_name.includes(e.target.value) || post.sample_code.includes(e.target.value)
+        post.sample_code?.includes(e.target.value) || post.company_name?.includes(e.target.value)
     );
 
     setSearchResults(resultsArray);
   };
+
   return (
     <>
       <Grid
@@ -78,6 +79,7 @@ const SearchBar = ({ posts, setSearchResults }) => {
           </FormControl>
         </Grid>
         <Button
+          onSubmit={handleSubmit}
           variant="contained"
           sx={{ width: '14%', height: '3.4rem', marginLeft: '1rem', boxShadow: 0 }}
         >

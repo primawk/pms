@@ -6,6 +6,8 @@ import dayjs from 'dayjs';
 const ListLaporanEksternal = ({ data }) => {
   const navigate = useNavigate();
 
+  console.log(Object.entries(data));
+
   return (
     <Grid
       container
@@ -40,7 +42,7 @@ const ListLaporanEksternal = ({ data }) => {
           </Box>
           <Grid item>
             <Box>
-              <h5>{data.company_name}</h5>
+              <h5>{data}</h5>
             </Box>
           </Grid>
         </Grid>

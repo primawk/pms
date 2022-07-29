@@ -1,6 +1,7 @@
 import { request } from 'utils/request';
 import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
+import axios from 'axios';
 
 const getReport = ({ page, row, report_type } = {}) => {
   const params = [];
@@ -55,6 +56,12 @@ const editReport = ({ data, id }) => {
     data
   });
 };
+
+export async function fetchInternal() {
+  const url = `${MINING_ACTIVITY_MODEL}/report?report_type=internal`;
+  const promise = await axios.get(url);
+  return promise.data.data;
+}
 
 const LabService = {
   getReport,

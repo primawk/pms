@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,13 +7,13 @@ import { Grid, Button, Box } from '@mui/material';
 import CustomPagination from '../../components/Pagination/index';
 import SearchBar from './components/SearchBar';
 import SummaryLaporan from './components/SummaryLaporan';
-import ListLaporanInternal from './components/ListLaporanInternal';
 // import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import { LoadingModal } from 'components/Modal';
-// import Lists from './Lists';
+import Lists from './Lists';
 
 // services
 import LabService from 'services/LabService';
+import { fetchInternal } from 'services/LabService';
 
 export default function ListInternal() {
   // const { isShowing, toggle } = useModal();
@@ -34,18 +34,16 @@ export default function ListInternal() {
     // { keepPreviousData: true }
   );
 
-  // const lists = data?.data.data;
-
-  // useEffect(() => {
-  //   data
-  //     .then((json) => {
-  //       setPosts(json);
-  //       return json;
-  //     })
-  //     .then((json) => {
-  //       setSearchResults(json);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetchInternal()
+      .then((json) => {
+        setPosts(json);
+        return json;
+      })
+      .then((json) => {
+        setSearchResults(json);
+      });
+  }, []);
 
   return (
     <>
@@ -97,7 +95,7 @@ export default function ListInternal() {
 
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {data?.data?.data.length > 0 ? (
+          {/* {data?.data?.data.length > 0 ? (
             <>
               {data?.data?.data.map((_list) => (
                 <ListLaporanInternal data={_list} />
@@ -107,8 +105,8 @@ export default function ListInternal() {
             <Box sx={{ marginLeft: '25rem' }}>
               <h1>Data tidak ditemukan !</h1>
             </Box>
-          )}
-          {/* <Lists searchResults={searchResults} /> */}
+          )} */}
+          <Lists searchResults={searchResults} />
 
           {/* Pagination */}
           <Grid
