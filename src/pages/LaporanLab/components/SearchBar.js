@@ -8,7 +8,20 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
-const SearchBar = () => {
+//  import setState to a component?
+const SearchBar = ({ posts, setSearchResults }) => {
+  const handleSubmit = (e) => e.preventDefault();
+
+  const handleSearchChange = (e) => {
+    if (!e.target.value) return setSearchResults(posts); // if the search bar is empty show all posts
+
+    const resultsArray = posts.filter(
+      (post) =>
+        post.company_name.includes(e.target.value) || post.sample_code.includes(e.target.value)
+    );
+
+    setSearchResults(resultsArray);
+  };
   return (
     <>
       <Grid
@@ -33,10 +46,11 @@ const SearchBar = () => {
           }}
         >
           <TextField
-            id="outlined-basic"
+            id="search"
             placeholder="Cari Nomor Sample/Nama Perusahaan/Requester"
             variant="outlined"
             fullWidth
+            onChange={handleSearchChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

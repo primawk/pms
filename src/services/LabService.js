@@ -40,11 +40,11 @@ const deleteReport = ({ id }) => {
   });
 };
 
-const inputReport = (data) => {
+const inputReport = (formData) => {
   return request(`${MINING_ACTIVITY_MODEL}/report`, {
     method: 'POST',
     headers: authHeader(),
-    data
+    data: formData
   });
 };
 

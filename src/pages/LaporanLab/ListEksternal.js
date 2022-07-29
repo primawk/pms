@@ -1,23 +1,24 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
 import SearchBar from './components/SearchBar';
 import CustomPagination from '../../components/Pagination/index';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
-import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
 
 // custom hooks
-import useModal from '../../hooks/useModal';
+// import useModal from '../../hooks/useModal';
 
 // services
 import LabService from 'services/LabService';
 
 export default function ListEksternal() {
-  const { isShowing, toggle } = useModal();
+  // const { isShowing, toggle } = useModal();
+  const navigate = useNavigate();
 
   const {
     data,
@@ -34,7 +35,7 @@ export default function ListEksternal() {
 
   return (
     <>
-      <PilihLaporan toggle={toggle} isShowing={isShowing} />
+      {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
         <SearchBar />
@@ -65,7 +66,7 @@ export default function ListEksternal() {
 
             <Button
               variant="contained"
-              onClick={toggle}
+              onClick={() => navigate(`/input-laporan-eksternal`)}
               sx={{
                 width: '15.625',
                 height: '42px',
@@ -79,7 +80,7 @@ export default function ListEksternal() {
           </Grid>
 
           {/* Summary Laporan */}
-          <SummaryLaporan />
+          <SummaryLaporan  />
 
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}

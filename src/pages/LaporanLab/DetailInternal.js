@@ -18,6 +18,7 @@ import useModal from '../../hooks/useModal';
 // services
 import LabService from 'services/LabService';
 
+
 const DetailInternal = () => {
   const navigate = useNavigate();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
@@ -29,6 +30,7 @@ const DetailInternal = () => {
     setLoading(true);
     LabService.deleteReport({ id })
       .then(() => {
+        navigate(-1);
         toast.success('Data berhasil dihapus !');
         setLoading(false);
         toggleDelete();
@@ -54,6 +56,10 @@ const DetailInternal = () => {
   );
 
   const dataReport = data?.data?.data;
+
+  const dateEdited = dataReport?.updated_at;
+
+  // console.log(stringISOToDateTimeFormatter(dateEdited));
 
   return (
     <>
@@ -117,6 +123,7 @@ const DetailInternal = () => {
             <h2 style={{ margin: '0 0.5rem 1em 2rem' }}>{dataReport?.sample_code}</h2>
             <Box style={{ margin: '0 0.5rem 1rem 2rem', color: '#3F48C0', fontSize: '0.875rem' }}>
               Terakhir diedit oleh {dataReport?.account_name}, pada 12 Juni 2022, 12:21 WITA
+              {/* {dataReport?.updated_at} */}
             </Box>
             <Button
               variant="outlined"

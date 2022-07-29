@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,9 +10,7 @@ import SummaryLaporan from './components/SummaryLaporan';
 import ListLaporanInternal from './components/ListLaporanInternal';
 // import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import { LoadingModal } from 'components/Modal';
-
-// custom hooks
-// import useModal from '../../hooks/useModal';
+// import Lists from './Lists';
 
 // services
 import LabService from 'services/LabService';
@@ -20,6 +18,8 @@ import LabService from 'services/LabService';
 export default function ListInternal() {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
+  const [searchResults, setSearchResults] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   const {
     data,
@@ -34,14 +34,25 @@ export default function ListInternal() {
     // { keepPreviousData: true }
   );
 
-  console.log(data?.data?.data);
+  // const lists = data?.data.data;
+
+  // useEffect(() => {
+  //   data
+  //     .then((json) => {
+  //       setPosts(json);
+  //       return json;
+  //     })
+  //     .then((json) => {
+  //       setSearchResults(json);
+  //     });
+  // }, []);
 
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar />
+        <SearchBar posts={posts} setSearchResults={setSearchResults} />
         <Grid
           container
           sx={{
@@ -82,7 +93,7 @@ export default function ListInternal() {
           </Grid>
 
           {/* Summary Laporan */}
-          <SummaryLaporan />
+          <SummaryLaporan preparation={data?.data?.data} />
 
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
@@ -97,6 +108,7 @@ export default function ListInternal() {
               <h1>Data tidak ditemukan !</h1>
             </Box>
           )}
+          {/* <Lists searchResults={searchResults} /> */}
 
           {/* Pagination */}
           <Grid

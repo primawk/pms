@@ -71,6 +71,7 @@ const InputLaporanInternal = () => {
     // validationSchema: internalSchema,
     onSubmit: async (values) => {
       console.log('test');
+      const formData = new FormData();
       const data = {
         report_type: 'internal',
         analysis: 1,
@@ -80,19 +81,20 @@ const InputLaporanInternal = () => {
         dome_id: parseInt(values.dome_id),
         sample_code: values.sample_code,
         preparation: parseInt(values.preparation),
-        ni_level: parseInt(values.ni_level),
-        mgo_level: parseInt(values.mgo_level),
-        simgo_level: parseInt(values.simgo_level),
-        fe_level: parseInt(values.fe_level),
-        sio2_level: parseInt(values.sio2_level),
+        ni_level: values.ni_level,
+        mgo_level: values.mgo_level,
+        simgo_level: values.simgo_level,
+        fe_level: values.fe_level,
+        sio2_level: values.sio2_level,
         inc: parseInt(values.inc),
-        co_level: parseInt(values.co_level),
-        cao_level: parseInt(values.cao_level),
-        tonnage: parseInt(values.tonnage)
+        co_level: values.co_level,
+        cao_level: values.cao_level,
+        tonnage: values.tonnage
       };
+      formData.append('data', JSON.stringify(data));
       try {
         console.log('test');
-        await LabService.inputReport(data);
+        await LabService.inputReport(formData);
         navigate('/laporan-lab', { replace: true });
       } catch (error) {
         console.log(data);
@@ -610,9 +612,9 @@ const InputLaporanInternal = () => {
                 container
                 sx={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: '5rem' }}
               >
-                {/* <Grid item sx={{ marginRight: '4rem' }}>
+                <Grid item sx={{ marginRight: '4rem' }}>
                   <Button onClick={() => navigate(-1)}>Back</Button>
-                </Grid> */}
+                </Grid>
                 <Grid item>
                   <Button
                     type="submit"

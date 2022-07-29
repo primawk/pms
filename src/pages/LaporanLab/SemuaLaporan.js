@@ -19,7 +19,7 @@ import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-export default function LaporanLab() {
+export default function LaporanLab({}) {
   const { isShowing, toggle } = useModal();
 
   return (
