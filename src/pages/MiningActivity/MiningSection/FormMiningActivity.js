@@ -4,11 +4,15 @@ import { useParams } from 'react-router-dom';
 // utils
 import { capitalizeFirstLetter } from 'utils/helper';
 
+// custom hook
+import useAuth from 'hooks/useAuth';
+
 // components
 import FormMiningCard from 'components/Card/FormMiningCard';
 
 export default function FormMiningActiviy() {
   const { activityType } = useParams();
+  useAuth();
   return (
     <>
       <div className="app-content">

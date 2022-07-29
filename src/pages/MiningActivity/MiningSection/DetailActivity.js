@@ -6,6 +6,9 @@ import ArrowBack from '@iconify-icons/akar-icons/arrow-back';
 // utils
 import { capitalizeFirstLetter } from 'utils/helper';
 
+// custom hooks
+import useAuth from 'hooks/useAuth';
+
 // components
 import ReportDetailCard from 'components/Card/ReportDetailCard';
 
@@ -13,6 +16,8 @@ export default function DetailActivity() {
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
   const { activityType, id } = useParams();
+
+  const { isGranted } = useAuth();
 
   return (
     <div className="app-content">
@@ -41,12 +46,14 @@ export default function DetailActivity() {
                 Back
               </Button>
               <Typography variant="h4">{capitalizeFirstLetter(activityType)}</Typography>
-              <Button
-                variant="contained"
-                onClick={() => navigate(`/mining-activity/${activityType}/edit/${id}`)}
-              >
-                Edit Laporan
-              </Button>
+              {isGranted && (
+                <Button
+                  variant="contained"
+                  onClick={() => navigate(`/mining-activity/${activityType}/edit/${id}`)}
+                >
+                  Edit Laporan
+                </Button>
+              )}
             </Stack>
           </Grid>
           <Grid item lg={6} xs={12} sx={{ float: 'right' }}>
