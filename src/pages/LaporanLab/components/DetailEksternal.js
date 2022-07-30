@@ -4,158 +4,162 @@ import { useNavigate } from 'react-router-dom';
 import avatarLogo from 'assets/Images/avatar.png';
 import { Icon } from '@iconify/react';
 
-const DetailEksternal = () => {
+const DetailEksternal = ({ data, i }) => {
   const navigate = useNavigate();
 
+  // console.log(index);
+
   return (
-    <Grid
-      container
-      sx={{
-        display: 'flex',
-        backgroundColor: 'white',
-        flexDirection: 'row',
-        alignItems: 'center',
-        margin: '0 1.5rem 0 1.5rem',
-        width: '96.5%',
-        height: '6.125rem',
-        borderBottom: 1,
-        borderBottomColor: '#E0E0E0',
-        gap: '2rem',
-        cursor: 'pointer'
-      }}
-      onClick={() => navigate('/detail-eksternal')}
-    >
-      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '25%' }}>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '1rem'
-          }}
-        >
-          <Grid item md={1} xs={12} sx={{ marginLeft: '0.5rem' }}>
-            <h4>1</h4>
-          </Grid>
-          <Box>
-            <img src="/img/eksternal.png" alt=""></img>
-          </Box>
-
-          <Grid item>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ marginBottom: '0.5rem' }}>
-                <h5 style={{ color: '#828282' }}>Kode Sample</h5>
-              </Box>
-              <Box>
-                <h5>MS102-1098P</h5>
-              </Box>
+    <>
+      <Grid
+        container
+        sx={{
+          display: 'flex',
+          backgroundColor: 'white',
+          flexDirection: 'row',
+          alignItems: 'center',
+          margin: '0 1.5rem 0 1.5rem',
+          width: '96.5%',
+          height: '6.125rem',
+          borderBottom: 1,
+          borderBottomColor: '#E0E0E0',
+          gap: '2rem',
+          cursor: 'pointer'
+        }}
+        onClick={() => navigate('/detail-eksternal')}
+      >
+        <Grid item sx={{ margin: '0 0 0 1.5rem', width: '25%' }}>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '1rem'
+            }}
+          >
+            <Grid item md={1} xs={12} sx={{ marginLeft: '0.5rem' }}>
+              <h4> {i + 1}</h4>
             </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-      {/* Column 2 */}
-      <Grid item>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Box sx={{ marginBottom: '0.5rem' }}>
-            <h5 style={{ color: '#828282' }}>Dome/Tumpukan</h5>
-          </Box>
-          <Box>
-            <Grid container sx={{ alignItems: 'center' }}>
-              <Box>
-                <h5>2 Preparasi</h5>
-              </Box>
-              <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
-                <img src="/img/eksternal.png" alt=""></img>
-              </Box>
-              <Box>
-                <h5>4 Analisa</h5>
-              </Box>
-            </Grid>
-          </Box>
-        </Grid>
-      </Grid>
-
-      {/* Column 3 */}
-      <Grid item>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Box sx={{ marginBottom: '0.5rem' }}>
-            <h5 style={{ color: '#828282' }}>Dibuat Oleh</h5>
-          </Box>
-          <Box>
-            <Grid container sx={{ alignItems: 'center' }}>
-              <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                <img src={avatarLogo} alt=""></img>
-              </Box>
-              <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
-                <h5>Putri Devina</h5>
-              </Box>
-            </Grid>
-          </Box>
-        </Grid>
-      </Grid>
-
-      {/* Column 4 */}
-      <Grid item >
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Box sx={{ marginBottom: '0.5rem' }}>
-            <h5 style={{ color: '#828282' }}>Attachment</h5>
-          </Box>
-          <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Icon icon="ph:file-pdf-duotone" color="#3f48c0" fontSize={24} />
             <Box>
-              <h5 style={{ marginLeft: '1rem' }}>Laporan Lab.pdf</h5>
+              <img src="/img/eksternal.png" alt=""></img>
+            </Box>
+
+            <Grid item>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ marginBottom: '0.5rem' }}>
+                  <h5 style={{ color: '#828282' }}>Kode Sample</h5>
+                </Box>
+                <Box>
+                  <h5>{data?.sample_code}</h5>
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        {/* Column 2 */}
+        <Grid item sx={{ width: '10%' }}>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Box sx={{ marginBottom: '0.5rem' }}>
+              <h5 style={{ color: '#828282' }}>Dome/Tumpukan</h5>
+            </Box>
+            <Box>
+              <Grid container sx={{ alignItems: 'center' }}>
+                <Box>
+                  <h5>2 Preparasi</h5>
+                </Box>
+                <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
+                  <img src="/img/eksternal.png" alt=""></img>
+                </Box>
+                <Box>
+                  <h5>4 Analisa</h5>
+                </Box>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Column 3 */}
+        <Grid item>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Box sx={{ marginBottom: '0.5rem' }}>
+              <h5 style={{ color: '#828282' }}>Dibuat Oleh</h5>
+            </Box>
+            <Box>
+              <Grid container sx={{ alignItems: 'center' }}>
+                <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                  <img src={avatarLogo} alt=""></img>
+                </Box>
+                <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
+                  <h5>Putri Devina</h5>
+                </Box>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Column 4 */}
+        <Grid item>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Box sx={{ marginBottom: '0.5rem' }}>
+              <h5 style={{ color: '#828282' }}>Attachment</h5>
+            </Box>
+            <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <Icon icon="ph:file-pdf-duotone" color="#3f48c0" fontSize={24} />
+              <Box>
+                <h5 style={{ marginLeft: '1rem' }}>Laporan Lab.pdf</h5>
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Column 5 */}
+        <Grid item>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Box sx={{ marginBottom: '0.5rem' }}>
+              <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
+            </Box>
+            <Box>
+              <Grid container sx={{ alignItems: 'center' }}>
+                <Box>
+                  <h5>12/01/2022</h5>
+                </Box>
+              </Grid>
             </Box>
           </Grid>
         </Grid>
       </Grid>
-
-      {/* Column 5 */}
-      <Grid item>
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Box sx={{ marginBottom: '0.5rem' }}>
-            <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
-          </Box>
-          <Box>
-            <Grid container sx={{ alignItems: 'center' }}>
-              <Box>
-                <h5>12/01/2022</h5>
-              </Box>
-            </Grid>
-          </Box>
-        </Grid>
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

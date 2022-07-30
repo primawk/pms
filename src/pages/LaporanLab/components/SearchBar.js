@@ -17,7 +17,8 @@ const SearchBar = ({ posts, setSearchResults }) => {
 
     const resultsArray = posts.filter(
       (post) =>
-        post.sample_code?.includes(e.target.value) || post.company_name?.includes(e.target.value)
+        post.sample_code?.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        post.company_name?.toLowerCase().includes(e.target.value.toLowerCase())
     );
 
     setSearchResults(resultsArray);

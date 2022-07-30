@@ -25,7 +25,7 @@ const ListLaporanInternal = ({ data }) => {
       }}
       onClick={() => navigate(`/detail/${data?.report_type}/${data.id}`)}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '18%' }}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '25%' }}>
         <Grid
           container
           sx={{
@@ -96,7 +96,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 4 */}
-      <Grid item sx={{ width: '25%' }}>
+      <Grid item sx={{ width: '14%' }}>
         <Grid
           container
           sx={{

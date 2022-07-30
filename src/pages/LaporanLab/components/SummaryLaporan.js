@@ -5,13 +5,22 @@ import { useQuery } from 'react-query';
 // services
 import LabService from 'services/LabService';
 
-const SummaryLaporan = ({ preparation, preparationExternal }) => {
+const SummaryLaporan = () => {
   // const [sumPreparationInternal, setPreparationInternal] = useState(0);
   const { data: dataEksternal } = useQuery(
     ['report', 'external'],
     () =>
       LabService.getReport({
         report_type: 'external'
+      })
+    // { keepPreviousData: true }
+  );
+
+  const { data } = useQuery(
+    ['report', 'internal'],
+    () =>
+      LabService.getReport({
+        report_type: 'internal'
       })
     // { keepPreviousData: true }
   );
@@ -34,7 +43,7 @@ const SummaryLaporan = ({ preparation, preparationExternal }) => {
 
   let totalPrepEks = 0;
   let totalPrep = 0;
-  const summaryInternal = parseInt(preparation?.length);
+  const summaryInternal = parseInt(data?.data?.pagination.total_data);
   const summaryEksternal = parseInt(dataEksternal?.data?.pagination.total_data);
   const summaryTotal = summaryEksternal + summaryInternal;
   const allPrep = totalPrep + totalPrepEks;
@@ -92,7 +101,7 @@ const SummaryLaporan = ({ preparation, preparationExternal }) => {
               <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryInternal}</Box>
             </Grid>
             <Grid item>
-              {preparation?.map((prep) => {
+              {data?.data?.data.map((prep) => {
                 totalPrep += prep.preparation;
               })}
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>

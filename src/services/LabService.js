@@ -63,6 +63,12 @@ export async function fetchInternal() {
   return promise.data.data;
 }
 
+export async function fetchExternal() {
+  const url = `${MINING_ACTIVITY_MODEL}/report?report_type=external`;
+  const promise = await axios.get(url);
+  return promise.data.data;
+}
+
 const LabService = {
   getReport,
   getReportDetail,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,15 +10,15 @@ import ListLaporanEksternal from './components/ListLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
 
-// custom hooks
-// import useModal from '../../hooks/useModal';
-
 // services
 import LabService from 'services/LabService';
+import { fetchExternal } from 'services/LabService';
 
 export default function ListEksternal() {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
+  const [searchResults, setSearchResults] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   const {
     data,
@@ -33,7 +33,16 @@ export default function ListEksternal() {
     // { keepPreviousData: true }
   );
 
-  // const list = data?.data?.data;
+  useEffect(() => {
+    fetchExternal()
+      .then((json) => {
+        setPosts(json);
+        return json;
+      })
+      .then((json) => {
+        setSearchResults(json);
+      });
+  }, []);
 
   const groups = data?.data?.data.reduce((groups, item) => {
     const group = groups[item.company_name] || [];
@@ -42,17 +51,12 @@ export default function ListEksternal() {
     return groups;
   }, {});
 
-  // const value = groups['PT Gitar'];
-
-  console.log(groups);
-  // console.log(data?.data?.data);
-
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar />
+        <SearchBar posts={posts} setSearchResults={setSearchResults} />
         <Grid
           container
           sx={{
@@ -98,8 +102,8 @@ export default function ListEksternal() {
           {isFetchingActivity && <LoadingModal />}
           {groups ? (
             <>
-              {Object.keys(groups).map((item) => (
-                <ListLaporanEksternal data={item} />
+              {Object.keys(groups).map((item, index) => (
+                <ListLaporanEksternal data={item} index={index} />
               ))}
             </>
           ) : (
