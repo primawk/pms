@@ -66,7 +66,12 @@ export async function fetchInternal() {
 export async function fetchExternal() {
   const url = `${MINING_ACTIVITY_MODEL}/report?report_type=external`;
   const promise = await axios.get(url);
-  return promise.data.data;
+  return promise.data.data.reduce((groups, item) => {
+    const group = groups[item.company_name] || [];
+    group.push(item);
+    groups[item.company_name] = group;
+    return groups;
+  }, {});
 }
 
 const LabService = {

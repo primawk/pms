@@ -9,6 +9,7 @@ import CustomPagination from '../../components/Pagination/index';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
+import Lists from './Lists';
 
 // services
 import LabService from 'services/LabService';
@@ -44,12 +45,7 @@ export default function ListEksternal() {
       });
   }, []);
 
-  const groups = data?.data?.data.reduce((groups, item) => {
-    const group = groups[item.company_name] || [];
-    group.push(item);
-    groups[item.company_name] = group;
-    return groups;
-  }, {});
+  console.log(searchResults);
 
   return (
     <>
@@ -100,9 +96,9 @@ export default function ListEksternal() {
           <SummaryLaporan />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {groups ? (
+          {searchResults ? (
             <>
-              {Object.keys(groups).map((item, index) => (
+              {Object.keys(searchResults).map((item, index) => (
                 <ListLaporanEksternal data={item} index={index} />
               ))}
             </>
@@ -111,6 +107,7 @@ export default function ListEksternal() {
               <h1>Data tidak ditemukan !</h1>
             </Box>
           )}
+          {/* <Lists searchResults={searchResults} /> */}
           {/* Pagination */}
           <Grid
             container

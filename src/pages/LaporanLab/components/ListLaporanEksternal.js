@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 const ListLaporanEksternal = ({ data, index }) => {
   const navigate = useNavigate();
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <>

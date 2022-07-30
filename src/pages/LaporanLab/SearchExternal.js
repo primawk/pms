@@ -1,8 +1,11 @@
 import React from 'react';
-import List from './components/ListLaporanExternal';
+import List from './components/ListLaporanEksternal';
 
 const Lists = ({ searchResults }) => {
-  const results = searchResults.map((data) => <List key={data.id} data={data} />);
+  console.log(searchResults);
+  const results = Object.keys(searchResults).map((data, index) => (
+    <List data={data} index={index} />
+  ));
 
   const content = results?.length ? (
     results

@@ -34,14 +34,14 @@ export default function CompanyReport() {
     // });
   }, []);
 
-  const groups = posts.reduce((groups, item) => {
-    const group = groups[item.company_name] || [];
-    group.push(item);
-    groups[item.company_name] = group;
-    return groups;
-  }, {});
+  // const groups = posts.reduce((groups, item) => {
+  //   const group = groups[item.company_name] || [];
+  //   group.push(item);
+  //   groups[item.company_name] = group;
+  //   return groups;
+  // }, {});
 
-  const data = groups[location.state];
+  const data = posts[location.state];
 
   return (
     <>
