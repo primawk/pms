@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Button, Box } from '@mui/material';
 import { Icon } from '@iconify/react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
@@ -7,9 +7,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import FilterDate from 'components/Modal/LaporanLab/FilterDate';
+import { addDays } from 'date-fns';
+
+// custom hooks
+import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
-const SearchBar = ({ posts, setSearchResults }) => {
+const SearchBar = ({ posts, setSearchResults, setSelectedDates }) => {
+  const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
   const handleSubmit = (e) => e.preventDefault();
 
   const handleSearchChange = (e) => {
@@ -24,8 +30,23 @@ const SearchBar = ({ posts, setSearchResults }) => {
     setSearchResults(resultsArray);
   };
 
+  const [state, setState] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: 'selection'
+    }
+  ]);
+
   return (
     <>
+      <FilterDate
+        toggle={toggleDate}
+        isShowing={isShowingDate}
+        state={state}
+        setState={setState}
+        setSelectedDates={setSelectedDates}
+      />
       <Grid
         container
         sx={{
@@ -64,20 +85,26 @@ const SearchBar = ({ posts, setSearchResults }) => {
         </Grid>
         <Grid
           item
-          sx={{ backgroundColor: 'white', borderRadius: '4px', marginLeft: '1rem', width: '20%' }}
+          sx={{
+            backgroundColor: 'white',
+            borderRadius: '4px',
+            marginLeft: '1rem',
+            width: '20%',
+            borderColor: '#828282'
+          }}
         >
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              label="Filter Tanggal | Hari ini"
-              id="demo-simple-select"
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
+          <Box
+            onClick={toggleDate}
+            variant="contained"
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: '4px',
+              borderColor: 'black',
+              cursor: 'pointer'
+            }}
+          >
+            Filter Tanggal | Hari ini
+          </Box>
         </Grid>
         <Button
           onSubmit={handleSubmit}
@@ -95,6 +122,16 @@ const SearchBar = ({ posts, setSearchResults }) => {
               border: 'none',
               marginRight: '1.5rem',
               marginLeft: '1rem'
+            }}
+            onClick={() => {
+              setState([
+                {
+                  ...state[0],
+                  startDate: new Date(),
+                  endDate: new Date()
+                }
+              ]);
+              setSelectedDates({});
             }}
           >
             Clear All

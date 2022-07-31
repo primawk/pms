@@ -57,9 +57,22 @@ const editReport = ({ data, id }) => {
   });
 };
 
-export async function fetchInternal() {
+export async function fetchInternal({ startDate, endDate } = {}) {
+  // const startDate = '2022-07-01';
+  // const endDate = '';
+  const params = [];
+  if (startDate) {
+    params.push(['start_date', startDate]);
+  }
+  if (endDate) {
+    params.push(['end_date', endDate]);
+  }
   const url = `${MINING_ACTIVITY_MODEL}/report?report_type=internal`;
-  const promise = await axios.get(url);
+  const promise = await axios.get(url, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
   return promise.data.data;
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+// import { addDays } from 'date-fns';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
@@ -10,6 +11,7 @@ import SummaryLaporan from './components/SummaryLaporan';
 // import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import { LoadingModal } from 'components/Modal';
 import Lists from './Lists';
+import { dateToStringPPOBFormatter } from '../../utils/helper';
 
 // services
 import LabService from 'services/LabService';
@@ -20,6 +22,7 @@ export default function ListInternal() {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [selectedDates, setSelectedDates] = useState({});
 
   const {
     data,
@@ -34,8 +37,16 @@ export default function ListInternal() {
     // { keepPreviousData: true }
   );
 
+  // const [state, setState] = useState([
+  //   {
+  //     startDate: new Date(),
+  //     endDate: addDays(new Date(), 7),
+  //     key: 'selection'
+  //   }
+  // ]);
+
   useEffect(() => {
-    fetchInternal()
+    fetchInternal(selectedDates)
       .then((json) => {
         setPosts(json);
         return json;
@@ -43,14 +54,18 @@ export default function ListInternal() {
       .then((json) => {
         setSearchResults(json);
       });
-  }, []);
+  }, [selectedDates]);
 
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar posts={posts} setSearchResults={setSearchResults} />
+        <SearchBar
+          posts={posts}
+          setSearchResults={setSearchResults}
+          setSelectedDates={setSelectedDates}
+        />
         <Grid
           container
           sx={{
@@ -95,17 +110,6 @@ export default function ListInternal() {
 
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {/* {data?.data?.data.length > 0 ? (
-            <>
-              {data?.data?.data.map((_list) => (
-                <ListLaporanInternal data={_list} />
-              ))}
-            </>
-          ) : (
-            <Box sx={{ marginLeft: '25rem' }}>
-              <h1>Data tidak ditemukan !</h1>
-            </Box>
-          )} */}
           <Lists searchResults={searchResults} />
 
           {/* Pagination */}
