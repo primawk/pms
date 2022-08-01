@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
@@ -26,24 +25,6 @@ import Navbar from '../../components/Navbar';
 import LabService from 'services/LabService';
 
 const InputLaporanInternal = () => {
-  const internalSchema = Yup.object().shape({
-    date: Yup.string().required('Tanggal wajib di isi!'),
-    hill_id: Yup.string().required('Bukit wajib di isi!'),
-    sample_type: Yup.string().required('Jenis Sample wajib di isi!'),
-    dome_id: Yup.string().required('Dome wajib di isi!'),
-    sample_code: Yup.string().required('Kode Sample wajib di isi!'),
-    preparation: Yup.string().required('Inputan Preparasi wajib di isi!'),
-    ni_level: Yup.string().required('Kadar Ni wajib di isi!'),
-    mgo_level: Yup.string().required('Kadar MgO wajib di isi!'),
-    simgo_level: Yup.string().required('Kadar SImgO wajib di isi!'),
-    fe_level: Yup.string().required('Kadar Fe wajib di isi!'),
-    sio2_level: Yup.string().required('Kadar SIO2 wajib di isi!'),
-    inc: Yup.string().required('Nilai Inc wajib di isi!'),
-    co_level: Yup.string().required('Kadar CO wajib di isi!'),
-    cao_level: Yup.string().required('Kadar CaO wajib di isi!'),
-    tonnage: Yup.string().required('Tonase wajib di isi!')
-  });
-
   const [addFormData, setAddFormData] = useState({
     date: '2022-7-1',
     hill_id: '',
@@ -77,9 +58,8 @@ const InputLaporanInternal = () => {
 
   const handleAddFormSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
     const data = {
-      date: addFormData.date,
+      date: dateToStringPPOBFormatterv2(value),
       hill_id: addFormData.hill_id,
       sample_type: addFormData.sample_type,
       dome_id: addFormData.dome_id,
@@ -99,10 +79,9 @@ const InputLaporanInternal = () => {
     };
     // formData.append('image', images);
 
-    console.log(data);
-
     try {
-      await LabService.inputReport();
+      await LabService.inputReport(data);
+      console.log(data);
 
       console.log('success');
     } catch (error) {
@@ -110,8 +89,12 @@ const InputLaporanInternal = () => {
     }
   };
 
-  const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = React.useState(new Date());
+
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
+
   const { isShowing, toggle } = useModal();
 
   const navigate = useNavigate();
@@ -166,10 +149,11 @@ const InputLaporanInternal = () => {
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
+                    <DesktopDatePicker
                       inputFormat="dd/MM/yyyy"
                       name="date"
-                      onChange={handleAddFormChange}
+                      value={value}
+                      onChange={handleChange}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
