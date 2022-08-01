@@ -22,11 +22,6 @@ const getReport = ({ page, row, report_type } = {}) => {
 };
 
 const getReportDetail = ({ id } = {}) => {
-  // const params = [];
-  // if (id) {
-  //   params.push(['id', id]);
-  // }
-
   return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
     method: 'GET',
     // params: new URLSearchParams(params),
@@ -42,26 +37,6 @@ const deleteReport = ({ id }) => {
 };
 
 const inputReport = (data) => {
-  // const data = {
-  //   analysis: 1,
-  //   date: '2022-7-1',
-  //   hill_id: 2,
-  //   sample_type: 'Sample test PIT',
-  //   dome_id: 3,
-  //   sample_code: 'QWQQv4',
-  //   preparation: 3,
-  //   ni_level: 3,
-  //   mgo_level: 3,
-  //   simgo_level: 3,
-  //   fe_level: 3,
-  //   sio2_level: 3,
-  //   inc: 3,
-  //   co_level: 3,
-  //   cao_level: 3,
-  //   tonnage: 3,
-  //   report_type: 'internal'
-  // };
-
   var form_data = new FormData();
 
   for (var key in data) {
@@ -76,11 +51,18 @@ const inputReport = (data) => {
   });
 };
 
-const editReport = ({ data, id }) => {
+const editReport = (data, id) => {
+  var form_data = new FormData();
+
+  for (var key in data) {
+    form_data.append(key, data[key]);
+  }
+
+  console.log(form_data);
   return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
     method: 'PUT',
     headers: authHeader(),
-    data
+    data: form_data
   });
 };
 

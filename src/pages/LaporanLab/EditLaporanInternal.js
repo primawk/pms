@@ -8,302 +8,605 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import EditedModal from '../../components/Modal/EditedModal/EditedModal';
+import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
 
 // components
-import Navbar from '../../components/Navbar';
-import HasilAnalisa from './components/HasilAnalisa';
 import { LoadingModal } from 'components/Modal';
+
+// custom hooks
+import useModal from '../../hooks/useModal';
+
+//  components
+import Navbar from '../../components/Navbar';
+// import HasilAnalisa from './components/HasilAnalisa';
 
 // services
 import LabService from 'services/LabService';
 
 const EditLaporanInternal = () => {
-  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
-  const [loading, setLoading] = useState(false);
-  //   const [analisaList, setAnalisaList] = useState([]);
+  const location = useLocation();
+  // const { id } = useParams();
 
-  //   const AnalisaList = () => {
-  //     return <HasilAnalisa />;
-  //   };
+  const dataEdit = location.state;
 
-  //   const onAddBtnClick = () => {
-  //     if (analisaList.length < 5)
-  //       setAnalisaList(analisaList.concat(<AnalisaList key={analisaList.length} />));
-  //   };
+  const [addFormData, setAddFormData] = useState({
+    date: dataEdit?.date,
+    hill_id: dataEdit?.hill_id,
+    sample_type: dataEdit?.sample_type,
+    dome_id: dataEdit?.dome_id,
+    sample_code: dataEdit?.sample_code,
+    preparation: dataEdit?.preparation,
+    ni_level: dataEdit?.ni_level,
+    mgo_level: dataEdit?.mgo_level,
+    simgo_level: dataEdit?.simgo_level,
+    fe_level: dataEdit?.fe_level,
+    sio2_level: dataEdit?.sio2_level,
+    inc: dataEdit?.inc,
+    co_level: dataEdit?.co_level,
+    cao_level: dataEdit?.cao_level,
+    tonnage: dataEdit?.tonnage,
+    report_type: 'internal'
+  });
 
-  const { id } = useParams();
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
 
-  const {
-    data,
-    // isLoading: isLoadingActivity,
-    isFetching: isFetchingActivity
-  } = useQuery(
-    ['report'],
-    () =>
-      LabService.getReportDetail({
-        id: `${id}`
-      })
-    // { keepPreviousData: true }
-  );
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
 
-  const dataReport = data?.data?.data;
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
 
-  console.log(dataReport);
+    setAddFormData(newFormData);
+  };
 
-  const navigate = useNavigate();
+  const handleEditFormSubmit = async (event) => {
+    event.preventDefault();
+    const data = {
+      date: dateToStringPPOBFormatterv2(value),
+      hill_id: addFormData.hill_id,
+      sample_type: addFormData.sample_type,
+      dome_id: addFormData.dome_id,
+      sample_code: addFormData.sample_code,
+      preparation: addFormData.preparation,
+      ni_level: addFormData.ni_level,
+      mgo_level: addFormData.mgo_level,
+      simgo_level: addFormData.simgo_level,
+      fe_level: addFormData.fe_level,
+      sio2_level: addFormData.sio2_level,
+      inc: addFormData.inc,
+      co_level: addFormData.co_level,
+      cao_level: addFormData.cao_level,
+      tonnage: addFormData.tonnage,
+      report_type: 'internal',
+      analysis: 1
+    };
+    // formData.append('image', images);
+
+    try {
+      const id = dataEdit?.id;
+      console.log(data);
+      await LabService.editReport(data, id);
+
+      console.log('success');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [value, setValue] = React.useState(new Date(dataEdit?.date));
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
 
-  const editSchema = Yup.object().shape({
-    date: Yup.string().required('Tanggal wajib di isi!'),
-    hill_id: Yup.string().required('Bukit wajib di isi!'),
-    sample_type: Yup.string().required('Jenis Sample wajib di isi!'),
-    dome_id: Yup.string().required('Dome wajib di isi!'),
-    sample_code: Yup.string().required('kode sample wajib di isi'),
-    preparation: Yup.number().required('Inputan Preparasi wajib di isi!'),
-    ni_level: Yup.string().required('Kadar Ni wajib di isi'),
-    mgo_level: Yup.string().required('Kadar MgO wajib di isi'),
-    simgo_level: Yup.string().required('Kadar SIMgO wajib di isi'),
-    fe_level: Yup.string().required('Kadar Fe wajib di isi'),
-    sio2_level: Yup.number().required('Kadar SIO2 wajib di isi'),
-    inc: Yup.date().required('Nilai Inc wajib di isi'),
-    co_level: Yup.string().required('Kadar CO wajib di isi'),
-    cao_level: Yup.string().required('Kadar CaO wajib di isi'),
-    tonnage: Yup.string().required('Nilai Tonase wajib di isi')
-  });
+  const { isShowing, toggle } = useModal();
 
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      date: dataReport ? dataReport.id : '',
-      hill_id: dataReport ? dataReport.hill_id : '',
-      sample_type: dataReport ? dataReport.sample_type : '',
-      dome_id: dataReport ? dataReport.dome_id : '',
-      sample_code: dataReport ? dataReport.sample_code : '',
-      preparation: dataReport ? dataReport.preparation : '',
-      ni_level: dataReport ? dataReport.ni_level : '',
-      mgo_level: dataReport ? dataReport.mgo_level : '',
-      simgo_level: dataReport ? dataReport.simgo_level : '',
-      fe_level: dataReport ? dataReport.fe_level : '',
-      sio2_level: dataReport ? dataReport.sio2_level : '',
-      inc: dataReport ? dataReport.inc : '',
-      co_level: dataReport ? dataReport.co_level : '',
-      cao_level: dataReport ? dataReport.cao_level : '',
-      tonnage: dataReport ? dataReport.tonnage : ''
-    },
-    validationSchema: editSchema,
-    onSubmit: async (values) => {
-      setLoading(true);
-      const data = {
-        date: values.date,
-        hill_id: values.hill_id,
-        sample_type: values.sample_type,
-        dome_id: values.dome_id,
-        sample_code: values.sample_code,
-        preparation: values.preparation,
-        ni_level: values.ni_level,
-        mgo_level: values.mgo_level,
-        simgo_level: values.simgo_level,
-        fe_level: values.fe_level,
-        sio2_level: values.sio2_level,
-        inc: values.inc,
-        co_level: values.co_level,
-        cao_level: values.cao_level,
-        tonnage: values.tonnage
-      };
-      try {
-        await LabService.editReport(data, id);
-        navigate('/laporan-lab', { replace: true });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  });
+  const navigate = useNavigate();
 
   return (
-    <div
-      style={{
-        backgroundColor: '#F5F5F5',
-        width: '100%',
-        height: '100%',
-        overflowY: 'auto', // it makes this container follow the height of its content
-        position: 'relative'
-      }}
-    >
-      <Navbar />
-
-      {isFetchingActivity && <LoadingModal />}
-
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: 'white',
-          height: 'auto',
-          width: '90%',
-          marginTop: '6rem',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          marginBottom: '6rem',
-          borderRadius: '4px'
-        }}
-      >
-        <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
-          <Grid container>
-            <Box>
-              <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Edit Laporan Internal Lab</h2>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid item sx={{ height: '27%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
-          <h4 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Informasi Sample</h4>
-          <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-            <Grid
-              sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
-              xs={2}
-            >
-              <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDatePicker
-                  inputFormat="dd/MM/yyyy"
-                  value={value}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField {...params} size="small" />}
-                />
-              </LocalizationProvider>
-            </Grid>
-            <Grid
-              sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
-              xs={2}
-            >
-              <Box sx={{ marginBottom: '1rem' }}>Bukit</Box>
-              <FormControl fullWidth>
-                <InputLabel id="Bukit" size="small">
-                  Pilih Bukit
-                </InputLabel>
-                <Select
-                  labelId="Bukit"
-                  id="Bukit"
-                  // value={age}
-                  label="Pilih Bukit"
-                  onChange={handleChange}
-                  size="small"
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-          <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-            <Grid
-              sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
-              xs={2}
-            >
-              <Box sx={{ marginBottom: '1rem' }}>Jenis Sample</Box>
-              <FormControl fullWidth>
-                <InputLabel id="Jenis Sample" size="small">
-                  Pilih Jenis Sample
-                </InputLabel>
-                <Select
-                  labelId="Jenis Sample"
-                  id="Jenis Sample"
-                  // value={age}
-                  label="Pilih Jenis Sample"
-                  onChange={handleChange}
-                  size="small"
-                >
-                  <MenuItem value={'Sample test PIT'}>Sample test PIT</MenuItem>
-                  <MenuItem value={'Sample Spesial Check'}>Sample Spesial Check</MenuItem>
-                  <MenuItem value={'Sample Selective Mining'}>Sample Selective Mining</MenuItem>
-                  <MenuItem value={'Sample ETO'}>Sample ETO</MenuItem>
-                  <MenuItem value={'Sample EFO'}>Sample EFO</MenuItem>
-                  <MenuItem value={'Sample Barging'}>Sample Barging</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid
-              sx={{ display: 'flex', flexDirection: 'column', margin: '1.5rem 0.5rem 0.5rem 2rem' }}
-              xs={2}
-            >
-              <Box sx={{ marginBottom: '1rem' }}>Tumpukan/Dome</Box>
-              <FormControl fullWidth>
-                <InputLabel id="tumpukan" size="small">
-                  Pilih Tumpukan/Dome
-                </InputLabel>
-                <Select
-                  labelId="tumpukan"
-                  id="tumpukan"
-                  // value={age}
-                  label="Pilih Tumpukan/Dome"
-                  onChange={handleChange}
-                  size="small"
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        {/* Hasil Analisa */}
-        <Grid item>
-          <HasilAnalisa data={dataReport} />
-          {/* {analisaList} */}
-        </Grid>
-
-        {/* button add data */}
-        {/* <Grid item >
-          <Grid container sx={{ margin: '1.5rem', justifyContent: 'center' }}>
-            <Button variant="contained" sx={{ boxShadow: '0' }} onClick={onAddBtnClick}>
-              <Box sx={{ margin: '5px 12px 0 0 ' }}>
-                <Icon icon="carbon:add-alt" color="white" fontSize={16} />
-              </Box>
-              Tambah Data
-            </Button>
-          </Grid>
-        </Grid> */}
-      </Grid>
-
-      {/* submit */}
+    <>
+      <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
-          position: 'fixed',
-          display: 'flex',
-          bottom: '0px',
-          backgroundColor: 'white',
+          backgroundColor: '#F5F5F5',
           width: '100%',
-          height: '4.875rem',
-          boxShadow: '4px -10px 24px rgba(0, 0, 0, 0.04)',
-          zIndex: '1'
+          height: '100%',
+          overflowY: 'auto', // it makes this container follow the height of its content
+          position: 'relative'
         }}
       >
-        <Grid
-          container
-          sx={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: '5rem' }}
-        >
-          <Grid item sx={{ marginRight: '4rem' }}>
-            <Button onClick={() => navigate(-1)}>Back</Button>
+        <Navbar />
+        {/* {isFetchingActivity && <LoadingModal />} */}
+        <form onSubmit={handleEditFormSubmit}>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              backgroundColor: 'white',
+              height: 'auto',
+              width: '90%',
+              marginTop: '6rem',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              marginBottom: '6rem',
+              borderRadius: '4px'
+            }}
+          >
+            <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
+              <Grid container>
+                <Box>
+                  <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Edit Laporan Internal Lab</h2>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Grid item sx={{ height: '27%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
+              <h4 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Informasi Sample</h4>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      inputFormat="dd/MM/yyyy"
+                      name="date"
+                      value={value}
+                      onChange={handleChange}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>Bukit</Box>
+                  <FormControl fullWidth>
+                    <InputLabel id="Bukit" size="small">
+                      Pilih Bukit
+                    </InputLabel>
+                    <Select
+                      name="hill_id"
+                      label="Pilih Bukit"
+                      defaultValue={dataEdit.hill_id}
+                      onChange={handleAddFormChange}
+                      size="small"
+                    >
+                      <MenuItem value="1">1</MenuItem>
+                      <MenuItem value="2">2</MenuItem>
+                      <MenuItem value="3">3</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>Jenis Sample</Box>
+                  <FormControl fullWidth>
+                    <InputLabel id="Jenis Sample" size="small">
+                      Pilih Jenis Sample
+                    </InputLabel>
+                    <Select
+                      name="sample_type"
+                      labelId="Jenis Sample"
+                      id="Jenis Sample"
+                      label="Pilih Jenis Sample"
+                      defaultValue={dataEdit.sample_type}
+                      onChange={handleAddFormChange}
+                      size="small"
+                    >
+                      <MenuItem value={'Sample test PIT'}>Sample test PIT</MenuItem>
+                      <MenuItem value={'Sample Spesial Check'}>Sample Spesial Check</MenuItem>
+                      <MenuItem value={'Sample Selective Mining'}>Sample Selective Mining</MenuItem>
+                      <MenuItem value={'Sample ETO'}>Sample ETO</MenuItem>
+                      <MenuItem value={'Sample EFO'}>Sample EFO</MenuItem>
+                      <MenuItem value={'Sample Barging'}>Sample Barging</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>Tumpukan/Dome</Box>
+                  <FormControl fullWidth>
+                    <InputLabel id="tumpukan" size="small">
+                      Pilih Tumpukan/Dome
+                    </InputLabel>
+                    <Select
+                      name="dome_id"
+                      labelId="tumpukan"
+                      id="tumpukan"
+                      defaultValue={dataEdit.dome_id}
+                      label="Pilih Tumpukan/Dome"
+                      onChange={handleAddFormChange}
+                      size="small"
+                    >
+                      <MenuItem value={'1'}>1</MenuItem>
+                      <MenuItem value={'2'}>2</MenuItem>
+                      <MenuItem value={'3'}>3</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              sx={{
+                height: '55%',
+                borderBottom: 1,
+                borderBottomColor: '#E0E0E0',
+                paddingBottom: '1.5rem'
+              }}
+            >
+              <h2 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Hasil Analisa </h2>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>Kode Sample</Box>
+                  <TextField
+                    name="sample_code"
+                    id="outlined-basic"
+                    // label="Kode Sample"
+                    variant="outlined"
+                    onChange={handleAddFormChange}
+                    defaultValue={dataEdit?.sample_code}
+                  />
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>Inputan Preparasi</Box>
+                  <TextField
+                    name="preparation"
+                    id="outlined-basic"
+                    label="Inputan Preparasi"
+                    variant="outlined"
+                    size="small"
+                    defaultValue={dataEdit.preparation}
+                    onChange={handleAddFormChange}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Kadar Ni</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Kadar Ni">Nilai Kadar</InputLabel>
+                    <OutlinedInput
+                      name="ni_level"
+                      id="Kadar Ni"
+                      onChange={handleAddFormChange}
+                      defaultValue={dataEdit.ni_level}
+                      // error={touched.ni_level && Boolean(errors.ni_level)}
+                      // helperText={touched.ni_level && errors.ni_level}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          %
+                        </InputAdornment>
+                      }
+                      label="Nilai Kadar"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Kadar MgO</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Kadar MgO">Nilai Kadar</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="mgo_level"
+                      id="Kadar MgO"
+                      defaultValue={dataEdit.mgo_level}
+                      onChange={handleAddFormChange}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          %
+                        </InputAdornment>
+                      }
+                      label="Kadar MgO"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Kadar SImgO</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Kadar SImgO">Nilai Kadar</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="simgo_level"
+                      id="Kadar SImgO"
+                      defaultValue={dataEdit.simgo_level}
+                      onChange={handleAddFormChange}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          %
+                        </InputAdornment>
+                      }
+                      label="Kadar SImgO"
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Kadar Fe</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Kadar Fe">Nilai Kadar</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="fe_level"
+                      id="Kadar Fe"
+                      onChange={handleAddFormChange}
+                      defaultValue={dataEdit.fe_level}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          %
+                        </InputAdornment>
+                      }
+                      label="Kadar Fe"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Kadar SIO2</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Kadar SIO2">Nilai Kadar</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="sio2_level"
+                      id="Kadar SIO2"
+                      defaultValue={dataEdit.sio2_level}
+                      onChange={handleAddFormChange}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          %
+                        </InputAdornment>
+                      }
+                      label="Kadar SIO2"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Inc</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Inc</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Inc">Nilai Inc</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="inc"
+                      defaultValue={dataEdit.inc}
+                      id="Inc"
+                      onChange={handleAddFormChange}
+                      label="Nilai Inc"
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Kadar CO</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Kadar CO">Nilai Kadar</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="co_level"
+                      id="Kadar CO"
+                      defaultValue={dataEdit.co_level}
+                      onChange={handleAddFormChange}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          %
+                        </InputAdornment>
+                      }
+                      label="Kadar CO"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Kadar CaO</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Kadar CaO">Nilai Kadar</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="cao_level"
+                      id="Kadar CaO"
+                      defaultValue={dataEdit.cao_level}
+                      onChange={handleAddFormChange}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          %
+                        </InputAdornment>
+                      }
+                      label="Kadar CaO"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>
+                    <h4>Tonase</h4>
+                  </Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Tonase</Box>
+                  <FormControl size="small" variant="outlined">
+                    <InputLabel htmlFor="Tonase">Tonase</InputLabel>
+                    <OutlinedInput
+                      // type="number"
+                      name="tonnage"
+                      id="Tonase"
+                      defaultValue={dataEdit.tonnage}
+                      onChange={handleAddFormChange}
+                      endAdornment={
+                        <InputAdornment position="end" backgroundColor="gray">
+                          Ton
+                        </InputAdornment>
+                      }
+                      label="Tonase"
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Button variant="contained" sx={{ width: '130%', boxShadow: '0' }}>
-              Submit Laporan
-            </Button>
-          </Grid>
-        </Grid>
+          {/* submit */}
+          <div
+            style={{
+              position: 'fixed',
+              display: 'flex',
+              bottom: '0px',
+              backgroundColor: 'white',
+              width: '100%',
+              height: '4.875rem',
+              marginRight: '5rem',
+              boxShadow: '4px -10px 24px rgba(0, 0, 0, 0.04)',
+              zIndex: '1'
+            }}
+          >
+            <Grid
+              container
+              sx={{ justifyContent: 'flex-end', alignItems: 'center', marginRight: '5rem' }}
+            >
+              <Grid item sx={{ marginRight: '4rem' }}>
+                <Button onClick={() => navigate(-1)}>Back</Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  // onClick={console.log(formik.date)}
+                  // loading={loading}
+                  sx={{ width: '130%', boxShadow: '0' }}
+                >
+                  Submit Laporan
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        </form>
       </div>
-    </div>
+    </>
   );
 };
 

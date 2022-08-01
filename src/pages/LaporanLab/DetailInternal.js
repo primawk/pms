@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DeleteData from '../../components/Modal/DeleteModal/index';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 
@@ -17,7 +16,6 @@ import useModal from '../../hooks/useModal';
 
 // services
 import LabService from 'services/LabService';
-
 
 const DetailInternal = () => {
   const navigate = useNavigate();
@@ -56,10 +54,6 @@ const DetailInternal = () => {
   );
 
   const dataReport = data?.data?.data;
-
-  const dateEdited = dataReport?.updated_at;
-
-  // console.log(stringISOToDateTimeFormatter(dateEdited));
 
   return (
     <>
@@ -136,7 +130,9 @@ const DetailInternal = () => {
                 width: '40%',
                 fontWeight: '400'
               }}
-              onClick={() => navigate(`/edit/${dataReport?.report_type}/${id}`)}
+              onClick={() =>
+                navigate(`/edit/${dataReport?.report_type}/${id}`, { state: dataReport })
+              }
             >
               Edit Laporan
             </Button>
@@ -172,7 +168,7 @@ const DetailInternal = () => {
                       Tanggal
                     </Box>
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      {dayjs(data?.created_at).format('DD/MM/YYYY')}
+                      {dayjs(dataReport?.date).format('DD/MM/YYYY')}
                     </Box>
                   </Grid>
                   <Grid item>
