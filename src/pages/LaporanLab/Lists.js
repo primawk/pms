@@ -7,9 +7,9 @@ const Lists = ({ searchResults }) => {
   const content = results?.length ? (
     results
   ) : (
-    <article>
-      <p>data tidak ditemukan!</p>
-    </article>
+    <center>
+      <h2>data tidak ditemukan!</h2>
+    </center>
   );
   return <main>{content}</main>;
 };

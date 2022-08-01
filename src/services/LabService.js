@@ -42,9 +42,15 @@ const deleteReport = ({ id }) => {
 };
 
 const inputReport = (formData) => {
+  console.log(formData);
   return request(`${MINING_ACTIVITY_MODEL}/report`, {
     method: 'POST',
-    headers: authHeader(),
+    headers: {
+      Authorization: authHeader(),
+      'Content-Type': 'multipart/form-data',
+      Accept: 'application/json',
+      type: 'formData'
+    },
     data: formData
   });
 };
@@ -58,8 +64,6 @@ const editReport = ({ data, id }) => {
 };
 
 export async function fetchInternal({ startDate, endDate } = {}) {
-  // const startDate = '2022-07-01';
-  // const endDate = '';
   const params = [];
   if (startDate) {
     params.push(['start_date', startDate]);

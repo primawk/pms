@@ -9,11 +9,12 @@ import ListEksternal from './ListEksternal';
 import ListInternal from './ListInternal';
 import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 
+// services
+import LabService from 'services/LabService';
+
 // custom hooks
 import useModal from '../../hooks/useModal';
 import usePagination from 'hooks/usePagination';
-
-
 
 export default function LaporanLab() {
   const { isShowing, toggle } = useModal();
@@ -42,7 +43,34 @@ export default function LaporanLab() {
     }
   };
 
+  const {
+    data,
+    // isLoading: isLoadingActivity,
+    isFetching: isFetchingActivityInternal
+  } = useQuery(
+    ['report', 'internal'],
+    () =>
+      LabService.getReport({
+        report_type: 'internal'
+      })
+    // { keepPreviousData: true }
+  );
 
+  const {
+    data: dataEksternal,
+    // isLoading: isLoadingActivity,
+    isFetching: isFetchingActivityExternal
+  } = useQuery(
+    ['report', 'external'],
+    () =>
+      LabService.getReport({
+        report_type: 'external'
+      })
+    // { keepPreviousData: true }
+  );
+
+  let totalPrepEks = 0;
+  let totalPrep = 0;
 
   return (
     <>
@@ -62,6 +90,8 @@ export default function LaporanLab() {
               }
             }}
           >
+            {dataEksternal?.data?.data.map((prep) => (totalPrepEks += prep.preparation))}
+            {data?.data.data.map((prep) => (totalPrep += prep.preparation))}
             {menuList?.map((item) => (
               <Tab
                 key={item.value}
@@ -81,7 +111,21 @@ export default function LaporanLab() {
             ))}
           </Tabs>
         </Grid>
-        {menuTab === 'internal' ? <ListInternal /> : <ListEksternal />}
+        {menuTab === 'internal' ? (
+          <ListInternal
+            dataInternal={data?.data?.data}
+            isFetchingActivity={isFetchingActivityInternal}
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+          />
+        ) : (
+          <ListEksternal
+            dataEksternal={dataEksternal?.data?.data}
+            isFetchingActivity={isFetchingActivityExternal}
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+          />
+        )}
       </div>
     </>
   );

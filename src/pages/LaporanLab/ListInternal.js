@@ -11,39 +11,21 @@ import SummaryLaporan from './components/SummaryLaporan';
 // import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import { LoadingModal } from 'components/Modal';
 import Lists from './Lists';
-import { dateToStringPPOBFormatter } from '../../utils/helper';
 
 // services
-import LabService from 'services/LabService';
 import { fetchInternal } from 'services/LabService';
 
-export default function ListInternal() {
+export default function ListInternal({
+  dataInternal,
+  isFetchingActivity,
+  totalPrepEks,
+  totalPrep
+}) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   const [posts, setPosts] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
-
-  const {
-    data,
-    // isLoading: isLoadingActivity,
-    isFetching: isFetchingActivity
-  } = useQuery(
-    ['report', 'internal'],
-    () =>
-      LabService.getReport({
-        report_type: 'internal'
-      })
-    // { keepPreviousData: true }
-  );
-
-  // const [state, setState] = useState([
-  //   {
-  //     startDate: new Date(),
-  //     endDate: addDays(new Date(), 7),
-  //     key: 'selection'
-  //   }
-  // ]);
 
   useEffect(() => {
     fetchInternal(selectedDates)
@@ -106,7 +88,12 @@ export default function ListInternal() {
           </Grid>
 
           {/* Summary Laporan */}
-          <SummaryLaporan preparation={data?.data?.data} />
+
+          <SummaryLaporan
+            preparation={dataInternal?.data?.data}
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+          />
 
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}

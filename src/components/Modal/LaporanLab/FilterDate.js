@@ -8,11 +8,11 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
 // components
-import CustomModal from 'components/Modal/CustomModal/CustomModal';
+import CustomModal from 'components/Modal/CustomModal/FilterDate';
 
 const FilterDate = ({ isShowing, toggle, state, setState, setSelectedDates }) => {
   return (
-    <CustomModal isShowing={isShowing} toggle={toggle}>
+    <CustomModal isShowing={isShowing} toggle={toggle} width={'61%'}>
       <DateRangePicker
         onChange={(item) => setState([item.selection])}
         showSelectionPreview={true}
@@ -24,9 +24,8 @@ const FilterDate = ({ isShowing, toggle, state, setState, setSelectedDates }) =>
       <Grid
         container
         sx={{
-          margin: '0 auto 1.5rem 30rem',
-          alignItems: 'center',
-          width: '20%'
+          margin: '0 auto 1.5rem 26rem',
+          alignItems: 'center'
         }}
       >
         <Grid item>
@@ -39,12 +38,12 @@ const FilterDate = ({ isShowing, toggle, state, setState, setSelectedDates }) =>
               })
             }
           >
-            Apply
+            Filter
           </Button>
         </Grid>
         <Grid item>
           <Button sx={{ fontSize: '1rem' }} onClick={toggle}>
-            Cancel
+            Tutup
           </Button>
         </Grid>
       </Grid>

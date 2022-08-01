@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 // components
@@ -9,30 +8,15 @@ import CustomPagination from '../../components/Pagination/index';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
-import Lists from './Lists';
 
 // services
-import LabService from 'services/LabService';
 import { fetchExternal } from 'services/LabService';
 
-export default function ListEksternal() {
+export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalPrep }) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   const [posts, setPosts] = useState([]);
-
-  const {
-    data,
-    // isLoading: isLoadingActivity,
-    isFetching: isFetchingActivity
-  } = useQuery(
-    ['report', 'external'],
-    () =>
-      LabService.getReport({
-        report_type: 'external'
-      })
-    // { keepPreviousData: true }
-  );
 
   useEffect(() => {
     fetchExternal()
@@ -93,7 +77,8 @@ export default function ListEksternal() {
             </Button>
           </Grid>
           {/* Summary Laporan */}
-          <SummaryLaporan />
+
+          <SummaryLaporan totalPrepEks={totalPrepEks} totalPrep={totalPrep} />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
           {searchResults ? (
@@ -103,9 +88,11 @@ export default function ListEksternal() {
               ))}
             </>
           ) : (
-            <Box sx={{ marginLeft: '25rem' }}>
-              <h1>Data tidak ditemukan !</h1>
-            </Box>
+            <>
+              <center>
+                <h2>data tidak ditemukan!</h2>
+              </center>
+            </>
           )}
           {/* <Lists searchResults={searchResults} /> */}
           {/* Pagination */}

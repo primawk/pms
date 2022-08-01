@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,7 +14,6 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
 
 // custom hooks
@@ -52,10 +51,11 @@ const InputLaporanInternal = () => {
 
   const formik = useFormik({
     initialValues: {
-      date: '',
-      hill_id: '',
+      // analysis: 1,
+      date: '2022-7-1',
+      hill_id: parseInt(''),
       sample_type: '',
-      dome_id: '',
+      dome_id: parseInt(''),
       sample_code: '',
       preparation: '',
       ni_level: '',
@@ -63,53 +63,54 @@ const InputLaporanInternal = () => {
       simgo_level: '',
       fe_level: '',
       sio2_level: '',
-      inc: '',
+      inc: parseInt(''),
       co_level: '',
       cao_level: '',
-      tonnage: ''
+      tonnage: '',
+      report_type: 'internal'
     },
     // validationSchema: internalSchema,
-    onSubmit: async (values) => {
-      console.log('test');
+    onSubmit: (values) => {
+      console.log(values);
       const formData = new FormData();
-      const data = {
-        report_type: 'internal',
-        analysis: 1,
-        date: dateToStringPPOBFormatterv2(value),
-        hill_id: parseInt(values.hill_id),
-        sample_type: values.sample_type,
-        dome_id: parseInt(values.dome_id),
-        sample_code: values.sample_code,
-        preparation: parseInt(values.preparation),
-        ni_level: values.ni_level,
-        mgo_level: values.mgo_level,
-        simgo_level: values.simgo_level,
-        fe_level: values.fe_level,
-        sio2_level: values.sio2_level,
-        inc: parseInt(values.inc),
-        co_level: values.co_level,
-        cao_level: values.cao_level,
-        tonnage: values.tonnage
-      };
-      formData.append('data', JSON.stringify(data));
-      try {
-        console.log('test');
-        await LabService.inputReport(formData);
-        navigate('/laporan-lab', { replace: true });
-      } catch (error) {
-        console.log(data);
-        console.log(error);
-      }
+      formData.append('values', values);
+      // const formData = new FormData();
+      // const data = {
+      //   report_type: 'internal',
+      //   analysis: 1,
+      //   date: dateToStringPPOBFormatterv2(value),
+      //   hill_id: parseInt(values.hill_id),
+      //   sample_type: values.sample_type,
+      //   dome_id: parseInt(values.dome_id),
+      //   sample_code: values.sample_code,
+      //   preparation: parseInt(values.preparation),
+      //   ni_level: values.ni_level,
+      //   mgo_level: values.mgo_level,
+      //   simgo_level: values.simgo_level,
+      //   fe_level: values.fe_level,
+      //   sio2_level: values.sio2_level,
+      //   inc: parseInt(values.inc),
+      //   co_level: values.co_level,
+      //   cao_level: values.cao_level,
+      //   tonnage: values.tonnage
+      // };
+      LabService.inputReport(formData)
+        .then(() => {
+          toggle();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   });
 
   const navigate = useNavigate();
 
-  const handleOnChange = (newValue) => {
-    setValue(newValue);
-  };
+  // const handleOnChange = (newValue) => {
+  //   setValue(newValue);
+  // };
 
-  const { errors, touched, values, handleSubmit, handleChange } = formik;
+  const { errors, touched, values, handleSubmit, handleChange, setFieldValue } = formik;
 
   return (
     <>
@@ -164,10 +165,12 @@ const InputLaporanInternal = () => {
                   >
                     <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DesktopDatePicker
+                      <DatePicker
                         inputFormat="dd/MM/yyyy"
-                        value={value}
-                        onChange={handleOnChange}
+                        value={values.date}
+                        onChange={(date) => {
+                          setFieldValue('date', date);
+                        }}
                         error={touched.value && Boolean(errors.value)}
                         helperText={touched.value && errors.value}
                         renderInput={(params) => <TextField {...params} />}

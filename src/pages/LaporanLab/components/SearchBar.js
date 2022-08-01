@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { Grid, Button, Box } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 import { addDays } from 'date-fns';
@@ -83,29 +79,21 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates }) => {
             }}
           />
         </Grid>
-        <Grid
-          item
+        <Button
           sx={{
-            backgroundColor: 'white',
+            border: 1,
             borderRadius: '4px',
             marginLeft: '1rem',
+            height: '3.4rem',
             width: '20%',
-            borderColor: '#828282'
+            borderColor: '#BDBDBD',
+            cursor: 'pointer',
+            color: 'black'
           }}
+          onClick={toggleDate}
         >
-          <Box
-            onClick={toggleDate}
-            variant="contained"
-            sx={{
-              backgroundColor: 'white',
-              borderRadius: '4px',
-              borderColor: 'black',
-              cursor: 'pointer'
-            }}
-          >
-            Filter Tanggal | Hari ini
-          </Box>
-        </Grid>
+          Filter Tanggal | Hari ini <Icon icon="fe:drop-down" color="#828282" />
+        </Button>
         <Button
           onSubmit={handleSubmit}
           variant="contained"
