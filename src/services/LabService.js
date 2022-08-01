@@ -24,7 +24,6 @@ const getReport = ({ page, row, report_type } = {}) => {
 const getReportDetail = ({ id } = {}) => {
   return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
     method: 'GET',
-    // params: new URLSearchParams(params),
     headers: authHeader()
   });
 };

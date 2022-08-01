@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/SearchBarExternal';
 import CustomPagination from '../../components/Pagination/index';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
@@ -15,28 +15,28 @@ import { fetchExternal } from 'services/LabService';
 export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalPrep }) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
-  const [searchResults, setSearchResults] = useState([]);
-  const [posts, setPosts] = useState([]);
+  const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
+  const [postsEksternal, setPostsEksternal] = useState([]);
 
   useEffect(() => {
     fetchExternal()
       .then((json) => {
-        setPosts(json);
+        setPostsEksternal(json);
         return json;
       })
       .then((json) => {
-        setSearchResults(json);
+        setSearchResultsEksternal(json);
       });
   }, []);
 
-  console.log(searchResults);
+  console.log(searchResultsEksternal);
 
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar posts={posts} setSearchResults={setSearchResults} />
+        <SearchBar posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
         <Grid
           container
           sx={{
@@ -81,9 +81,9 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
           <SummaryLaporan totalPrepEks={totalPrepEks} totalPrep={totalPrep} />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {searchResults ? (
+          {searchResultsEksternal ? (
             <>
-              {Object.keys(searchResults).map((item, index) => (
+              {Object.keys(searchResultsEksternal).map((item, index) => (
                 <ListLaporanEksternal data={item} index={index} />
               ))}
             </>
