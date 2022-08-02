@@ -25,8 +25,9 @@ import FormMiningActivity from 'pages/MiningActivity/MiningSection/FormMiningAct
 import HistoryActivity from 'pages/MiningActivity/MiningSection/HistoryActivity';
 import AllInventory from 'pages/Inventory';
 import LaporanLab from 'pages/LaporanLab';
-import ListDetailEksternal from 'pages/LaporanLab/ListDetailEksternal';
+import CompanyReport from 'pages/LaporanLab/CompanyReport';
 import DetailDome from 'pages/Inventory/DetailDome';
+import EditLaporanInternal from 'pages/LaporanLab/EditLaporanInternal';
 
 export default function Routes() {
   return useRoutes([
@@ -73,15 +74,15 @@ export default function Routes() {
         },
         {
           path: 'laporan-lab',
-          element: <Navigate to="/laporan-lab/list-internal" replace />
+          element: <Navigate to="/laporan-lab/internal" replace />
         },
         {
-          path: 'laporan-lab/:activityType',
+          path: 'laporan-lab/:report_type',
           element: <LaporanLab />
         },
         {
-          path: 'list-detail-eksternal',
-          element: <ListDetailEksternal />
+          path: 'laporan-perusahaan',
+          element: <CompanyReport />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
@@ -134,8 +135,12 @@ export default function Routes() {
       element: <InputLaporanInternal />
     },
     {
-      path: 'detail-internal',
+      path: 'detail/internal/:id',
       element: <DetailInternal />
+    },
+    {
+      path: 'edit/internal/:id',
+      element: <EditLaporanInternal />
     },
     {
       path: 'detail-eksternal',

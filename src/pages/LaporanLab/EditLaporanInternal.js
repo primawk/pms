@@ -8,11 +8,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
+import { useQuery } from 'react-query';
+
+// components
+import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -24,23 +28,28 @@ import Navbar from '../../components/Navbar';
 // services
 import LabService from 'services/LabService';
 
-const InputLaporanInternal = () => {
+const EditLaporanInternal = () => {
+  const location = useLocation();
+  // const { id } = useParams();
+
+  const dataEdit = location.state;
+
   const [addFormData, setAddFormData] = useState({
-    date: '2022-7-1',
-    hill_id: '',
-    sample_type: '',
-    dome_id: '',
-    sample_code: '',
-    preparation: '',
-    ni_level: '',
-    mgo_level: '',
-    simgo_level: '',
-    fe_level: '',
-    sio2_level: '',
-    inc: '',
-    co_level: '',
-    cao_level: '',
-    tonnage: '',
+    date: dataEdit?.date,
+    hill_id: dataEdit?.hill_id,
+    sample_type: dataEdit?.sample_type,
+    dome_id: dataEdit?.dome_id,
+    sample_code: dataEdit?.sample_code,
+    preparation: dataEdit?.preparation,
+    ni_level: dataEdit?.ni_level,
+    mgo_level: dataEdit?.mgo_level,
+    simgo_level: dataEdit?.simgo_level,
+    fe_level: dataEdit?.fe_level,
+    sio2_level: dataEdit?.sio2_level,
+    inc: dataEdit?.inc,
+    co_level: dataEdit?.co_level,
+    cao_level: dataEdit?.cao_level,
+    tonnage: dataEdit?.tonnage,
     report_type: 'internal'
   });
 
@@ -56,7 +65,7 @@ const InputLaporanInternal = () => {
     setAddFormData(newFormData);
   };
 
-  const handleAddFormSubmit = async (event) => {
+  const handleEditFormSubmit = async (event) => {
     event.preventDefault();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
@@ -80,8 +89,9 @@ const InputLaporanInternal = () => {
     // formData.append('image', images);
 
     try {
-      await LabService.inputReport(data);
+      const id = dataEdit?.id;
       console.log(data);
+      await LabService.editReport(data, id);
 
       console.log('success');
     } catch (error) {
@@ -89,7 +99,7 @@ const InputLaporanInternal = () => {
     }
   };
 
-  const [value, setValue] = React.useState(new Date());
+  const [value, setValue] = React.useState(new Date(dataEdit?.date));
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -112,7 +122,8 @@ const InputLaporanInternal = () => {
         }}
       >
         <Navbar />
-        <form onSubmit={handleAddFormSubmit}>
+        {/* {isFetchingActivity && <LoadingModal />} */}
+        <form onSubmit={handleEditFormSubmit}>
           <Grid
             container
             sx={{
@@ -131,7 +142,7 @@ const InputLaporanInternal = () => {
             <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
               <Grid container>
                 <Box>
-                  <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Input Laporan Internal Lab</h2>
+                  <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Edit Laporan Internal Lab</h2>
                 </Box>
               </Grid>
             </Grid>
@@ -174,6 +185,7 @@ const InputLaporanInternal = () => {
                     <Select
                       name="hill_id"
                       label="Pilih Bukit"
+                      defaultValue={dataEdit.hill_id}
                       onChange={handleAddFormChange}
                       size="small"
                     >
@@ -203,6 +215,7 @@ const InputLaporanInternal = () => {
                       labelId="Jenis Sample"
                       id="Jenis Sample"
                       label="Pilih Jenis Sample"
+                      defaultValue={dataEdit.sample_type}
                       onChange={handleAddFormChange}
                       size="small"
                     >
@@ -232,6 +245,7 @@ const InputLaporanInternal = () => {
                       name="dome_id"
                       labelId="tumpukan"
                       id="tumpukan"
+                      defaultValue={dataEdit.dome_id}
                       label="Pilih Tumpukan/Dome"
                       onChange={handleAddFormChange}
                       size="small"
@@ -266,9 +280,10 @@ const InputLaporanInternal = () => {
                   <TextField
                     name="sample_code"
                     id="outlined-basic"
-                    label="Kode Sample"
+                    // label="Kode Sample"
                     variant="outlined"
                     onChange={handleAddFormChange}
+                    defaultValue={dataEdit?.sample_code}
                   />
                 </Grid>
                 <Grid
@@ -285,6 +300,7 @@ const InputLaporanInternal = () => {
                     label="Inputan Preparasi"
                     variant="outlined"
                     size="small"
+                    defaultValue={dataEdit.preparation}
                     onChange={handleAddFormChange}
                   />
                 </Grid>
@@ -308,6 +324,7 @@ const InputLaporanInternal = () => {
                       name="ni_level"
                       id="Kadar Ni"
                       onChange={handleAddFormChange}
+                      defaultValue={dataEdit.ni_level}
                       // error={touched.ni_level && Boolean(errors.ni_level)}
                       // helperText={touched.ni_level && errors.ni_level}
                       endAdornment={
@@ -337,6 +354,7 @@ const InputLaporanInternal = () => {
                       // type="number"
                       name="mgo_level"
                       id="Kadar MgO"
+                      defaultValue={dataEdit.mgo_level}
                       onChange={handleAddFormChange}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
@@ -365,6 +383,7 @@ const InputLaporanInternal = () => {
                       // type="number"
                       name="simgo_level"
                       id="Kadar SImgO"
+                      defaultValue={dataEdit.simgo_level}
                       onChange={handleAddFormChange}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
@@ -396,6 +415,7 @@ const InputLaporanInternal = () => {
                       name="fe_level"
                       id="Kadar Fe"
                       onChange={handleAddFormChange}
+                      defaultValue={dataEdit.fe_level}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
                           %
@@ -423,6 +443,7 @@ const InputLaporanInternal = () => {
                       // type="number"
                       name="sio2_level"
                       id="Kadar SIO2"
+                      defaultValue={dataEdit.sio2_level}
                       onChange={handleAddFormChange}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
@@ -450,6 +471,7 @@ const InputLaporanInternal = () => {
                     <OutlinedInput
                       // type="number"
                       name="inc"
+                      defaultValue={dataEdit.inc}
                       id="Inc"
                       onChange={handleAddFormChange}
                       label="Nilai Inc"
@@ -476,6 +498,7 @@ const InputLaporanInternal = () => {
                       // type="number"
                       name="co_level"
                       id="Kadar CO"
+                      defaultValue={dataEdit.co_level}
                       onChange={handleAddFormChange}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
@@ -504,6 +527,7 @@ const InputLaporanInternal = () => {
                       // type="number"
                       name="cao_level"
                       id="Kadar CaO"
+                      defaultValue={dataEdit.cao_level}
                       onChange={handleAddFormChange}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
@@ -532,6 +556,7 @@ const InputLaporanInternal = () => {
                       // type="number"
                       name="tonnage"
                       id="Tonase"
+                      defaultValue={dataEdit.tonnage}
                       onChange={handleAddFormChange}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
@@ -585,4 +610,4 @@ const InputLaporanInternal = () => {
   );
 };
 
-export default InputLaporanInternal;
+export default EditLaporanInternal;

@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/SearchBarExternal';
 import CustomPagination from '../../components/Pagination/index';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
-import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import SummaryLaporan from './components/SummaryLaporan';
+import { LoadingModal } from 'components/Modal';
 
-// custom hooks
-import useModal from '../../hooks/useModal';
+// services
+import { fetchExternal } from 'services/LabService';
 
-export default function ListEksternal() {
-  const { isShowing, toggle } = useModal();
+export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalPrep }) {
+  // const { isShowing, toggle } = useModal();
+  const navigate = useNavigate();
+  const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
+  const [postsEksternal, setPostsEksternal] = useState([]);
+
+  useEffect(() => {
+    fetchExternal()
+      .then((json) => {
+        setPostsEksternal(json);
+        return json;
+      })
+      .then((json) => {
+        setSearchResultsEksternal(json);
+      });
+  }, []);
+
+  const lastUpdate = Object.values(postsEksternal);
+
+  // console.log(postsEksternal['PT Gitar'][0]);
 
   return (
     <>
-      <PilihLaporan toggle={toggle} isShowing={isShowing} />
+      {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar />
+        <SearchBar posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
         <Grid
           container
           sx={{
@@ -47,7 +66,7 @@ export default function ListEksternal() {
 
             <Button
               variant="contained"
-              onClick={toggle}
+              onClick={() => navigate(`/input-laporan-eksternal`)}
               sx={{
                 width: '15.625',
                 height: '42px',
@@ -59,15 +78,25 @@ export default function ListEksternal() {
               Input Laporan Lab
             </Button>
           </Grid>
-
           {/* Summary Laporan */}
-          <SummaryLaporan />
 
+          <SummaryLaporan totalPrepEks={totalPrepEks} totalPrep={totalPrep} />
           {/*List Laporan*/}
-          <ListLaporanEksternal />
-          <ListLaporanEksternal />
-          <ListLaporanEksternal />
-          <ListLaporanEksternal />
+          {isFetchingActivity && <LoadingModal />}
+          {searchResultsEksternal ? (
+            <>
+              {Object.keys(searchResultsEksternal).map((item, index) => (
+                <ListLaporanEksternal data={item} index={index} lastUpdate={lastUpdate} />
+              ))}
+            </>
+          ) : (
+            <>
+              <center>
+                <h2>data tidak ditemukan!</h2>
+              </center>
+            </>
+          )}
+          {/* <Lists searchResults={searchResults} /> */}
           {/* Pagination */}
           <Grid
             container

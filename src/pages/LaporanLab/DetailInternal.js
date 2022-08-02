@@ -1,20 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DeleteData from '../../components/Modal/DeleteModal/index';
+import { useQuery } from 'react-query';
+import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
+
+// components
+import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
+
+// services
+import LabService from 'services/LabService';
 
 const DetailInternal = () => {
   const navigate = useNavigate();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+
+  const handleDelete = () => {
+    setLoading(true);
+    LabService.deleteReport({ id })
+      .then(() => {
+        navigate(-1);
+        toast.success('Data berhasil dihapus !');
+        setLoading(false);
+        toggleDelete();
+      })
+      .catch((err) => {
+        toast.error(err.response.data.detail_message);
+        setLoading(false);
+        toggleDelete();
+      });
+  };
+
+  const {
+    data,
+    // isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['report'],
+    () =>
+      LabService.getReportDetail({
+        id: `${id}`
+      })
+    // { keepPreviousData: true }
+  );
+
+  const dataReport = data?.data?.data;
+
   return (
     <>
-      <DeleteData toggle={toggleDelete} isShowing={isShowingDelete} title="Laporan Lab" />
+      <DeleteData
+        toggle={toggleDelete}
+        isShowing={isShowingDelete}
+        loading={loading}
+        action={handleDelete}
+        title="Laporan Lab"
+      />
       <div
         style={{
           backgroundColor: '#F5F5F5',
@@ -25,6 +74,8 @@ const DetailInternal = () => {
         }}
       >
         <Navbar />
+
+        {isFetchingActivity && <LoadingModal />}
 
         <Grid
           container
@@ -63,9 +114,10 @@ const DetailInternal = () => {
             <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1rem' }}>
               Laporan Internal Lab
             </Box>
-            <h2 style={{ margin: '0 0.5rem 1em 2rem' }}>MS12-IO98P</h2>
+            <h2 style={{ margin: '0 0.5rem 1em 2rem' }}>{dataReport?.sample_code}</h2>
             <Box style={{ margin: '0 0.5rem 1rem 2rem', color: '#3F48C0', fontSize: '0.875rem' }}>
-              Terakhir diedit oleh Putri Devina, pada 12 Juni 2022, 12:21 WITA
+              Terakhir diedit oleh {dataReport?.account_name}, pada 12 Juni 2022, 12:21 WITA
+              {/* {dataReport?.updated_at} */}
             </Box>
             <Button
               variant="outlined"
@@ -78,6 +130,9 @@ const DetailInternal = () => {
                 width: '40%',
                 fontWeight: '400'
               }}
+              onClick={() =>
+                navigate(`/edit/${dataReport?.report_type}/${id}`, { state: dataReport })
+              }
             >
               Edit Laporan
             </Button>
@@ -113,7 +168,7 @@ const DetailInternal = () => {
                       Tanggal
                     </Box>
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      12/02/2021
+                      {dayjs(dataReport?.date).format('DD/MM/YYYY')}
                     </Box>
                   </Grid>
                   <Grid item>
@@ -121,7 +176,7 @@ const DetailInternal = () => {
                       Jenis Sample
                     </Box>
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      Sample Test PIT
+                      {dataReport?.sample_type}
                     </Box>
                   </Grid>
                 </Grid>
@@ -137,7 +192,7 @@ const DetailInternal = () => {
                       Bukit
                     </Box>
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      Bukit IV
+                      {dataReport?.hill_name}
                     </Box>
                   </Grid>
                   <Grid item>
@@ -145,7 +200,7 @@ const DetailInternal = () => {
                       Tumpukan/Dome
                     </Box>
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      Bukit IV
+                      {dataReport?.dome_name}
                     </Box>
                   </Grid>
                 </Grid>
@@ -179,7 +234,7 @@ const DetailInternal = () => {
                         fontWeight: '700'
                       }}
                     >
-                      546
+                      {dataReport?.inc}
                     </Box>
                   </Grid>
                   <Grid
@@ -202,7 +257,7 @@ const DetailInternal = () => {
                         fontWeight: '700'
                       }}
                     >
-                      12,3 Ton
+                      {dataReport?.tonnage} Ton
                     </Box>
                   </Grid>
                 </Grid>
@@ -236,7 +291,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          1,70%
+                          {dataReport?.ni_level} %
                         </Box>
                       </Grid>
                       <Grid item sx={{ margin: '1rem 1rem 0 0' }}>
@@ -273,7 +328,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          1,70%
+                          {dataReport?.sio2_level} %
                         </Box>
                       </Grid>
                       <Grid item>
@@ -317,7 +372,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          1,70%
+                          {dataReport?.mgo_level} %
                         </Box>
                       </Grid>
                       <Grid item>
@@ -363,7 +418,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          1,70%
+                          {dataReport?.fe_level} %
                         </Box>
                       </Grid>
                       <Grid item>
@@ -404,7 +459,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          1,70%
+                          {dataReport?.cao_level} %
                         </Box>
                       </Grid>
                       <Grid item>
@@ -448,7 +503,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          1,70%
+                          {dataReport?.simgo_level} %
                         </Box>
                       </Grid>
                       <Grid item>
@@ -497,7 +552,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          1,70%
+                          {dataReport?.co_level} %
                         </Box>
                       </Grid>
                       <Grid item sx={{ margin: '1rem 1rem 0 0' }}>
