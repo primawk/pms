@@ -23,6 +23,13 @@ const getActivity = ({ page, row, activity_type, dome_id } = {}) => {
   });
 };
 
+const getActivityById = ({ id }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/activity/${id}`, {
+    method: 'GET',
+    headers: authHeader()
+  });
+};
+
 const getSummary = ({ activity_type } = {}) => {
   const params = [];
   if (activity_type) {
@@ -59,7 +66,8 @@ const getDomeSummary = ({ page, row, inventory_type, dome_id } = {}) => {
 const MiningActivityService = {
   getActivity,
   getSummary,
-  getDomeSummary
+  getDomeSummary,
+  getActivityById
 };
 
 export default MiningActivityService;

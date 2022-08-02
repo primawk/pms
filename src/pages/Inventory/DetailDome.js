@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useQuery } from 'react-query';
@@ -17,13 +16,15 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 
+// utils
+import { ceilTotalData } from 'utils/helper';
+
 const DetailDome = () => {
   const navigate = useNavigate();
-  const [pagination, setPagination] = useState({});
 
   const { inventoryType, idDome } = useParams();
 
-  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+  const { page, handleChangePage } = usePagination();
 
   const {
     data,
@@ -58,10 +59,6 @@ const DetailDome = () => {
       }),
     { keepPreviousData: true }
   );
-
-  useEffect(() => {
-    setPagination(dataActivity?.data?.pagination);
-  }, [dataActivity]);
 
   return (
     <>
@@ -130,7 +127,7 @@ const DetailDome = () => {
                 ))}
 
                 <CustomPagination
-                  count={totalPage}
+                  count={ceilTotalData(dataActivity?.data?.pagination?.total_data || 0, 10)}
                   page={page}
                   handleChangePage={handleChangePage}
                 />

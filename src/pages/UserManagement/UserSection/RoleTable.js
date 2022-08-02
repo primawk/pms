@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -17,6 +16,9 @@ import BasicTable from 'components/Table/BasicTable/BasicTable';
 
 // services
 import RoleService from 'services/RoleService';
+
+// utils
+import { ceilTotalData } from 'utils/helper';
 
 const headCells = [
   {
@@ -61,7 +63,6 @@ export default function RoleTable() {
   const queryClient = useQueryClient();
 
   const [id, setId] = useState('');
-  const [pagination, setPagination] = useState({});
 
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
@@ -70,9 +71,7 @@ export default function RoleTable() {
 
   const { isLoadingAction, toggleLoading } = useLoading();
 
-  const { page, totalPage, handleChangePage, resetPage } = usePagination(
-    pagination || { total_data: 0 }
-  );
+  const { page, handleChangePage, resetPage } = usePagination();
 
   const { data, isLoading, isFetching } = useQuery(['roles', page], () =>
     RoleService.getRole({
@@ -80,10 +79,6 @@ export default function RoleTable() {
       row: 10
     })
   );
-
-  useEffect(() => {
-    setPagination(data?.data?.pagination);
-  }, [data]);
 
   const handleAdd = () => {
     setId('');
@@ -145,7 +140,11 @@ export default function RoleTable() {
           title="Role & Hak Akses"
         />
       )}
-      <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
+      <CustomPagination
+        count={ceilTotalData(data?.data?.pagination?.total_data || 0, 10)}
+        page={page}
+        handleChangePage={handleChangePage}
+      />
       <FormRole
         toggle={toggleForm}
         isShowing={isShowingForm}

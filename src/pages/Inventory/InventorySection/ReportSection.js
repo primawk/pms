@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Stack, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
@@ -14,6 +13,9 @@ import CustomPagination from 'components/Pagination';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 
+// utils
+import { ceilTotalData } from 'utils/helper';
+
 export default function ReportSection() {
   const { inventoryType } = useParams();
 
@@ -27,9 +29,7 @@ export default function ReportSection() {
       ? 'eto-to-efo'
       : undefined;
 
-  const [pagination, setPagination] = useState({});
-
-  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+  const { page, handleChangePage } = usePagination();
 
   const { data, isLoading, isFetching } = useQuery(
     ['mining', activityType, page],
@@ -41,10 +41,6 @@ export default function ReportSection() {
       }),
     { keepPreviousData: true }
   );
-
-  useEffect(() => {
-    setPagination(data?.data?.pagination);
-  }, [data]);
 
   return (
     <div className="app-content">
@@ -80,12 +76,14 @@ export default function ReportSection() {
             <>
               {data?.data?.data.map((_list) => (
                 <Link
-                  to={`/mining-activity/${activityType}/detail/${_list.id}`}
+                  to={`/mining-activity/${_list?.activity_type}/detail/${_list?.id}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                   key={_list.id}
                 >
                   <ReportList
-                    activity_type={activityType === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'}
+                    activity_type={
+                      _list?.activity_type === 'ore-getting' ? 'ore-getting' : 'eto-to-efo'
+                    }
                     listData={_list}
                   />
                 </Link>
@@ -97,7 +95,11 @@ export default function ReportSection() {
             </center>
           )}
 
-          <CustomPagination count={totalPage} page={page} handleChangePage={handleChangePage} />
+          <CustomPagination
+            count={ceilTotalData(data?.data?.pagination?.total_data || 0, 10)}
+            page={page}
+            handleChangePage={handleChangePage}
+          />
         </>
       )}
     </div>
