@@ -4,8 +4,6 @@ import { Grid, Button } from '@mui/material';
 import { dateToStringPPOBFormatterv2 } from '../../../utils/helper';
 
 import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
 
 // components
 import CustomModal from 'components/Modal/CustomModal/FilterDate';
