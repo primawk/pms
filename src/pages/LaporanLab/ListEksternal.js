@@ -29,7 +29,9 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
       });
   }, []);
 
-  console.log(searchResultsEksternal);
+  const lastUpdate = Object.values(postsEksternal);
+
+  // console.log(postsEksternal['PT Gitar'][0]);
 
   return (
     <>
@@ -84,7 +86,7 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
           {searchResultsEksternal ? (
             <>
               {Object.keys(searchResultsEksternal).map((item, index) => (
-                <ListLaporanEksternal data={item} index={index} />
+                <ListLaporanEksternal data={item} index={index} lastUpdate={lastUpdate} />
               ))}
             </>
           ) : (

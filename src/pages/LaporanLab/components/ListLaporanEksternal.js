@@ -3,10 +3,12 @@ import { Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-const ListLaporanEksternal = ({ data, index }) => {
+const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
   const navigate = useNavigate();
 
-  // console.log(data);
+  const lastUpdatev2 = Object.values(lastUpdate);
+
+  console.log(lastUpdatev2[0]);
 
   return (
     <>
