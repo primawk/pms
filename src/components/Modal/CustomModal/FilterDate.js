@@ -7,7 +7,7 @@ export default function FilterDate({ children, toggle, isShowing, handleClose, w
     position: 'absolute',
     maxHeight: '90vh',
     overflowY: 'auto',
-    overflowX: 'auto',
+    overflowX: 'hidden',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',

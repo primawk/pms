@@ -50,6 +50,22 @@ const inputReport = (data) => {
   });
 };
 
+const inputReportExternal = (data, attachment) => {
+  var form_data = new FormData();
+
+  for (var key in data) {
+    form_data.append(key, data[key]);
+  }
+  form_data.append('attachment', attachment);
+
+  console.log(data);
+  // return request(`${MINING_ACTIVITY_MODEL}/report`, {
+  //   method: 'POST',
+  //   headers: authHeader(),
+  //   data: form_data
+  // });
+};
+
 const editReport = (data, id) => {
   var form_data = new FormData();
 
@@ -57,11 +73,18 @@ const editReport = (data, id) => {
     form_data.append(key, data[key]);
   }
 
-  console.log(form_data);
   return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
     method: 'PUT',
     headers: authHeader(),
     data: form_data
+  });
+};
+
+const editReportExternal = (formData, id) => {
+  return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
+    method: 'PUT',
+    headers: authHeader(),
+    data: formData
   });
 };
 
@@ -98,6 +121,8 @@ const LabService = {
   getReportDetail,
   deleteReport,
   inputReport,
+  inputReportExternal,
+  editReportExternal,
   editReport
 };
 

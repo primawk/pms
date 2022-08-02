@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
-import SearchBar from './components/SearchBarExternal';
+import SearchBarExternal from './components/SearchBarExternal';
 import CustomPagination from '../../components/Pagination/index';
 import ListLaporanEksternal from './components/ListLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
@@ -38,7 +38,7 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
+        <SearchBarExternal posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
         <Grid
           container
           sx={{

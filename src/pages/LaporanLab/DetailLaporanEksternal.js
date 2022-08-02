@@ -56,6 +56,8 @@ const DetailEksternal = () => {
 
   const dataReport = data?.data?.data;
 
+  console.log(dataReport);
+
   return (
     <>
       <DeleteData
@@ -115,7 +117,7 @@ const DetailEksternal = () => {
             <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1rem' }}>
               Laporan Eksternal Lab
             </Box>
-            <h2 style={{ margin: '0 0.5rem 1em 2rem' }}>MS12-IO98P</h2>
+            <h2 style={{ margin: '0 0.5rem 1em 2rem' }}>{dataReport?.company_name}</h2>
             <Box
               style={{
                 margin: '0 0.5rem 1rem 2rem',
@@ -139,7 +141,7 @@ const DetailEksternal = () => {
                   width: '40%',
                   fontWeight: '400'
                 }}
-                onClick={() => navigate(`/edit/${dataReport?.report_type}/${id}`)}
+                onClick={() => navigate(`/edit/eksternal/${id}`, { state: dataReport })}
               >
                 Edit Laporan
               </Button>
@@ -162,7 +164,47 @@ const DetailEksternal = () => {
           </Grid>
 
           {/* PDF */}
-          <Grid sx={{ display: 'flex', flexDirection: 'column', margin: '2.5rem 0 0 2rem' }}>
+          <Grid sx={{ display: 'flex', flexDirection: 'column', margin: '1rem 0 0 2rem' }}>
+            <h3>Informasi Sample</h3>
+            <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+              <Grid item>
+                <Box
+                  style={{
+                    margin: '0 0 0.5rem 0',
+                    fontSize: '0.875rem',
+                    width: '5.5rem'
+                  }}
+                >
+                  Tanggal
+                </Box>
+                <Box style={{ fontSize: '0.875rem' }}>
+                  {dayjs(dataReport?.date).format('DD/MM/YYYY')}
+                </Box>
+              </Grid>
+              <Grid item>
+                <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                  Nama Pengaju Sample
+                </Box>
+                <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                  {dataReport?.sample_submitter}
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container sx={{ display: 'flex', flexDirection: 'row', marginTop: '1.5rem' }}>
+              <Grid item>
+                <Box
+                  style={{
+                    fontSize: '0.875rem'
+                  }}
+                >
+                  Nomor Kontak Pengaju Sample
+                </Box>
+                <Box style={{ margin: '0 0.5rem 0.5rem 0', fontSize: '0.875rem' }}>
+                  {dataReport?.submitter_contact}
+                </Box>
+              </Grid>
+            </Grid>
+
             <Box sx={{ marginBottom: '1rem', fontSize: '20px' }}>
               <h3>File Laporan</h3>
             </Box>
@@ -194,7 +236,7 @@ const DetailEksternal = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Box fontSize={'0.875rem'}>Laporan Eksternal.pdf</Box>
+            <Box fontSize={'0.875rem'}>{dataReport?.attachment}</Box>
           </Grid>
         </Grid>
       </div>

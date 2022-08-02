@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -7,23 +8,32 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
+import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
+
+// custom hooks
+import useModal from '../../hooks/useModal';
 
 // services
 import LabService from 'services/LabService';
 
-const InputLaporanEksternal = () => {
+const EditLaporanEksternal = () => {
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+
+  const dataEdit = location.state;
+
   const [attachment, setAttachment] = useState(null);
   const [addFormData, setAddFormData] = useState({
-    date: '',
-    analysis: '',
-    preparation: '',
-    company_name: '',
-    sample_submitter: '',
-    submitter_contact: '',
+    date: dataEdit?.date,
+    analysis: dataEdit?.analysis,
+    preparation: dataEdit?.preparation,
+    company_name: dataEdit?.company_name,
+    sample_submitter: dataEdit?.sample_submitter,
+    submitter_contact: dataEdit?.submitter_contact,
     report_type: 'external'
   });
 
@@ -39,8 +49,10 @@ const InputLaporanEksternal = () => {
     setAddFormData(newFormData);
   };
 
-  const handleAddFormSubmit = async (event) => {
+  const handleEditFormSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
+    var formData = new FormData();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
       company_name: addFormData.company_name,
@@ -50,15 +62,24 @@ const InputLaporanEksternal = () => {
       report_type: 'external',
       analysis: addFormData.analysis
     };
-    // formData.append('image', images);
+
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+
+    if (attachment) {
+      formData.append('attachment', attachment);
+    }
 
     try {
-      await LabService.inputReportExternal(data, attachment);
+      const id = dataEdit?.id;
+      await LabService.editReportExternal(formData, id);
       console.log(data);
-
-      console.log('success');
+      setLoading(false);
+      toggle();
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -69,15 +90,19 @@ const InputLaporanEksternal = () => {
     console.log(preview.src);
   };
 
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState(new Date(dataEdit?.date));
 
   const navigate = useNavigate();
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
+  const { isShowing, toggle } = useModal();
+
   return (
     <>
+      <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
           backgroundColor: '#F5F5F5',
@@ -88,7 +113,7 @@ const InputLaporanEksternal = () => {
         }}
       >
         <Navbar />
-        <form onSubmit={handleAddFormSubmit}>
+        <form onSubmit={handleEditFormSubmit}>
           <Grid
             container
             sx={{
@@ -152,6 +177,7 @@ const InputLaporanEksternal = () => {
                     label="Nama Pengaju Sample"
                     variant="outlined"
                     name="sample_submitter"
+                    defaultValue={dataEdit.sample_submitter}
                     onChange={handleAddFormChange}
                     size="small"
                   />
@@ -174,6 +200,7 @@ const InputLaporanEksternal = () => {
                     label="Nama Perusahaan"
                     variant="outlined"
                     name="company_name"
+                    defaultValue={dataEdit.company_name}
                     onChange={handleAddFormChange}
                     size="small"
                   />
@@ -192,6 +219,7 @@ const InputLaporanEksternal = () => {
                         required
                         id="outlined-adornment-password"
                         name="submitter_contact"
+                        defaultValue={dataEdit.submitter_contact}
                         onChange={handleAddFormChange}
                         startAdornment={
                           <InputAdornment position="start" backgroundColor="gray">
@@ -222,6 +250,7 @@ const InputLaporanEksternal = () => {
                     id="outlined-basic"
                     label="Preparasi"
                     name="preparation"
+                    defaultValue={dataEdit.preparation}
                     onChange={handleAddFormChange}
                     variant="outlined"
                     size="small"
@@ -240,6 +269,7 @@ const InputLaporanEksternal = () => {
                     id="outlined-basic"
                     label="Analisa"
                     name="analysis"
+                    defaultValue={dataEdit.analysis}
                     onChange={handleAddFormChange}
                     variant="outlined"
                     size="small"
@@ -250,7 +280,7 @@ const InputLaporanEksternal = () => {
                 <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
                   <Grid sx={{ display: 'flex', flexDirection: 'column', marginRight: '2rem' }}>
                     <Box sx={{ marginBottom: '1rem' }}>
-                      <h3>Upload Laporan</h3>
+                      <h3>Upload Laporan Baru</h3>
                     </Box>
                     <Grid
                       item
@@ -295,11 +325,7 @@ const InputLaporanEksternal = () => {
                             onChange={onBtnAddFile}
                             sx={{ boxShadow: 'none' }}
                           >
-                            <input
-                              required
-                              type="file"
-                              style={{ marginLeft: '4rem', cursor: 'pointer' }}
-                            />
+                            <input type="file" style={{ marginLeft: '4rem', cursor: 'pointer' }} />
                           </Button>
                         </Grid>
                       </Grid>
@@ -337,7 +363,10 @@ const InputLaporanEksternal = () => {
                       <Grid item sx={{ margin: 'auto' }} fontSize={80}>
                         <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
                       </Grid> */}
-                        <img id="pdfpreview" alt="" />
+                        <img id="pdfpreview" alt="Uploaded file" />
+                      </Grid>
+                      <Grid item sx={{ marginTop: '7rem', fontSize: '0.875rem' }}>
+                        <p>{dataEdit?.attachment}</p>
                       </Grid>
                     </Grid>
                     {/* <Box fontSize={'0.875rem'}>Laporan Eksternal.pdf</Box> */}
@@ -366,9 +395,14 @@ const InputLaporanEksternal = () => {
                 <Button>Back</Button>
               </Grid>
               <Grid item>
-                <Button type="submit" variant="contained" sx={{ width: '130%', boxShadow: '0' }}>
-                  Submit Laporan
-                </Button>
+                <LoadingButton
+                  loading={loading}
+                  type="submit"
+                  variant="contained"
+                  sx={{ width: '130%', boxShadow: '0' }}
+                >
+                  Edit Laporan
+                </LoadingButton>
               </Grid>
             </Grid>
           </div>
@@ -378,4 +412,4 @@ const InputLaporanEksternal = () => {
   );
 };
 
-export default InputLaporanEksternal;
+export default EditLaporanEksternal;

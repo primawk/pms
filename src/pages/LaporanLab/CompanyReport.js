@@ -10,8 +10,8 @@ import { Grid, Box } from '@mui/material';
 import CustomPagination from '../../components/Pagination/index';
 // import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
-import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import DetailEksternal from 'pages/LaporanLab/components/DetailEksternal';
+import SearchBar from './components/SearchBar';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -23,6 +23,8 @@ export default function CompanyReport() {
   const location = useLocation();
   const { isShowing, toggle } = useModal();
   const [posts, setPosts] = useState([]);
+  // const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
+  const [selectedDates, setSelectedDates] = useState({});
 
   useEffect(() => {
     fetchExternal().then((json) => {
@@ -34,19 +36,14 @@ export default function CompanyReport() {
     // });
   }, []);
 
-  // const groups = posts.reduce((groups, item) => {
-  //   const group = groups[item.company_name] || [];
-  //   group.push(item);
-  //   groups[item.company_name] = group;
-  //   return groups;
-  // }, {});
-
   const data = posts[location.state];
+
+  console.log(data);
+
+  // const companyName = posts['0'].company_name;
 
   return (
     <>
-      <PilihLaporan toggle={toggle} isShowing={isShowing} />
-
       <div className="app-content">
         <Header background="dashboard.png">
           <Grid
@@ -69,8 +66,8 @@ export default function CompanyReport() {
               }}
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Lab</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
-                <h2>{data?.company_name}</h2>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1rem' }}>
+                <h3></h3>
               </Box>
             </Grid>
             <Grid
@@ -86,7 +83,9 @@ export default function CompanyReport() {
               }}
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Pengajuan</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>71</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
+                {data?.length}
+              </Box>
             </Grid>
             <Grid
               item
@@ -146,39 +145,13 @@ export default function CompanyReport() {
               <h2>List Laporan Lab</h2>
             </Box>
           </Grid>
-          <Grid
-            container
-            sx={{
-              display: 'flex',
-              backgroundColor: 'white',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-start'
-            }}
-          >
-            <Grid
-              item
-              sx={{
-                backgroundColor: 'white',
-                borderRadius: '4px',
-                marginLeft: '1rem',
-                width: '20%'
-              }}
-            >
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Filter Tanggal | Hari ini </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  label="Filter Tanggal | Hari ini"
-                  id="demo-simple-select"
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
+
+          <SearchBar
+            posts={posts}
+            setSearchResults={setPosts}
+            setSelectedDates={setSelectedDates}
+            selectedDates={selectedDates}
+          />
 
           {/*List Laporan*/}
           {data ? (

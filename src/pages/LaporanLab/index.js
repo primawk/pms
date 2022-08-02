@@ -14,7 +14,7 @@ import LabService from 'services/LabService';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
-import usePagination from 'hooks/usePagination';
+// import usePagination from 'hooks/usePagination';
 
 export default function LaporanLab() {
   const { isShowing, toggle } = useModal();
@@ -28,7 +28,7 @@ export default function LaporanLab() {
 
   const { report_type } = useParams();
 
-  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+  // const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
 
   const [menuTab, setMenuTab] = useState(report_type || '');
 
