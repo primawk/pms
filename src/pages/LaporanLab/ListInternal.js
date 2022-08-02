@@ -1,25 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+// import { addDays } from 'date-fns';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
 import CustomPagination from '../../components/Pagination/index';
 import SearchBar from './components/SearchBar';
 import SummaryLaporan from './components/SummaryLaporan';
-import ListLaporanInternal from './components/ListLaporanInternal';
-import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
+// import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
+import { LoadingModal } from 'components/Modal';
+import Lists from './Lists';
 
-// custom hooks
-import useModal from '../../hooks/useModal';
+// services
+import { fetchInternal } from 'services/LabService';
 
-export default function ListInternal() {
-  const { isShowing, toggle } = useModal();
+export default function ListInternal({
+  dataInternal,
+  isFetchingActivity,
+  totalPrepEks,
+  totalPrep
+}) {
+  // const { isShowing, toggle } = useModal();
+  const navigate = useNavigate();
+  const [searchResults, setSearchResults] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [selectedDates, setSelectedDates] = useState({});
+
+  useEffect(() => {
+    fetchInternal(selectedDates)
+      .then((json) => {
+        setPosts(json);
+        return json;
+      })
+      .then((json) => {
+        setSearchResults(json);
+      });
+  }, [selectedDates]);
 
   return (
     <>
-      <PilihLaporan toggle={toggle} isShowing={isShowing} />
+      {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar />
+        <SearchBar
+          posts={posts}
+          setSearchResults={setSearchResults}
+          setSelectedDates={setSelectedDates}
+        />
         <Grid
           container
           sx={{
@@ -46,7 +74,7 @@ export default function ListInternal() {
             </Box>
             <Button
               variant="contained"
-              onClick={toggle}
+              onClick={() => navigate(`/input-laporan-internal`)}
               sx={{
                 width: '15.625',
                 height: '42px',
@@ -60,13 +88,16 @@ export default function ListInternal() {
           </Grid>
 
           {/* Summary Laporan */}
-          <SummaryLaporan />
+
+          <SummaryLaporan
+            preparation={dataInternal?.data?.data}
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+          />
 
           {/*List Laporan*/}
-          <ListLaporanInternal />
-          <ListLaporanInternal />
-          <ListLaporanInternal />
-          <ListLaporanInternal />
+          {isFetchingActivity && <LoadingModal />}
+          <Lists searchResults={searchResults} />
 
           {/* Pagination */}
           <Grid

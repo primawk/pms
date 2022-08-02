@@ -22,6 +22,13 @@ export function dateToStringPPOBFormatter(date) {
   return `${year}${month}${day}`;
 }
 
+export function dateToStringPPOBFormatterv2(date) {
+  const day = String(date.getDate());
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
 export function stringToDateFormatter(date) {
   const dateSplit = date.split('/');
   const newDate = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);

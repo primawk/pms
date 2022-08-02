@@ -10,25 +10,32 @@ import { addDays } from 'date-fns';
 import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
-const SearchBar = ({ posts, setSearchResults, setSelectedDates }) => {
+const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
   const handleSubmit = () => {
-    const resultsArray = posts.filter(
-      (post) =>
-        post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.company_name?.toLowerCase().includes(keyword.toLowerCase())
-    );
-    setSearchResults(resultsArray);
+    // e.preventDefault();
+    // if (!e.target.value) return setSearchResults(posts);
+    const resultsArrayEksternal = Object.keys(posts)
+      .filter((key) => key.toLowerCase().includes(keyword.toLocaleLowerCase()))
+      .reduce((obj, key) => {
+        return Object.assign(obj, {
+          [key]: posts[key]
+        });
+      }, {});
+    setSearchResults(resultsArrayEksternal);
   };
 
   const handleReset = () => {
-    const resultsArray = posts.filter(
-      (post) =>
-        post.sample_code?.toLowerCase().includes(''.toLowerCase()) ||
-        post.company_name?.toLowerCase().includes(''.toLowerCase())
-    );
-    setSearchResults(resultsArray);
+    const resultsArrayEksternal = Object.keys(posts)
+      .filter((key) => key.includes(''))
+      .reduce((obj, key) => {
+        return Object.assign(obj, {
+          [key]: posts[key]
+        });
+      }, {});
+    // setSearchResults(resultsArray);
+    setSearchResults(resultsArrayEksternal);
     setKeyword('');
     setSelectedDates({});
     setState([
@@ -136,4 +143,4 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates }) => {
   );
 };
 
-export default SearchBar;
+export default SearchBarEksternal;

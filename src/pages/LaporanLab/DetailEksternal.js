@@ -1,21 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import DeleteData from '../../components/Modal/DeleteModal/index';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
+
+// components
+import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const DetailInternal = () => {
+// services
+import LabService from 'services/LabService';
+
+const DetailEksternal = () => {
   const navigate = useNavigate();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+
+  const handleDelete = () => {
+    setLoading(true);
+    LabService.deleteReport({ id })
+      .then(() => {
+        navigate(-1);
+        toast.success('Data berhasil dihapus !');
+        setLoading(false);
+        toggleDelete();
+      })
+      .catch((err) => {
+        toast.error(err.response.data.detail_message);
+        setLoading(false);
+        toggleDelete();
+      });
+  };
+
+  const {
+    data,
+    // isLoading: isLoadingActivity,
+    isFetching: isFetchingActivity
+  } = useQuery(
+    ['report'],
+    () =>
+      LabService.getReportDetail({
+        id: `${id}`
+      })
+    // { keepPreviousData: true }
+  );
+
+  const dataReport = data?.data?.data;
+
   return (
     <>
-      <DeleteData toggle={toggleDelete} isShowing={isShowingDelete} title="Laporan Lab" />
-
+      <DeleteData
+        toggle={toggleDelete}
+        isShowing={isShowingDelete}
+        loading={loading}
+        action={handleDelete}
+        title="Laporan Lab"
+      />
       <div
         style={{
           backgroundColor: '#F5F5F5',
@@ -26,6 +75,8 @@ const DetailInternal = () => {
         }}
       >
         <Navbar />
+
+        {isFetchingActivity && <LoadingModal />}
 
         <Grid
           container
@@ -73,7 +124,8 @@ const DetailInternal = () => {
                 width: '50rem'
               }}
             >
-              Terakhir diedit oleh Putri Devina, pada 12 Juni 2022, 12:21 WITA
+              Terakhir diedit oleh {dataReport?.account_name}, pada 12 Juni 2022, 12:21 WITA
+              {dataReport?.updated_at}
             </Box>
             <Box>
               <Button
@@ -87,6 +139,7 @@ const DetailInternal = () => {
                   width: '40%',
                   fontWeight: '400'
                 }}
+                onClick={() => navigate(`/edit/${dataReport?.report_type}/${id}`)}
               >
                 Edit Laporan
               </Button>
@@ -149,4 +202,4 @@ const DetailInternal = () => {
   );
 };
 
-export default DetailInternal;
+export default DetailEksternal;

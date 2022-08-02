@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useLocation } from 'react-router-dom';
 
 // components
 import { Grid, Box } from '@mui/material';
@@ -15,8 +16,32 @@ import DetailEksternal from 'pages/LaporanLab/components/DetailEksternal';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-export default function ListDetailEksternal() {
+// services
+import { fetchExternal } from 'services/LabService';
+
+export default function CompanyReport() {
+  const location = useLocation();
   const { isShowing, toggle } = useModal();
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetchExternal().then((json) => {
+      setPosts(json);
+      return json;
+    });
+    // .then((json) => {
+    //   setSearchResults(json);
+    // });
+  }, []);
+
+  // const groups = posts.reduce((groups, item) => {
+  //   const group = groups[item.company_name] || [];
+  //   group.push(item);
+  //   groups[item.company_name] = group;
+  //   return groups;
+  // }, {});
+
+  const data = posts[location.state];
 
   return (
     <>
@@ -45,7 +70,7 @@ export default function ListDetailEksternal() {
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Lab</Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
-                PT Mandala Jaya
+                <h2>{data?.company_name}</h2>
               </Box>
             </Grid>
             <Grid
@@ -156,12 +181,18 @@ export default function ListDetailEksternal() {
           </Grid>
 
           {/*List Laporan*/}
-          <DetailEksternal />
-          <DetailEksternal />
-          <DetailEksternal />
-          <DetailEksternal />
-          <DetailEksternal />
-          <DetailEksternal />
+          {data ? (
+            <>
+              {data?.map((data, i) => (
+                <DetailEksternal data={data} i={i} />
+              ))}
+            </>
+          ) : (
+            <Box sx={{ marginLeft: '25rem' }}>
+              <h1>Data tidak ditemukan !</h1>
+            </Box>
+          )}
+
           {/* Pagination */}
           <Grid
             container

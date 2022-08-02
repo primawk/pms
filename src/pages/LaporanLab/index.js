@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 // components
 import { Grid, Tab, Tabs } from '@mui/material';
@@ -8,32 +9,68 @@ import ListEksternal from './ListEksternal';
 import ListInternal from './ListInternal';
 import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 
+// services
+import LabService from 'services/LabService';
+
 // custom hooks
 import useModal from '../../hooks/useModal';
+import usePagination from 'hooks/usePagination';
 
 export default function LaporanLab() {
   const { isShowing, toggle } = useModal();
-
-  const menuList = [
-    { value: 'list-internal', label: 'Laporan Internal' },
-    { value: 'list-eksternal', label: 'Laporan Eksternal' }
-  ];
-
-  const { activityType } = useParams();
+  const [pagination, setPagination] = useState({});
   const navigate = useNavigate();
 
-  const [menuTab, setMenuTab] = useState(activityType || '');
+  const menuList = [
+    { value: 'internal', label: 'Laporan Internal' },
+    { value: 'eksternal', label: 'Laporan Eksternal' }
+  ];
+
+  const { report_type } = useParams();
+
+  const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+
+  const [menuTab, setMenuTab] = useState(report_type || '');
 
   const handleChangeTab = (event, _menuTab) => {
     setMenuTab(_menuTab);
     switch (_menuTab) {
-      case 'list-eksternal':
-        navigate('/laporan-lab/list-eksternal');
+      case 'eksternal':
+        navigate('/laporan-lab/eksternal');
         break;
       default:
-        navigate('/laporan-lab/list-internal');
+        navigate('/laporan-lab/internal');
     }
   };
+
+  const {
+    data,
+    // isLoading: isLoadingActivity,
+    isFetching: isFetchingActivityInternal
+  } = useQuery(
+    ['report', 'internal'],
+    () =>
+      LabService.getReport({
+        report_type: 'internal'
+      })
+    // { keepPreviousData: true }
+  );
+
+  const {
+    data: dataEksternal,
+    // isLoading: isLoadingActivity,
+    isFetching: isFetchingActivityExternal
+  } = useQuery(
+    ['report', 'external'],
+    () =>
+      LabService.getReport({
+        report_type: 'external'
+      })
+    // { keepPreviousData: true }
+  );
+
+  let totalPrepEks = 0;
+  let totalPrep = 0;
 
   return (
     <>
@@ -53,6 +90,8 @@ export default function LaporanLab() {
               }
             }}
           >
+            {dataEksternal?.data?.data.map((prep) => (totalPrepEks += prep.preparation))}
+            {data?.data.data.map((prep) => (totalPrep += prep.preparation))}
             {menuList?.map((item) => (
               <Tab
                 key={item.value}
@@ -72,7 +111,21 @@ export default function LaporanLab() {
             ))}
           </Tabs>
         </Grid>
-        {menuTab === 'list-internal' ? <ListInternal /> : <ListEksternal />}
+        {menuTab === 'internal' ? (
+          <ListInternal
+            dataInternal={data?.data?.data}
+            isFetchingActivity={isFetchingActivityInternal}
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+          />
+        ) : (
+          <ListEksternal
+            dataEksternal={dataEksternal?.data?.data}
+            isFetchingActivity={isFetchingActivityExternal}
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+          />
+        )}
       </div>
     </>
   );
