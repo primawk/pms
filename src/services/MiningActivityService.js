@@ -2,7 +2,7 @@ import { request } from 'utils/request';
 import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 
-const getActivity = ({ page, row, activity_type, dome_id } = {}) => {
+const getActivity = ({ page, row, activity_type, dome_id, start_date, end_date } = {}) => {
   const params = [];
   if (page) {
     params.push(['page', page]);
@@ -15,6 +15,12 @@ const getActivity = ({ page, row, activity_type, dome_id } = {}) => {
   }
   if (dome_id) {
     params.push(['dome_id', dome_id]);
+  }
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/activity`, {
     method: 'GET',
@@ -30,10 +36,16 @@ const getActivityById = ({ id }) => {
   });
 };
 
-const getSummary = ({ activity_type } = {}) => {
+const getSummary = ({ activity_type, start_date, end_date } = {}) => {
   const params = [];
   if (activity_type) {
     params.push(['activity_type', activity_type]);
+  }
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/activity/summary`, {
     method: 'GET',
@@ -42,7 +54,7 @@ const getSummary = ({ activity_type } = {}) => {
   });
 };
 
-const getDomeSummary = ({ page, row, inventory_type, dome_id } = {}) => {
+const getDomeSummary = ({ page, row, inventory_type, dome_id, start_date, end_date } = {}) => {
   const params = [];
   if (page) {
     params.push(['page', page]);
@@ -55,6 +67,12 @@ const getDomeSummary = ({ page, row, inventory_type, dome_id } = {}) => {
   }
   if (dome_id) {
     params.push(['dome_id', dome_id]);
+  }
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/activity/dome`, {
     method: 'GET',

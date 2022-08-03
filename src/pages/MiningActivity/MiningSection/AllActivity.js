@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import { useQuery } from 'react-query';
+import PropTypes from 'prop-types';
 
 // components
 import { ChartSection, InfoSection, InventorySection, ReportSection } from '.';
@@ -32,7 +33,7 @@ const data = [
   }
 ];
 
-export default function AllActivity() {
+export default function AllActivity({ selectedDate }) {
   const [subMenu, setSubMenu] = useState(0);
   const [chartData] = useState({
     labels: data.map((item) => item.name),
@@ -57,8 +58,15 @@ export default function AllActivity() {
     data: dataAllSummary,
     isLoading: isLoadingAllSummary,
     isFetching: isFetchingAllSummary
-  } = useQuery(['mining', 'summary', 'all'], () =>
-    MiningActivityService.getSummary({ activity_type: 'all' })
+  } = useQuery(
+    ['mining', 'summary', 'all', selectedDate],
+    () =>
+      MiningActivityService.getSummary({
+        activity_type: 'all',
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
   );
 
   // ore getting
@@ -67,20 +75,32 @@ export default function AllActivity() {
     isLoading: isLoadingOreGetting,
     isFetching: isFetchingOreGetting
     // inventory-sm
-  } = useQuery(['mining', 'dome-list', 'SM'], () =>
-    MiningActivityService.getDomeSummary({
-      page: 1,
-      row: 3,
-      inventory_type: 'SM'
-    })
+  } = useQuery(
+    ['mining', 'dome-list', 'SM', selectedDate],
+    () =>
+      MiningActivityService.getDomeSummary({
+        page: 1,
+        row: 3,
+        inventory_type: 'SM',
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
   );
 
   const {
     data: dataOreGettingSummary,
     isLoading: isLoadingOreGettingSummary,
     isFetching: isFetchingOreGettingSummary
-  } = useQuery(['mining', 'summary', 'ore-getting'], () =>
-    MiningActivityService.getSummary({ activity_type: 'ore-getting' })
+  } = useQuery(
+    ['mining', 'summary', 'ore-getting', selectedDate],
+    () =>
+      MiningActivityService.getSummary({
+        activity_type: 'ore-getting',
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
   );
 
   // ore hauling to eto
@@ -88,20 +108,32 @@ export default function AllActivity() {
     data: dataOreHauling,
     isLoading: isLoadingOreHauling,
     isFetching: isFetchingOreHauling
-  } = useQuery(['mining', 'dome-list', 'inventory-eto'], () =>
-    MiningActivityService.getDomeSummary({
-      page: 1,
-      row: 3,
-      inventory_type: 'inventory-eto'
-    })
+  } = useQuery(
+    ['mining', 'dome-list', 'inventory-eto', selectedDate],
+    () =>
+      MiningActivityService.getDomeSummary({
+        page: 1,
+        row: 3,
+        inventory_type: 'inventory-eto',
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
   );
 
   const {
     data: dataOreHaulingSummary,
     isLoading: isLoadingOreHaulingSummary,
     isFetching: isFetchingOreHaulingSummary
-  } = useQuery(['mining', 'summary', 'ore-hauling-to-eto'], () =>
-    MiningActivityService.getSummary({ activity_type: 'ore-hauling-to-eto' })
+  } = useQuery(
+    ['mining', 'summary', 'ore-hauling-to-eto', selectedDate],
+    () =>
+      MiningActivityService.getSummary({
+        activity_type: 'ore-hauling-to-eto',
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
   );
 
   // eto to efo
@@ -109,20 +141,32 @@ export default function AllActivity() {
     data: dataEtoToEfo,
     isLoading: isLoadingEtoToEfo,
     isFetching: isFetchingEtoToEfo
-  } = useQuery(['mining', 'dome-list', 'inventory-efo'], () =>
-    MiningActivityService.getDomeSummary({
-      page: 1,
-      row: 3,
-      inventory_type: 'inventory-efo'
-    })
+  } = useQuery(
+    ['mining', 'dome-list', 'inventory-efo', selectedDate],
+    () =>
+      MiningActivityService.getDomeSummary({
+        page: 1,
+        row: 3,
+        inventory_type: 'inventory-efo',
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
   );
 
   const {
     data: dataEtoToEfoSummary,
     isLoading: isLoadingEtoToEfoSummary,
     isFetching: isFetchingEtoToEfoSummary
-  } = useQuery(['mining', 'summary', 'eto-to-efo'], () =>
-    MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
+  } = useQuery(
+    ['mining', 'summary', 'eto-to-efo', selectedDate],
+    () =>
+      MiningActivityService.getSummary({
+        activity_type: 'eto-to-efo',
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
   );
 
   return (
@@ -134,7 +178,7 @@ export default function AllActivity() {
           isFetchingOreHaulingSummary &&
           isFetchingEtoToEfoSummary && <LoadingModal />)
       }
-      {!isLoadingAllSummary && dataAllSummary && (
+      {!isLoadingAllSummary && (
         <Grid
           container
           direction="row"
@@ -156,29 +200,23 @@ export default function AllActivity() {
           </Grid>
         </Grid>
       )}
-      {!isLoadingOreGetting &&
-        !isLoadingOreGettingSummary &&
-        dataOreGetting &&
-        dataOreGettingSummary && (
-          <InventorySection
-            title="Realisasi Produksi Inventory SM"
-            subtitle="Kegiatan Penambangan"
-            summary={dataOreGettingSummary?.data?.data?.[0]}
-            listData={dataOreGetting?.data?.data}
-          />
-        )}
-      {!isLoadingOreHauling &&
-        !isLoadingOreHaulingSummary &&
-        dataOreHauling &&
-        dataOreHaulingSummary && (
-          <InventorySection
-            title="Realisasi Produksi Inventory ETO"
-            subtitle="Stockfile"
-            summary={dataOreHaulingSummary?.data?.data?.[0]}
-            listData={dataOreHauling?.data?.data}
-          />
-        )}
-      {!isLoadingEtoToEfo && !isLoadingEtoToEfoSummary && dataEtoToEfo && dataEtoToEfoSummary && (
+      {!isLoadingOreGetting && !isLoadingOreGettingSummary && (
+        <InventorySection
+          title="Realisasi Produksi Inventory SM"
+          subtitle="Kegiatan Penambangan"
+          summary={dataOreGettingSummary?.data?.data?.[0]}
+          listData={dataOreGetting?.data?.data}
+        />
+      )}
+      {!isLoadingOreHauling && !isLoadingOreHaulingSummary && (
+        <InventorySection
+          title="Realisasi Produksi Inventory ETO"
+          subtitle="Stockfile"
+          summary={dataOreHaulingSummary?.data?.data?.[0]}
+          listData={dataOreHauling?.data?.data}
+        />
+      )}
+      {!isLoadingEtoToEfo && !isLoadingEtoToEfoSummary && (
         <InventorySection
           title="Realisasi Produksi Inventory EFO"
           subtitle="Stockyard"
@@ -186,7 +224,11 @@ export default function AllActivity() {
           listData={dataEtoToEfo?.data?.data}
         />
       )}
-      <ReportSection />
+      <ReportSection selectedDate={selectedDate} />
     </>
   );
 }
+
+AllActivity.propTypes = {
+  selectedDate: PropTypes.object.isRequired
+};
