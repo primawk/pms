@@ -23,7 +23,7 @@ const ListLaporanInternal = ({ data }) => {
         gap: '2rem',
         cursor: 'pointer'
       }}
-      onClick={() => navigate(`/detail/${data?.report_type}/${data.id}`)}
+      onClick={() => navigate(`/detail/internal/${data.id}`)}
     >
       <Grid item sx={{ margin: '0 0 0 1.5rem', width: '25%' }}>
         <Grid

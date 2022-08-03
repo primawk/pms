@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
-import SearchBar from './components/SearchBarExternal';
+import SearchBarExternal from './components/SearchBarExternal';
 import CustomPagination from '../../components/Pagination/index';
-import ListLaporanEksternal from './components/ListLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
+import Result from './resultEksternal';
 
 // services
 import { fetchExternal } from 'services/LabService';
@@ -31,14 +31,12 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
 
   const lastUpdate = Object.values(postsEksternal);
 
-  // console.log(postsEksternal['PT Gitar'][0]);
-
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBar posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
+        <SearchBarExternal posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
         <Grid
           container
           sx={{
@@ -83,20 +81,8 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
           <SummaryLaporan totalPrepEks={totalPrepEks} totalPrep={totalPrep} />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {searchResultsEksternal ? (
-            <>
-              {Object.keys(searchResultsEksternal).map((item, index) => (
-                <ListLaporanEksternal data={item} index={index} lastUpdate={lastUpdate} />
-              ))}
-            </>
-          ) : (
-            <>
-              <center>
-                <h2>data tidak ditemukan!</h2>
-              </center>
-            </>
-          )}
-          {/* <Lists searchResults={searchResults} /> */}
+          <Result searchResults={searchResultsEksternal} lastUpdate={lastUpdate} />
+
           {/* Pagination */}
           <Grid
             container

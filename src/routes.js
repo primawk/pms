@@ -14,11 +14,9 @@ import NotFound from 'pages/NotFound';
 import InputLaporanEksternal from 'pages/LaporanLab/InputLaporanEksternal';
 import InputLaporanInternal from 'pages/LaporanLab/InputLaporanInternal';
 import DetailInternal from 'pages/LaporanLab/DetailInternal';
-import DetailEksternal from 'pages/LaporanLab/DetailEksternal';
+import DetailLaporanEksternal from 'pages/LaporanLab/DetailLaporanEksternal';
 import HistoryEdit from 'pages/LaporanLab/HistoryEdit';
 import MiningActivity from 'pages/MiningActivity';
-import HasilPencarian from 'pages/LaporanLab/HasilPencarian';
-import HasilKosong from 'pages/LaporanLab/HasilKosong';
 import LayoutNavbar from 'components/Layout/LayoutNavbar';
 import DetailActivity from 'pages/MiningActivity/MiningSection/DetailActivity';
 import FormMiningActivity from 'pages/MiningActivity/MiningSection/FormMiningActivity';
@@ -28,6 +26,7 @@ import LaporanLab from 'pages/LaporanLab';
 import CompanyReport from 'pages/LaporanLab/CompanyReport';
 import DetailDome from 'pages/Inventory/DetailDome';
 import EditLaporanInternal from 'pages/LaporanLab/EditLaporanInternal';
+import EditLaporanEksternal from 'pages/LaporanLab/EditLaporanEksternal';
 
 export default function Routes() {
   return useRoutes([
@@ -62,15 +61,6 @@ export default function Routes() {
         {
           path: 'inventory/:inventoryType',
           element: <AllInventory />
-        },
-
-        {
-          path: 'hasil-pencarian',
-          element: <HasilPencarian />
-        },
-        {
-          path: 'hasil-kosong',
-          element: <HasilKosong />
         },
         {
           path: 'laporan-lab',
@@ -143,8 +133,12 @@ export default function Routes() {
       element: <EditLaporanInternal />
     },
     {
-      path: 'detail-eksternal',
-      element: <DetailEksternal />
+      path: 'edit/eksternal/:id',
+      element: <EditLaporanEksternal />
+    },
+    {
+      path: 'detail/eksternal/:id',
+      element: <DetailLaporanEksternal />
     },
     {
       path: 'history-edit',

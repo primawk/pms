@@ -28,6 +28,13 @@ const getReportDetail = ({ id } = {}) => {
   });
 };
 
+const getPdf = ( attachment ) => {
+  return request(`${MINING_ACTIVITY_MODEL}/report/pdf/${attachment}`, {
+    method: 'GET',
+    headers: authHeader()
+  });
+};
+
 const deleteReport = ({ id }) => {
   return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
     method: 'DELETE',
@@ -42,7 +49,21 @@ const inputReport = (data) => {
     form_data.append(key, data[key]);
   }
 
-  console.log(form_data);
+  return request(`${MINING_ACTIVITY_MODEL}/report`, {
+    method: 'POST',
+    headers: authHeader(),
+    data: form_data
+  });
+};
+
+const inputReportExternal = (data, attachment) => {
+  var form_data = new FormData();
+
+  for (var key in data) {
+    form_data.append(key, data[key]);
+  }
+  form_data.append('attachment', attachment);
+
   return request(`${MINING_ACTIVITY_MODEL}/report`, {
     method: 'POST',
     headers: authHeader(),
@@ -57,11 +78,18 @@ const editReport = (data, id) => {
     form_data.append(key, data[key]);
   }
 
-  console.log(form_data);
   return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
     method: 'PUT',
     headers: authHeader(),
     data: form_data
+  });
+};
+
+const editReportExternal = (formData, id) => {
+  return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
+    method: 'PUT',
+    headers: authHeader(),
+    data: formData
   });
 };
 
@@ -98,7 +126,10 @@ const LabService = {
   getReportDetail,
   deleteReport,
   inputReport,
-  editReport
+  inputReportExternal,
+  editReportExternal,
+  editReport,
+  getPdf
 };
 
 export default LabService;

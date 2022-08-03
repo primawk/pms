@@ -1,9 +1,12 @@
 import React from 'react';
-import List from './components/ListLaporanInternal';
+import List from './components/DetailEksternal';
 import { Grid, Box } from '@mui/material';
 
 const Lists = ({ searchResults }) => {
-  const results = searchResults.map((data) => <List key={data.id} data={data} />);
+  console.log(searchResults);
+  const results = Object.values(searchResults).map((item, index) => (
+    <List data={item} index={index} />
+  ));
 
   const content = results?.length ? (
     results

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -8,15 +9,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
-import { useQuery } from 'react-query';
-
-// components
-import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -29,8 +26,9 @@ import Navbar from '../../components/Navbar';
 import LabService from 'services/LabService';
 
 const EditLaporanInternal = () => {
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
-  // const { id } = useParams();
+  const navigate = useNavigate();
 
   const dataEdit = location.state;
 
@@ -66,6 +64,7 @@ const EditLaporanInternal = () => {
   };
 
   const handleEditFormSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
@@ -86,16 +85,16 @@ const EditLaporanInternal = () => {
       report_type: 'internal',
       analysis: 1
     };
-    // formData.append('image', images);
 
     try {
       const id = dataEdit?.id;
-      console.log(data);
       await LabService.editReport(data, id);
-
-      console.log('success');
+      setLoading(false);
+      toggle();
+      // navigate('/laporan-lab');
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -106,8 +105,6 @@ const EditLaporanInternal = () => {
   };
 
   const { isShowing, toggle } = useModal();
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -592,15 +589,16 @@ const EditLaporanInternal = () => {
                 <Button onClick={() => navigate(-1)}>Back</Button>
               </Grid>
               <Grid item>
-                <Button
+                <LoadingButton
                   type="submit"
                   variant="contained"
+                  loading={loading}
                   // onClick={console.log(formik.date)}
                   // loading={loading}
                   sx={{ width: '130%', boxShadow: '0' }}
                 >
-                  Submit Laporan
-                </Button>
+                  Edit Laporan
+                </LoadingButton>
               </Grid>
             </Grid>
           </div>
