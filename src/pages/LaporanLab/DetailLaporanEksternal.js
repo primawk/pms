@@ -61,7 +61,7 @@ const DetailEksternal = () => {
     LabService.getPdf(attachment);
   };
 
-  // console.log(dataReport?.attachment);
+  console.log(dataReport);
 
   return (
     <>
@@ -204,7 +204,7 @@ const DetailEksternal = () => {
                 >
                   Nomor Kontak Pengaju Sample
                 </Box>
-                <Box style={{ margin: '0 0.5rem 0.5rem 0', fontSize: '0.875rem' }}>
+                <Box style={{ margin: '0.5rem 0.5rem 0.5rem 0', fontSize: '0.875rem' }}>
                   {dataReport?.submitter_contact}
                 </Box>
               </Grid>

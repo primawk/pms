@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useLocation } from 'react-router-dom';
 
 // components
@@ -14,14 +10,14 @@ import DetailEksternal from 'pages/LaporanLab/components/DetailEksternal';
 import SearchBar from './components/SearchBar';
 
 // custom hooks
-import useModal from '../../hooks/useModal';
+// import useModal from '../../hooks/useModal';
 
 // services
 import { fetchExternal } from 'services/LabService';
 
 export default function CompanyReport() {
   const location = useLocation();
-  const { isShowing, toggle } = useModal();
+  // const { isShowing, toggle } = useModal();
   const [posts, setPosts] = useState([]);
   // const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
