@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 // import { addDays } from 'date-fns';
 
@@ -8,7 +7,6 @@ import { Grid, Button, Box } from '@mui/material';
 import CustomPagination from '../../components/Pagination/index';
 import SearchBar from './components/SearchBar';
 import SummaryLaporan from './components/SummaryLaporan';
-// import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
 import { LoadingModal } from 'components/Modal';
 import Lists from './Lists';
 
@@ -40,13 +38,12 @@ export default function ListInternal({
 
   return (
     <>
-      {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
-
       <div className="app-content">
         <SearchBar
           posts={posts}
           setSearchResults={setSearchResults}
           setSelectedDates={setSelectedDates}
+          selectedDates={selectedDates}
         />
         <Grid
           container

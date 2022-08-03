@@ -26,7 +26,7 @@ import LabService from 'services/LabService';
 
 const InputLaporanInternal = () => {
   const [addFormData, setAddFormData] = useState({
-    date: '2022-7-1',
+    date: '',
     hill_id: '',
     sample_type: '',
     dome_id: '',

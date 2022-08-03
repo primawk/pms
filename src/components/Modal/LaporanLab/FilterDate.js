@@ -15,33 +15,36 @@ const FilterDate = ({ isShowing, toggle, state, setState, setSelectedDates }) =>
         onChange={(item) => setState([item.selection])}
         showSelectionPreview={true}
         moveRangeOnFirstSelection={false}
-        months={2}
+        months={1}
         ranges={state}
         direction="horizontal"
       />
       <Grid
         container
-        sx={{
-          margin: '0 auto 1.5rem 26rem',
-          alignItems: 'center'
-        }}
+        direction="row"
+        alignItem="center"
+        justifyContent="flex-end"
+        columnSpacing={3}
+        sx={{ pb: 3, pr: 3 }}
       >
         <Grid item>
-          <Button
-            sx={{ fontSize: '1rem' }}
-            onClick={() =>
-              setSelectedDates({
-                startDate: dateToStringPPOBFormatterv2(state[0].startDate),
-                endDate: dateToStringPPOBFormatterv2(state[0].endDate)
-              })
-            }
-          >
-            Filter
+          <Button sx={{ fontSize: '1rem' }} onClick={toggle} variant="outlined">
+            Cancel
           </Button>
         </Grid>
         <Grid item>
-          <Button sx={{ fontSize: '1rem' }} onClick={toggle}>
-            Tutup
+          <Button
+            sx={{ fontSize: '1rem' }}
+            variant="contained"
+            onClick={() => {
+              toggle();
+              setSelectedDates({
+                startDate: dateToStringPPOBFormatterv2(state[0].startDate),
+                endDate: dateToStringPPOBFormatterv2(state[0].endDate)
+              });
+            }}
+          >
+            Submit
           </Button>
         </Grid>
       </Grid>

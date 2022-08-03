@@ -5,12 +5,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@mui/material/TextField';
 import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 import { addDays } from 'date-fns';
+import dayjs from 'dayjs';
 
 // custom hooks
 import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
-const SearchBar = ({ posts, setSearchResults, setSelectedDates }) => {
+const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates }) => {
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
   const handleSubmit = () => {
@@ -47,6 +48,8 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates }) => {
       key: 'selection'
     }
   ]);
+
+  console.log(selectedDates);
 
   return (
     <>
@@ -107,7 +110,12 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates }) => {
           }}
           onClick={toggleDate}
         >
-          Filter Tanggal | Hari ini <Icon icon="fe:drop-down" color="#828282" />
+          {selectedDates.startDate !== undefined
+            ? `Filter Tanggal | ${dayjs(selectedDates.startDate).format('DD/MM/YYYY')} - ${dayjs(
+                selectedDates.endDate
+              ).format('DD/MM/YYYY')} `
+            : 'Filter Tanggal | Hari ini'}
+          <Icon icon="fe:drop-down" color="#828282" />
         </Button>
         <Button
           onClick={handleSubmit}

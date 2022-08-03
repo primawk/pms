@@ -1,9 +1,11 @@
 import React from 'react';
-import List from './components/ListLaporanInternal';
+import List from './components/ListLaporanEksternal';
 import { Grid, Box } from '@mui/material';
 
-const Lists = ({ searchResults }) => {
-  const results = searchResults.map((data) => <List key={data.id} data={data} />);
+const resultEksternal = ({ searchResults, lastUpdate }) => {
+  const results = Object.keys(searchResults).map((item, index) => (
+    <List data={item} index={index} lastUpdate={lastUpdate} />
+  ));
 
   const content = results?.length ? (
     results
@@ -35,4 +37,4 @@ const Lists = ({ searchResults }) => {
   return <main>{content}</main>;
 };
 
-export default Lists;
+export default resultEksternal;

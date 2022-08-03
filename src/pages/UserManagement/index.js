@@ -11,7 +11,7 @@ export default function UserManagement() {
   const { tabType } = useParams();
 
   const [search, setSearch] = useState({ search: '', role: '' });
-  const [isSearch, setIsSearch] = useState(false);
+  const [selectedSearch, setSelectedSearch] = useState({ search: '', role: '' });
   const [tab, setTab] = useState(tabType || 'user');
 
   const handleChangeSearch = (e) => {
@@ -32,7 +32,7 @@ export default function UserManagement() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setIsSearch(!isSearch);
+    setSelectedSearch(search);
   };
 
   return (
@@ -50,7 +50,7 @@ export default function UserManagement() {
             <Tab label="List Pengguna" value="user" />
             <Tab label="Role & Hak Akses" value="role" />
           </Tabs>
-          {tabType === 'user' ? <UserTable search={search} isSearch={isSearch} /> : <RoleTable />}
+          {tabType === 'user' ? <UserTable search={selectedSearch} /> : <RoleTable />}
         </div>
       </div>
     </>

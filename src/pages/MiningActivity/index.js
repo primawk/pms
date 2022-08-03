@@ -4,10 +4,15 @@ import { Grid, Tab, Tabs, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Icon } from '@iconify/react';
 import ArrowIcon from '@iconify/icons-bi/caret-down-fill';
+import dayjs from 'dayjs';
+
+// custom hook
+import useModal from 'hooks/useModal';
 
 // components
 import Header from 'components/Header';
 import { AllActivity, SpecificActivity } from './MiningSection';
+import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 
 // custom button
 const WhiteButton = styled(Button)(({ theme }) => ({
@@ -29,7 +34,20 @@ export default function MiningActivity() {
   const { activityType } = useParams();
   const navigate = useNavigate();
 
+  const { isShowing, toggle } = useModal();
+
   const [menuTab, setMenuTab] = useState(activityType || '');
+  const [filter, setFilter] = useState([
+    {
+      startDate: new Date(),
+      endDate: dayjs(new Date()).add(7, 'day').toDate(),
+      key: 'selection'
+    }
+  ]);
+  const [selectedDate, setSelectedDate] = useState({
+    startDate: dayjs(new Date()).format('YYYY-MM-DD'),
+    endDate: dayjs(new Date()).add(7, 'day').format('YYYY-MM-DD')
+  });
 
   const handleChangeTab = (event, _menuTab) => {
     setMenuTab(_menuTab);
@@ -55,12 +73,19 @@ export default function MiningActivity() {
           variant="contained"
           size="medium"
           sx={{ background: 'white', fontColor: 'black' }}
+          onClick={toggle}
           endIcon={<Icon width={10} height={10} icon={ArrowIcon} color="#gray" />}
         >
           Periode | Hari Ini
         </WhiteButton>
       </Header>
-
+      <FilterDate
+        toggle={toggle}
+        isShowing={isShowing}
+        state={filter}
+        setState={setFilter}
+        setSelectedDates={setSelectedDate}
+      />
       <div>
         <Grid sx={{ background: 'white' }}>
           <Tabs
@@ -94,7 +119,11 @@ export default function MiningActivity() {
             ))}
           </Tabs>
         </Grid>
-        {menuTab === 'all-activity' ? <AllActivity /> : <SpecificActivity />}
+        {menuTab === 'all-activity' ? (
+          <AllActivity selectedDate={selectedDate} />
+        ) : (
+          <SpecificActivity selectedDate={selectedDate} />
+        )}
       </div>
     </>
   );

@@ -19,7 +19,7 @@ import MiningActivityService from 'services/MiningActivityService';
 // utils
 import { ceilTotalData } from 'utils/helper';
 
-export default function ReportSection() {
+export default function ReportSection({ selectedDate }) {
   const { activityType } = useParams();
 
   const { page, handleChangePage } = usePagination();
@@ -29,12 +29,14 @@ export default function ReportSection() {
   const { isShowing, toggle } = useModal();
 
   const { data, isLoading, isFetching } = useQuery(
-    ['mining', activityType, page],
+    ['mining', activityType, page, selectedDate],
     () =>
       MiningActivityService.getActivity({
         page: page,
         row: 10,
-        activity_type: activityType === 'all-activity' ? '' : activityType
+        activity_type: activityType === 'all-activity' ? '' : activityType,
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
       }),
     { keepPreviousData: true }
   );

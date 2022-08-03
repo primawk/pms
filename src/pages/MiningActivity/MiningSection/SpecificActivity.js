@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import { useQuery } from 'react-query';
+import PropTypes from 'prop-types';
 
 // services
 import MiningActivityService from 'services/MiningActivityService';
@@ -48,7 +49,7 @@ const data = [
   }
 ];
 
-export default function SpecificActivity() {
+export default function SpecificActivity({ selectedDate }) {
   const [subMenu, setSubMenu] = useState(0);
   const [chartData] = useState({
     labels: data.map((item) => item.name),
@@ -86,8 +87,13 @@ export default function SpecificActivity() {
     isLoading: isLoadingSummary,
     isFetching: isFetchingSummary
   } = useQuery(
-    ['mining', 'summary', activityType],
-    () => MiningActivityService.getSummary({ activity_type: activityType }),
+    ['mining', 'summary', activityType, selectedDate],
+    () =>
+      MiningActivityService.getSummary({
+        activity_type: activityType,
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
     { keepPreviousData: true }
   );
 
@@ -97,12 +103,14 @@ export default function SpecificActivity() {
     isLoading: isLoadingActivity,
     isFetching: isFetchingActivity
   } = useQuery(
-    ['mining', 'dome-list', inventoryType],
+    ['mining', 'dome-list', inventoryType, selectedDate],
     () =>
       MiningActivityService.getDomeSummary({
         page: 1,
         row: 3,
-        inventory_type: inventoryType
+        inventory_type: inventoryType,
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
       }),
     { keepPreviousData: true }
   );
@@ -125,7 +133,7 @@ export default function SpecificActivity() {
           chartStyle={{ width: '100%', height: '40vh' }}
         />
       </Grid>
-      {!isLoadingSummary && !isLoadingActivity && dataSummary && dataActivity && (
+      {!isLoadingSummary && !isLoadingActivity && (
         <InventorySection
           title={
             activityType === 'ore-getting'
@@ -145,7 +153,11 @@ export default function SpecificActivity() {
           listData={dataActivity?.data?.data}
         />
       )}
-      <ReportSection />
+      <ReportSection selectedDate={selectedDate} />
     </>
   );
 }
+
+SpecificActivity.propTypes = {
+  selectedDate: PropTypes.object.isRequired
+};
