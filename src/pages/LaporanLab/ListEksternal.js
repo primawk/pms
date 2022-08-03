@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Button, Box } from '@mui/material';
 import SearchBarExternal from './components/SearchBarExternal';
 import CustomPagination from '../../components/Pagination/index';
-import ListLaporanEksternal from './components/ListLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
+import Result from './resultEksternal';
 
 // services
 import { fetchExternal } from 'services/LabService';
@@ -81,39 +81,7 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
           <SummaryLaporan totalPrepEks={totalPrepEks} totalPrep={totalPrep} />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          {searchResultsEksternal ? (
-            <>
-              {Object.keys(searchResultsEksternal).map((item, index) => (
-                <ListLaporanEksternal data={item} index={index} lastUpdate={lastUpdate} />
-              ))}
-            </>
-          ) : (
-            <>
-              <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  backgroundColor: 'white',
-                  flexDirection: 'column'
-                }}
-              >
-                <Box sx={{ margin: '1.5rem auto 1.5rem auto' }}>
-                  <h3>Pencarian Tidak Ditemukan</h3>
-                </Box>
-                <Box sx={{ margin: 'auto' }}>
-                  <img src="/img/datanotfound.png" alt=""></img>
-                </Box>
-                <Box sx={{ margin: '1.5rem auto 0 auto' }}>
-                  <Box sx={{ fontSize: '1rem', margin: 'auto' }}>
-                    Mohon maaf, data yang anda cari tidak ditemukan.
-                  </Box>
-                </Box>
-                <Box sx={{ fontSize: '1rem', margin: '0 auto 1.5rem auto' }}>
-                  Silahkan cek kembali pencarian anda.
-                </Box>
-              </Grid>
-            </>
-          )}
+          <Result searchResults={searchResultsEksternal} lastUpdate={lastUpdate} />
 
           {/* Pagination */}
           <Grid
