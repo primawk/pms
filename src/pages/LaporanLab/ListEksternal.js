@@ -31,8 +31,6 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
 
   const lastUpdate = Object.values(postsEksternal);
 
-  // console.log(postsEksternal['PT Gitar'][0]);
-
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
@@ -91,12 +89,32 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
             </>
           ) : (
             <>
-              <center>
-                <h2>data tidak ditemukan!</h2>
-              </center>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  backgroundColor: 'white',
+                  flexDirection: 'column'
+                }}
+              >
+                <Box sx={{ margin: '1.5rem auto 1.5rem auto' }}>
+                  <h3>Pencarian Tidak Ditemukan</h3>
+                </Box>
+                <Box sx={{ margin: 'auto' }}>
+                  <img src="/img/datanotfound.png" alt=""></img>
+                </Box>
+                <Box sx={{ margin: '1.5rem auto 0 auto' }}>
+                  <Box sx={{ fontSize: '1rem', margin: 'auto' }}>
+                    Mohon maaf, data yang anda cari tidak ditemukan.
+                  </Box>
+                </Box>
+                <Box sx={{ fontSize: '1rem', margin: '0 auto 1.5rem auto' }}>
+                  Silahkan cek kembali pencarian anda.
+                </Box>
+              </Grid>
             </>
           )}
-          {/* <Lists searchResults={searchResults} /> */}
+
           {/* Pagination */}
           <Grid
             container

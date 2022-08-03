@@ -6,9 +6,15 @@ import dayjs from 'dayjs';
 const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
   const navigate = useNavigate();
 
-  const lastUpdatev2 = Object.values(lastUpdate);
+  const sumPreparation = lastUpdate[index].reduce((accumulator, object) => {
+    return accumulator + object.preparation;
+  }, 0);
 
-  console.log(lastUpdatev2[0]);
+  const sumAnalysis = lastUpdate[index].reduce((accumulator, object) => {
+    return accumulator + object.analysis;
+  }, 0);
+
+  const reports = lastUpdate.map((item) => item.length);
 
   return (
     <>
@@ -64,7 +70,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
               <h5 style={{ color: '#828282' }}>Jumlah Pengajuan</h5>
             </Box>
             <Box>
-              <h5>{index + 1}</h5>
+              <h5>{reports[index]}</h5>
             </Box>
           </Grid>
         </Grid>
@@ -84,13 +90,13 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>{data.preparation} Preparasi</h5>
+                  <h5>{sumPreparation} Preparasi</h5>
                 </Box>
                 <Box sx={{ width: '5%', margin: '0 0.5rem 0 0.5rem' }}>
                   <img src="/img/eksternal.png" alt=""></img>
                 </Box>
                 <Box>
-                  <h5>{data.analysis} Analisa</h5>
+                  <h5>{sumAnalysis} Analisa</h5>
                 </Box>
               </Grid>
             </Box>

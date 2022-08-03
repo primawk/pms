@@ -40,6 +40,16 @@ export default function CompanyReport() {
 
   console.log(data);
 
+  const sumPreparation = data?.reduce((accumulator, object) => {
+    return accumulator + object.preparation;
+  }, 0);
+
+  const sumAnalysis = data?.reduce((accumulator, object) => {
+    return accumulator + object.analysis;
+  }, 0);
+
+  // console.log(sum);
+
   // const companyName = posts['0'].company_name;
 
   return (
@@ -67,7 +77,7 @@ export default function CompanyReport() {
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Lab</Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1rem' }}>
-                <h3></h3>
+                <h3>{location.state}</h3>
               </Box>
             </Grid>
             <Grid
@@ -100,7 +110,7 @@ export default function CompanyReport() {
               }}
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Analisa</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>71</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>{sumAnalysis}</Box>
             </Grid>
             <Grid
               item
@@ -115,7 +125,9 @@ export default function CompanyReport() {
               }}
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Preparasi</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>71</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
+                {sumPreparation}
+              </Box>
             </Grid>
           </Grid>
         </Header>

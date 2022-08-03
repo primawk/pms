@@ -55,8 +55,13 @@ const DetailEksternal = () => {
   );
 
   const dataReport = data?.data?.data;
+  const attachment = dataReport?.attachment;
 
-  console.log(dataReport);
+  const handlePdf = () => {
+    LabService.getPdf(attachment);
+  };
+
+  // console.log(dataReport?.attachment);
 
   return (
     <>
@@ -225,8 +230,10 @@ const DetailEksternal = () => {
                   flexDirection: 'column',
                   justifyContent: 'center',
                   alignContent: 'center',
-                  marginTop: '0.5rem'
+                  marginTop: '0.5rem',
+                  cursor: 'pointer'
                 }}
+                onClick={handlePdf}
               >
                 <Grid item sx={{ marginLeft: '5rem' }}>
                   <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />

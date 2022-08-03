@@ -38,8 +38,6 @@ export default function ListInternal({
 
   return (
     <>
-      {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
-
       <div className="app-content">
         <SearchBar
           posts={posts}
