@@ -18,6 +18,7 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates })
     const resultsArray = posts.filter(
       (post) =>
         post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
         post.company_name?.toLowerCase().includes(keyword.toLowerCase())
     );
     setSearchResults(resultsArray);
@@ -26,8 +27,9 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates })
   const handleReset = () => {
     const resultsArray = posts.filter(
       (post) =>
-        post.sample_code?.toLowerCase().includes(''.toLowerCase()) ||
-        post.company_name?.toLowerCase().includes(''.toLowerCase())
+        post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.company_name?.toLowerCase().includes(keyword.toLowerCase())
     );
     setSearchResults(resultsArray);
     setKeyword('');

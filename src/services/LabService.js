@@ -185,6 +185,16 @@ export async function fetchExternalCompany({ startDate, endDate }, page, row, co
   return promise;
 }
 
+export async function getHistory(id) {
+  const url =
+    await `${MINING_ACTIVITY_MODEL}/modification-history?table=lab_report&history_id=${id}`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    headers: authHeader()
+  });
+  return promise;
+}
+
 const LabService = {
   getReport,
   getReportDetail,
@@ -193,7 +203,8 @@ const LabService = {
   inputReportExternal,
   editReportExternal,
   editReport,
-  getPdf
+  getPdf,
+  getHistory
 };
 
 export default LabService;

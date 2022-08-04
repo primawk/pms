@@ -28,6 +28,8 @@ export default function ListEksternal({
   const navigate = useNavigate();
   const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
   const [postsEksternal, setPostsEksternal] = useState([]);
+  const [selectedDates, setSelectedDates] = useState([]);
+
   // const { page, handleChangePage } = usePagination();
   // const row = 5;
 
@@ -49,7 +51,12 @@ export default function ListEksternal({
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBarExternal posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
+        <SearchBarExternal
+          posts={postsEksternal}
+          setSearchResults={setSearchResultsEksternal}
+          setSelectedDates={setSelectedDates}
+          selectedDates={selectedDates}
+        />
         <Grid
           container
           sx={{

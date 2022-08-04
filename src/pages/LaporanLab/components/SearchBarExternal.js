@@ -11,7 +11,6 @@ import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
 const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
-  console.log(posts);
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
   const handleSubmit = () => {
@@ -26,6 +25,10 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
       }, {});
     setSearchResults(resultsArrayEksternal);
   };
+
+  // const value = Object.values(posts[1]);
+
+  console.log(posts);
 
   const handleReset = () => {
     const resultsArrayEksternal = Object.keys(posts)

@@ -171,7 +171,7 @@ export default function CompanyReport() {
           </Grid>
 
           <SearchBar
-            posts={posts}
+            posts={posts?.data?.data}
             setSearchResults={setSearchResults}
             setSelectedDates={setSelectedDates}
             selectedDates={selectedDates}

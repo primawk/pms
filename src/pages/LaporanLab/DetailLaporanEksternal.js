@@ -26,8 +26,6 @@ const DetailEksternal = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
-  console.log(location.state.account_name);
-
   const handleDelete = () => {
     setLoading(true);
     LabService.deleteReport({ id })
@@ -138,8 +136,10 @@ const DetailEksternal = () => {
                 margin: '0 0.5rem 1rem 2rem',
                 color: '#3F48C0',
                 fontSize: '0.875rem',
-                width: '50rem'
+                width: '50rem',
+                cursor: 'pointer'
               }}
+              onClick={() => navigate(`/history-edit`, { state: dataReport })}
             >
               Terakhir diedit oleh {location.state.account_name}, pada {d}
             </Box>

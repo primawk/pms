@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+// components
 import Navbar from '../../components/Navbar';
 
+// services
+import { getHistory } from 'services/LabService';
+
 const HistoryEdit = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const id = location.state.id;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getHistory(id).then((response) => {
+      setData(response?.data?.data);
+    });
+  }, [id]);
+
+  console.log(data);
+
   return (
     <>
       <Navbar />
@@ -33,14 +52,18 @@ const HistoryEdit = () => {
               }}
             >
               <Grid item>
-                <Button variant="outlined" sx={{ marginRight: '1rem' }}>
+                <Button
+                  variant="outlined"
+                  sx={{ marginRight: '1rem' }}
+                  onClick={() => navigate(-1)}
+                >
                   <Icon icon="akar-icons:arrow-back" color="#3f48c0" fontSize={16} />
                   <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
                 </Button>
               </Grid>
               <Grid item>
                 <Box>
-                  <h2>Riwayat Edit 'Laporan Lab - MS12-IO98P'</h2>
+                  <h2>Riwayat Edit 'Laporan Lab - {location.state.company_name}'</h2>
                 </Box>
               </Grid>
             </Grid>
