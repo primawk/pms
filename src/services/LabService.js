@@ -3,7 +3,7 @@ import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 import axios from 'axios';
 
-const getReport = ({ page, row, report_type } = {}) => {
+const getReport = ({ page, row, report_type, companyName } = {}) => {
   const params = [];
   if (report_type) {
     params.push(['report_type', report_type]);
@@ -13,6 +13,9 @@ const getReport = ({ page, row, report_type } = {}) => {
   }
   if (row) {
     params.push(['row', row]);
+  }
+  if (companyName) {
+    params.push(['company_name', companyName]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/report`, {
     method: 'GET',
@@ -28,10 +31,11 @@ const getReportDetail = ({ id } = {}) => {
   });
 };
 
-const getPdf = ( attachment ) => {
+const getPdf = (attachment) => {
   return request(`${MINING_ACTIVITY_MODEL}/report/pdf/${attachment}`, {
     method: 'GET',
-    headers: authHeader()
+    headers: authHeader(),
+    responseType: 'blob'
   });
 };
 
@@ -93,14 +97,22 @@ const editReportExternal = (formData, id) => {
   });
 };
 
-export async function fetchInternal({ startDate, endDate } = {}) {
+export async function fetchInternal({ startDate, endDate }, page, row) {
   const params = [];
+
   if (startDate) {
     params.push(['start_date', startDate]);
   }
   if (endDate) {
     params.push(['end_date', endDate]);
   }
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (row) {
+    params.push(['row', row]);
+  }
+
   const url = `${MINING_ACTIVITY_MODEL}/report?report_type=internal`;
   const promise = await axios.get(url, {
     method: 'GET',
@@ -110,15 +122,77 @@ export async function fetchInternal({ startDate, endDate } = {}) {
   return promise.data.data;
 }
 
-export async function fetchExternal() {
+export async function fetchExternal(page, row, companyName) {
+  // const page = 5;
+  // const row = 2;
+  const params = [];
+
+  // if (startDate) {
+  //   params.push(['start_date', startDate]);
+  // }
+  // if (endDate) {
+  //   params.push(['end_date', endDate]);
+  // }
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (row) {
+    params.push(['row', row]);
+  }
+  if (companyName) {
+    params.push(['company_name', companyName]);
+  }
   const url = `${MINING_ACTIVITY_MODEL}/report?report_type=external`;
-  const promise = await axios.get(url);
+  const promise = await axios.get(url, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
   return promise.data.data.reduce((groups, item) => {
     const group = groups[item.company_name] || [];
     group.push(item);
     groups[item.company_name] = group;
     return groups;
   }, {});
+}
+
+export async function fetchExternalCompany({ startDate, endDate }, page, row, companyName) {
+  // const page = 5;
+  // const row = 2;
+  const params = [];
+
+  if (startDate) {
+    params.push(['start_date', startDate]);
+  }
+  if (endDate) {
+    params.push(['end_date', endDate]);
+  }
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (row) {
+    params.push(['row', row]);
+  }
+  if (companyName) {
+    params.push(['company_name', companyName]);
+  }
+  const url = `${MINING_ACTIVITY_MODEL}/report?report_type=external`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+  return promise;
+}
+
+export async function getHistory(id) {
+  const url =
+    await `${MINING_ACTIVITY_MODEL}/modification-history?table=lab_report&history_id=${id}`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    headers: authHeader()
+  });
+  return promise;
 }
 
 const LabService = {
@@ -129,7 +203,8 @@ const LabService = {
   inputReportExternal,
   editReportExternal,
   editReport,
-  getPdf
+  getPdf,
+  getHistory
 };
 
 export default LabService;

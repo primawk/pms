@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DeleteData from '../../components/Modal/DeleteModal/index';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -20,6 +20,7 @@ import LabService from 'services/LabService';
 
 const DetailEksternal = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
   const { id } = useParams();
@@ -57,11 +58,19 @@ const DetailEksternal = () => {
   const dataReport = data?.data?.data;
   const attachment = dataReport?.attachment;
 
-  const handlePdf = () => {
-    LabService.getPdf(attachment);
-  };
+  async function handlePdf() {
+    try {
+      const response = await LabService.getPdf(attachment);
+      // fileDownload(response, `INVOICE-${id}.pdf`);
+      const file = new Blob([response.data], { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  console.log(dataReport);
+  const d = String(new Date(dataReport?.updated_at));
 
   return (
     <>
@@ -89,7 +98,6 @@ const DetailEksternal = () => {
           container
           sx={{
             display: 'flex',
-            //   alignItems: 'flex-start',
             flexDirection: 'column',
             backgroundColor: 'white',
             height: '72.5rem',
@@ -128,11 +136,12 @@ const DetailEksternal = () => {
                 margin: '0 0.5rem 1rem 2rem',
                 color: '#3F48C0',
                 fontSize: '0.875rem',
-                width: '50rem'
+                width: '50rem',
+                cursor: 'pointer'
               }}
+              onClick={() => navigate(`/history-edit`, { state: dataReport })}
             >
-              Terakhir diedit oleh {dataReport?.account_name}, pada 12 Juni 2022, 12:21 WITA
-              {dataReport?.updated_at}
+              Terakhir diedit oleh {location.state.account_name}, pada {d}
             </Box>
             <Box>
               <Button

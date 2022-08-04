@@ -71,7 +71,7 @@ export default function Routes() {
           element: <LaporanLab />
         },
         {
-          path: 'laporan-perusahaan',
+          path: 'laporan-lab/laporan-perusahaan',
           element: <CompanyReport />
         },
         { path: '*', element: <Navigate to="/404" replace /> }

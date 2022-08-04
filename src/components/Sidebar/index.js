@@ -33,6 +33,8 @@ export default function Sidebar({ children, toggleSidebar, handleToggle }) {
     toast.success('Logout berhasil !');
   };
 
+  console.log(location.pathname.includes('laporan-lab'.split('/')[0]));
+
   return (
     <>
       <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">

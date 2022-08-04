@@ -18,7 +18,6 @@ import useModal from '../../hooks/useModal';
 
 export default function LaporanLab() {
   const { isShowing, toggle } = useModal();
-  const [pagination, setPagination] = useState({});
   const navigate = useNavigate();
 
   const menuList = [
@@ -69,6 +68,7 @@ export default function LaporanLab() {
     // { keepPreviousData: true }
   );
 
+  let totalAnalysisEks = 0;
   let totalPrepEks = 0;
   let totalPrep = 0;
 
@@ -90,6 +90,7 @@ export default function LaporanLab() {
               }
             }}
           >
+            {dataEksternal?.data?.data.map((prep) => (totalAnalysisEks += prep.analysis))}
             {dataEksternal?.data?.data.map((prep) => (totalPrepEks += prep.preparation))}
             {data?.data.data.map((prep) => (totalPrep += prep.preparation))}
             {menuList?.map((item) => (
@@ -113,10 +114,11 @@ export default function LaporanLab() {
         </Grid>
         {menuTab === 'internal' ? (
           <ListInternal
-            dataInternal={data?.data?.data}
+            dataInternal={data}
             isFetchingActivity={isFetchingActivityInternal}
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
+            totalAnalysisEks={totalAnalysisEks}
           />
         ) : (
           <ListEksternal
@@ -124,6 +126,7 @@ export default function LaporanLab() {
             isFetchingActivity={isFetchingActivityExternal}
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
+            totalAnalysisEks={totalAnalysisEks}
           />
         )}
       </div>
