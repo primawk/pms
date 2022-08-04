@@ -29,7 +29,7 @@ export default function CompanyReport() {
   const [selectedDates, setSelectedDates] = useState({});
   const { page, handleChangePage } = usePagination();
   const companyName = location.state;
-  const row = 2;
+  const row = 15;
 
   const {
     data: dataEksternal
@@ -204,7 +204,7 @@ export default function CompanyReport() {
           >
             <Grid item sx={{ width: '100%' }}>
               <CustomPagination
-                count={ceilTotalData(posts?.data?.pagination?.total_data || 0, 2)}
+                count={ceilTotalData(posts?.data?.pagination?.total_data || 0, 15)}
                 page={page}
                 handleChangePage={handleChangePage}
               />
