@@ -7,7 +7,7 @@ import CustomPagination from '../../components/Pagination/index';
 // import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import DetailEksternal from 'pages/LaporanLab/components/DetailEksternal';
-import SearchBar from './components/SearchBarExternal';
+import SearchBar from './components/SearchBar';
 
 // custom hooks
 // import useModal from '../../hooks/useModal';
@@ -19,22 +19,22 @@ export default function CompanyReport() {
   const location = useLocation();
   // const { isShowing, toggle } = useModal();
   const [posts, setPosts] = useState([]);
-  // const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
+  const companyName = location.state;
 
   useEffect(() => {
-    fetchExternal().then((json) => {
-      setPosts(json);
-      return json;
-    });
-    // .then((json) => {
-    //   setSearchResults(json);
-    // });
-  }, []);
+    fetchExternal(selectedDates, null, null, companyName)
+      .then((json) => {
+        setPosts(json);
+        return json;
+      })
+      .then((json) => {
+        setSearchResults(json);
+      });
+  }, [selectedDates, companyName]);
 
   const data = posts[location.state];
-
-  console.log(data);
 
   const sumPreparation = data?.reduce((accumulator, object) => {
     return accumulator + object.preparation;
@@ -43,6 +43,8 @@ export default function CompanyReport() {
   const sumAnalysis = data?.reduce((accumulator, object) => {
     return accumulator + object.analysis;
   }, 0);
+
+  console.log(searchResults);
 
   return (
     <>
@@ -62,7 +64,7 @@ export default function CompanyReport() {
               sx={{
                 marginLeft: '1rem',
                 width: '15rem',
-                height: '6.4375rem',
+                height: '6.4375rem'
                 // margin: '1.5rem 4rem 1.5rem 1rem '
               }}
             >
@@ -152,7 +154,7 @@ export default function CompanyReport() {
 
           <SearchBar
             posts={data}
-            setSearchResults={setPosts}
+            setSearchResults={setSearchResults}
             setSelectedDates={setSelectedDates}
             selectedDates={selectedDates}
           />
@@ -160,7 +162,7 @@ export default function CompanyReport() {
           {/*List Laporan*/}
           {data ? (
             <>
-              {data?.map((data, i) => (
+              {searchResults?.map((data, i) => (
                 <DetailEksternal data={data} i={i} />
               ))}
             </>

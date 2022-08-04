@@ -49,8 +49,6 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates })
     }
   ]);
 
-  console.log(selectedDates);
-
   return (
     <>
       <FilterDate

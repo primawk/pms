@@ -10,10 +10,10 @@ import { LoadingModal } from 'components/Modal';
 import Result from './resultEksternal';
 
 // utils
-import { ceilTotalData } from 'utils/helper';
+// import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
-import usePagination from 'hooks/usePagination';
+// import usePagination from 'hooks/usePagination';
 
 // services
 import { fetchExternal } from 'services/LabService';
@@ -23,8 +23,8 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
   const navigate = useNavigate();
   const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
   const [postsEksternal, setPostsEksternal] = useState([]);
-  const { page, handleChangePage } = usePagination();
-  const row = 5;
+  // const { page, handleChangePage } = usePagination();
+  // const row = 5;
 
   useEffect(() => {
     fetchExternal()
