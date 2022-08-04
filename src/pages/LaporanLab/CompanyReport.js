@@ -6,14 +6,14 @@ import { Grid, Box } from '@mui/material';
 import CustomPagination from '../../components/Pagination/index';
 // import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
-import DetailEksternal from 'pages/LaporanLab/components/DetailEksternal';
 import SearchBar from './components/SearchBar';
+import Lists from './resultDetailEksternal';
 
 // custom hooks
 // import useModal from '../../hooks/useModal';
 
 // services
-import { fetchExternal } from 'services/LabService';
+import { fetchExternalCompany } from 'services/LabService';
 
 export default function CompanyReport() {
   const location = useLocation();
@@ -24,7 +24,7 @@ export default function CompanyReport() {
   const companyName = location.state;
 
   useEffect(() => {
-    fetchExternal(selectedDates, null, null, companyName)
+    fetchExternalCompany(companyName)
       .then((json) => {
         setPosts(json);
         return json;
@@ -34,17 +34,13 @@ export default function CompanyReport() {
       });
   }, [selectedDates, companyName]);
 
-  const data = posts[location.state];
-
-  const sumPreparation = data?.reduce((accumulator, object) => {
+  const sumPreparation = posts?.reduce((accumulator, object) => {
     return accumulator + object.preparation;
   }, 0);
 
-  const sumAnalysis = data?.reduce((accumulator, object) => {
+  const sumAnalysis = posts?.reduce((accumulator, object) => {
     return accumulator + object.analysis;
   }, 0);
-
-  console.log(searchResults);
 
   return (
     <>
@@ -87,7 +83,7 @@ export default function CompanyReport() {
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Pengajuan</Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
-                {data?.length}
+                {posts?.length}
               </Box>
             </Grid>
             <Grid
@@ -153,14 +149,14 @@ export default function CompanyReport() {
           </Grid>
 
           <SearchBar
-            posts={data}
+            posts={posts}
             setSearchResults={setSearchResults}
             setSelectedDates={setSelectedDates}
             selectedDates={selectedDates}
           />
 
           {/*List Laporan*/}
-          {data ? (
+          {/* {searchResults ? (
             <>
               {searchResults?.map((data, i) => (
                 <DetailEksternal data={data} i={i} />
@@ -170,7 +166,8 @@ export default function CompanyReport() {
             <Box sx={{ marginLeft: '25rem' }}>
               <h1>Data tidak ditemukan !</h1>
             </Box>
-          )}
+          )} */}
+          <Lists searchResults={searchResults} />
 
           {/* Pagination */}
           <Grid

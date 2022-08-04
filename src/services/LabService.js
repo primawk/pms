@@ -122,17 +122,17 @@ export async function fetchInternal({ startDate, endDate }, page, row) {
   return promise.data.data;
 }
 
-export async function fetchExternal({ startDate, endDate }, page, row, companyName) {
+export async function fetchExternal(page, row, companyName) {
   // const page = 5;
   // const row = 2;
   const params = [];
 
-  if (startDate) {
-    params.push(['start_date', startDate]);
-  }
-  if (endDate) {
-    params.push(['end_date', endDate]);
-  }
+  // if (startDate) {
+  //   params.push(['start_date', startDate]);
+  // }
+  // if (endDate) {
+  //   params.push(['end_date', endDate]);
+  // }
   if (page) {
     params.push(['page', page]);
   }
@@ -154,6 +154,35 @@ export async function fetchExternal({ startDate, endDate }, page, row, companyNa
     groups[item.company_name] = group;
     return groups;
   }, {});
+}
+
+export async function fetchExternalCompany(companyName) {
+  // const page = 5;
+  // const row = 2;
+  const params = [];
+
+  // if (startDate) {
+  //   params.push(['start_date', startDate]);
+  // }
+  // if (endDate) {
+  //   params.push(['end_date', endDate]);
+  // }
+  // if (page) {
+  //   params.push(['page', page]);
+  // }
+  // if (row) {
+  //   params.push(['row', row]);
+  // }
+  if (companyName) {
+    params.push(['company_name', companyName]);
+  }
+  const url = `${MINING_ACTIVITY_MODEL}/report?report_type=external`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+  return promise.data.data;
 }
 
 const LabService = {
