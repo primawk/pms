@@ -44,10 +44,6 @@ export default function CompanyReport() {
     return accumulator + object.analysis;
   }, 0);
 
-  // console.log(sum);
-
-  // const companyName = posts['0'].company_name;
-
   return (
     <>
       <div className="app-content">
@@ -59,7 +55,6 @@ export default function CompanyReport() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center'
-              // margin: '0 0 1rem 10rem'
             }}
           >
             <Grid
@@ -68,11 +63,11 @@ export default function CompanyReport() {
                 marginLeft: '1rem',
                 width: '15rem',
                 height: '6.4375rem',
-                margin: '1.5rem 4rem 1.5rem 1rem '
+                // margin: '1.5rem 4rem 1.5rem 1rem '
               }}
             >
-              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Laporan Lab</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1rem' }}>
+              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem', color: 'white' }}>Laporan Lab</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1rem', color: 'white' }}>
                 <h3>{location.state}</h3>
               </Box>
             </Grid>
@@ -127,6 +122,7 @@ export default function CompanyReport() {
             </Grid>
           </Grid>
         </Header>
+
         {/*  */}
         <Grid
           container

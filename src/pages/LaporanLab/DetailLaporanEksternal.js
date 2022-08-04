@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DeleteData from '../../components/Modal/DeleteModal/index';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -20,10 +20,13 @@ import LabService from 'services/LabService';
 
 const DetailEksternal = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
 
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+
+  console.log(location.state.account_name);
 
   const handleDelete = () => {
     setLoading(true);
@@ -68,6 +71,8 @@ const DetailEksternal = () => {
       console.log(error);
     }
   }
+
+  const d = String(new Date(dataReport?.updated_at));
 
   return (
     <>
@@ -136,8 +141,7 @@ const DetailEksternal = () => {
                 width: '50rem'
               }}
             >
-              Terakhir diedit oleh {dataReport?.account_name}, pada 12 Juni 2022, 12:21 WITA
-              {dataReport?.updated_at}
+              Terakhir diedit oleh {location.state.account_name}, pada {d}
             </Box>
             <Box>
               <Button
