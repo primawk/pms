@@ -2,7 +2,6 @@ import React from 'react';
 import List from './components/ListLaporanEksternal';
 
 const Lists = ({ searchResults }) => {
-  console.log(searchResults);
   const results = Object.keys(searchResults).map((data, index) => (
     <List data={data} index={index} />
   ));

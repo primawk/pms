@@ -28,7 +28,7 @@ const getReportDetail = ({ id } = {}) => {
   });
 };
 
-const getPdf = ( attachment ) => {
+const getPdf = (attachment) => {
   return request(`${MINING_ACTIVITY_MODEL}/report/pdf/${attachment}`, {
     method: 'GET',
     headers: authHeader()
@@ -93,13 +93,23 @@ const editReportExternal = (formData, id) => {
   });
 };
 
-export async function fetchInternal({ startDate, endDate } = {}) {
+export async function fetchInternal({ startDate, endDate }, page, row) {
+  // const page = 3;
+
+  console.log(page);
   const params = [];
+
   if (startDate) {
     params.push(['start_date', startDate]);
   }
   if (endDate) {
     params.push(['end_date', endDate]);
+  }
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (row) {
+    params.push(['row', row]);
   }
   const url = `${MINING_ACTIVITY_MODEL}/report?report_type=internal`;
   const promise = await axios.get(url, {

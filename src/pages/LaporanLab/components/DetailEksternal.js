@@ -131,7 +131,7 @@ const DetailEksternal = ({ data, i }) => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>{dayjs(data.created_at).format('DD/MM/YYYY')}</h5>
+                  <h5>{dayjs(data?.date).format('DD/MM/YYYY')}</h5>
                 </Box>
               </Grid>
             </Box>

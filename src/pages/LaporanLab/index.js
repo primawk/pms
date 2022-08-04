@@ -18,7 +18,6 @@ import useModal from '../../hooks/useModal';
 
 export default function LaporanLab() {
   const { isShowing, toggle } = useModal();
-  const [pagination, setPagination] = useState({});
   const navigate = useNavigate();
 
   const menuList = [
@@ -113,7 +112,7 @@ export default function LaporanLab() {
         </Grid>
         {menuTab === 'internal' ? (
           <ListInternal
-            dataInternal={data?.data?.data}
+            dataInternal={data}
             isFetchingActivity={isFetchingActivityInternal}
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}

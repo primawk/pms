@@ -7,7 +7,7 @@ import CustomPagination from '../../components/Pagination/index';
 // import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import DetailEksternal from 'pages/LaporanLab/components/DetailEksternal';
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/SearchBarExternal';
 
 // custom hooks
 // import useModal from '../../hooks/useModal';
@@ -155,7 +155,7 @@ export default function CompanyReport() {
           </Grid>
 
           <SearchBar
-            posts={posts}
+            posts={data}
             setSearchResults={setPosts}
             setSelectedDates={setSelectedDates}
             selectedDates={selectedDates}

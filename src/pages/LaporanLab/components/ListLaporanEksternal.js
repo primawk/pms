@@ -117,7 +117,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>{dayjs(data?.updated_at).format('DD/MM/YYYY')}</h5>
+                  <h5>{dayjs(lastUpdate[index][0].updated_at).format('DD/MM/YYYY')}</h5>
                 </Box>
               </Grid>
             </Box>
