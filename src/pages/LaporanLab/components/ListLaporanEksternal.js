@@ -33,7 +33,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
           gap: '4.5rem',
           cursor: 'pointer'
         }}
-        onClick={() => navigate('/laporan-perusahaan', { state: data })}
+        onClick={() => navigate('/laporan-lab/laporan-perusahaan', { state: data })}
       >
         <Grid item sx={{ margin: '0 0 0 1.5rem', width: '26%' }}>
           <Grid
