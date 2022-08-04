@@ -30,7 +30,7 @@ import { CustomModal, LoadingModal } from 'components/Modal';
 import RoleService from 'services/RoleService';
 import UserManagementService from 'services/UserManagementService';
 
-export default function FormUser({ isShowing, toggle, id, resetPage, page, isSearch }) {
+export default function FormUser({ isShowing, toggle, id, resetPage, search, page }) {
   const queryClient = useQueryClient();
 
   const { isLoadingAction, toggleLoading } = useLoading();
@@ -84,7 +84,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, page, isSea
             toast.success('Data berhasil diubah !');
             toggle();
             toggleLoading();
-            queryClient.invalidateQueries(['users', page, isSearch]);
+            queryClient.invalidateQueries(['users', page, search]);
           })
           .catch((err) => {
             toggleLoading();
@@ -330,5 +330,5 @@ FormUser.propTypes = {
   id: PropTypes.string,
   resetPage: PropTypes.func,
   page: PropTypes.number,
-  isSearch: PropTypes.bool
+  search: PropTypes.object
 };

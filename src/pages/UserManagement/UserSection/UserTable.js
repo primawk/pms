@@ -61,7 +61,7 @@ const headCells = [
   }
 ];
 
-export default function UserTable({ search, isSearch }) {
+export default function UserTable({ search }) {
   const queryClient = useQueryClient();
 
   const [id, setId] = useState('');
@@ -76,7 +76,7 @@ export default function UserTable({ search, isSearch }) {
   const { page, handleChangePage, resetPage } = usePagination();
 
   const { data, isLoading, isFetching } = useQuery(
-    ['users', page, isSearch],
+    ['users', page, search],
     () =>
       UserManagementService.getUser({
         page,
@@ -113,7 +113,7 @@ export default function UserTable({ search, isSearch }) {
         toast.success('Data berhasil dihapus !');
         toggleLoading(false);
         toggleDelete();
-        queryClient.invalidateQueries(['users', page, isSearch]);
+        queryClient.invalidateQueries(['users', page, search]);
       })
       .catch((err) => {
         toast.error(err.response.data.detail_message);
@@ -158,7 +158,7 @@ export default function UserTable({ search, isSearch }) {
         id={id}
         resetPage={resetPage}
         page={page}
-        isSearch={isSearch}
+        search={search}
       />
       <DeleteModal
         toggle={toggleDelete}
@@ -172,6 +172,5 @@ export default function UserTable({ search, isSearch }) {
 }
 
 UserTable.propTypes = {
-  search: PropTypes.object,
-  isSearch: PropTypes.bool
+  search: PropTypes.object
 };
