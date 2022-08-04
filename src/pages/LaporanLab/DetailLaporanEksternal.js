@@ -57,11 +57,17 @@ const DetailEksternal = () => {
   const dataReport = data?.data?.data;
   const attachment = dataReport?.attachment;
 
-  const handlePdf = () => {
-    LabService.getPdf(attachment);
-  };
-
-  console.log(dataReport);
+  async function handlePdf() {
+    try {
+      const response = await LabService.getPdf(attachment);
+      // fileDownload(response, `INVOICE-${id}.pdf`);
+      const file = new Blob([response.data], { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -89,7 +95,6 @@ const DetailEksternal = () => {
           container
           sx={{
             display: 'flex',
-            //   alignItems: 'flex-start',
             flexDirection: 'column',
             backgroundColor: 'white',
             height: '72.5rem',

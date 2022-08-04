@@ -31,7 +31,8 @@ const getReportDetail = ({ id } = {}) => {
 const getPdf = (attachment) => {
   return request(`${MINING_ACTIVITY_MODEL}/report/pdf/${attachment}`, {
     method: 'GET',
-    headers: authHeader()
+    headers: authHeader(),
+    responseType: 'blob'
   });
 };
 
@@ -120,9 +121,29 @@ export async function fetchInternal({ startDate, endDate }, page, row) {
   return promise.data.data;
 }
 
-export async function fetchExternal() {
+export async function fetchExternal(page, row) {
+  // const page = 5;
+  // const row = 2;
+  const params = [];
+
+  // if (startDate) {
+  //   params.push(['start_date', startDate]);
+  // }
+  // if (endDate) {
+  //   params.push(['end_date', endDate]);
+  // }
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (row) {
+    params.push(['row', row]);
+  }
   const url = `${MINING_ACTIVITY_MODEL}/report?report_type=external`;
-  const promise = await axios.get(url);
+  const promise = await axios.get(url, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
   return promise.data.data.reduce((groups, item) => {
     const group = groups[item.company_name] || [];
     group.push(item);
