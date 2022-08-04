@@ -8,12 +8,18 @@ import CustomPagination from '../../components/Pagination/index';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Lists from './resultDetailEksternal';
+import { useQuery } from 'react-query';
+
+// utils
+import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
 // import useModal from '../../hooks/useModal';
+import usePagination from 'hooks/usePagination';
 
 // services
 import { fetchExternalCompany } from 'services/LabService';
+import LabService from 'services/LabService';
 
 export default function CompanyReport() {
   const location = useLocation();
@@ -21,31 +27,47 @@ export default function CompanyReport() {
   const [posts, setPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
+  const { page, handleChangePage } = usePagination();
   const companyName = location.state;
+  const row = 2;
+
+  const {
+    data: dataEksternal
+    // isLoading: isLoadingActivity,
+    // isFetching: isFetchingActivityExternal
+  } = useQuery(
+    ['external'],
+    () =>
+      LabService.getReport({
+        report_type: 'external',
+        companyName: companyName
+      })
+    // { keepPreviousData: true }
+  );
 
   useEffect(() => {
-    fetchExternalCompany(companyName)
-      .then((json) => {
-        setPosts(json);
-        return json;
+    fetchExternalCompany(selectedDates, page, row, companyName)
+      .then((response) => {
+        setPosts(response);
+        return response;
       })
-      .then((json) => {
-        setSearchResults(json);
+      .then((response) => {
+        setSearchResults(response?.data.data);
       });
-  }, [selectedDates, companyName]);
+  }, [selectedDates, companyName, page]);
 
-  const sumPreparation = posts?.reduce((accumulator, object) => {
+  const sumPreparation = dataEksternal?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.preparation;
   }, 0);
 
-  const sumAnalysis = posts?.reduce((accumulator, object) => {
+  const sumAnalysis = dataEksternal?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.analysis;
   }, 0);
 
   return (
     <>
       <div className="app-content">
-        <Header background="dashboard.png">
+        <Header background="headerPerusahaan.png">
           <Grid
             container
             sx={{
@@ -64,8 +86,8 @@ export default function CompanyReport() {
                 // margin: '1.5rem 4rem 1.5rem 1rem '
               }}
             >
-              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem', color: 'white' }}>Laporan Lab</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1rem', color: 'white' }}>
+              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem', color: 'black' }}>Laporan Lab</Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1rem', color: 'black' }}>
                 <h3>{location.state}</h3>
               </Box>
             </Grid>
@@ -83,7 +105,7 @@ export default function CompanyReport() {
             >
               <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Pengajuan</Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
-                {posts?.length}
+                {dataEksternal?.data?.data?.length}
               </Box>
             </Grid>
             <Grid
@@ -181,7 +203,11 @@ export default function CompanyReport() {
             }}
           >
             <Grid item sx={{ width: '100%' }}>
-              <CustomPagination />
+              <CustomPagination
+                count={ceilTotalData(posts?.data?.pagination?.total_data || 0, 2)}
+                page={page}
+                handleChangePage={handleChangePage}
+              />
             </Grid>
           </Grid>
         </Grid>

@@ -18,7 +18,12 @@ import Result from './resultEksternal';
 // services
 import { fetchExternal } from 'services/LabService';
 
-export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalPrep }) {
+export default function ListEksternal({
+  isFetchingActivity,
+  totalPrepEks,
+  totalPrep,
+  totalAnalysisEks
+}) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
@@ -86,7 +91,11 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
           </Grid>
           {/* Summary Laporan */}
 
-          <SummaryLaporan totalPrepEks={totalPrepEks} totalPrep={totalPrep} />
+          <SummaryLaporan
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+            totalAnalysisEks={totalAnalysisEks}
+          />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
           <Result searchResults={searchResultsEksternal} lastUpdate={lastUpdate} />
