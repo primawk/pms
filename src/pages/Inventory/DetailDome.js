@@ -34,7 +34,7 @@ const DetailDome = () => {
     ['summary', 'detail-dome', inventoryType, idDome],
     () =>
       MiningActivityService.getDomeSummary({
-        inventory_type: 'SM',
+        inventory_type: inventoryType,
         dome_id: idDome
       }),
     {

@@ -18,9 +18,16 @@ import DeleteData from '../../components/Modal/DeleteModal/index';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const TargetDataTable = ({ sample, targetTableHead }) => {
+const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
   const { isShowing: isShowingForm, toggle: toggleForm, width } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+
+  const data = dataProduction?.data?.data;
+
+  console.log(data);
+
+  const year = data.map((item) => item.year);
+
   return (
     <>
       <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} />
@@ -41,7 +48,7 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sample.map((item) => (
+            {data.map((item) => (
               <>
                 <TableRow>
                   <TableCell
@@ -52,8 +59,8 @@ const TargetDataTable = ({ sample, targetTableHead }) => {
                     {item.year}
                   </TableCell>
                 </TableRow>
-                {item.detail.map((detail) => (
-                  <TableRow key={detail.month}>
+                {item.target_list.map((detail) => (
+                  <TableRow>
                     <TableCell
                       align="center"
                       sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}

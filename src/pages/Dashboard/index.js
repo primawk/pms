@@ -15,6 +15,7 @@ import { LoadingModal } from 'components/Modal';
 
 // services
 import MiningActivityService from 'services/MiningActivityService';
+import ProductionService from 'services/Dashboard';
 
 const menuList = [
   { value: 0, label: 'Produksi' }
@@ -150,12 +151,11 @@ export default function Dashboard() {
     data: dataOreGetting,
     isLoading: isLoadingOreGetting,
     isFetching: isFetchingOreGetting
-    // inventory-sm
-  } = useQuery(['mining', 'dome-list', 'SM'], () =>
+  } = useQuery(['mining', 'dome-list', 'inventory-sm'], () =>
     MiningActivityService.getDomeSummary({
       page: 1,
       row: 3,
-      inventory_type: 'SM'
+      inventory_type: 'inventory-sm'
     })
   );
 
@@ -208,6 +208,12 @@ export default function Dashboard() {
   } = useQuery(['mining', 'summary', 'eto-to-efo'], () =>
     MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
   );
+
+  const {
+    data: dataProduction
+    // isLoading: isLoadingOreGetting,
+    // isFetching: isFetchingOreGetting
+  } = useQuery(['production', 'target', 'year'], () => ProductionService.getTarget({}));
 
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
@@ -280,7 +286,11 @@ export default function Dashboard() {
 
               <TargetDataInformation />
 
-              <TargetDataTable sample={sample} targetTableHead={targetTableHead} />
+              <TargetDataTable
+                sample={sample}
+                targetTableHead={targetTableHead}
+                dataProduction={dataProduction}
+              />
 
               <CustomPagination />
             </Grid>

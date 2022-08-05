@@ -35,10 +35,10 @@ export default function LaporanLab() {
     setMenuTab(_menuTab);
     switch (_menuTab) {
       case 'eksternal':
-        navigate('/laporan-lab/eksternal');
+        navigate('/lab-report/eksternal');
         break;
       default:
-        navigate('/laporan-lab/internal');
+        navigate('/lab-report/internal');
     }
   };
 

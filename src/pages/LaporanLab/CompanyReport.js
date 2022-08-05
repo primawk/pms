@@ -73,21 +73,37 @@ export default function CompanyReport() {
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center'
+              alignItems: 'center'
+              // justifyContent: 'center'
             }}
           >
             <Grid
               item
               sx={{
-                marginLeft: '1rem',
+                // marginLeft: '1rem',
                 width: '15rem',
                 height: '6.4375rem'
                 // margin: '1.5rem 4rem 1.5rem 1rem '
               }}
             >
-              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem', color: 'black' }}>Laporan Lab</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1rem', color: 'black' }}>
+              <Box
+                sx={{
+                  margin: '1rem 1rem 1rem 0',
+                  color: 'black',
+                  fontWeight: '700',
+                  fontSize: '1rem'
+                }}
+              >
+                Laporan Lab
+              </Box>
+              <Box
+                sx={{
+                  margin: '0.75rem 1rem 1rem 0',
+                  fontWeight: '700',
+                  fontSize: '1rem',
+                  color: 'black'
+                }}
+              >
                 <h3>{location.state}</h3>
               </Box>
             </Grid>
@@ -103,8 +119,17 @@ export default function CompanyReport() {
                 margin: '1.5rem 1rem 1.5rem 1rem '
               }}
             >
-              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Pengajuan</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
+              <Box
+                sx={{
+                  margin: '1rem 1rem 0.75rem 1rem',
+                  fontFamily: 'Roboto',
+                  fontWeight: '400',
+                  fontSize: '14px'
+                }}
+              >
+                Jumlah Pengajuan
+              </Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem', fontWeight: '700' }}>
                 {dataEksternal?.data?.data?.length}
               </Box>
             </Grid>
@@ -120,8 +145,19 @@ export default function CompanyReport() {
                 margin: '1.5rem 1rem 1.5rem 1rem '
               }}
             >
-              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Analisa</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>{sumAnalysis}</Box>
+              <Box
+                sx={{
+                  margin: '1rem 1rem 0.75rem 1rem',
+                  fontFamily: 'Roboto',
+                  fontWeight: '400',
+                  fontSize: '14px'
+                }}
+              >
+                Jumlah Analisa
+              </Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem', fontWeight: '700' }}>
+                {sumAnalysis}
+              </Box>
             </Grid>
             <Grid
               item
@@ -135,8 +171,17 @@ export default function CompanyReport() {
                 margin: '1.5rem 1rem 1.5rem 1rem '
               }}
             >
-              <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Jumlah Preparasi</Box>
-              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem' }}>
+              <Box
+                sx={{
+                  margin: '1rem 1rem 0.75rem 1rem',
+                  fontFamily: 'Roboto',
+                  fontWeight: '400',
+                  fontSize: '14px'
+                }}
+              >
+                Jumlah Preparasi
+              </Box>
+              <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem', fontWeight: '700' }}>
                 {sumPreparation}
               </Box>
             </Grid>

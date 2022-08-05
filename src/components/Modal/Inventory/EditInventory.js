@@ -1,58 +1,21 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Button, Box } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { Icon } from '@iconify/react';
+import { useParams } from 'react-router-dom';
 
 // components
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
-import Dome from './Dome';
+import { FormInventorySm, FormInventoryEfo } from 'components/Form';
 
 const EditInventory = ({ isShowing, toggle }) => {
+  const { dataType } = useParams();
   return (
-    <CustomModal isShowing={isShowing} toggle={toggle} width="31.563rem">
-      <Grid
-        container
-        sx={{
-          height: '51.313rem',
-          backgroundColor: 'white',
-          borderRadius: '4px'
-        }}
-      >
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start'
-          }}
-        >
-          <Grid item sx={{ margin: '1.875rem auto 4.063rem auto' }}>
-            <h2>Edit Inventory</h2>
-          </Grid>
-          <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-            <Box sx={{ fontSize: '0.875rem' }}>Inventory</Box>
-          </Grid>
-          <Grid item sx={{ width: '20rem', margin: '0 auto 1rem 1.5rem' }}>
-            <FormControl sx={{ width: '20rem' }} size="small">
-              <InputLabel id="demo-simple-select-label">Jenis Inventory</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                label="Jenis Laporan"
-                id="demo-simple-select"
-                // onChange={(e) => setJenisLaporan(e.target.value)}
-              >
-                <MenuItem value={'laporan-lab'}></MenuItem>
-                <MenuItem value={'input-laporan-internal'}>Inventory SM</MenuItem>
-                <MenuItem value={'input-laporan-eksternal'}>Inventory ETO</MenuItem>
-                <MenuItem value={'input-laporan-eksternal'}>Inventory EFO</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+    <CustomModal isShowing={isShowing} toggle={toggle} width="40vw">
+      <div style={{ padding: '30px' }}>
+        <h2 style={{ paddingBottom: '40px', textAlign: 'center' }}>Edit Inventory</h2>
+        {dataType === 'inventory-sm' && <FormInventorySm toggle={toggle} />}
+        {dataType === 'inventory-eto' && null}
+        {dataType === 'inventory-efo' && <FormInventoryEfo toggle={toggle} />}
+      </div>
+      {/* <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
             <Box
               sx={{
                 height: '28.875rem',
@@ -111,9 +74,9 @@ const EditInventory = ({ isShowing, toggle }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              </Grid> */}
 
-              {/* Dome */}
+      {/* Dome
               <Grid
                 container
                 sx={{
@@ -137,9 +100,9 @@ const EditInventory = ({ isShowing, toggle }) => {
                 </Button>
               </Grid>
             </Box>
-          </Grid>
+          </Grid> */}
 
-          {/* Button */}
+      {/* Button
           <Grid
             container
             sx={{
@@ -173,9 +136,7 @@ const EditInventory = ({ isShowing, toggle }) => {
                 Save
               </Button>
             </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+          </Grid> */}
     </CustomModal>
   );
 };

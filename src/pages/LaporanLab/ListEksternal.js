@@ -14,6 +14,7 @@ import Result from './resultEksternal';
 
 // custom hooks
 // import usePagination from 'hooks/usePagination';
+import useAuth from 'hooks/useAuth';
 
 // services
 import { fetchExternal } from 'services/LabService';
@@ -29,6 +30,7 @@ export default function ListEksternal({
   const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
   const [postsEksternal, setPostsEksternal] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
+  const { isGranted } = useAuth();
 
   // const { page, handleChangePage } = usePagination();
   // const row = 5;
@@ -45,6 +47,8 @@ export default function ListEksternal({
   }, []);
 
   const lastUpdate = Object.values(postsEksternal);
+
+  console.log(postsEksternal);
 
   return (
     <>
@@ -82,19 +86,21 @@ export default function ListEksternal({
               <h3>List Laporan Lab Eksternal</h3>
             </Box>
 
-            <Button
-              variant="contained"
-              onClick={() => navigate(`/input-laporan-eksternal`)}
-              sx={{
-                width: '15.625',
-                height: '42px',
-                marginRight: '1.5rem',
-                marginLeft: 'auto',
-                boxShadow: 0
-              }}
-            >
-              Input Laporan Lab
-            </Button>
+            {isGranted && (
+              <Button
+                variant="contained"
+                onClick={() => navigate(`/input-laporan-eksternal`)}
+                sx={{
+                  width: '15.625',
+                  height: '42px',
+                  marginRight: '1.5rem',
+                  marginLeft: 'auto',
+                  boxShadow: 0
+                }}
+              >
+                Input Laporan Lab
+              </Button>
+            )}
           </Grid>
           {/* Summary Laporan */}
 

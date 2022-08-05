@@ -24,11 +24,11 @@ export default function AllInventory() {
     isLoading: isLoadingOreGetting,
     isFetching: isFetchingOreGetting
     // inventory-sm
-  } = useQuery(['mining', 'dome-list', 'SM', pageOreGetting], () =>
+  } = useQuery(['mining', 'dome-list', 'inventory-sm', pageOreGetting], () =>
     MiningActivityService.getDomeSummary({
       page: pageOreGetting,
       row: 15,
-      inventory_type: 'SM'
+      inventory_type: 'inventory-sm'
     })
   );
 

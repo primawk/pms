@@ -63,15 +63,19 @@ export default function Routes() {
           element: <AllInventory />
         },
         {
-          path: 'laporan-lab',
-          element: <Navigate to="/laporan-lab/internal" replace />
+          path: 'inventory/:inventoryType/:dataType',
+          element: <AllInventory />
         },
         {
-          path: 'laporan-lab/:report_type',
+          path: 'lab-report',
+          element: <Navigate to="/lab-report/internal" replace />
+        },
+        {
+          path: 'lab-report/:report_type',
           element: <LaporanLab />
         },
         {
-          path: 'laporan-lab/laporan-perusahaan',
+          path: 'lab-report/laporan-perusahaan',
           element: <CompanyReport />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
@@ -117,31 +121,31 @@ export default function Routes() {
     },
     // Laporan Lab
     {
-      path: 'input-laporan-eksternal',
+      path: 'lab-report/input-laporan-eksternal',
       element: <InputLaporanEksternal />
     },
     {
-      path: 'input-laporan-internal',
+      path: 'lab-report/input-laporan-internal',
       element: <InputLaporanInternal />
     },
     {
-      path: 'detail/internal/:id',
+      path: 'lab-report/detail/internal/:id',
       element: <DetailInternal />
     },
     {
-      path: 'edit/internal/:id',
+      path: 'lab-report/edit/internal/:id',
       element: <EditLaporanInternal />
     },
     {
-      path: 'edit/eksternal/:id',
+      path: 'lab-report/edit/eksternal/:id',
       element: <EditLaporanEksternal />
     },
     {
-      path: 'detail/eksternal/:id',
+      path: 'lab-report/detail/eksternal/:id',
       element: <DetailLaporanEksternal />
     },
     {
-      path: 'history-edit',
+      path: 'lab-report/history-edit',
       element: <HistoryEdit />
     },
     {

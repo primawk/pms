@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 // components
 import Navbar from '../../components/Navbar';
+import EditLog from './components/EditLog';
 
 // services
 import { getHistory } from 'services/LabService';
@@ -17,32 +18,70 @@ const HistoryEdit = () => {
 
   useEffect(() => {
     getHistory(id).then((response) => {
-      setData(response?.data?.data);
+      setData(response);
     });
   }, [id]);
 
-  console.log(data);
+  // console.log(data);
+
+  // const value = Object.values(data['2022-08-04T16:22:39.794808']).map(
+  //   ({ description }) => description
+  // );
+  // const date = Object.values(data).map(({ updated_at }) => updated_at);
+
+  // var output = value.map(function (obj, index) {
+  //   var myobj = {};
+  //   myobj[date[index]] = obj;
+  //   return myobj;
+  // });
+
+  // console.log(value);
+
+  // const results = data.reduce((groups, item) => {
+  //   const group = groups[data.updated_at] || [];
+  //   group.push(item);
+  //   groups[item.keys] = group;
+  // });
+
+  // console.log(output);
+
+  // const result = output.reduce(
+  //   (h, obj) => Object.assign(h, { [obj.key]: (h[obj.key] || []).concat(obj) }),
+  //   {}
+  // );
+
+  // console.log(data);
+
+  // console.log(result);
 
   return (
     <>
-      <Navbar />
-      <div className="app-content">
+      <div
+        style={{
+          backgroundColor: '#F5F5F5',
+          width: '100%',
+          overflow: 'auto', // it makes this container follow the height of its content
+          position: 'relative'
+        }}
+      >
+        <Navbar />
+
         <Grid
           container
           sx={{
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: 'white',
-            height: '72.5rem',
+            height: '100%',
             width: '90%',
-            marginTop: '2.5rem',
+            marginTop: '6rem',
             marginLeft: 'auto',
             marginRight: 'auto',
-            marginBottom: 'auto',
+            marginBottom: '3rem',
             borderRadius: '4px'
           }}
         >
-          <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
+          <Grid item sx={{ height: '9%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
             <Grid
               container
               sx={{
@@ -63,94 +102,18 @@ const HistoryEdit = () => {
               </Grid>
               <Grid item>
                 <Box>
-                  <h2>Riwayat Edit 'Laporan Lab - {location.state.company_name}'</h2>
+                  {location.state.sample_code ? (
+                    <h2>Riwayat Edit 'Laporan Lab - {location.state.sample_code}</h2>
+                  ) : (
+                    <h2>Riwayat Edit 'Laporan Lab - {location.state.company_name}</h2>
+                  )}
                 </Box>
               </Grid>
             </Grid>
           </Grid>
-          <Grid
-            item
-            sx={{
-              height: '14%',
-              borderBottom: 1,
-              borderBottomColor: '#E0E0E0',
-              width: '50rem'
-            }}
-          >
-            <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1.25rem' }}>
-                12 Juni 2022
-              </Box>
-              <Grid item>
-                <Grid
-                  container
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: '1rem'
-                  }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar1.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Putri Devina mengedit kadar Nikel 13:21 WITA</Box>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar2.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Nisa mengedit kadar Fe 11:21 WITA</Box>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            sx={{ height: '14%', borderBottom: 1, borderBottomColor: '#E0E0E0', width: '50rem' }}
-          >
-            <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1.25rem' }}>
-                09 Juni 2022
-              </Box>
-              <Grid item>
-                <Grid
-                  container
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: '1rem'
-                  }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar1.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Putri Devina mengedit kadar Nikel 13:21 WITA</Box>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar2.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Nisa mengedit kadar Fe 11:21 WITA</Box>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+          {Object.keys(data).map((item, index) => (
+            <EditLog date={item} value={data} index={index} />
+          ))}
         </Grid>
       </div>
     </>

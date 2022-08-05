@@ -38,7 +38,7 @@ const sidebarConfig = [
   },
   {
     title: 'Laporan Lab',
-    path: 'laporan-lab',
+    path: 'lab-report',
     icon: getIcon(LabIcon)
   }
 ];
