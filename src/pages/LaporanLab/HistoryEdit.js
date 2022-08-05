@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 // components
 import Navbar from '../../components/Navbar';
+import EditLog from './components/editLog';
 
 // services
 import { getHistory } from 'services/LabService';
@@ -23,6 +25,19 @@ const HistoryEdit = () => {
 
   console.log(data);
 
+  const value = Object.values(data).map(({ description }) => description);
+  const date = Object.values(data).map(({ updated_at }) =>
+    dayjs(updated_at).format('DD MMMM YYYY')
+  );
+
+  var output = value.map(function (obj, index) {
+    var myobj = {};
+    myobj[date[index]] = obj;
+    return myobj;
+  });
+
+  console.log(output);
+
   return (
     <>
       <Navbar />
@@ -33,7 +48,7 @@ const HistoryEdit = () => {
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: 'white',
-            height: '72.5rem',
+            minHeight: '100%',
             width: '90%',
             marginTop: '2.5rem',
             marginLeft: 'auto',
@@ -68,89 +83,7 @@ const HistoryEdit = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid
-            item
-            sx={{
-              height: '14%',
-              borderBottom: 1,
-              borderBottomColor: '#E0E0E0',
-              width: '50rem'
-            }}
-          >
-            <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1.25rem' }}>
-                12 Juni 2022
-              </Box>
-              <Grid item>
-                <Grid
-                  container
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: '1rem'
-                  }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar1.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Putri Devina mengedit kadar Nikel 13:21 WITA</Box>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar2.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Nisa mengedit kadar Fe 11:21 WITA</Box>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            sx={{ height: '14%', borderBottom: 1, borderBottomColor: '#E0E0E0', width: '50rem' }}
-          >
-            <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1.25rem' }}>
-                09 Juni 2022
-              </Box>
-              <Grid item>
-                <Grid
-                  container
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginBottom: '1rem'
-                  }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar1.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Putri Devina mengedit kadar Nikel 13:21 WITA</Box>
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                >
-                  <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                    <img src="/img/avatar2.png" alt=""></img>
-                  </Grid>
-                  <Grid item>
-                    <Box style={{}}>Nisa mengedit kadar Fe 11:21 WITA</Box>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+          {Object.keys(output).map((data, (index) => <EditLog data={output} index={index} />))}
         </Grid>
       </div>
     </>

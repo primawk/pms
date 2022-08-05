@@ -13,6 +13,7 @@ import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
+import useAuth from 'hooks/useAuth';
 
 // services
 import LabService from 'services/LabService';
@@ -20,6 +21,7 @@ import LabService from 'services/LabService';
 const DetailInternal = () => {
   const navigate = useNavigate();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+  const { isGranted } = useAuth();
 
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -119,38 +121,42 @@ const DetailInternal = () => {
               Terakhir diedit oleh {dataReport?.account_name}, pada 12 Juni 2022, 12:21 WITA
               {/* {dataReport?.updated_at} */}
             </Box>
-            <Button
-              variant="outlined"
-              sx={{
-                backgroundColor: '#E5E5FE',
-                margin: '0 1rem 0.3rem 2rem',
-                color: '#3F48C0',
-                boxShadow: 0,
-                border: '1px solid #3F48C0',
-                width: '40%',
-                fontWeight: '400'
-              }}
-              onClick={() =>
-                navigate(`/edit/${dataReport?.report_type}/${id}`, { state: dataReport })
-              }
-            >
-              Edit Laporan
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{
-                backgroundColor: 'white',
-                margin: '0 0.5rem 0.3rem 0',
-                color: '#3F48C0',
-                boxShadow: 0,
-                border: '1px solid #3F48C0',
-                width: '40%',
-                fontWeight: '400'
-              }}
-              onClick={toggleDelete}
-            >
-              Delete Laporan
-            </Button>
+            {isGranted && (
+              <Button
+                variant="outlined"
+                sx={{
+                  backgroundColor: '#E5E5FE',
+                  margin: '0 1rem 0.3rem 2rem',
+                  color: '#3F48C0',
+                  boxShadow: 0,
+                  border: '1px solid #3F48C0',
+                  width: '40%',
+                  fontWeight: '400'
+                }}
+                onClick={() =>
+                  navigate(`/edit/${dataReport?.report_type}/${id}`, { state: dataReport })
+                }
+              >
+                Edit Laporan
+              </Button>
+            )}
+            {isGranted && (
+              <Button
+                variant="outlined"
+                sx={{
+                  backgroundColor: 'white',
+                  margin: '0 0.5rem 0.3rem 0',
+                  color: '#3F48C0',
+                  boxShadow: 0,
+                  border: '1px solid #3F48C0',
+                  width: '40%',
+                  fontWeight: '400'
+                }}
+                onClick={toggleDelete}
+              >
+                Delete Laporan
+              </Button>
+            )}
           </Grid>
           <Grid item sx={{}}>
             <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -162,6 +168,7 @@ const DetailInternal = () => {
                       style={{
                         margin: '0 0.5rem 0.5rem 2rem',
                         fontSize: '0.875rem',
+                        fontWeight: '700',
                         width: '5.5rem'
                       }}
                     >
@@ -172,7 +179,13 @@ const DetailInternal = () => {
                     </Box>
                   </Grid>
                   <Grid item>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                    <Box
+                      style={{
+                        margin: '0 0.5rem 0.5rem 2rem',
+                        fontSize: '0.875rem',
+                        fontWeight: '700'
+                      }}
+                    >
                       Jenis Sample
                     </Box>
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
@@ -186,7 +199,8 @@ const DetailInternal = () => {
                       style={{
                         margin: '0 0.5rem 0.5rem 2rem',
                         fontSize: '0.875rem',
-                        width: '5.5rem'
+                        width: '5.5rem',
+                        fontWeight: '700'
                       }}
                     >
                       Bukit
@@ -194,9 +208,28 @@ const DetailInternal = () => {
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
                       {dataReport?.hill_name}
                     </Box>
+                    <Box
+                      style={{
+                        margin: '2rem 0.5rem 0.5rem 2rem',
+                        fontSize: '0.875rem',
+                        width: '5.5rem',
+                        fontWeight: '700'
+                      }}
+                    >
+                      Preparasi
+                    </Box>
+                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                      {dataReport?.preparation}
+                    </Box>
                   </Grid>
                   <Grid item>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                    <Box
+                      style={{
+                        margin: '0 0.5rem 0.5rem 2rem',
+                        fontSize: '0.875rem',
+                        fontWeight: '700'
+                      }}
+                    >
                       Tumpukan/Dome
                     </Box>
                     <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
