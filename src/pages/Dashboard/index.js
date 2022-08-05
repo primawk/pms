@@ -15,6 +15,7 @@ import { LoadingModal } from 'components/Modal';
 
 // services
 import MiningActivityService from 'services/MiningActivityService';
+import ProductionService from 'services/Dashboard';
 
 const menuList = [
   { value: 0, label: 'Produksi' }
@@ -209,6 +210,12 @@ export default function Dashboard() {
     MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
   );
 
+  const {
+    data: dataProduction
+    // isLoading: isLoadingOreGetting,
+    // isFetching: isFetchingOreGetting
+  } = useQuery(['production', 'target', 'year'], () => ProductionService.getTarget({}));
+
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
   };
@@ -280,7 +287,11 @@ export default function Dashboard() {
 
               <TargetDataInformation />
 
-              <TargetDataTable sample={sample} targetTableHead={targetTableHead} />
+              <TargetDataTable
+                sample={sample}
+                targetTableHead={targetTableHead}
+                dataProduction={dataProduction}
+              />
 
               <CustomPagination />
             </Grid>

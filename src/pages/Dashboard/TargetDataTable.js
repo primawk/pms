@@ -18,9 +18,11 @@ import DeleteData from '../../components/Modal/DeleteModal/index';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const TargetDataTable = ({ sample, targetTableHead }) => {
+const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
   const { isShowing: isShowingForm, toggle: toggleForm, width } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+
+  console.log(dataProduction?.data?.data);
   return (
     <>
       <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} />
