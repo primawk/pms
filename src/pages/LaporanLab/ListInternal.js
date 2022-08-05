@@ -15,6 +15,7 @@ import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
 import usePagination from 'hooks/usePagination';
+import useAuth from 'hooks/useAuth';
 
 // services
 import { fetchInternal } from 'services/LabService';
@@ -31,6 +32,8 @@ export default function ListInternal({
   const [posts, setPosts] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
   const { page, handleChangePage } = usePagination();
+  const { isGranted } = useAuth();
+
   const row = 5;
 
   useEffect(() => {
@@ -77,19 +80,21 @@ export default function ListInternal({
             <Box sx={{ margin: '1.5rem 1rem 1.5rem 1.5rem' }}>
               <h3>List Laporan Lab Internal</h3>
             </Box>
-            <Button
-              variant="contained"
-              onClick={() => navigate(`/input-laporan-internal`)}
-              sx={{
-                width: '15.625',
-                height: '42px',
-                marginRight: '1.5rem',
-                marginLeft: 'auto',
-                boxShadow: 0
-              }}
-            >
-              Input Laporan Lab
-            </Button>
+            {isGranted && (
+              <Button
+                variant="contained"
+                onClick={() => navigate(`/input-laporan-internal`)}
+                sx={{
+                  width: '15.625',
+                  height: '42px',
+                  marginRight: '1.5rem',
+                  marginLeft: 'auto',
+                  boxShadow: 0
+                }}
+              >
+                Input Laporan Lab
+              </Button>
+            )}
           </Grid>
 
           {/* Summary Laporan */}

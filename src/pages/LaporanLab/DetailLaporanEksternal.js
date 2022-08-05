@@ -14,6 +14,7 @@ import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
+import useAuth from 'hooks/useAuth';
 
 // services
 import LabService from 'services/LabService';
@@ -22,6 +23,7 @@ const DetailEksternal = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+  const { isGranted } = useAuth();
 
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -144,36 +146,40 @@ const DetailEksternal = () => {
               Terakhir diedit oleh {location.state.account_name}, pada {d}
             </Box>
             <Box>
-              <Button
-                variant="outlined"
-                sx={{
-                  backgroundColor: '#E5E5FE',
-                  margin: '0 1rem 0.3rem 2rem',
-                  color: '#3F48C0',
-                  boxShadow: 0,
-                  border: '1px solid #3F48C0',
-                  width: '40%',
-                  fontWeight: '400'
-                }}
-                onClick={() => navigate(`/edit/eksternal/${id}`, { state: dataReport })}
-              >
-                Edit Laporan
-              </Button>
-              <Button
-                variant="outlined"
-                sx={{
-                  backgroundColor: 'white',
-                  margin: '0 0.5rem 0.3rem 0',
-                  color: '#3F48C0',
-                  boxShadow: 0,
-                  border: '1px solid #3F48C0',
-                  width: '40%',
-                  fontWeight: '400'
-                }}
-                onClick={toggleDelete}
-              >
-                Delete Laporan
-              </Button>
+              {isGranted && (
+                <Button
+                  variant="outlined"
+                  sx={{
+                    backgroundColor: '#E5E5FE',
+                    margin: '0 1rem 0.3rem 2rem',
+                    color: '#3F48C0',
+                    boxShadow: 0,
+                    border: '1px solid #3F48C0',
+                    width: '40%',
+                    fontWeight: '400'
+                  }}
+                  onClick={() => navigate(`/edit/eksternal/${id}`, { state: dataReport })}
+                >
+                  Edit Laporan
+                </Button>
+              )}
+              {isGranted && (
+                <Button
+                  variant="outlined"
+                  sx={{
+                    backgroundColor: 'white',
+                    margin: '0 0.5rem 0.3rem 0',
+                    color: '#3F48C0',
+                    boxShadow: 0,
+                    border: '1px solid #3F48C0',
+                    width: '40%',
+                    fontWeight: '400'
+                  }}
+                  onClick={toggleDelete}
+                >
+                  Delete Laporan
+                </Button>
+              )}
             </Box>
           </Grid>
 
@@ -184,8 +190,9 @@ const DetailEksternal = () => {
               <Grid item>
                 <Box
                   style={{
-                    margin: '0 0 0.5rem 0',
+                    margin: '1rem 0 0.5rem 0',
                     fontSize: '0.875rem',
+                    fontWeight: '700',
                     width: '5.5rem'
                   }}
                 >
@@ -196,7 +203,13 @@ const DetailEksternal = () => {
                 </Box>
               </Grid>
               <Grid item>
-                <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                <Box
+                  style={{
+                    margin: '1rem 0.5rem 0.5rem 2rem',
+                    fontSize: '0.875rem',
+                    fontWeight: '700'
+                  }}
+                >
                   Nama Pengaju Sample
                 </Box>
                 <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
@@ -208,7 +221,8 @@ const DetailEksternal = () => {
               <Grid item>
                 <Box
                   style={{
-                    fontSize: '0.875rem'
+                    fontSize: '0.875rem',
+                    fontWeight: '700'
                   }}
                 >
                   Nomor Kontak Pengaju Sample
