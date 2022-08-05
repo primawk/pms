@@ -56,8 +56,16 @@ const HistoryEdit = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="app-content">
+      <div
+        style={{
+          backgroundColor: '#F5F5F5',
+          width: '100%',
+          overflow: 'auto', // it makes this container follow the height of its content
+          position: 'relative'
+        }}
+      >
+        <Navbar />
+
         <Grid
           container
           sx={{
@@ -66,14 +74,14 @@ const HistoryEdit = () => {
             backgroundColor: 'white',
             height: '100%',
             width: '90%',
-            marginTop: '2.5rem',
+            marginTop: '6rem',
             marginLeft: 'auto',
             marginRight: 'auto',
-            marginBottom: 'auto',
+            marginBottom: '3rem',
             borderRadius: '4px'
           }}
         >
-          <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
+          <Grid item sx={{ height: '9%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
             <Grid
               container
               sx={{
@@ -94,7 +102,11 @@ const HistoryEdit = () => {
               </Grid>
               <Grid item>
                 <Box>
-                  <h2>Riwayat Edit 'Laporan Lab - {location.state.company_name}'</h2>
+                  {location.state.sample_code ? (
+                    <h2>Riwayat Edit 'Laporan Lab - {location.state.sample_code}</h2>
+                  ) : (
+                    <h2>Riwayat Edit 'Laporan Lab - {location.state.company_name}</h2>
+                  )}
                 </Box>
               </Grid>
             </Grid>
