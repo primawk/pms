@@ -64,7 +64,7 @@ const HistoryEdit = () => {
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: 'white',
-            minHeight: '100%',
+            height: '100%',
             width: '90%',
             marginTop: '2.5rem',
             marginLeft: 'auto',

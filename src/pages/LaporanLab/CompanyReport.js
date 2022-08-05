@@ -88,7 +88,7 @@ export default function CompanyReport() {
             >
               <Box
                 sx={{
-                  margin: '1rem 1rem 1rem 1rem',
+                  margin: '1rem 1rem 1rem 0',
                   color: 'black',
                   fontWeight: '700',
                   fontSize: '1rem'
@@ -98,9 +98,9 @@ export default function CompanyReport() {
               </Box>
               <Box
                 sx={{
-                  margin: '0.75rem 1rem 1rem 1rem',
+                  margin: '0.75rem 1rem 1rem 0',
                   fontWeight: '700',
-                  fontSize: '1.5rem',
+                  fontSize: '1rem',
                   color: 'black'
                 }}
               >

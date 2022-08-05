@@ -17,7 +17,6 @@ const editLog = (date, index) => {
       <Grid
         item
         sx={{
-          height: '14%',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
           width: '50rem'
@@ -25,10 +24,10 @@ const editLog = (date, index) => {
       >
         <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
           {/* Dates */}
-          <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1rem' }}>
+          <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1rem', fontWeight: '600' }}>
             {dayjs(date?.date).format('DD MMMM YYYY')}
           </Box>
-          <Lists data={value} name={name} />
+          <Lists data={output} />
         </Grid>
       </Grid>
     </>

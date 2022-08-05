@@ -27,7 +27,7 @@ const DetailEksternal = ({ data, i }) => {
           gap: '2rem',
           cursor: 'pointer'
         }}
-        onClick={() => navigate(`/detail/eksternal/${id}`, { state: data })}
+        onClick={() => navigate(`/lab-report/detail/eksternal/${id}`, { state: data })}
       >
         <Grid item>
           {/* <Grid
