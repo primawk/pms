@@ -150,12 +150,11 @@ export default function Dashboard() {
     data: dataOreGetting,
     isLoading: isLoadingOreGetting,
     isFetching: isFetchingOreGetting
-    // inventory-sm
-  } = useQuery(['mining', 'dome-list', 'SM'], () =>
+  } = useQuery(['mining', 'dome-list', 'inventory-sm'], () =>
     MiningActivityService.getDomeSummary({
       page: 1,
       row: 3,
-      inventory_type: 'SM'
+      inventory_type: 'inventory-sm'
     })
   );
 

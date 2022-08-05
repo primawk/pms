@@ -44,7 +44,7 @@ export default function SpecificInventory() {
       MiningActivityService.getDomeSummary({
         page: 1,
         row: 3,
-        inventory_type: 'SM'
+        inventory_type: 'inventory-sm'
       }),
     { keepPreviousData: true }
   );

@@ -16,24 +16,9 @@ const MasterData = () => {
 
   const menuList = [
     { value: 'inventory-sm', label: 'Inventory SM' },
-    { value: 'inventory-eto', label: 'Penjualan ETO' },
-    { value: 'inventory-efo', label: 'Penjualan EFO' }
+    { value: 'inventory-eto', label: 'Inventory ETO' },
+    { value: 'inventory-efo', label: 'Inventory EFO' }
   ];
-
-  const sample = [
-    {
-      inventory: 'Inventory SM',
-      detail: [
-        { bukit: 'Bukit I', dome: ['Dome A', 'Dome B', 'Dome C', 'Dome D', 'Dome E'] },
-        { bukit: 'Bukit II', dome: ['Dome F', 'Dome G', 'Dome H', 'Dome I', 'Dome J'] },
-        { bukit: 'Bukit III', dome: ['Dome K', 'Dome L', 'Dome M', 'Dome N', 'Dome O'] },
-        { bukit: 'Bukit IV', dome: ['Dome P', 'Dome Q', 'Dome R', 'Dome S', 'Dome T'] },
-        { bukit: 'Bukit V', dome: ['Dome U', 'Dome V', 'Dome W', 'Dome X', 'Dome Y'] }
-      ]
-    }
-  ];
-
-  const targetTableHead = ['INVENTORY', 'BUKIT', 'DOME', 'ACTION'];
 
   const [menuTab, setMenuTab] = useState(dataType || 'inventory-sm');
 
@@ -119,8 +104,6 @@ const MasterData = () => {
         {!isLoadingHill && !isLoadingDome && (
           <Grid sx={{ background: 'white' }}>
             <TargetDataTable
-              sample={sample}
-              targetTableHead={targetTableHead}
               dataType={menuTab}
               dataTable={menuTab === 'inventory-sm' ? dataHill?.data?.data : dataDome?.data?.data}
             />

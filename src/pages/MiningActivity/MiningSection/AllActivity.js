@@ -76,12 +76,12 @@ export default function AllActivity({ selectedDate }) {
     isFetching: isFetchingOreGetting
     // inventory-sm
   } = useQuery(
-    ['mining', 'dome-list', 'SM', selectedDate],
+    ['mining', 'dome-list', 'inventory-sm', selectedDate],
     () =>
       MiningActivityService.getDomeSummary({
         page: 1,
         row: 3,
-        inventory_type: 'SM',
+        inventory_type: 'inventory-sm',
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate
       }),

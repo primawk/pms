@@ -73,8 +73,7 @@ export default function SpecificActivity({ selectedDate }) {
 
   const inventoryType =
     activityType === 'ore-getting'
-      ? // inventory-sm
-        'SM'
+      ? 'inventory-sm'
       : activityType === 'ore-hauling-to-eto'
       ? 'inventory-eto'
       : activityType === 'eto-to-efo'
