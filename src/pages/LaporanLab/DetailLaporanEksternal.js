@@ -141,7 +141,7 @@ const DetailEksternal = () => {
                 width: '50rem',
                 cursor: 'pointer'
               }}
-              onClick={() => navigate(`/history-edit`, { state: dataReport })}
+              onClick={() => navigate(`/lab-report/history-edit`, { state: dataReport })}
             >
               Terakhir diedit oleh {location.state.account_name}, pada {d}
             </Box>
@@ -158,7 +158,7 @@ const DetailEksternal = () => {
                     width: '40%',
                     fontWeight: '400'
                   }}
-                  onClick={() => navigate(`/edit/eksternal/${id}`, { state: dataReport })}
+                  onClick={() => navigate(`/lab-report/edit/eksternal/${id}`, { state: dataReport })}
                 >
                   Edit Laporan
                 </Button>

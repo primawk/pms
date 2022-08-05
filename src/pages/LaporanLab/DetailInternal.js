@@ -56,6 +56,7 @@ const DetailInternal = () => {
   );
 
   const dataReport = data?.data?.data;
+  const d = String(new Date(dataReport?.updated_at));
 
   return (
     <>
@@ -117,9 +118,17 @@ const DetailInternal = () => {
               Laporan Internal Lab
             </Box>
             <h2 style={{ margin: '0 0.5rem 1em 2rem' }}>{dataReport?.sample_code}</h2>
-            <Box style={{ margin: '0 0.5rem 1rem 2rem', color: '#3F48C0', fontSize: '0.875rem' }}>
-              Terakhir diedit oleh {dataReport?.account_name}, pada 12 Juni 2022, 12:21 WITA
-              {/* {dataReport?.updated_at} */}
+            <Box
+              style={{
+                margin: '0 0.5rem 1rem 2rem',
+                color: '#3F48C0',
+                fontSize: '0.875rem',
+                width: '50rem',
+                cursor: 'pointer'
+              }}
+              onClick={() => navigate(`/lab-report/history-edit`, { state: dataReport })}
+            >
+              Terakhir diedit oleh {dataReport?.account_name}, pada {d}
             </Box>
             {isGranted && (
               <Button
@@ -134,7 +143,9 @@ const DetailInternal = () => {
                   fontWeight: '400'
                 }}
                 onClick={() =>
-                  navigate(`/edit/${dataReport?.report_type}/${id}`, { state: dataReport })
+                  navigate(`/lab-report/edit/${dataReport?.report_type}/${id}`, {
+                    state: dataReport
+                  })
                 }
               >
                 Edit Laporan

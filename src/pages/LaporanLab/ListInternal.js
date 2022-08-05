@@ -83,7 +83,7 @@ export default function ListInternal({
             {isGranted && (
               <Button
                 variant="contained"
-                onClick={() => navigate(`/input-laporan-internal`)}
+                onClick={() => navigate(`/lab-report/input-laporan-internal`)}
                 sx={{
                   width: '15.625',
                   height: '42px',
