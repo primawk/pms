@@ -37,7 +37,7 @@ export default function Inventory() {
         navigate('/inventory/inventory-efo');
         break;
       case 'master-inventory':
-        navigate('/inventory/master-data');
+        navigate('/inventory/master-inventory/inventory-sm');
         break;
       default:
         navigate('/inventory/all-inventory');
@@ -82,7 +82,7 @@ export default function Inventory() {
         </Grid>
         {menuTab === 'all-inventory' ? (
           <AllInventory />
-        ) : menuTab === 'master-data' ? (
+        ) : menuTab === 'master-inventory' ? (
           <MasterData />
         ) : (
           <SpecificInventory />

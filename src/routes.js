@@ -63,6 +63,10 @@ export default function Routes() {
           element: <AllInventory />
         },
         {
+          path: 'inventory/:inventoryType/:dataType',
+          element: <AllInventory />
+        },
+        {
           path: 'laporan-lab',
           element: <Navigate to="/laporan-lab/internal" replace />
         },
