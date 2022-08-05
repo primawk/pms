@@ -192,7 +192,12 @@ export async function getHistory(id) {
     method: 'GET',
     headers: authHeader()
   });
-  return promise;
+  return promise.data.data.reduce((groups, item) => {
+    const group = groups[item.updated_at] || [];
+    group.push(item);
+    groups[item.updated_at] = group;
+    return groups;
+  }, {});
 }
 
 const LabService = {

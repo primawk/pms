@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import dayjs from 'dayjs';
 
 // components
 import Navbar from '../../components/Navbar';
-import EditLog from './components/editLog';
+import EditLog from './components/EditLog';
 
 // services
 import { getHistory } from 'services/LabService';
@@ -19,24 +18,41 @@ const HistoryEdit = () => {
 
   useEffect(() => {
     getHistory(id).then((response) => {
-      setData(response?.data?.data);
+      setData(response);
     });
   }, [id]);
 
-  console.log(data);
+  // console.log(data);
 
-  const value = Object.values(data).map(({ description }) => description);
-  const date = Object.values(data).map(({ updated_at }) =>
-    dayjs(updated_at).format('DD MMMM YYYY')
-  );
+  // const value = Object.values(data['2022-08-04T16:22:39.794808']).map(
+  //   ({ description }) => description
+  // );
+  // const date = Object.values(data).map(({ updated_at }) => updated_at);
 
-  var output = value.map(function (obj, index) {
-    var myobj = {};
-    myobj[date[index]] = obj;
-    return myobj;
-  });
+  // var output = value.map(function (obj, index) {
+  //   var myobj = {};
+  //   myobj[date[index]] = obj;
+  //   return myobj;
+  // });
 
-  console.log(output);
+  // console.log(value);
+
+  // const results = data.reduce((groups, item) => {
+  //   const group = groups[data.updated_at] || [];
+  //   group.push(item);
+  //   groups[item.keys] = group;
+  // });
+
+  // console.log(output);
+
+  // const result = output.reduce(
+  //   (h, obj) => Object.assign(h, { [obj.key]: (h[obj.key] || []).concat(obj) }),
+  //   {}
+  // );
+
+  // console.log(data);
+
+  // console.log(result);
 
   return (
     <>
@@ -83,7 +99,9 @@ const HistoryEdit = () => {
               </Grid>
             </Grid>
           </Grid>
-          {Object.keys(output).map((data, (index) => <EditLog data={output} index={index} />))}
+          {Object.keys(data).map((item, index) => (
+            <EditLog date={item} value={data} index={index} />
+          ))}
         </Grid>
       </div>
     </>

@@ -1,8 +1,16 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
+import dayjs from 'dayjs';
+import Lists from './ListEdit';
 
-const editLog = (data, index) => {
-  console.log(data.data);
+const editLog = (date, index) => {
+  const value = Object.values(date.value[date?.date], index).map(({ description }) => description);
+  const name = Object.values(date.value[date?.date], index).map(({ account_name }) => account_name);
+  var output = value.map(function (obj, index) {
+    var myobj = {};
+    myobj[name[index]] = obj;
+    return myobj;
+  });
 
   return (
     <>
@@ -16,33 +24,11 @@ const editLog = (data, index) => {
         }}
       >
         <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1.25rem' }}>12 Juni 2022</Box>
-          <Grid item>
-            <Grid
-              container
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: '1rem'
-              }}
-            >
-              <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                <img src="/img/avatar1.png" alt=""></img>
-              </Grid>
-              <Grid item>
-                <Box style={{}}>Putri Devina mengedit kadar Nikel 13:21 WITA</Box>
-              </Grid>
-            </Grid>
-            <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <Grid item sx={{ margin: '0 0.5rem 0 2rem' }}>
-                <img src="/img/avatar2.png" alt=""></img>
-              </Grid>
-              <Grid item>
-                <Box style={{}}>Nisa mengedit kadar Fe 11:21 WITA</Box>
-              </Grid>
-            </Grid>
-          </Grid>
+          {/* Dates */}
+          <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1rem' }}>
+            {dayjs(date?.date).format('DD MMMM YYYY')}
+          </Box>
+          <Lists data={value} name={name} />
         </Grid>
       </Grid>
     </>
