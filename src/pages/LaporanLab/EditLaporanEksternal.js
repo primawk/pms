@@ -133,7 +133,7 @@ const EditLaporanEksternal = () => {
             <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
               <Grid container>
                 <Box>
-                  <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Input Laporan Eksternal Lab</h2>
+                  <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Edit Laporan Eksternal Lab</h2>
                 </Box>
               </Grid>
             </Grid>

@@ -10,6 +10,12 @@ import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
 import Lists from './Lists';
 
+// utils
+import { ceilTotalData } from 'utils/helper';
+
+// custom hooks
+import usePagination from 'hooks/usePagination';
+
 // services
 import { fetchInternal } from 'services/LabService';
 
@@ -17,16 +23,18 @@ export default function ListInternal({
   dataInternal,
   isFetchingActivity,
   totalPrepEks,
-  totalPrep
+  totalPrep,
+  totalAnalysisEks
 }) {
-  // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   const [posts, setPosts] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
+  const { page, handleChangePage } = usePagination();
+  const row = 5;
 
   useEffect(() => {
-    fetchInternal(selectedDates)
+    fetchInternal(selectedDates, page, row)
       .then((json) => {
         setPosts(json);
         return json;
@@ -34,7 +42,7 @@ export default function ListInternal({
       .then((json) => {
         setSearchResults(json);
       });
-  }, [selectedDates]);
+  }, [selectedDates, page]);
 
   return (
     <>
@@ -90,6 +98,7 @@ export default function ListInternal({
             preparation={dataInternal?.data?.data}
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
+            totalAnalysisEks={totalAnalysisEks}
           />
 
           {/*List Laporan*/}
@@ -108,7 +117,11 @@ export default function ListInternal({
             }}
           >
             <Grid item sx={{ width: '100%' }}>
-              <CustomPagination />
+              <CustomPagination
+                count={ceilTotalData(dataInternal?.data?.pagination?.total_data || 0, 5)}
+                page={page}
+                handleChangePage={handleChangePage}
+              />
             </Grid>
           </Grid>
         </Grid>

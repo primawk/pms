@@ -9,14 +9,29 @@ import SummaryLaporan from './components/SummaryLaporan';
 import { LoadingModal } from 'components/Modal';
 import Result from './resultEksternal';
 
+// utils
+// import { ceilTotalData } from 'utils/helper';
+
+// custom hooks
+// import usePagination from 'hooks/usePagination';
+
 // services
 import { fetchExternal } from 'services/LabService';
 
-export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalPrep }) {
+export default function ListEksternal({
+  isFetchingActivity,
+  totalPrepEks,
+  totalPrep,
+  totalAnalysisEks
+}) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
   const [postsEksternal, setPostsEksternal] = useState([]);
+  const [selectedDates, setSelectedDates] = useState([]);
+
+  // const { page, handleChangePage } = usePagination();
+  // const row = 5;
 
   useEffect(() => {
     fetchExternal()
@@ -36,7 +51,12 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
 
       <div className="app-content">
-        <SearchBarExternal posts={postsEksternal} setSearchResults={setSearchResultsEksternal} />
+        <SearchBarExternal
+          posts={postsEksternal}
+          setSearchResults={setSearchResultsEksternal}
+          setSelectedDates={setSelectedDates}
+          selectedDates={selectedDates}
+        />
         <Grid
           container
           sx={{
@@ -78,7 +98,11 @@ export default function ListEksternal({ isFetchingActivity, totalPrepEks, totalP
           </Grid>
           {/* Summary Laporan */}
 
-          <SummaryLaporan totalPrepEks={totalPrepEks} totalPrep={totalPrep} />
+          <SummaryLaporan
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+            totalAnalysisEks={totalAnalysisEks}
+          />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
           <Result searchResults={searchResultsEksternal} lastUpdate={lastUpdate} />

@@ -26,6 +26,10 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
     setSearchResults(resultsArrayEksternal);
   };
 
+  // const value = Object.values(posts[1]);
+
+  console.log(posts);
+
   const handleReset = () => {
     const resultsArrayEksternal = Object.keys(posts)
       .filter((key) => key.includes(''))

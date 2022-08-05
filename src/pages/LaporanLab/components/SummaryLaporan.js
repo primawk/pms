@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 // services
 import LabService from 'services/LabService';
 
-const SummaryLaporan = ({ totalPrep, totalPrepEks }) => {
+const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks }) => {
   // const [sumPreparationInternal, setPreparationInternal] = useState(0);
   const { data: dataEksternal } = useQuery(
     ['report', 'external'],
@@ -29,6 +29,7 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks }) => {
   const summaryEksternal = parseInt(dataEksternal?.data?.pagination.total_data);
   const summaryTotal = summaryEksternal + summaryInternal;
   const allPrep = totalPrep + totalPrepEks;
+  const allAnalysis = summaryInternal + totalAnalysisEks;
 
   return (
     <>
@@ -61,7 +62,7 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks }) => {
             <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
                 <li style={{ fontSize: '0.8rem' }}>{allPrep} Preparasi</li>
-                <li style={{ fontSize: '0.8rem' }}>6 Analisa</li>
+                <li style={{ fontSize: '0.8rem' }}>{allAnalysis} Analisa</li>
               </Grid>
             </Grid>
           </Grid>
@@ -109,7 +110,7 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks }) => {
             <Grid item>
               <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
                 <li style={{ fontSize: '0.8rem' }}>{totalPrepEks} Preparasi</li>
-                <li style={{ fontSize: '0.8rem' }}>6 Analisa</li>
+                <li style={{ fontSize: '0.8rem' }}>{totalAnalysisEks} Analisa</li>
               </Grid>
             </Grid>
           </Grid>

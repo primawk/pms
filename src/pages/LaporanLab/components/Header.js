@@ -10,10 +10,10 @@ export default function Header({ children, title, background }) {
       alignItems="center"
       spacing={2}
       sx={{
-        // backgroundImage: `url(/img/${background})`,
-        // backgroundRepeat: 'no-repeat',
-        // backgroundSize: 'cover',
-        // backgroundPosition: 'center',
+        backgroundImage: `url(/img/${background})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         width: '100%',
         height: '21vh',
         margin: '0',
