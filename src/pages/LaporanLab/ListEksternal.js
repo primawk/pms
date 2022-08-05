@@ -48,6 +48,8 @@ export default function ListEksternal({
 
   const lastUpdate = Object.values(postsEksternal);
 
+  console.log(postsEksternal);
+
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
