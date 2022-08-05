@@ -33,6 +33,7 @@ axios.interceptors.response.use(
     }
     if (error.response?.status === 404) {
       toast.error('The requested resource was not found.');
+      toast.clearWaitingQueue();
     }
     return Promise.reject(error);
   }

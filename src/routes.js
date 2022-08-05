@@ -63,6 +63,10 @@ export default function Routes() {
           element: <AllInventory />
         },
         {
+          path: 'inventory/:inventoryType/:dataType',
+          element: <AllInventory />
+        },
+        {
           path: 'lab-report',
           element: <Navigate to="/lab-report/internal" replace />
         },
