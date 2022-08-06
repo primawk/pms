@@ -5,12 +5,14 @@ import filterIcon from '@iconify/icons-carbon/filter';
 
 const years = ['2020', '2021', '2022'];
 
-const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
-  const [selectedYear, setSelectedYear] = useState('2022');
+const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelectedYear }) => {
+  console.log(selectedYear);
 
   const handleChangeYear = (event) => {
     setSelectedYear(event.target.value);
   };
+
+  console.log(selectedYear);
 
   return (
     <Grid container direction="row" alignItems="center" justifyContent="space-between">
@@ -64,7 +66,6 @@ const FilterSection = ({ handleChangeSubMenu, subMenu }) => {
           padding: '12px 24px'
         }}
       >
-
         <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
           <TextField
             id="outlined-select-currency"

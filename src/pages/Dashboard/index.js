@@ -16,6 +16,7 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 import ProductionService from 'services/Dashboard';
+import { getTargetYear } from 'services/Dashboard';
 
 const menuList = [
   { value: 0, label: 'Produksi' }
@@ -209,11 +210,25 @@ export default function Dashboard() {
     MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
   );
 
+  const [selectedYear, setSelectedYear] = useState('2021');
+
+
   const {
     data: dataProduction
     // isLoading: isLoadingOreGetting,
     // isFetching: isFetchingOreGetting
-  } = useQuery(['production', 'target', 'year'], () => ProductionService.getTarget({}));
+  } = useQuery(['production', 'target', 'year'], () =>
+    ProductionService.getTarget({
+      year: selectedYear
+    })
+  );
+
+  // useEffect(() => {
+  //   getTargetYear(year).then((response) => {
+  //     setDataEdit(response);
+  //     return response;
+  //   });
+  // }, [selectedYear]);
 
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
@@ -282,7 +297,12 @@ export default function Dashboard() {
             <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
               <Typography variant="h5">Data Target Produksi Tambang</Typography>
 
-              <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
+              <FilterSection
+                subMenu={subMenu}
+                handleChangeSubMenu={handleChangeSubMenu}
+                selectedYear={selectedYear}
+                setSelectedYear={setSelectedYear}
+              />
 
               <TargetDataInformation />
 

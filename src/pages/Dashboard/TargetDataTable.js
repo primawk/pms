@@ -121,10 +121,11 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                     >
                       {detail.target}
                     </TableCell>
-                    <TableCell
+                    <td
                       key={detail.target_id}
                       align="center"
                       sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
+                      // rowSpan={item.target_list?.length + 1}
                     >
                       <Grid
                         container
@@ -175,7 +176,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                           )}
                         </Grid>
                       </Grid>
-                    </TableCell>
+                    </td>
                     {/* {detail[0] ? (
                       <TableCell
                         sx={{

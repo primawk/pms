@@ -54,6 +54,19 @@ export async function getEdit(id) {
   });
   return promise.data.data;
 }
+export async function getTargetYear(year) {
+  const params = [];
+
+  if (year) {
+    params.push(['year', year]);
+  }
+  const url = await `${MINING_ACTIVITY_MODEL}/target`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    headers: authHeader()
+  });
+  return promise.data.data;
+}
 
 const ProductionService = {
   getTarget,
