@@ -6,6 +6,8 @@ import axios from 'axios';
 const getTarget = ({ year }) => {
   const params = [];
 
+  console.log(year);
+
   if (year) {
     params.push(['year', year]);
   }

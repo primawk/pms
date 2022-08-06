@@ -43,11 +43,11 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
 
   // const data = dataProduction?.data?.data;
 
-  const [editId, setEditId] = useState(0);
+  const [year, setYear] = useState(0);
   const [deleteId, setDeleteId] = useState(0);
 
   const handleEditClick = (id) => {
-    setEditId(id);
+    setYear(id);
     toggleForm();
   };
 
@@ -72,7 +72,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
 
   return (
     <>
-      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} id={editId} />
+      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} year={year} />
       <DeleteData
         toggle={toggleDelete}
         isShowing={isShowingDelete}
@@ -121,11 +121,10 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                     >
                       {detail.target}
                     </TableCell>
-                    <td
+                    <TableCell
                       key={detail.target_id}
                       align="center"
                       sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
-                      // rowSpan={item.target_list?.length + 1}
                     >
                       <Grid
                         container
@@ -144,7 +143,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                             }}
                             fullWidth
                             variant="contained"
-                            onClick={() => handleEditClick(detail.target_id)}
+                            onClick={() => handleEditClick(item.year)}
                           >
                             <Icon
                               style={{ fontSize: '17px', marginRight: '1rem' }}
@@ -176,7 +175,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                           )}
                         </Grid>
                       </Grid>
-                    </td>
+                    </TableCell>
                     {/* {detail[0] ? (
                       <TableCell
                         sx={{
