@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button, Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -8,16 +8,83 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { useQuery } from 'react-query';
+import dayjs from 'dayjs';
 
 // components
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
 
-const EditData = ({ isShowing, toggle }) => {
-  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
+// services
+import ProductionService from 'services/Dashboard';
+import { getEdit } from 'services/Dashboard';
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
+const EditData = ({ isShowing, toggle, id }) => {
+  const [dataEdit, setDataEdit] = useState([]);
+  console.log(id);
+  // const {
+  //   data: dataTarget
+  //   // isLoading: isLoadingOreGetting,
+  //   // isFetching: isFetchingOreGetting
+  // } = useQuery(['target'], () =>
+  //   ProductionService.getTargetDetail({
+  //     id: id
+  //   })
+  // );
+
+  useEffect(() => {
+    getEdit(id).then((response) => {
+      setDataEdit(response);
+      return response;
+    });
+  }, [id]);
+
+  // const dataEdit = dataTarget?.data?.data;
+  // const dataEdit = data?.map((obj) => obj.target_list);
+
+  const [addFormData, setAddFormData] = useState({
+    month: dataEdit?.month,
+    target: dataEdit?.target,
+    year: dataEdit?.year
+  });
+
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData);
   };
+
+  const handleEditFormSubmit = async (event) => {
+    event.preventDefault();
+    const data = {
+      month: addFormData?.month,
+      target: addFormData?.target,
+      year: addFormData?.year
+    };
+
+    try {
+      console.log(id);
+      await ProductionService.editTarget(id, data);
+      console.log(data);
+
+      console.log('success');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(addFormData.month);
+
+  // const handleChange = (newValue) => {
+  //   setValue(newValue);
+  // };
+
+  // const [value, setValue] = React.useState(new Date(dataEdit?.year));
 
   return (
     <CustomModal isShowing={isShowing} toggle={toggle} width="52.125rem">
@@ -30,38 +97,49 @@ const EditData = ({ isShowing, toggle }) => {
           margin: 'auto'
         }}
       >
-        <Grid
-          container
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            marginLeft: '1rem'
-          }}
-        >
-          <Grid item sx={{ margin: '1rem auto 1rem auto' }}>
-            <h2>Edit Target</h2>
-          </Grid>
+        <form onSubmit={handleEditFormSubmit}>
           <Grid
             container
             sx={{
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              marginLeft: '1rem'
             }}
           >
-            <Grid item sx={{ margin: '0 auto 1rem 25.5rem' }}>
-              <Box sx={{ fontSize: '0.875rem' }}>Tahun</Box>
+            <Grid item sx={{ margin: '1rem auto 1rem auto' }}>
+              <h2>Edit Target</h2>
             </Grid>
-            <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 25.5rem' }}>
-              <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
-                <DesktopDatePicker
-                  inputFormat="yyyy"
-                  value={value}
-                  onChange={handleChange}
-                  fullWidth
-                  renderInput={(params) => <TextField {...params} size="small" />}
+            <Grid
+              container
+              sx={{
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              <Grid item sx={{}}>
+                <Box sx={{ fontSize: '0.875rem' }}>Tahun</Box>
+              </Grid>
+              <Grid item sx={{ width: '22.5rem' }}>
+                {/* <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
+                  <DesktopDatePicker
+                    inputFormat="yyyy"
+                    openTo="year"
+                    value={value}
+                    onChange={handleChange}
+                    fullWidth
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider> */}
+                <TextField
+                  name="year"
+                  id="outlined-basic"
+                  // label="Kode Sample"
+                  variant="outlined"
+                  onChange={handleAddFormChange}
+                  defaultValue={dataEdit?.year}
                 />
-              </LocalizationProvider>
+              </Grid>
             </Grid>
           </Grid>
 
@@ -70,58 +148,33 @@ const EditData = ({ isShowing, toggle }) => {
             <Grid container sx={{ alignItems: 'flex-end' }}>
               <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Januari</Box>
+                  <Box sx={{ fontSize: '0.875rem' }}>Bulan</Box>
                 </Grid>
                 <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
+                  <TextField
+                    name="month"
+                    id="outlined-basic"
+                    // label="Kode Sample"
+                    variant="outlined"
+                    onChange={handleAddFormChange}
+                    defaultValue={dataEdit?.month}
+                  />
                 </Grid>
               </Grid>
               <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Juli</Box>
+                  <Box sx={{ fontSize: '0.875rem' }}>Target</Box>
                 </Grid>
                 <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                   <FormControl size="small" variant="outlined" fullWidth>
                     <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
+                      required
+                      name="target"
+                      onChange={handleAddFormChange}
+                      defaultValue={dataEdit?.target}
                       endAdornment={
                         <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
+                          <Grid>Ton</Grid>
                         </InputAdornment>
                       }
                       placeholder="0,00"
@@ -134,352 +187,262 @@ const EditData = ({ isShowing, toggle }) => {
           </Grid>
 
           {/* 2 */}
-          <Grid item>
-            <Grid container sx={{ alignItems: 'flex-end' }}>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Februari</Box>
+          {/* <Grid item>
+              <Grid container sx={{ alignItems: 'flex-end' }}>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>Februari</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="februari"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Agustus</Box>
-                </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>Agustus</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="agustus"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </Grid> */}
 
           {/* 3 */}
-          <Grid item>
-            <Grid container sx={{ alignItems: 'flex-end' }}>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Maret</Box>
+          {/* <Grid item>
+              <Grid container sx={{ alignItems: 'flex-end' }}>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>Maret</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="maret"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>September</Box>
-                </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>September</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="september"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </Grid> */}
 
           {/* 4 */}
-          <Grid item>
-            <Grid container sx={{ alignItems: 'flex-end' }}>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>April</Box>
+          {/* <Grid item>
+              <Grid container sx={{ alignItems: 'flex-end' }}>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>April</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="april"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Oktober</Box>
-                </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>Oktober</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="oktober"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </Grid> */}
           {/* 5 */}
-          <Grid item>
-            <Grid container sx={{ alignItems: 'flex-end' }}>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Mei</Box>
+          {/* <Grid item>
+              <Grid container sx={{ alignItems: 'flex-end' }}>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>Mei</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="mei"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>November</Box>
-                </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>November</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="november"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </Grid> */}
 
           {/* 6 */}
-          <Grid item>
-            <Grid container sx={{ alignItems: 'flex-end' }}>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Juni</Box>
+          {/* <Grid item>
+              <Grid container sx={{ alignItems: 'flex-end' }}>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>Juni</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="juni"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                  <Box sx={{ fontSize: '0.875rem' }}>Desember</Box>
-                </Grid>
-                <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                  <FormControl size="small" variant="outlined" fullWidth>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      // value={values.password}
-                      // onChange={handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          <Grid
-                          //     sx={{
-                          //       backgroundColor: '#E0E0E0',
-                          //       height: '2.5rem',
-                          //       border: '1px solid #E0E0E0',
-                          //       borderRadius: '0px 4px 4px 0px',
-                          //   width
-                          //     }}
-                          >
-                            Ton
-                          </Grid>
-                        </InputAdornment>
-                      }
-                      placeholder="0,00"
-                      fullWidth
-                    />
-                  </FormControl>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                    <Box sx={{ fontSize: '0.875rem' }}>Desember</Box>
+                  </Grid>
+                  <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                    <FormControl size="small" variant="outlined" fullWidth>
+                      <OutlinedInput
+                        required
+                        name="desember"
+                        onChange={handleAddFormChange}
+                        defaultValue={dataEdit?.target}
+                        endAdornment={
+                          <InputAdornment position="end" backgroundColor="gray">
+                            <Grid>Ton</Grid>
+                          </InputAdornment>
+                        }
+                        placeholder="0,00"
+                        fullWidth
+                      />
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </Grid> */}
 
           <Grid
             container
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
               alignItems: 'center',
-              margin: 'auto 0 1.5rem 0'
+              margin: '2rem 0 1.5rem 0'
             }}
           >
             <Grid item sx={{ marginRight: '1rem' }}>
@@ -493,6 +456,7 @@ const EditData = ({ isShowing, toggle }) => {
             </Grid>
             <Grid item>
               <Button
+                type="submit"
                 variant="contained"
                 sx={{
                   boxShadow: '0',
@@ -505,7 +469,8 @@ const EditData = ({ isShowing, toggle }) => {
               </Button>
             </Grid>
           </Grid>
-        </Grid>
+          {/* </Grid> */}
+        </form>
       </Grid>
     </CustomModal>
   );

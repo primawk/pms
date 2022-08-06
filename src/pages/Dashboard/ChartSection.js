@@ -24,7 +24,7 @@ const ChartSection = ({ chartData, data }) => {
                     width: '20px',
                     height: '20px',
                     border: '1px solid rgba(0, 0, 0, .2)',
-                    backgroundColor: 'red',
+                    backgroundColor: '#3F48C0',
                     marginRight: '0.5rem'
                   }}
                 ></Grid>
@@ -50,7 +50,7 @@ const ChartSection = ({ chartData, data }) => {
                     width: '20px',
                     height: '20px',
                     border: '1px solid rgba(0, 0, 0, .2)',
-                    backgroundColor: 'blue',
+                    backgroundColor: '#DA4540',
                     marginRight: '0.5rem'
                   }}
                 ></Grid>
@@ -73,7 +73,7 @@ const ChartSection = ({ chartData, data }) => {
             </TableCell>
             {data?.map((item) => (
               <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
-                {item?.pv}
+                {item?.uv} / {item?.pv} * 100
               </TableCell>
             ))}
           </TableRow>

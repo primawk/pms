@@ -21,62 +21,62 @@ const TambahTarget = ({ isShowing, toggle, width }) => {
       {
         month: 'Januari',
         month_number: 1,
-        target: 70000
+        target: 0
       },
       {
         month: 'Februari',
         month_number: 2,
-        target: 10000
+        target: 0
       },
       {
         month: 'Maret',
         month_number: 3,
-        target: 20000
+        target: 0
       },
       {
         month: 'April',
         month_number: 4,
-        target: 50000
+        target: 0
       },
       {
         month: 'Mei',
         month_number: 5,
-        target: 70000
+        target: 0
       },
       {
         month: 'Juni',
         month_number: 6,
-        target: 15000
+        target: 0
       },
       {
         month: 'Juli',
         month_number: 7,
-        target: 25000
+        target: 0
       },
       {
         month: 'Agustus',
         month_number: 8,
-        target: 30000
+        target: 0
       },
       {
         month: 'September',
         month_number: 9,
-        target: 60000
+        target: 0
       },
       {
         month: 'Oktober',
         month_number: 10,
-        target: 10000
+        target: 0
       },
       {
         month: 'November',
         month_number: 11,
-        target: 40000
+        target: 0
       },
       {
         month: 'Desember',
         month_number: 12,
-        target: 35000
+        target: 0
       }
     ]
   });

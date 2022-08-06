@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Tab, Tabs, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 
@@ -26,7 +26,7 @@ const data = [
   {
     name: 'Jan',
     uv: 4000,
-    pv: 2400
+    pv: 4000
   },
   {
     name: 'Feb',
@@ -138,7 +138,7 @@ export default function Dashboard() {
         borderWidth: 2
       },
       {
-        label: 'Data Produksi',
+        label: 'Target Produksi',
         data: data.map((item) => item.pv),
         backgroundColor: ['#DA4540'],
         borderWidth: 2
@@ -286,11 +286,7 @@ export default function Dashboard() {
 
               <TargetDataInformation />
 
-              <TargetDataTable
-                sample={sample}
-                targetTableHead={targetTableHead}
-                dataProduction={dataProduction}
-              />
+              <TargetDataTable targetTableHead={targetTableHead} dataProduction={dataProduction} />
 
               <CustomPagination />
             </Grid>

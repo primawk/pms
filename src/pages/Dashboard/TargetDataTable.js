@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Grid,
@@ -13,9 +13,11 @@ import { Icon } from '@iconify/react';
 import EditIcon from '@iconify/icons-ant-design/edit-filled';
 import DeleteIcon from '@iconify/icons-ant-design/delete-filled';
 import EditData from '../../components/Modal/DashboardHome/EditData';
-import DeleteData from '../../components/Modal/DeleteModal/index';
+import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
+import DeleteData from '../../components/Modal/DeleteModal/Dashboard';
 import { toast } from 'react-toastify';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useNavigate } from 'react-router-dom';
 
 // components
 // import { LoadingModal } from 'components/Modal';
@@ -28,17 +30,33 @@ import useAuth from 'hooks/useAuth';
 import ProductionService from 'services/Dashboard';
 
 const TargetDataTable = ({ targetTableHead, dataProduction }) => {
+  const navigate = useNavigate();
   const { isShowing: isShowingForm, toggle: toggleForm, width } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
   const { isGranted } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [dataTable, setDataTable] = useState([]);
 
-  const data = dataProduction?.data?.data;
+  useEffect(() => {
+    setDataTable(dataProduction?.data?.data);
+  }, [dataProduction]);
 
-  const id = data.map((item) => item.target_list);
+  // const data = dataProduction?.data?.data;
 
-  const handleDelete = () => {
-    setLoading(true);
+  const [editId, setEditId] = useState(0);
+  const [deleteId, setDeleteId] = useState(0);
+
+  const handleEditClick = (id) => {
+    setEditId(id);
+    toggleForm();
+  };
+
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    toggleDelete();
+  };
+
+  const handleDelete = (id) => {
     ProductionService.deleteTarget({ id })
       .then(() => {
         toast.success('Data berhasil dihapus !');
@@ -54,12 +72,13 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
 
   return (
     <>
-      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} />
+      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} id={editId} />
       <DeleteData
         toggle={toggleDelete}
         isShowing={isShowingDelete}
         title="Data"
         action={handleDelete}
+        id={deleteId}
       />
       <TableContainer sx={{ mt: 3, width: '100%' }}>
         <Table>
@@ -77,9 +96,9 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item) => (
+            {dataTable.map((item) => (
               <>
-                <TableRow>
+                <TableRow key={item}>
                   <TableCell
                     align="center"
                     sx={{ border: '1px solid #F2F2F2', minWidth: '10vw' }}
@@ -88,8 +107,8 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                     {item.year}
                   </TableCell>
                 </TableRow>
-                {item.target_list.map((detail, target_id) => (
-                  <TableRow>
+                {item.target_list.map((detail) => (
+                  <TableRow key={detail.target_id}>
                     <TableCell
                       align="center"
                       sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
@@ -103,6 +122,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                       {detail.target}
                     </TableCell>
                     <TableCell
+                      key={detail.target_id}
                       align="center"
                       sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
                     >
@@ -123,7 +143,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                             }}
                             fullWidth
                             variant="contained"
-                            onClick={toggleForm}
+                            onClick={() => handleEditClick(detail.target_id)}
                           >
                             <Icon
                               style={{ fontSize: '17px', marginRight: '1rem' }}
@@ -144,7 +164,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                               }}
                               fullWidth
                               variant="contained"
-                              onClick={() => handleDelete(target_id)}
+                              onClick={() => handleDeleteClick(detail.target_id)}
                             >
                               <Icon
                                 style={{ fontSize: '17px', marginRight: '0.5rem' }}
@@ -183,7 +203,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                                 style={{ fontSize: '17px', marginRight: '1rem' }}
                                 icon={EditIcon}
                               />
-                              Edit Data
+                              Edit Table
                             </Button>
                           </Grid>
                           <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
