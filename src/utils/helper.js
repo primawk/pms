@@ -1,3 +1,6 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 export const currencyFormatter = new Intl.NumberFormat('id-ID', {
   style: 'currency',
   currency: 'IDR',
@@ -82,3 +85,22 @@ export function capitalizeFirstLetter(string) {
 }
 
 export const ceilTotalData = (data, row) => Math.ceil(data / row);
+
+export const timeDifference = (startDate, endDate) => {
+  dayjs.extend(relativeTime);
+  return dayjs(endDate).to(dayjs(startDate));
+};
+
+export const translateTime = (text) => {
+  if (text === 'a few second ago') return 'Hari ini';
+  if (text === 'a day ago') return 'Kemarin';
+  if (text === 'a month ago') return 'Bulan lalu';
+  if (text === 'a year ago') return 'Tahun lalu';
+  if (text.charAt(0) !== 'a')
+    return text
+      .replace('days', 'Hari')
+      .replace('weeks', 'Minggu')
+      .replace('months', 'Bulan')
+      .replace('years', 'Tahun')
+      .replace('ago', 'Lalu');
+};

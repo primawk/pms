@@ -14,6 +14,9 @@ import Header from 'components/Header';
 import { AllActivity, SpecificActivity } from './MiningSection';
 import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 
+// utils
+import { timeDifference, translateTime } from 'utils/helper';
+
 // custom button
 const WhiteButton = styled(Button)(({ theme }) => ({
   backgroundColor: 'white',
@@ -40,13 +43,13 @@ export default function MiningActivity() {
   const [filter, setFilter] = useState([
     {
       startDate: new Date(),
-      endDate: dayjs(new Date()).add(7, 'day').toDate(),
+      endDate: dayjs(new Date()).subtract(7, 'day').toDate(),
       key: 'selection'
     }
   ]);
   const [selectedDate, setSelectedDate] = useState({
     startDate: dayjs(new Date()).format('YYYY-MM-DD'),
-    endDate: dayjs(new Date()).add(7, 'day').format('YYYY-MM-DD')
+    endDate: dayjs(new Date()).subtract(14, 'day').format('YYYY-MM-DD')
   });
 
   const handleChangeTab = (event, _menuTab) => {
@@ -66,6 +69,10 @@ export default function MiningActivity() {
     }
   };
 
+  const dateDifference = translateTime(
+    timeDifference(selectedDate?.startDate, selectedDate?.endDate)
+  );
+
   return (
     <>
       <Header title="KEGIATAN TAMBANG" background="dashboard.png">
@@ -76,7 +83,7 @@ export default function MiningActivity() {
           onClick={toggle}
           endIcon={<Icon width={10} height={10} icon={ArrowIcon} color="#gray" />}
         >
-          Periode | Hari Ini
+          {`Periode | ${dateDifference}`}
         </WhiteButton>
       </Header>
       <FilterDate
@@ -120,9 +127,9 @@ export default function MiningActivity() {
           </Tabs>
         </Grid>
         {menuTab === 'all-activity' ? (
-          <AllActivity selectedDate={selectedDate} />
+          <AllActivity selectedDate={selectedDate} filterDate={dateDifference} />
         ) : (
-          <SpecificActivity selectedDate={selectedDate} />
+          <SpecificActivity selectedDate={selectedDate} filterDate={dateDifference} />
         )}
       </div>
     </>
