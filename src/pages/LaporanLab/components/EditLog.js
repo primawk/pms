@@ -19,7 +19,8 @@ const editLog = (date, index) => {
         sx={{
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
-          width: '50rem'
+          width: '50rem',
+          paddingBottom: '1rem'
         }}
       >
         <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
+import { Icon } from '@iconify/react';
 
 const ListEdit = ({ data }) => {
   console.log(data);
@@ -31,9 +32,10 @@ const ListEdit = ({ data }) => {
               {Object.keys(row).map(function (key, index2) {
                 return (
                   <>
-                    <li style={{ fontSize: '1rem' }}>
-                      {key} {row[Object.keys(row)[index2]]}
-                    </li>
+                    <div style={{ display: 'flex', alignItems: 'center', padding: '0.1rem' }}>
+                      <Icon icon="bxs:user-circle" color="#3f48c0" fontSize={24} /> {key}{' '}
+                      {row[Object.keys(row)[index2]]}
+                    </div>
                   </>
                 );
               })}

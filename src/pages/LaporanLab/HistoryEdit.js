@@ -9,6 +9,7 @@ import EditLog from './components/EditLog';
 
 // services
 import { getHistory } from 'services/LabService';
+import { height } from '@mui/system';
 
 const HistoryEdit = () => {
   const navigate = useNavigate();
@@ -60,6 +61,7 @@ const HistoryEdit = () => {
         style={{
           backgroundColor: '#F5F5F5',
           width: '100%',
+          height: '100%',
           overflow: 'auto', // it makes this container follow the height of its content
           position: 'relative'
         }}

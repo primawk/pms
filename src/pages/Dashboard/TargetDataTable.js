@@ -69,54 +69,60 @@ const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
                     >
                       {detail.target}
                     </TableCell>
-                    {detail[0] ? (
-                      <TableCell
+                    <TableCell
+                      align="center"
+                      sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
+                      rowSpan={item.target_list?.length + 1}
+                    >
+                      {/* <Grid
+                        container
                         sx={{
-                          border: '1px solid #F2F2F2',
-                          justifyContent: 'flex-start',
-                          alignItems: 'flex-start'
+                          justifyContent: 'space-around',
+                          alignItems: 'flex-start',
+                          marginBottom: '40rem'
                         }}
-                        // rowSpan={item.target?.length}
-                      >
-                        <Grid
-                          container
-                          sx={{
-                            justifyContent: 'space-around',
-                            alignItems: 'flex-start',
-                            marginBottom: '40rem'
-                          }}
-                        >
-                          <Grid item md={5} xs={12} padding="0.2em 0">
-                            <Button
-                              sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
-                              fullWidth
-                              variant="contained"
-                              onClick={toggleForm}
-                            >
-                              <Icon
-                                style={{ fontSize: '17px', marginRight: '1rem' }}
-                                icon={EditIcon}
-                              />
-                              Edit Data
-                            </Button>
-                          </Grid>
-                          <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
-                            <Button
-                              sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
-                              fullWidth
-                              variant="contained"
-                              onClick={toggleDelete}
-                            >
-                              <Icon
-                                style={{ fontSize: '17px', marginRight: '0.5rem' }}
-                                icon={DeleteIcon}
-                              />
-                              Delete Data
-                            </Button>
-                          </Grid>
+                      > */}
+                        <Grid item md={5} xs={12} padding="0.2em 0">
+                          <Button
+                            sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
+                            fullWidth
+                            variant="contained"
+                            onClick={toggleForm}
+                          >
+                            <Icon
+                              style={{ fontSize: '17px', marginRight: '1rem' }}
+                              icon={EditIcon}
+                            />
+                            Edit Data
+                          </Button>
                         </Grid>
-                      </TableCell>
-                    ) : null}
+                        <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
+                          <Button
+                            sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
+                            fullWidth
+                            variant="contained"
+                            onClick={toggleDelete}
+                          >
+                            <Icon
+                              style={{ fontSize: '17px', marginRight: '0.5rem' }}
+                              icon={DeleteIcon}
+                            />
+                            Delete Data
+                          </Button>
+                        </Grid>
+                      {/* </Grid> */}
+                    </TableCell>
+
+                    {/* <TableCell
+                      sx={{
+                        border: '1px solid #F2F2F2',
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start'
+                      }}
+                      rowSpan={item.target_list?.length + 1}
+                    >
+                    
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </>

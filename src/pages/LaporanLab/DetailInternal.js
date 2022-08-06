@@ -169,7 +169,7 @@ const DetailInternal = () => {
               </Button>
             )}
           </Grid>
-          <Grid item sx={{}}>
+          <Grid item sx={{ }}>
             <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
               <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
                 <h3 style={{ margin: '2.5rem 0.5rem 1.5rem 2rem' }}>Informasi Sample</h3>
