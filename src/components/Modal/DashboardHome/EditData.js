@@ -19,18 +19,26 @@ import CustomModal from 'components/Modal/CustomModal/CustomModal';
 import ProductionService from 'services/Dashboard';
 
 const EditData = ({ isShowing, toggle, year }) => {
-  console.log(year);
-  const {
-    data: dataEditv2,
-    // isLoading: isLoading
-    isFetching: isFetchingOreGetting
-  } = useQuery(['target'], () =>
-    ProductionService.getTarget({
-      year: year
-    })
-  );
+  const [dataEdit, setDataEdit] = useState([]);
+  console.log(id);
+  // const {
+  //   data: dataTarget
+  //   // isLoading: isLoadingOreGetting,
+  //   // isFetching: isFetchingOreGetting
+  // } = useQuery(['target'], () =>
+  //   ProductionService.getTargetDetail({
+  //     id: id
+  //   })
+  // );
 
-  const dataEdit = dataEditv2?.data?.data.map((item) => item);
+  useEffect(() => {
+    getEdit(id).then((response) => {
+      setDataEdit(response);
+      return response;
+    });
+  }, [id]);
+
+  // const dataEdit = dataTarget?.data?.data;
   // const dataEdit = data?.map((obj) => obj.target_list);
 
   const [addFormData, setAddFormData] = useState({
