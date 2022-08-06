@@ -9,7 +9,6 @@ import EditLog from './components/EditLog';
 
 // services
 import { getHistory } from 'services/LabService';
-import { height } from '@mui/system';
 
 const HistoryEdit = () => {
   const navigate = useNavigate();
