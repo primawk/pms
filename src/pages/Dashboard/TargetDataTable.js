@@ -24,10 +24,6 @@ const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
 
   const data = dataProduction?.data?.data;
 
-  console.log(data);
-
-  const year = data.map((item) => item.year);
-
   return (
     <>
       <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} />
@@ -48,18 +44,18 @@ const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sample.map((item) => (
+            {data.map((item) => (
               <>
                 <TableRow>
                   <TableCell
                     align="center"
                     sx={{ border: '1px solid #F2F2F2', minWidth: '10vw' }}
-                    rowSpan={item.detail?.length + 1}
+                    rowSpan={item.target_list?.length + 1}
                   >
                     {item.year}
                   </TableCell>
                 </TableRow>
-                {item.detail.map((detail) => (
+                {item.target_list.map((detail) => (
                   <TableRow>
                     <TableCell
                       align="center"
@@ -73,14 +69,14 @@ const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
                     >
                       {detail.target}
                     </TableCell>
-                    {detail.month === 'Januari' ? (
+                    {detail[0] ? (
                       <TableCell
                         sx={{
                           border: '1px solid #F2F2F2',
                           justifyContent: 'flex-start',
                           alignItems: 'flex-start'
                         }}
-                        rowSpan={item.detail?.length}
+                        // rowSpan={item.target?.length}
                       >
                         <Grid
                           container
