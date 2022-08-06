@@ -3,7 +3,6 @@ import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 
 const getTarget = ({ year }) => {
-  console.log('test');
   const params = [];
 
   if (year) {
@@ -16,8 +15,25 @@ const getTarget = ({ year }) => {
   });
 };
 
+const deleteTarget = ({ id }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/target/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
+const addTarget = (data) => {
+  return request(`${MINING_ACTIVITY_MODEL}/target`, {
+    method: 'POST',
+    headers: authHeader(),
+    data
+  });
+};
+
 const ProductionService = {
-  getTarget
+  getTarget,
+  deleteTarget,
+  addTarget
 };
 
 export default ProductionService;

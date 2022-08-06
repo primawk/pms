@@ -48,7 +48,7 @@ const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item) => (
+            {sample.map((item) => (
               <>
                 <TableRow>
                   <TableCell
@@ -59,7 +59,7 @@ const TargetDataTable = ({ sample, targetTableHead, dataProduction }) => {
                     {item.year}
                   </TableCell>
                 </TableRow>
-                {item.target_list.map((detail) => (
+                {item.detail.map((detail) => (
                   <TableRow>
                     <TableCell
                       align="center"
