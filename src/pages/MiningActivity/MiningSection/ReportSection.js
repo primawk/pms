@@ -41,8 +41,6 @@ export default function ReportSection({ selectedDate, filterDate }) {
     { keepPreviousData: true }
   );
 
-  console.log(filterDate);
-
   return (
     <div className="app-content">
       {isFetching && <LoadingModal />}
