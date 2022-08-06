@@ -268,7 +268,7 @@ const DetailEksternal = () => {
               </Grid>
             </Grid>
 
-            <Box sx={{ marginBottom: '1rem', fontSize: '20px' }}>
+            <Box sx={{ margin: '1rem 0 1rem 0', fontSize: '20px' }}>
               <h3>File Laporan</h3>
             </Box>
             <Grid
