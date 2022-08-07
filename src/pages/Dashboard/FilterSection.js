@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Grid, TextField, MenuItem } from '@mui/material';
 import { Icon } from '@iconify/react';
 import filterIcon from '@iconify/icons-carbon/filter';
-import { useQuery } from 'react-query';
+// import { useQuery } from 'react-query';
 
-// services
-import ProductionService from 'services/Dashboard';
+// // services
+// import ProductionService from 'services/Dashboard';
 
-// const years = ['2020', '2021', '2022'];
+const years = ['2020', '2021', '2022'];
 
-const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelectedYear, years }) => {
-  const [year, setYear] = useState();
+const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelectedYear }) => {
   const handleChangeYear = (event) => {
     setSelectedYear(event.target.value);
   };
@@ -73,7 +72,7 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
           }}
         >
           <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
-            {/* <TextField
+            <TextField
               id="outlined-select-currency"
               select
               label="Tahun"
@@ -81,11 +80,13 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
               onChange={handleChangeYear}
               placeholder="Tahun"
               fullWidth
-            > */}
-            <select id="years" onChange={(e) => setYear(e.target.value)}>
-              {years ? years.map((item) => <option>{item}</option>) : null}
-            </select>
-            {/* </TextField> */}
+            >
+              {years.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
 
           <Grid item md={1} xs={12}>

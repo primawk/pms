@@ -17,6 +17,12 @@ import { LoadingModal } from 'components/Modal';
 import MiningActivityService from 'services/MiningActivityService';
 import ProductionService from 'services/Dashboard';
 
+// custom hooks
+import usePagination from 'hooks/usePagination';
+
+// utils
+import { ceilTotalData } from 'utils/helper';
+
 const menuList = [
   { value: 0, label: 'Produksi' }
   // { value: 1, label: 'Penjualan' }
@@ -173,29 +179,21 @@ export default function Dashboard() {
   );
 
   const [selectedYear, setSelectedYear] = useState(0);
-  const rowProductionTable = 1;
+  const { pageTarget, handleChangePageTarget } = usePagination();
 
   const {
     data: dataProduction,
     isLoading: isLoadingProduction,
     isFetching: isFetchingProduction
-  } = useQuery(['data-target', rowProductionTable], () =>
+  } = useQuery(['data-target'], () =>
     ProductionService.getTarget({
       year: selectedYear,
-      row: rowProductionTable
+      row: 2,
+      page: pageTarget
     })
   );
 
   const years = dataProduction?.data?.data.map((item) => item.year);
-
-  // console.log(years);
-
-  // useEffect(() => {
-  //   getTargetYear(years).then((response) => {
-  //     setDataEdit(response);
-  //     return response;
-  //   });
-  // }, []);
 
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
@@ -286,11 +284,16 @@ export default function Dashboard() {
               <TargetDataTable
                 targetTableHead={targetTableHead}
                 data={dataProduction?.data?.data}
+                dataPage={dataProduction}
                 isLoading={isLoadingProduction}
                 isFetching={isFetchingProduction}
               />
 
-              <CustomPagination />
+              <CustomPagination
+                count={ceilTotalData(dataProduction?.data?.pagination?.total_Page || 1, 2)}
+                page={pageTarget}
+                handleChangePage={handleChangePageTarget}
+              />
             </Grid>
           </>
         )}

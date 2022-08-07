@@ -18,24 +18,17 @@ import useModal from '../../../hooks/useModal';
 
 // components
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
+import { LoadingModal } from 'components/Modal';
 
 // services
 import ProductionService from 'services/Dashboard';
 
-const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
+const EditData = ({ isShowing, toggle, year, id, dataTarget, isFetching, isLoading }) => {
   const [loading, setLoading] = useState(false);
-  const [idEdit, setIdEdit] = useState([]);
-  // const data = Object.values(dataEdit).map((item, i) => item?.target_list[1]);
 
   useEffect(() => {
-    setIdEdit(id);
-  });
-
-  // const result = data?.map(({ month, target, i }) => {
-  //   console.log(`${month} with quantity ${target} with price ${i} `);
-  // });
-
-  // const dataTargetv2 = String(dataTarget);
+    setValue(year);
+  }, [year]);
 
   const queryClient = useQueryClient();
 
@@ -181,7 +174,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
     ];
 
     try {
-      await idEdit?.forEach((_id, index) => {
+      await id?.forEach((_id, index) => {
         ProductionService.editTarget(_id, data[index]);
       });
       setLoading(false);
@@ -198,13 +191,13 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
     setValue(newValue);
   };
 
-  const [value, setValue] = React.useState(year);
+  const [value, setValue] = useState(new Date(year));
 
   const { isShowing: isShowingEdited, toggle: toggleEdited } = useModal();
 
   return (
     <>
-      {/* {isFetchingOreGetting && <LoadingModal />} */}
+      {isFetching && isLoading && <LoadingModal />}
       <EditedModal isShowing={isShowingEdited} toggle={toggleEdited} width={'29.563'} />
       <CustomModal isShowing={isShowing} toggle={toggle} width="52.125rem">
         <Grid
@@ -242,7 +235,10 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
                 <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 25.5rem' }}>
                   <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
                     <DesktopDatePicker
+                      disabled
                       inputFormat="yyyy"
+                      openTo="year"
+                      name="year"
                       value={value}
                       onChange={handleChange}
                       fullWidth

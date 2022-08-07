@@ -94,6 +94,8 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
         dataEdit={dataEdit}
         id={dataEditId}
         dataTarget={dataTarget}
+        isFetching={isFetching}
+        isLoading={isLoading}
       />
       <DeleteData
         toggle={toggleDelete}

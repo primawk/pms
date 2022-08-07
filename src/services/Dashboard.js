@@ -51,7 +51,7 @@ const addTarget = (data) => {
 
 export async function getTargetYear(year) {
   const params = [];
-  console.log(year);
+
   if (year) {
     params.push(['year', year]);
   }
