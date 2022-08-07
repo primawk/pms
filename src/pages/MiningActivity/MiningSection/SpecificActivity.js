@@ -49,7 +49,7 @@ const data = [
   }
 ];
 
-export default function SpecificActivity({ selectedDate }) {
+export default function SpecificActivity({ selectedDate, filterDate }) {
   const [subMenu, setSubMenu] = useState(0);
   const [chartData] = useState({
     labels: data.map((item) => item.name),
@@ -152,11 +152,12 @@ export default function SpecificActivity({ selectedDate }) {
           listData={dataActivity?.data?.data}
         />
       )}
-      <ReportSection selectedDate={selectedDate} />
+      <ReportSection selectedDate={selectedDate} filterDate={filterDate} />
     </>
   );
 }
 
 SpecificActivity.propTypes = {
-  selectedDate: PropTypes.object.isRequired
+  selectedDate: PropTypes.object.isRequired,
+  filterDate: PropTypes.object
 };

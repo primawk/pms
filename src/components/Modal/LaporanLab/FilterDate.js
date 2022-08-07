@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button } from '@mui/material';
-import { dateToStringPPOBFormatterv2 } from '../../../utils/helper';
-
+import dayjs from 'dayjs';
 import { DateRangePicker } from 'react-date-range';
 
 // components
@@ -39,8 +38,8 @@ const FilterDate = ({ isShowing, toggle, state, setState, setSelectedDates }) =>
             onClick={() => {
               toggle();
               setSelectedDates({
-                startDate: dateToStringPPOBFormatterv2(state[0].startDate),
-                endDate: dateToStringPPOBFormatterv2(state[0].endDate)
+                startDate: dayjs(state[0].startDate).format('YYYY-MM-DD'),
+                endDate: dayjs(state[0].endDate).format('YYYY-MM-DD')
               });
             }}
           >
