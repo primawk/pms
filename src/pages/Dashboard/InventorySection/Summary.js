@@ -1,4 +1,7 @@
 import { Grid, Typography } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+
+// somponents
 import InfoCard from 'components/Card/InfoCard';
 import Tonase from 'assets/Images/Dashboard/Tonase.png';
 import JumlahLot from 'assets/Images/Dashboard/JumlahLot.png';
@@ -8,9 +11,10 @@ import KadarFe from 'assets/Images/Dashboard/Fe.png';
 import KadarCo from 'assets/Images/Dashboard/Co.png';
 
 const Summary = ({ summary }) => {
+  const included = useLocation().pathname.includes('detail-dome');
   return (
     <>
-      <Typography variant="h5">Summary</Typography>
+      {!included && <Typography variant="h5">Summary</Typography>}
       <Grid
         container
         direction="row"
@@ -25,9 +29,15 @@ const Summary = ({ summary }) => {
             name="Jumlah Tonase"
           />
         </Grid>
-        <Grid item md={6} xs={6}>
-          <InfoCard value={summary?.sublot_total || '-'} image={JumlahLot} name="Jumlah Lot" />
-        </Grid>
+        {summary?.activity_type !== 'ore-hauling-to-eto' ? (
+          <Grid item md={6} xs={6}>
+            <InfoCard value={summary?.sublot_total || '-'} image={JumlahLot} name="Jumlah Lot" />
+          </Grid>
+        ) : (
+          <Grid item md={6} xs={6}>
+            <InfoCard value={summary?.ritase_total || '-'} image={JumlahLot} name="Jumlah Retase" />
+          </Grid>
+        )}
         <Grid item md={3} xs={6}>
           <InfoCard
             value={`${summary?.average_fe ? parseFloat(summary?.average_fe).toFixed(2) : '0'} %`}

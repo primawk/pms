@@ -115,17 +115,19 @@ export default function ReportDetailCard() {
                         Bukit Asal
                       </Typography>
                       <Typography variant="body1" sx={{ mb: 3 }}>
-                        Bukit X
+                        {detailActivity?.hill_origin_name || ''}
                       </Typography>
                     </Grid>
-                    <Grid item container lg={6} xs={6} direction="column">
-                      <Typography variant="h6" sx={{ mb: 3 }}>
-                        Dome Asal
-                      </Typography>
-                      <Typography variant="body1" sx={{ mb: 3 }}>
-                        Dome XI
-                      </Typography>
-                    </Grid>
+                    {activityType === 'eto-to-efo' && (
+                      <Grid item container lg={6} xs={6} direction="column">
+                        <Typography variant="h6" sx={{ mb: 3 }}>
+                          Dome Asal
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 3 }}>
+                          {detailActivity?.dome_origin_name}
+                        </Typography>
+                      </Grid>
+                    )}
                   </Grid>
                 </>
               )}
@@ -139,22 +141,27 @@ export default function ReportDetailCard() {
                 alignItems="center"
                 columnSpacing={10}
               >
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Bukit Tujuan
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    Bukit X
-                  </Typography>
-                </Grid>
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Dome Tujuan
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    Dome XI
-                  </Typography>
-                </Grid>
+                {activityType !== 'eto-to-efo' && (
+                  <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h6" sx={{ mb: 3 }}>
+                      Bukit Tujuan
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 3 }}>
+                      {detailActivity?.hill_name || ''}
+                    </Typography>
+                  </Grid>
+                )}
+
+                {activityType !== 'ore-getting' && (
+                  <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h6" sx={{ mb: 3 }}>
+                      Dome Tujuan
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 3 }}>
+                      {detailActivity?.dome_name || ''}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
             <Grid item lg={6} xs={12}>

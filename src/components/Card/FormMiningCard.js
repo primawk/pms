@@ -100,7 +100,7 @@ export default function FormMiningCard() {
     enableReinitialize: true,
     initialValues: {
       activity_type: id ? detailActivity?.activity_type : prevState?.activity_type,
-      activity_code: null,
+      activity_code: id ? detailActivity?.activity_code : null,
       date: id ? detailActivity?.date : prevState?.date,
       time: id ? detailActivity?.time : prevState?.time,
       product_type: id ? detailActivity?.product_type : prevState?.product_type,
@@ -109,20 +109,20 @@ export default function FormMiningCard() {
       hill_id: id ? detailActivity?.hill_id : null,
       dome_id: id ? detailActivity?.dome_id : null,
       partner: id ? detailActivity?.partner : null,
-      sublot_total: id ? detailActivity?.sublot_total : 0,
-      tonnage_total: id ? detailActivity?.tonnage_total : 0,
-      ritase_total: id ? detailActivity?.ritase_total : 0,
+      sublot_total: id ? parseFloat(detailActivity?.sublot_total) : 0,
+      tonnage_total: id ? parseFloat(detailActivity?.tonnage_total) : 0,
+      ritase_total: id ? parseFloat(detailActivity?.ritase_total) : 0,
       eto_id: id ? detailActivity?.eto_id : null,
-      ni_level: id ? detailActivity?.ni_level : 0,
-      ni_metal_equivalent: id ? detailActivity?.ni_metal_equivalent : 0,
-      fe_level: id ? detailActivity?.fe_level : 0,
-      fe_metal_equivalent: id ? detailActivity?.fe_metal_equivalent : 0,
-      co_level: id ? detailActivity?.co_level : 0,
-      co_metal_equivalent: id ? detailActivity?.co_metal_equivalent : 0,
-      simgo_level: id ? detailActivity?.simgo_level : 0,
-      simgo_metal_equivalent: id ? detailActivity?.simgo_metal_equivalent : 0,
-      hill_origin_id: id ? detailActivity?.hill_origin : null,
-      dome_origin_id: id ? detailActivity?.dome_origin : null
+      ni_level: id ? parseFloat(detailActivity?.ni_level) : 0,
+      ni_metal_equivalent: id ? parseFloat(detailActivity?.ni_metal_equivalent) : 0,
+      fe_level: id ? parseFloat(detailActivity?.fe_level) : 0,
+      fe_metal_equivalent: id ? parseFloat(detailActivity?.fe_metal_equivalent) : 0,
+      co_level: id ? parseFloat(detailActivity?.co_level) : 0,
+      co_metal_equivalent: id ? parseFloat(detailActivity?.co_metal_equivalent) : 0,
+      simgo_level: id ? parseFloat(detailActivity?.simgo_level) : 0,
+      simgo_metal_equivalent: id ? parseFloat(detailActivity?.simgo_metal_equivalent) : 0,
+      hill_origin_id: id ? detailActivity?.hill_origin_id : null,
+      dome_origin_id: id ? detailActivity?.dome_origin_id : null
     },
     validationSchema:
       activityType === 'ore-getting'
@@ -137,10 +137,11 @@ export default function FormMiningCard() {
           .then(() => {
             toggleLoading();
             toast.success('Data berhasil diubah!');
+            toast.clearWaitingQueue();
             navigate(-1);
           })
           .catch((err) => {
-            toast.error(err.response.data.detail_message);
+            toast.error(err.response.data.message);
             toast.clearWaitingQueue();
           });
       } else {
@@ -148,10 +149,11 @@ export default function FormMiningCard() {
           .then(() => {
             toggleLoading();
             toast.success('Data berhasil ditambahkan !');
+            toast.clearWaitingQueue();
             navigate(-1);
           })
           .catch((err) => {
-            toast.error(err.response.data.detail_message);
+            toast.error(err.response.data.message);
             toast.clearWaitingQueue();
           });
       }

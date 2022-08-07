@@ -1,10 +1,15 @@
 import React from 'react';
-import { Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography, Avatar } from '@mui/material';
+import dayjs from 'dayjs';
 
-// assets
-import avatarLogo from 'assets/Images/avatar.png';
+export default function HistoryMiningCard({ listData }) {
+  const groupedData = listData?.reduce((groups, item) => {
+    const group = groups[dayjs(item.updated_at).format('DD MMMM YYYY')] || [];
+    group.push(item);
+    groups[dayjs(item.updated_at).format('DD MMMM YYYY')] = group;
+    return groups;
+  }, {});
 
-export default function HistoryMiningCard() {
   return (
     <div
       style={{
@@ -21,34 +26,26 @@ export default function HistoryMiningCard() {
         justifyContent="center"
         spacing={3}
       >
-        <Grid item lg={6} xs={12}>
-          <Typography variant="h5" sx={{ pb: 2 }}>
-            12 Juni 2022
-          </Typography>
-          <Stack direction="row" spacing={2} sx={{ pb: 2 }}>
-            <img src={avatarLogo} alt={avatarLogo} />
-            <Typography variant="body1">Putri Devina mengedit kadar Nikel 13:21 WITA</Typography>
-          </Stack>
-          <Stack direction="row" spacing={2} sx={{ pb: 2 }}>
-            <img src={avatarLogo} alt={avatarLogo} />
-            <Typography variant="body1">Nisa mengedit kadar Fe pada11:21 WITA</Typography>
-          </Stack>
-          <hr />
-        </Grid>
-        <Grid item lg={6} xs={12}>
-          <Typography variant="h5" sx={{ pb: 2 }}>
-            09 Juni 2022
-          </Typography>
-          <Stack direction="row" spacing={2} sx={{ pb: 2 }}>
-            <img src={avatarLogo} alt={avatarLogo} />
-            <Typography variant="body1">Nisa mengedit kadar nikel pada13:21 WITA</Typography>
-          </Stack>
-          <Stack direction="row" spacing={2} sx={{ pb: 2 }}>
-            <img src={avatarLogo} alt={avatarLogo} />
-            <Typography variant="body1">Putri Devina input data laporan pada 11:21 WITA</Typography>
-          </Stack>
-          <hr />
-        </Grid>
+        {Object.keys(groupedData).map(function (key, index) {
+          return (
+            <>
+              <Grid item lg={6} xs={12} key={key}>
+                <Typography variant="h5" sx={{ pb: 2 }}>
+                  {dayjs(key).format('DD MMMM YYYY')}
+                </Typography>
+                {groupedData[key].map((item) => (
+                  <Stack direction="row" spacing={2} sx={{ pb: 2 }}>
+                    <Avatar sx={{ width: 30, height: 30, bgcolor: '#3F48C0' }}>
+                      {item?.account_name?.substring(0, 1)}
+                    </Avatar>
+                    <Typography variant="body1">{`${item?.account_name} ${item?.description}`}</Typography>
+                  </Stack>
+                ))}
+                <hr />
+              </Grid>
+            </>
+          );
+        })}
       </Grid>
     </div>
   );

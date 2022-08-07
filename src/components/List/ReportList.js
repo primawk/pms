@@ -39,10 +39,8 @@ const ReportList = ({ listData }) => {
             <Typography variant="h5">
               {listData?.activity_type ? capitalizeFirstLetter(listData?.activity_type) : ''}
             </Typography>
-            <Typography variant="body1">
-              {listData?.activity_type === 'ore-hauling-to-eto'
-                ? listData?.hill_name + '/' + listData?.dome_name
-                : listData?.hill_name || listData?.dome_name}
+            <Typography variant="body1" color="#828282">
+              {listData?.activity_code}
             </Typography>
           </Stack>
         </Stack>

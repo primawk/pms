@@ -127,7 +127,7 @@ export default function MiningActivity() {
           </Tabs>
         </Grid>
         {menuTab === 'all-activity' ? (
-          <AllActivity selectedDate={selectedDate} filterDate={dateDifference} />
+          <AllActivity selectedDate={selectedDate} />
         ) : (
           <SpecificActivity selectedDate={selectedDate} filterDate={dateDifference} />
         )}
