@@ -210,25 +210,29 @@ export default function Dashboard() {
     MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
   );
 
-  const [selectedYear, setSelectedYear] = useState('2021');
-
+  const [selectedYear, setSelectedYear] = useState(0);
+  const [dataEdit, setDataEdit] = useState(0);
 
   const {
     data: dataProduction
     // isLoading: isLoadingOreGetting,
     // isFetching: isFetchingOreGetting
-  } = useQuery(['production', 'target', 'year'], () =>
+  } = useQuery(['production'], () =>
     ProductionService.getTarget({
       year: selectedYear
     })
   );
 
+  const years = dataProduction?.data?.data.map((item) => item.year);
+
+  // console.log(years);
+
   // useEffect(() => {
-  //   getTargetYear(year).then((response) => {
+  //   getTargetYear(years).then((response) => {
   //     setDataEdit(response);
   //     return response;
   //   });
-  // }, [selectedYear]);
+  // }, []);
 
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
@@ -237,6 +241,8 @@ export default function Dashboard() {
   const handleChangeSubMenu = (value) => {
     setSubMenu(value);
   };
+
+  console.log(selectedYear);
 
   return (
     <>
@@ -286,7 +292,13 @@ export default function Dashboard() {
           <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
             <Typography variant="h5">Realisasi Produksi Tambang</Typography>
 
-            <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
+            <FilterSection
+              subMenu={subMenu}
+              handleChangeSubMenu={handleChangeSubMenu}
+              data={dataProduction?.data?.data}
+              setSelectedYear={setSelectedYear}
+              // years={years}
+            />
 
             <InfoSection />
 
@@ -302,6 +314,8 @@ export default function Dashboard() {
                 handleChangeSubMenu={handleChangeSubMenu}
                 selectedYear={selectedYear}
                 setSelectedYear={setSelectedYear}
+                data={dataProduction?.data?.data}
+                years={years}
               />
 
               <TargetDataInformation />

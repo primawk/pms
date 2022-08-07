@@ -18,9 +18,7 @@ import CustomModal from 'components/Modal/CustomModal/CustomModal';
 // services
 import ProductionService from 'services/Dashboard';
 
-const EditData = ({ isShowing, toggle, year }) => {
-  const [dataEdit, setDataEdit] = useState([]);
-  console.log(id);
+const EditData = ({ isShowing, toggle, year, dataEdit }) => {
   // const {
   //   data: dataTarget
   //   // isLoading: isLoadingOreGetting,
@@ -31,16 +29,21 @@ const EditData = ({ isShowing, toggle, year }) => {
   //   })
   // );
 
-  useEffect(() => {
-    getEdit(id).then((response) => {
-      setDataEdit(response);
-      return response;
+  const data = () => {
+    Object.values(dataEdit).map((item, i) => {
+      return (
+        <>
+          <li> {item?.target_list[i]}</li>
+        </>
+      );
     });
-  }, [id]);
+  };
 
-  // const dataEdit = dataTarget?.data?.data;
-  // const dataEdit = data?.map((obj) => obj.target_list);
+  // const result = data?.map(({ month, target, i }) => {
+  //   console.log(`${month} with quantity ${target} with price ${i} `);
+  // });
 
+  // console.log(data);
   const [addFormData, setAddFormData] = useState({
     year: '2021',
     target_list: [
@@ -205,7 +208,7 @@ const EditData = ({ isShowing, toggle, year }) => {
 
   return (
     <>
-      {isFetchingOreGetting && <LoadingModal />}
+      {/* {isFetchingOreGetting && <LoadingModal />} */}
       <CustomModal isShowing={isShowing} toggle={toggle} width="52.125rem">
         <Grid
           container
@@ -226,6 +229,7 @@ const EditData = ({ isShowing, toggle, year }) => {
                 marginLeft: '1rem'
               }}
             >
+              {data()}
               <Grid item sx={{ margin: '1rem auto 1rem auto' }}>
                 <h2>Edit Target</h2>
               </Grid>
@@ -263,9 +267,9 @@ const EditData = ({ isShowing, toggle, year }) => {
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
                           required
-                          name="januari"
+                          name="Januari"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.target}
+                          defaultValue={data ? data.target : 0}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>

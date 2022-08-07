@@ -48,26 +48,28 @@ const addTarget = (data) => {
   });
 };
 
-export async function getEdit(id) {
-  const url = await `${MINING_ACTIVITY_MODEL}/target/${id}`;
-  const promise = await axios.get(url, {
-    method: 'GET',
-    headers: authHeader()
-  });
-  return promise.data.data;
-}
 export async function getTargetYear(year) {
   const params = [];
-
+  console.log(year);
   if (year) {
     params.push(['year', year]);
   }
   const url = await `${MINING_ACTIVITY_MODEL}/target`;
   const promise = await axios.get(url, {
     method: 'GET',
+    params: new URLSearchParams(params),
     headers: authHeader()
   });
   return promise.data.data;
+}
+
+export async function getEdit(year) {
+  const url = await `${MINING_ACTIVITY_MODEL}/target/?year=${year}`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    headers: authHeader()
+  });
+  return promise.data;
 }
 
 const ProductionService = {

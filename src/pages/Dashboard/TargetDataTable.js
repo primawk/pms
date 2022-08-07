@@ -28,6 +28,7 @@ import useAuth from 'hooks/useAuth';
 
 // services
 import ProductionService from 'services/Dashboard';
+import { getTargetYear } from 'services/Dashboard';
 
 const TargetDataTable = ({ targetTableHead, dataProduction }) => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
   const { isGranted } = useAuth();
   const [loading, setLoading] = useState(false);
   const [dataTable, setDataTable] = useState([]);
+  const [dataEdit, setDataEdit] = useState(0);
 
   useEffect(() => {
     setDataTable(dataProduction?.data?.data);
@@ -46,8 +48,14 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
   const [year, setYear] = useState(0);
   const [deleteId, setDeleteId] = useState(0);
 
-  const handleEditClick = (id) => {
-    setYear(id);
+  const handleEditClick = (year) => {
+  
+    getTargetYear(year).then((response) => {
+      setDataEdit(response);
+      return response;
+    });
+    setYear(year);
+
     toggleForm();
   };
 
@@ -72,7 +80,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
 
   return (
     <>
-      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} year={year} />
+      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} year={year} dataEdit={dataEdit} />
       <DeleteData
         toggle={toggleDelete}
         isShowing={isShowingDelete}
