@@ -19,7 +19,7 @@ import CustomModal from 'components/Modal/CustomModal/CustomModal';
 // services
 import ProductionService from 'services/Dashboard';
 
-const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
+const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
   const [loading, setLoading] = useState(false);
   const [idEdit, setIdEdit] = useState([]);
   const data = Object.values(dataEdit).map((item, i) => item?.target_list[1]);
@@ -32,65 +32,69 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
   //   console.log(`${month} with quantity ${target} with price ${i} `);
   // });
 
+  const dataTargetv2 = String(dataTarget);
+
+  console.log(dataTarget);
+
   const [addFormData, setAddFormData] = useState([
     {
       month: 'Januari',
-      target: 3,
+      target: dataTarget[0],
       year: 1996
     },
     {
       month: 'Februari',
-      target: 3,
+      target: dataTarget[1],
       year: 1996
     },
     {
       month: 'Maret',
-      target: 3,
+      target: dataTarget[2],
       year: 1996
     },
     {
       month: 'April',
-      target: 3,
+      target: dataTarget[3],
       year: 1996
     },
     {
       month: 'Mei',
-      target: 3,
+      target: dataTarget[4],
       year: 1996
     },
     {
       month: 'Juni',
-      target: 3,
+      target: dataTarget[5],
       year: 1996
     },
     {
       month: 'Juli',
-      target: 3,
+      target: dataTarget[6],
       year: 1996
     },
     {
       month: 'Agustus',
-      target: 3,
+      target: dataTarget[7],
       year: 1996
     },
     {
       month: 'September',
-      target: 3,
+      target: dataTarget[8],
       year: 1996
     },
     {
       month: 'Oktober',
-      target: 3,
+      target: dataTarget[9],
       year: 1996
     },
     {
       month: 'November',
-      target: 3,
+      target: dataTarget[10],
       year: 1996
     },
     {
       month: 'Desember',
-      target: 3,
+      target: dataTarget[11],
       year: 1996
     }
   ]);
@@ -106,8 +110,6 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
 
     setAddFormData(newFormData);
   };
-
-  console.log(addFormData.Juli);
 
   const handleEditFormSubmit = async (event) => {
     event.preventDefault();
@@ -268,6 +270,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Januari"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[0]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -289,6 +292,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Juli"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[6]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -316,6 +320,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Februari"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[1]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -337,6 +342,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Agustus"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[7]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -364,6 +370,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Maret"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[2]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -385,6 +392,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="September"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[8]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -412,6 +420,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="April"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[3]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -433,6 +442,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Oktober"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[9]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -459,6 +469,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Mei"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[4]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -480,6 +491,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="November"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[10]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -507,6 +519,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Juni"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[5]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -528,6 +541,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
                           // required
                           name="Desember"
                           onChange={handleAddFormChange}
+                          defaultValue={dataTarget[11]}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>

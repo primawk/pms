@@ -40,6 +40,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
   const [dataEdit, setDataEdit] = useState(0);
   const [dataEditId, setDataEditId] = useState([]);
   const [dataDelete, setDataDelete] = useState([]);
+  const [dataTarget, setDataTarget] = useState([]);
 
   useEffect(() => {
     setDataTable(dataProduction?.data?.data);
@@ -61,9 +62,11 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
     });
     setYear(year);
 
+    const target = target_list.map((id) => id.target);
     const ids = target_list.map((id) => id.target_id);
 
     setDataEditId(ids);
+    setDataTarget(target);
 
     toggleForm();
   };
@@ -100,6 +103,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
         year={year}
         dataEdit={dataEdit}
         id={dataEditId}
+        dataTarget={dataTarget}
       />
       <DeleteData
         toggle={toggleDelete}
