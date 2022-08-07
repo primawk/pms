@@ -15,6 +15,10 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { toast } from 'react-toastify';
+
+// custom hooks
+import useLoading from 'hooks/useLoading';
 
 // components
 import Footer from 'components/Footer';
@@ -22,15 +26,16 @@ import { LoadingModal } from 'components/Modal';
 
 // services
 import MiningActivityService from 'services/MiningActivityService';
+import InventoryService from 'services/InventoryService';
 
 const measurementType = ['Sumlot SM', 'Dump Truck', 'Timbangan'];
-
-const hillList = ['Bukit I', 'Bukit IX'];
 
 export default function FormMiningCard() {
   const { activityType, id } = useParams();
   const navigate = useNavigate();
   const prevState = useLocation().state;
+
+  const { isLoadingAction, toggleLoading } = useLoading();
 
   const { data, isFetching } = useQuery(
     ['mining-activity', 'detail-activity', id],
@@ -53,13 +58,12 @@ export default function FormMiningCard() {
     co_metal_equivalent: Yup.number().required('Co equivalent is required'),
     simgo_level: Yup.number().required('Simgo level is required'),
     simgo_metal_equivalent: Yup.number().required('Simgo equivalent is required'),
-    hill_destination: Yup.string().required('Hill destination is required'),
-    dome_destination: Yup.string().required('Dome destination is required')
+    hill_id: Yup.string().required('Hill destination is required').nullable()
   });
 
   const OreHaulingToEtoSchema = Yup.object().shape({
     measurement_type: Yup.string().required('Measurement type is required'),
-    partner: Yup.string().required('Partner is required'),
+    partner: Yup.string().required('Partner is required').nullable(),
     ritase_total: Yup.number().required('Retase total is required'),
     tonnage_total: Yup.number().required('Tonnage total is required'),
     ni_level: Yup.number().required('Ni level is required'),
@@ -70,10 +74,9 @@ export default function FormMiningCard() {
     co_metal_equivalent: Yup.number().required('Co equivalent is required'),
     simgo_level: Yup.number().required('Simgo level is required'),
     simgo_metal_equivalent: Yup.number().required('Simgo equivalent is required'),
-    hill_origin: Yup.string().required('Hill origin is required'),
-    dome_origin: Yup.string().required('Dome origin is required'),
-    hill_destination: Yup.string().required('Dome destination is required'),
-    dome_destination: Yup.string().required('Dome destination is required')
+    hill_origin_id: Yup.string().required('Hill origin is required').nullable(),
+    hill_id: Yup.string().required('Dome destination is required').nullable(),
+    dome_id: Yup.string().required('Dome destination is required').nullable()
   });
 
   const EtoToEfoSchema = Yup.object().shape({
@@ -88,10 +91,9 @@ export default function FormMiningCard() {
     co_metal_equivalent: Yup.number().required('Co equivalent is required'),
     simgo_level: Yup.number().required('Simgo level is required'),
     simgo_metal_equivalent: Yup.number().required('Simgo equivalent is required'),
-    hill_origin: Yup.string().required('Hill origin is required'),
-    dome_origin: Yup.string().required('Dome origin is required'),
-    hill_destination: Yup.string().required('Dome destination is required'),
-    dome_destination: Yup.string().required('Dome destination is required')
+    hill_origin_id: Yup.string().required('Hill origin is required').nullable(),
+    dome_origin_id: Yup.string().required('Dome origin is required').nullable(),
+    dome_id: Yup.string().required('Dome destination is required').nullable()
   });
 
   const formik = useFormik({
@@ -104,8 +106,8 @@ export default function FormMiningCard() {
       product_type: id ? detailActivity?.product_type : prevState?.product_type,
       block: id ? detailActivity?.block : prevState?.block,
       measurement_type: id ? detailActivity?.measurement_type : '',
-      hill_id: id ? detailActivity?.hill_id : '',
-      dome_id: id ? detailActivity?.dome_id : '',
+      hill_id: id ? detailActivity?.hill_id : null,
+      dome_id: id ? detailActivity?.dome_id : null,
       partner: id ? detailActivity?.partner : null,
       sublot_total: id ? detailActivity?.sublot_total : 0,
       tonnage_total: id ? detailActivity?.tonnage_total : 0,
@@ -119,10 +121,8 @@ export default function FormMiningCard() {
       co_metal_equivalent: id ? detailActivity?.co_metal_equivalent : 0,
       simgo_level: id ? detailActivity?.simgo_level : 0,
       simgo_metal_equivalent: id ? detailActivity?.simgo_metal_equivalent : 0,
-      hill_origin: id ? detailActivity?.hill_origin : '',
-      dome_origin: id ? detailActivity?.dome_origin : '',
-      hill_destination: id ? detailActivity?.hill_destination : '',
-      dome_destination: id ? detailActivity?.dome_destination : ''
+      hill_origin_id: id ? detailActivity?.hill_origin : null,
+      dome_origin_id: id ? detailActivity?.dome_origin : null
     },
     validationSchema:
       activityType === 'ore-getting'
@@ -131,19 +131,62 @@ export default function FormMiningCard() {
         ? EtoToEfoSchema
         : OreHaulingToEtoSchema,
     onSubmit: (values) => {
-      console.log(values);
+      toggleLoading();
+      if (id) {
+        MiningActivityService.editActivity(values, id)
+          .then(() => {
+            toggleLoading();
+            toast.success('Data berhasil diubah!');
+            navigate(-1);
+          })
+          .catch((err) => {
+            toast.error(err.response.data.detail_message);
+            toast.clearWaitingQueue();
+          });
+      } else {
+        MiningActivityService.createActivity(values)
+          .then(() => {
+            toggleLoading();
+            toast.success('Data berhasil ditambahkan !');
+            navigate(-1);
+          })
+          .catch((err) => {
+            toast.error(err.response.data.detail_message);
+            toast.clearWaitingQueue();
+          });
+      }
     }
   });
 
   const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values } = formik;
 
-  const handleChangeNumber = (e, name) => {
+  const handleGetLevel = (level) => (isNaN(values?.[level] / 100) ? 0 : values?.[level] / 100);
+
+  const handleChangeNumber = (e, name, equivalent) => {
     const _val = e.target.value.replace(/[^0-9.]/g, '');
     if (_val.split('.').length > 2) {
       const _doubleDot = _val.slice(0, -1);
       setFieldValue(name, _doubleDot);
+      if (name !== 'tonnage_total' && name.includes('level')) {
+        const _equivalent = (_doubleDot / 100) * values?.tonnage_total;
+        setFieldValue(equivalent, _equivalent);
+      } else if (name === 'tonnage_total') {
+        setFieldValue('ni_metal_equivalent', handleGetLevel('ni_level') * _doubleDot);
+        setFieldValue('fe_metal_equivalent', handleGetLevel('fe_level') * _doubleDot);
+        setFieldValue('co_metal_equivalent', handleGetLevel('co_level') * _doubleDot);
+        setFieldValue('simgo_metal_equivalent', handleGetLevel('simgo_level') * _doubleDot);
+      }
     } else {
       setFieldValue(name, _val);
+      if (name !== 'tonnage_total' && name.includes('level') && equivalent !== undefined) {
+        const _equivalent = (_val / 100) * values?.tonnage_total;
+        setFieldValue(equivalent, _equivalent);
+      } else if (name === 'tonnage_total') {
+        setFieldValue('ni_metal_equivalent', handleGetLevel('ni_level') * _val);
+        setFieldValue('fe_metal_equivalent', handleGetLevel('fe_level') * _val);
+        setFieldValue('co_metal_equivalent', handleGetLevel('co_level') * _val);
+        setFieldValue('simgo_metal_equivalent', handleGetLevel('simgo_level') * _val);
+      }
     }
   };
 
@@ -152,6 +195,52 @@ export default function FormMiningCard() {
       navigate(-1);
     }
   }, []);
+
+  const originInventoryType =
+    activityType === 'ore-getting'
+      ? 'undefined'
+      : activityType === 'ore-hauling-to-eto'
+      ? 'inventory-sm'
+      : 'inventory-eto';
+
+  const destinationInventoryType =
+    activityType === 'ore-getting'
+      ? 'inventory-sm'
+      : activityType === 'ore-hauling-to-eto'
+      ? 'inventory-eto'
+      : 'inventory-efo';
+
+  const { data: dataHillOrigin, isFetching: isFetchingHillOrigin } = useQuery(
+    ['inventory', 'hill', 'origin', originInventoryType],
+    () => InventoryService.getHill({ inventory_type: originInventoryType }),
+    { keepPreviousData: true }
+  );
+
+  const { data: dataDomeOrigin, isFetching: isFetchingDomeOrigin } = useQuery(
+    ['inventory', 'dome', 'origin', originInventoryType],
+    () => InventoryService.getDome({ inventory_type: originInventoryType }),
+    { keepPreviousData: true }
+  );
+
+  const domeOrigin = dataDomeOrigin?.data?.data?.filter(
+    (_data) => _data?.id === values?.hill_origin_id
+  );
+
+  const { data: dataHillDestination, isFetching: isFetchingHillDestination } = useQuery(
+    ['inventory', 'hill', 'destination', destinationInventoryType],
+    () => InventoryService.getHill({ inventory_type: destinationInventoryType }),
+    { keepPreviousData: true }
+  );
+
+  const { data: dataDomeDestination, isFetching: isFetchingDomeDestination } = useQuery(
+    ['inventory', 'dome', 'destination', destinationInventoryType],
+    () => InventoryService.getDome({ inventory_type: destinationInventoryType }),
+    { keepPreviousData: true }
+  );
+
+  const domeDestination = dataDomeDestination?.data?.data?.filter(
+    (_data) => _data?.id === values?.hill_id
+  );
 
   return (
     <div
@@ -164,7 +253,11 @@ export default function FormMiningCard() {
       }}
       className="bg-white"
     >
-      {isFetching && <LoadingModal />}
+      {isFetching &&
+        isFetchingDomeDestination &&
+        isFetchingDomeOrigin &&
+        isFetchingHillDestination &&
+        isFetchingHillOrigin && <LoadingModal />}
       <>
         <FormikProvider value={formik}>
           <Form autoComplete="off" onSubmit={handleSubmit}>
@@ -273,92 +366,122 @@ export default function FormMiningCard() {
                             placeholder="Pilih jenis kegiatan"
                             fullWidth
                             size="small"
-                            name="hill_origin"
-                            {...getFieldProps('hill_origin')}
-                            error={Boolean(touched.hill_origin && errors.hill_origin)}
-                            helperText={touched.hill_origin && errors.hill_origin}
+                            name="hill_origin_id"
+                            {...getFieldProps('hill_origin_id')}
+                            error={Boolean(touched.hill_origin_id && errors.hill_origin_id)}
+                            helperText={touched.hill_origin_id && errors.hill_origin_id}
                           >
-                            {hillList.map((option) => (
-                              <MenuItem key={option} value={option}>
-                                {option}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </FormControl>
-                      </Stack>
-                      <Stack>
-                        <Typography variant="h6" sx={{ mb: 3 }}>
-                          Dome Asal
-                        </Typography>
-                        <FormControl>
-                          <TextField
-                            select
-                            placeholder="Pilih jenis kegiatan"
-                            fullWidth
-                            size="small"
-                            name="dome_origin"
-                            {...getFieldProps('dome_origin')}
-                            error={Boolean(touched.dome_origin && errors.dome_origin)}
-                            helperText={touched.dome_origin && errors.dome_origin}
-                          >
-                            {hillList.map((option) => (
-                              <MenuItem key={option} value={option}>
-                                {option}
-                              </MenuItem>
-                            ))}
+                            {activityType === 'ore-hauling-to-eto'
+                              ? dataHillOrigin?.data?.data?.map((option) => (
+                                  <MenuItem key={option} value={option?.id}>
+                                    {option?.name}
+                                  </MenuItem>
+                                ))
+                              : dataDomeOrigin?.data?.data?.map((option) => (
+                                  <MenuItem key={option} value={option?.id}>
+                                    {option?.name}
+                                  </MenuItem>
+                                ))}
                           </TextField>
                         </FormControl>
                       </Stack>
                     </>
                   )}
+                  {activityType === 'eto-to-efo' && (
+                    <Stack>
+                      <Typography variant="h6" sx={{ mb: 3 }}>
+                        Dome Asal
+                      </Typography>
+                      <FormControl>
+                        <TextField
+                          select
+                          placeholder="Pilih jenis kegiatan"
+                          fullWidth
+                          size="small"
+                          name="dome_origin_id"
+                          {...getFieldProps('dome_origin_id')}
+                          error={Boolean(touched.dome_origin_id && errors.dome_origin_id)}
+                          helperText={touched.dome_origin_id && errors.dome_origin_id}
+                        >
+                          {activityType !== 'eto-to-efo'
+                            ? dataDomeOrigin?.data?.data?.map((option) => (
+                                <MenuItem key={option} value={option?.id}>
+                                  {option?.name}
+                                </MenuItem>
+                              ))
+                            : domeOrigin?.[0]?.dome_list?.map((option) => (
+                                <MenuItem key={option} value={option?.dome_id}>
+                                  {option?.dome_name}
+                                </MenuItem>
+                              ))}
+                        </TextField>
+                      </FormControl>
+                    </Stack>
+                  )}
                   <Typography variant="h5" sx={{ mb: 3 }}>
                     Bukit Tujuan
                   </Typography>
-                  <Stack>
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Bukit Tujuan
-                    </Typography>
-                    <FormControl>
-                      <TextField
-                        select
-                        placeholder="Pilih jenis kegiatan"
-                        fullWidth
-                        size="small"
-                        name="hill_destination"
-                        {...getFieldProps('hill_destination')}
-                        error={Boolean(touched.hill_destination && errors.hill_destination)}
-                        helperText={touched.hill_destination && errors.hill_destination}
-                      >
-                        {hillList.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </FormControl>
-                  </Stack>
-                  <Stack>
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Dome Tujuan
-                    </Typography>
-                    <FormControl>
-                      <TextField
-                        select
-                        placeholder="Pilih jenis kegiatan"
-                        fullWidth
-                        size="small"
-                        {...getFieldProps('dome_destination')}
-                        error={Boolean(touched.dome_destination && errors.dome_destination)}
-                        helperText={touched.dome_destination && errors.dome_destination}
-                      >
-                        {hillList.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </FormControl>
-                  </Stack>
+                  {activityType !== 'eto-to-efo' && (
+                    <Stack>
+                      <Typography variant="h6" sx={{ mb: 3 }}>
+                        Bukit Tujuan
+                      </Typography>
+                      <FormControl>
+                        <TextField
+                          select
+                          placeholder="Pilih jenis kegiatan"
+                          fullWidth
+                          size="small"
+                          name="hill_id"
+                          {...getFieldProps('hill_id')}
+                          error={Boolean(touched.hill_id && errors.hill_id)}
+                          helperText={touched.hill_id && errors.hill_id}
+                        >
+                          {activityType === 'ore-getting'
+                            ? dataHillDestination?.data?.data?.map((option) => (
+                                <MenuItem key={option} value={option?.id}>
+                                  {option?.name}
+                                </MenuItem>
+                              ))
+                            : dataDomeDestination?.data?.data?.map((option) => (
+                                <MenuItem key={option} value={option?.id}>
+                                  {option?.name}
+                                </MenuItem>
+                              ))}
+                        </TextField>
+                      </FormControl>
+                    </Stack>
+                  )}
+                  {activityType !== 'ore-getting' && (
+                    <Stack>
+                      <Typography variant="h6" sx={{ mb: 3 }}>
+                        Dome Tujuan
+                      </Typography>
+                      <FormControl>
+                        <TextField
+                          select
+                          placeholder="Pilih jenis kegiatan"
+                          fullWidth
+                          size="small"
+                          {...getFieldProps('dome_id')}
+                          error={Boolean(touched.dome_id && errors.dome_id)}
+                          helperText={touched.dome_id && errors.dome_id}
+                        >
+                          {activityType === 'eto-to-efo'
+                            ? dataDomeDestination?.data?.data?.map((option) => (
+                                <MenuItem key={option} value={option?.id}>
+                                  {option?.name}
+                                </MenuItem>
+                              ))
+                            : domeDestination?.[0]?.dome_list?.map((option) => (
+                                <MenuItem key={option} value={option?.dome_id}>
+                                  {option?.dome_name}
+                                </MenuItem>
+                              ))}
+                        </TextField>
+                      </FormControl>
+                    </Stack>
+                  )}
                 </Stack>
               </Grid>
               <Grid item lg={7} xs={12}>
@@ -421,7 +544,9 @@ export default function FormMiningCard() {
                             placeholder="Jumlah Tonase"
                             fullWidth
                             value={values.tonnage_total}
-                            onChange={(e) => handleChangeNumber(e, 'tonnage_total')}
+                            onChange={(e) => {
+                              handleChangeNumber(e, 'tonnage_total');
+                            }}
                             error={Boolean(touched.tonnage_total && errors.tonnage_total)}
                             helperText={touched.tonnage_total && errors.tonnage_total}
                             sx={{
@@ -555,7 +680,9 @@ export default function FormMiningCard() {
                         placeholder="Nilai Kadar"
                         fullWidth
                         value={values.ni_level}
-                        onChange={(e) => handleChangeNumber(e, 'ni_level')}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
+                        }}
                         error={Boolean(touched.ni_level && errors.ni_level)}
                         helperText={touched.ni_level && errors.ni_level}
                         sx={{
@@ -591,7 +718,6 @@ export default function FormMiningCard() {
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.ni_metal_equivalent}
-                        onChange={(e) => handleChangeNumber(e, 'ni_metal_equivalent')}
                         error={Boolean(touched.ni_metal_equivalent && errors.ni_metal_equivalent)}
                         helperText={touched.ni_metal_equivalent && errors.ni_metal_equivalent}
                         sx={{
@@ -601,6 +727,7 @@ export default function FormMiningCard() {
                         }}
                         size="small"
                         InputProps={{
+                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -638,7 +765,9 @@ export default function FormMiningCard() {
                         placeholder="Nilai Kadar"
                         fullWidth
                         value={values.fe_level}
-                        onChange={(e) => handleChangeNumber(e, 'fe_level')}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'fe_level', 'fe_metal_equivalent');
+                        }}
                         error={Boolean(touched.fe_level && errors.fe_level)}
                         helperText={touched.fe_level && errors.fe_level}
                         sx={{
@@ -674,7 +803,6 @@ export default function FormMiningCard() {
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.fe_metal_equivalent}
-                        onChange={(e) => handleChangeNumber(e, 'fe_metal_equivalent')}
                         error={Boolean(touched.fe_metal_equivalent && errors.fe_metal_equivalent)}
                         helperText={touched.fe_metal_equivalent && errors.fe_metal_equivalent}
                         sx={{
@@ -684,6 +812,7 @@ export default function FormMiningCard() {
                         }}
                         size="small"
                         InputProps={{
+                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -721,7 +850,9 @@ export default function FormMiningCard() {
                         placeholder="Nilai Kadar"
                         fullWidth
                         value={values.co_level}
-                        onChange={(e) => handleChangeNumber(e, 'co_level')}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'co_level', 'co_metal_equivalent');
+                        }}
                         error={Boolean(touched.co_level && errors.co_level)}
                         helperText={touched.co_level && errors.co_level}
                         sx={{
@@ -756,10 +887,9 @@ export default function FormMiningCard() {
                       <TextField
                         placeholder="Ekuivalen Logam"
                         fullWidth
-                        value={values.fe_metal_equivalent}
-                        onChange={(e) => handleChangeNumber(e, 'fe_metal_equivalent')}
-                        error={Boolean(touched.fe_metal_equivalent && errors.fe_metal_equivalent)}
-                        helperText={touched.fe_metal_equivalent && errors.fe_metal_equivalent}
+                        value={values.co_metal_equivalent}
+                        error={Boolean(touched.co_metal_equivalent && errors.co_metal_equivalent)}
+                        helperText={touched.co_metal_equivalent && errors.co_metal_equivalent}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -767,6 +897,7 @@ export default function FormMiningCard() {
                         }}
                         size="small"
                         InputProps={{
+                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -804,7 +935,9 @@ export default function FormMiningCard() {
                         placeholder="Nilai Kadar"
                         fullWidth
                         value={values.simgo_level}
-                        onChange={(e) => handleChangeNumber(e, 'simgo_level')}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'simgo_level', 'simgo_metal_equivalent');
+                        }}
                         error={Boolean(touched.simgo_level && errors.simgo_level)}
                         helperText={touched.simgo_level && errors.simgo_level}
                         sx={{
@@ -840,7 +973,6 @@ export default function FormMiningCard() {
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.simgo_metal_equivalent}
-                        onChange={(e) => handleChangeNumber(e, 'simgo_metal_equivalent')}
                         error={Boolean(
                           touched.simgo_metal_equivalent && errors.simgo_metal_equivalent
                         )}
@@ -852,6 +984,7 @@ export default function FormMiningCard() {
                         }}
                         size="small"
                         InputProps={{
+                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -872,7 +1005,7 @@ export default function FormMiningCard() {
                 </Grid>
               </Grid>
             </Grid>
-            <Footer handleBack={() => navigate(-1)} />
+            <Footer handleBack={() => navigate(-1)} loading={isLoadingAction} />
           </Form>
         </FormikProvider>
       </>

@@ -83,10 +83,10 @@ const createHillEto = ({ dome_list }) => {
   });
 };
 
-const editDomeEto = ({ dome_list, hill_id, inventory_type, name }) => {
+const editDomeEto = (data) => {
   return request(`${INVENTORY_MODEL}/dome`, {
     method: 'PUT',
-    data: { dome_list, hill_id, inventory_type, name },
+    data: data,
     headers: authHeader()
   });
 };

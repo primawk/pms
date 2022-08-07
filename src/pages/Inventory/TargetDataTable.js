@@ -120,7 +120,7 @@ const FullTableData = ({ dataTable, toggleForm, isGranted }) => (
       </TableRow>
     </TableHead>
     <TableBody>
-      {dataTable?.length > 0 &&
+      {dataTable?.length > 0 ? (
         dataTable?.map((row, index) => (
           <TableRow key={row?.id}>
             {index === 0 && (
@@ -204,7 +204,37 @@ const FullTableData = ({ dataTable, toggleForm, isGranted }) => (
               </TableCell>
             )}
           </TableRow>
-        ))}
+        ))
+      ) : (
+        <TableRow>
+          <TableCell
+            rowSpan={dataTable?.length + 1}
+            sx={{ border: '1px solid #F2F2F2', textAlign: 'center' }}
+          >
+            Inventory ETO
+          </TableCell>
+          <TableCell sx={{ p: 0, border: '1px solid #F2F2F2' }}></TableCell>
+          <TableCell sx={{ p: 0, border: '1px solid #F2F2F2' }}></TableCell>
+          <TableCell rowSpan={dataTable?.length} align="center" style={{ verticalAlign: 'top' }}>
+            {isGranted && (
+              <Button
+                sx={{
+                  background: '#E5E5FE',
+                  boxShadow: '0',
+                  color: '#3F48C0',
+                  m: '0',
+                  width: '8.313rem'
+                }}
+                variant="contained"
+                onClick={toggleForm}
+              >
+                <Icon style={{ fontSize: '1rem', marginRight: '0.5rem' }} icon={EditIcon} />
+                Edit Data
+              </Button>
+            )}
+          </TableCell>
+        </TableRow>
+      )}
     </TableBody>
   </Table>
 );

@@ -101,13 +101,16 @@ const FormInventorySm = ({ toggle }) => {
         _deletedDome.forEach((_values) => {
           InventoryService.deleteDome({ ..._values });
         });
-        InventoryService.editDomeEto({
-          dome_list: _oldDome,
-          hill_id: values?.hill_id,
-          inventory_type: values?.inventory_type,
-          name: values?.name
-        })
+        InventoryService.editDomeEto([
+          {
+            dome_list: _oldDome,
+            hill_id: values?.hill_id,
+            inventory_type: values?.inventory_type,
+            name: values?.name
+          }
+        ])
           .then(() => {
+            toggle();
             toast.success('Dome berhasil di edit !');
             toast.clearWaitingQueue();
             toggleLoading();

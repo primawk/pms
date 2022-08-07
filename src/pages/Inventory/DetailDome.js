@@ -87,7 +87,11 @@ const DetailDome = () => {
                       </Button>
                     </Grid>
                     <Grid item>
-                      <h2>{`${dataSummary?.hill_name} / ${dataSummary?.dome_name}`}</h2>
+                      <h2>
+                        {dataSummary?.activity_type === 'ore-hauling-to-eto'
+                          ? dataSummary?.hill_name + '/' + dataSummary?.dome_name
+                          : dataSummary?.hill_name || dataSummary?.dome_name}
+                      </h2>
                     </Grid>
                   </Grid>
                 </Grid>

@@ -42,14 +42,14 @@ export default function MiningActivity() {
   const [menuTab, setMenuTab] = useState(activityType || '');
   const [filter, setFilter] = useState([
     {
-      startDate: new Date(),
-      endDate: dayjs(new Date()).subtract(7, 'day').toDate(),
+      startDate: dayjs(new Date()).subtract(7, 'day').toDate(),
+      endDate: dayjs(new Date()).toDate(),
       key: 'selection'
     }
   ]);
   const [selectedDate, setSelectedDate] = useState({
-    startDate: dayjs(new Date()).format('YYYY-MM-DD'),
-    endDate: dayjs(new Date()).subtract(14, 'day').format('YYYY-MM-DD')
+    startDate: dayjs(new Date()).subtract(7, 'day').format('YYYY-MM-DD'),
+    endDate: dayjs(new Date()).format('YYYY-MM-DD')
   });
 
   const handleChangeTab = (event, _menuTab) => {
