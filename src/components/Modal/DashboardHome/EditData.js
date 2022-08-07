@@ -29,21 +29,13 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
   //   })
   // );
 
-  const data = () => {
-    Object.values(dataEdit).map((item, i) => {
-      return (
-        <>
-          <li> {item?.target_list[i]}</li>
-        </>
-      );
-    });
-  };
+  const data = Object.values(dataEdit).map((item, i) => item?.target_list[1]);
 
-  // const result = data?.map(({ month, target, i }) => {
-  //   console.log(`${month} with quantity ${target} with price ${i} `);
-  // });
+  const result = data?.map(({ month, target, i }) => {
+    console.log(`${month} with quantity ${target} with price ${i} `);
+  });
 
-  // console.log(data);
+  console.log(dataEdit);
   const [addFormData, setAddFormData] = useState({
     year: '2021',
     target_list: [
@@ -229,7 +221,6 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                 marginLeft: '1rem'
               }}
             >
-              {data()}
               <Grid item sx={{ margin: '1rem auto 1rem auto' }}>
                 <h2>Edit Target</h2>
               </Grid>

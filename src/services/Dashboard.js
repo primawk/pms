@@ -18,8 +18,8 @@ const getTarget = ({ year }) => {
   });
 };
 
-const deleteTarget = ({ id }) => {
-  return request(`${MINING_ACTIVITY_MODEL}/target/${id}`, {
+const deleteTarget = ({ _id }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/target/${_id}`, {
     method: 'DELETE',
     headers: authHeader()
   });

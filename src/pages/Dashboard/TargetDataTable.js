@@ -38,18 +38,28 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
   const [loading, setLoading] = useState(false);
   const [dataTable, setDataTable] = useState([]);
   const [dataEdit, setDataEdit] = useState(0);
+  const [dataDelete, setDataDelete] = useState([]);
 
   useEffect(() => {
     setDataTable(dataProduction?.data?.data);
   }, [dataProduction]);
 
-  // const data = dataProduction?.data?.data;
+  const data = dataProduction?.data?.data;
+
+  const datav2 = data.map((row) => row);
+
+  console.log(datav2);
+
+  // datav2.forEach(function (item, index, object) {
+  //   if (item.year === ) {
+  //     object.splice(index, 1);
+  //   }
+  // });
 
   const [year, setYear] = useState(0);
   const [deleteId, setDeleteId] = useState(0);
 
   const handleEditClick = (year) => {
-  
     getTargetYear(year).then((response) => {
       setDataEdit(response);
       return response;
@@ -59,13 +69,17 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
     toggleForm();
   };
 
-  const handleDeleteClick = (id) => {
-    setDeleteId(id);
+  const handleDeleteClick = (target_list) => {
+    const ids = target_list.map((id) => id.target_id);
+
+    setDataDelete(ids);
     toggleDelete();
   };
 
   const handleDelete = (id) => {
-    ProductionService.deleteTarget({ id })
+    id.forEach((_id) => {
+      ProductionService.deleteTarget({ _id });
+    })
       .then(() => {
         toast.success('Data berhasil dihapus !');
         setLoading(false);
@@ -80,13 +94,19 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
 
   return (
     <>
-      <EditData toggle={toggleForm} isShowing={isShowingForm} width={width} year={year} dataEdit={dataEdit} />
+      <EditData
+        toggle={toggleForm}
+        isShowing={isShowingForm}
+        width={width}
+        year={year}
+        dataEdit={dataEdit}
+      />
       <DeleteData
         toggle={toggleDelete}
         isShowing={isShowingDelete}
         title="Data"
         action={handleDelete}
-        id={deleteId}
+        id={dataDelete}
       />
       <TableContainer sx={{ mt: 3, width: '100%' }}>
         <Table>
@@ -116,7 +136,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                   </TableCell>
                 </TableRow>
                 {item.target_list.map((detail) => (
-                  <TableRow key={detail.target_id}>
+                  <TableRow>
                     <TableCell
                       align="center"
                       sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
@@ -129,68 +149,14 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                     >
                       {detail.target}
                     </TableCell>
-                    <TableCell
-                      key={detail.target_id}
-                      align="center"
-                      sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
-                    >
-                      <Grid
-                        container
-                        sx={{
-                          justifyContent: 'space-around',
-                          alignItems: 'flex-start'
-                        }}
-                      >
-                        <Grid item md={5} xs={12} padding="0.2em 0">
-                          <Button
-                            sx={{
-                              background: '#E5E5FE',
-                              boxShadow: '0',
-                              color: '#3F48C0',
-                              fontSize: '0.8rem'
-                            }}
-                            fullWidth
-                            variant="contained"
-                            onClick={() => handleEditClick(item.year)}
-                          >
-                            <Icon
-                              style={{ fontSize: '17px', marginRight: '1rem' }}
-                              icon={EditIcon}
-                            />
-                            Edit
-                          </Button>
-                        </Grid>
-                        <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
-                          {isGranted && (
-                            <LoadingButton
-                              loading={loading}
-                              sx={{
-                                background: '#E5E5FE',
-                                boxShadow: '0',
-                                color: '#3F48C0',
-                                fontSize: '0.8rem'
-                              }}
-                              fullWidth
-                              variant="contained"
-                              onClick={() => handleDeleteClick(detail.target_id)}
-                            >
-                              <Icon
-                                style={{ fontSize: '17px', marginRight: '0.5rem' }}
-                                icon={DeleteIcon}
-                              />
-                              Delete
-                            </LoadingButton>
-                          )}
-                        </Grid>
-                      </Grid>
-                    </TableCell>
-                    {/* {detail[0] ? (
+                    {detail.month === 'Januari' ? (
                       <TableCell
                         sx={{
                           border: '1px solid #F2F2F2',
                           justifyContent: 'flex-start',
                           alignItems: 'flex-start'
                         }}
+                        rowSpan={item.target_list?.length}
                       >
                         <Grid
                           container
@@ -205,13 +171,13 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                               sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
                               fullWidth
                               variant="contained"
-                              onClick={toggleForm}
+                              onClick={() => handleEditClick(item.target_list)}
                             >
                               <Icon
                                 style={{ fontSize: '17px', marginRight: '1rem' }}
                                 icon={EditIcon}
                               />
-                              Edit Table
+                              Edit Data
                             </Button>
                           </Grid>
                           <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
@@ -219,7 +185,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                               sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
                               fullWidth
                               variant="contained"
-                              onClick={toggleDelete}
+                              onClick={() => handleDeleteClick(item.target_list)}
                             >
                               <Icon
                                 style={{ fontSize: '17px', marginRight: '0.5rem' }}
@@ -230,7 +196,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                           </Grid>
                         </Grid>
                       </TableCell>
-                    ) : null} */}
+                    ) : null}
                   </TableRow>
                 ))}
               </>
