@@ -11,6 +11,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { LoadingModal } from 'components/Modal';
+import { toast } from 'react-toastify';
 
 // components
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
@@ -18,89 +19,81 @@ import CustomModal from 'components/Modal/CustomModal/CustomModal';
 // services
 import ProductionService from 'services/Dashboard';
 
-const EditData = ({ isShowing, toggle, year, dataEdit }) => {
-  // const {
-  //   data: dataTarget
-  //   // isLoading: isLoadingOreGetting,
-  //   // isFetching: isFetchingOreGetting
-  // } = useQuery(['target'], () =>
-  //   ProductionService.getTargetDetail({
-  //     id: id
-  //   })
-  // );
-
+const EditData = ({ isShowing, toggle, year, dataEdit, id }) => {
+  const [loading, setLoading] = useState(false);
+  const [idEdit, setIdEdit] = useState([]);
   const data = Object.values(dataEdit).map((item, i) => item?.target_list[1]);
 
-  const result = data?.map(({ month, target, i }) => {
-    console.log(`${month} with quantity ${target} with price ${i} `);
+  useEffect(() => {
+    setIdEdit(id);
   });
 
-  console.log(dataEdit);
-  const [addFormData, setAddFormData] = useState({
-    year: '2021',
-    target_list: [
-      {
-        month: 'Januari',
-        month_number: 1,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Februari',
-        month_number: 2,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Maret',
-        month_number: 3,
-        target: dataEdit?.target
-      },
-      {
-        month: 'April',
-        month_number: 4,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Mei',
-        month_number: 5,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Juni',
-        month_number: 6,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Juli',
-        month_number: 7,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Agustus',
-        month_number: 8,
-        target: dataEdit?.target
-      },
-      {
-        month: 'September',
-        month_number: 9,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Oktober',
-        month_number: 10,
-        target: dataEdit?.target
-      },
-      {
-        month: 'November',
-        month_number: 11,
-        target: dataEdit?.target
-      },
-      {
-        month: 'Desember',
-        month_number: 12,
-        target: dataEdit?.target
-      }
-    ]
-  });
+  // const result = data?.map(({ month, target, i }) => {
+  //   console.log(`${month} with quantity ${target} with price ${i} `);
+  // });
+
+  const [addFormData, setAddFormData] = useState([
+    {
+      month: 'Januari',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Februari',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Maret',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'April',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Mei',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Juni',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Juli',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Agustus',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'September',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Oktober',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'November',
+      target: 3,
+      year: 1996
+    },
+    {
+      month: 'Desember',
+      target: 3,
+      year: 1996
+    }
+  ]);
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -114,82 +107,97 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
     setAddFormData(newFormData);
   };
 
+  console.log(addFormData.Juli);
+
   const handleEditFormSubmit = async (event) => {
     event.preventDefault();
-    const data = {
-      year: dayjs(value).format('YYYY'),
-      target_list: [
-        {
-          month: 'Desember',
-          month_number: 12,
-          target: addFormData.desember
-        },
-        {
-          month: 'November',
-          month_number: 11,
-          target: addFormData.november
-        },
-        {
-          month: 'Oktober',
-          month_number: 10,
-          target: addFormData.oktober
-        },
-        {
-          month: 'September',
-          month_number: 9,
-          target: addFormData.september
-        },
-        {
-          month: 'Agustus',
-          month_number: 8,
-          target: addFormData.agustus
-        },
-        {
-          month: 'Juli',
-          month_number: 7,
-          target: addFormData.juli
-        },
-        {
-          month: 'Juni',
-          month_number: 6,
-          target: addFormData.juni
-        },
-        {
-          month: 'Mei',
-          month_number: 5,
-          target: addFormData.mei
-        },
-        {
-          month: 'April',
-          month_number: 4,
-          target: addFormData.april
-        },
-        {
-          month: 'Maret',
-          month_number: 3,
-          target: addFormData.maret
-        },
-        {
-          month: 'Februari',
-          month_number: 2,
-          target: addFormData.februari
-        },
-        {
-          month: 'Januari',
-          month_number: 1,
-          target: addFormData.januari
-        }
-      ]
-    };
+    const data = [
+      {
+        month: 'Januari',
+        target: addFormData.Januari,
+        year: '1996'
+      },
+      {
+        month: 'Februari',
+        target: addFormData.Februari,
+        year: '1996'
+      },
+      {
+        month: 'Maret',
+        target: addFormData.Maret,
+        year: '1996'
+      },
+      {
+        month: 'April',
+        target: addFormData.April,
+        year: '1996'
+      },
+      {
+        month: 'Mei',
+        target: addFormData.Mei,
+        year: '1996'
+      },
+      {
+        month: 'Juni',
+        target: addFormData.Juni,
+        year: '1996'
+      },
+      {
+        month: 'Juli',
+        target: addFormData.Juli,
+        year: '1996'
+      },
+      {
+        month: 'Agustus',
+        target: addFormData.Agustus,
+        year: '1996'
+      },
+      {
+        month: 'September',
+        target: addFormData.September,
+        year: '1996'
+      },
+      {
+        month: 'Oktober',
+        target: addFormData.Oktober,
+        year: '1996'
+      },
+      {
+        month: 'November',
+        target: addFormData.November,
+        year: '1996'
+      },
+      {
+        month: 'Desember',
+        target: addFormData.Desember,
+        year: '1996'
+      }
+    ];
 
     try {
-      // await ProductionService.editTarget(data);
-      console.log(data);
+      await idEdit?.forEach((_id, index) => {
+        ProductionService.editTarget(_id, data[index]);
+      });
 
       console.log('success');
     } catch (error) {
       console.log(error);
     }
+    // event.preventDefault();
+    // console.log('sukses');
+    // idEdit
+    //   .forEach((_id, index) => {
+    //     // ProductionService.editTarget(_id, addFormData[index]);
+    //     console.log(_id, addFormData[index]);
+    //   })
+    //   .then(() => {
+    //     toast.success('Data berhasil ditambah!');
+    //     setLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     toast.error(err.response.data.detail_message);
+    //     setLoading(false);
+    //   });
   };
 
   const handleChange = (newValue) => {
@@ -257,10 +265,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
+                          // required
                           name="Januari"
                           onChange={handleAddFormChange}
-                          defaultValue={data ? data.target : 0}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -279,10 +286,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="juli"
+                          // required
+                          name="Juli"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -307,10 +313,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="februari"
+                          // required
+                          name="Februari"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -329,10 +334,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="agustus"
+                          // required
+                          name="Agustus"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -357,10 +361,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="maret"
+                          // required
+                          name="Maret"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -379,10 +382,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="september"
+                          // required
+                          name="September"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -407,10 +409,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="april"
+                          // required
+                          name="April"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -429,10 +430,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="oktober"
+                          // required
+                          name="Oktober"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -456,10 +456,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="mei"
+                          // required
+                          name="Mei"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -478,10 +477,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="november"
+                          // required
+                          name="November"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -506,10 +504,9 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="juni"
+                          // required
+                          name="Juni"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
                               <Grid>Ton</Grid>
@@ -528,23 +525,12 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
-                          required
-                          name="desember"
+                          // required
+                          name="Desember"
                           onChange={handleAddFormChange}
-                          defaultValue={dataEdit?.month}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
-                              <Grid
-                              //     sx={{
-                              //       backgroundColor: '#E0E0E0',
-                              //       height: '2.5rem',
-                              //       border: '1px solid #E0E0E0',
-                              //       borderRadius: '0px 4px 4px 0px',
-                              //   width
-                              //     }}
-                              >
-                                Ton
-                              </Grid>
+                              <Grid>Ton</Grid>
                             </InputAdornment>
                           }
                           placeholder="0,00"
@@ -577,6 +563,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit }) => {
                 </Grid>
                 <Grid item>
                   <Button
+                    type="submit"
                     variant="contained"
                     sx={{
                       boxShadow: '0',

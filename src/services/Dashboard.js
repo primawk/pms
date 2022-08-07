@@ -26,10 +26,11 @@ const deleteTarget = ({ _id }) => {
 };
 
 const editTarget = (id, data) => {
+  console.log(data);
   return request(`${MINING_ACTIVITY_MODEL}/target/${id}`, {
     method: 'PUT',
     headers: authHeader(),
-    data
+    data: data
   });
 };
 

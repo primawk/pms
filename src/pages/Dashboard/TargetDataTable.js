@@ -38,6 +38,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
   const [loading, setLoading] = useState(false);
   const [dataTable, setDataTable] = useState([]);
   const [dataEdit, setDataEdit] = useState(0);
+  const [dataEditId, setDataEditId] = useState([]);
   const [dataDelete, setDataDelete] = useState([]);
 
   useEffect(() => {
@@ -50,21 +51,19 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
 
   console.log(datav2);
 
-  // datav2.forEach(function (item, index, object) {
-  //   if (item.year === ) {
-  //     object.splice(index, 1);
-  //   }
-  // });
-
   const [year, setYear] = useState(0);
   const [deleteId, setDeleteId] = useState(0);
 
-  const handleEditClick = (year) => {
+  const handleEditClick = (year, target_list) => {
     getTargetYear(year).then((response) => {
       setDataEdit(response);
       return response;
     });
     setYear(year);
+
+    const ids = target_list.map((id) => id.target_id);
+
+    setDataEditId(ids);
 
     toggleForm();
   };
@@ -100,6 +99,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
         width={width}
         year={year}
         dataEdit={dataEdit}
+        id={dataEditId}
       />
       <DeleteData
         toggle={toggleDelete}
@@ -171,7 +171,7 @@ const TargetDataTable = ({ targetTableHead, dataProduction }) => {
                               sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
                               fullWidth
                               variant="contained"
-                              onClick={() => handleEditClick(item.target_list)}
+                              onClick={() => handleEditClick(item.year, item.target_list)}
                             >
                               <Icon
                                 style={{ fontSize: '17px', marginRight: '1rem' }}
