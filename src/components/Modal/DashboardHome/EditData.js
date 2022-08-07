@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button, Box } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -8,10 +9,12 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { useQuery } from 'react-query';
-import dayjs from 'dayjs';
-import { LoadingModal } from 'components/Modal';
+import EditedModal from '../../Modal/EditedModal/EditedModal';
 import { toast } from 'react-toastify';
+import { useQueryClient } from 'react-query';
+
+// custom hooks
+import useModal from '../../../hooks/useModal';
 
 // components
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
@@ -22,7 +25,7 @@ import ProductionService from 'services/Dashboard';
 const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
   const [loading, setLoading] = useState(false);
   const [idEdit, setIdEdit] = useState([]);
-  const data = Object.values(dataEdit).map((item, i) => item?.target_list[1]);
+  // const data = Object.values(dataEdit).map((item, i) => item?.target_list[1]);
 
   useEffect(() => {
     setIdEdit(id);
@@ -32,70 +35,70 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
   //   console.log(`${month} with quantity ${target} with price ${i} `);
   // });
 
-  const dataTargetv2 = String(dataTarget);
+  // const dataTargetv2 = String(dataTarget);
 
-  console.log(dataTarget);
+  const queryClient = useQueryClient();
 
   const [addFormData, setAddFormData] = useState([
     {
       month: 'Januari',
       target: dataTarget[0],
-      year: 1996
+      year: year
     },
     {
       month: 'Februari',
       target: dataTarget[1],
-      year: 1996
+      year: year
     },
     {
       month: 'Maret',
       target: dataTarget[2],
-      year: 1996
+      year: year
     },
     {
       month: 'April',
       target: dataTarget[3],
-      year: 1996
+      year: year
     },
     {
       month: 'Mei',
       target: dataTarget[4],
-      year: 1996
+      year: year
     },
     {
       month: 'Juni',
       target: dataTarget[5],
-      year: 1996
+      year: year
     },
     {
       month: 'Juli',
       target: dataTarget[6],
-      year: 1996
+      year: year
     },
     {
       month: 'Agustus',
       target: dataTarget[7],
-      year: 1996
+      year: year
     },
     {
       month: 'September',
       target: dataTarget[8],
-      year: 1996
+      year: year
     },
     {
       month: 'Oktober',
       target: dataTarget[9],
-      year: 1996
+      year: year
     },
     {
       month: 'November',
       target: dataTarget[10],
-      year: 1996
+      year: year
     },
     {
       month: 'Desember',
       target: dataTarget[11],
-      year: 1996
+      year: year
     }
   ]);
 
@@ -112,67 +115,68 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
   };
 
   const handleEditFormSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     const data = [
       {
         month: 'Januari',
         target: addFormData.Januari,
-        year: '1996'
+        year: year
       },
       {
         month: 'Februari',
         target: addFormData.Februari,
-        year: '1996'
+        year: year
       },
       {
         month: 'Maret',
         target: addFormData.Maret,
-        year: '1996'
+        year: year
       },
       {
         month: 'April',
         target: addFormData.April,
-        year: '1996'
+        year: year
       },
       {
         month: 'Mei',
         target: addFormData.Mei,
-        year: '1996'
+        year: year
       },
       {
         month: 'Juni',
         target: addFormData.Juni,
-        year: '1996'
+        year: year
       },
       {
         month: 'Juli',
         target: addFormData.Juli,
-        year: '1996'
+        year: year
       },
       {
         month: 'Agustus',
         target: addFormData.Agustus,
-        year: '1996'
+        year: year
       },
       {
         month: 'September',
         target: addFormData.September,
-        year: '1996'
+        year: year
       },
       {
         month: 'Oktober',
         target: addFormData.Oktober,
-        year: '1996'
+        year: year
       },
       {
         month: 'November',
         target: addFormData.November,
-        year: '1996'
+        year: year
       },
       {
         month: 'Desember',
         target: addFormData.Desember,
-        year: '1996'
+        year: year
       }
     ];
 
@@ -180,37 +184,28 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
       await idEdit?.forEach((_id, index) => {
         ProductionService.editTarget(_id, data[index]);
       });
-
-      console.log('success');
+      setLoading(false);
+      toggleEdited();
+      queryClient.invalidateQueries(['data-target']);
     } catch (error) {
+      toast.error(error.response.data.detail_message);
       console.log(error);
+      setLoading(false);
     }
-    // event.preventDefault();
-    // console.log('sukses');
-    // idEdit
-    //   .forEach((_id, index) => {
-    //     // ProductionService.editTarget(_id, addFormData[index]);
-    //     console.log(_id, addFormData[index]);
-    //   })
-    //   .then(() => {
-    //     toast.success('Data berhasil ditambah!');
-    //     setLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.response.data.detail_message);
-    //     setLoading(false);
-    //   });
   };
 
   const handleChange = (newValue) => {
     setValue(newValue);
   };
 
-  const [value, setValue] = React.useState(new Date());
+  const [value, setValue] = React.useState(year);
+
+  const { isShowing: isShowingEdited, toggle: toggleEdited } = useModal();
 
   return (
     <>
       {/* {isFetchingOreGetting && <LoadingModal />} */}
+      <EditedModal isShowing={isShowingEdited} toggle={toggleEdited} width={'29.563'} />
       <CustomModal isShowing={isShowing} toggle={toggle} width="52.125rem">
         <Grid
           container
@@ -576,9 +571,10 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button
+                  <LoadingButton
                     type="submit"
                     variant="contained"
+                    loading={loading}
                     sx={{
                       boxShadow: '0',
                       fontWeight: '400',
@@ -587,7 +583,7 @@ const EditData = ({ isShowing, toggle, year, dataEdit, id, dataTarget }) => {
                     }}
                   >
                     Save
-                  </Button>
+                  </LoadingButton>
                 </Grid>
               </Grid>
             </Grid>

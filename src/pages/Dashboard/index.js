@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Grid, Tab, Tabs, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 
@@ -16,7 +16,6 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 import ProductionService from 'services/Dashboard';
-import { getTargetYear } from 'services/Dashboard';
 
 const menuList = [
   { value: 0, label: 'Produksi' }
@@ -83,43 +82,6 @@ const data = [
     name: 'Dec',
     uv: 3490,
     pv: 4300
-  }
-];
-
-const sample = [
-  {
-    year: 2021,
-    detail: [
-      { month: 'Januari', target: '70.000' },
-      { month: 'Februari', target: '70.000' },
-      { month: 'Maret', target: '70.000' },
-      { month: 'April', target: '70.000' },
-      { month: 'Mei', target: '70.000' },
-      { month: 'Juni', target: '70.000' },
-      { month: 'Juli', target: '70.000' },
-      { month: 'Agustus', target: '70.000' },
-      { month: 'September', target: '70.000' },
-      { month: 'Oktober', target: '70.000' },
-      { month: 'November', target: '70.000' },
-      { month: 'Desember', target: '70.000' }
-    ]
-  },
-  {
-    year: 2020,
-    detail: [
-      { month: 'Januari', target: '70.000' },
-      { month: 'Februari', target: '70.000' },
-      { month: 'Maret', target: '70.000' },
-      { month: 'April', target: '70.000' },
-      { month: 'Mei', target: '70.000' },
-      { month: 'Juni', target: '70.000' },
-      { month: 'Juli', target: '70.000' },
-      { month: 'Agustus', target: '70.000' },
-      { month: 'September', target: '70.000' },
-      { month: 'Oktober', target: '70.000' },
-      { month: 'November', target: '70.000' },
-      { month: 'Desember', target: '70.000' }
-    ]
   }
 ];
 
@@ -211,15 +173,16 @@ export default function Dashboard() {
   );
 
   const [selectedYear, setSelectedYear] = useState(0);
-  const [dataEdit, setDataEdit] = useState(0);
+  const rowProductionTable = 1;
 
   const {
-    data: dataProduction
-    // isLoading: isLoadingOreGetting,
-    // isFetching: isFetchingOreGetting
-  } = useQuery(['production'], () =>
+    data: dataProduction,
+    isLoading: isLoadingProduction,
+    isFetching: isFetchingProduction
+  } = useQuery(['data-target', rowProductionTable], () =>
     ProductionService.getTarget({
-      year: selectedYear
+      year: selectedYear,
+      row: rowProductionTable
     })
   );
 
@@ -320,7 +283,12 @@ export default function Dashboard() {
 
               <TargetDataInformation />
 
-              <TargetDataTable targetTableHead={targetTableHead} dataProduction={dataProduction} />
+              <TargetDataTable
+                targetTableHead={targetTableHead}
+                data={dataProduction?.data?.data}
+                isLoading={isLoadingProduction}
+                isFetching={isFetchingProduction}
+              />
 
               <CustomPagination />
             </Grid>

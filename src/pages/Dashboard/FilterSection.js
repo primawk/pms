@@ -82,12 +82,11 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
               placeholder="Tahun"
               fullWidth
             > */}
-            <select id="years"  onChange={(e) => setYear(e.target.value)}>
+            <select id="years" onChange={(e) => setYear(e.target.value)}>
               {years ? years.map((item) => <option>{item}</option>) : null}
             </select>
             {/* </TextField> */}
           </Grid>
-          <h1>Selected Fruit: {year}</h1>
 
           <Grid item md={1} xs={12}>
             <Button fullWidth variant="text" onClick={setSelectedYear(0)}>
