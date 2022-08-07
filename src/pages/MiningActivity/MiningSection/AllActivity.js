@@ -33,7 +33,7 @@ const data = [
   }
 ];
 
-export default function AllActivity({ selectedDate, filterDate }) {
+export default function AllActivity({ selectedDate }) {
   const [subMenu, setSubMenu] = useState(0);
   const [chartData] = useState({
     labels: data.map((item) => item.name),
@@ -196,7 +196,7 @@ export default function AllActivity({ selectedDate, filterDate }) {
           </Grid>
 
           <Grid container item md={5}>
-            <InfoSection summary={dataAllSummary?.data?.data} filterDate={filterDate} />
+            <InfoSection summary={dataAllSummary?.data?.data} />
           </Grid>
         </Grid>
       )}
@@ -230,6 +230,5 @@ export default function AllActivity({ selectedDate, filterDate }) {
 }
 
 AllActivity.propTypes = {
-  selectedDate: PropTypes.object.isRequired,
-  filterDate: PropTypes.string
+  selectedDate: PropTypes.object.isRequired
 };

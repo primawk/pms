@@ -2,7 +2,11 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
+// util
+import { capitalizeFirstLetter, timeDifference, translateTime } from 'utils/helper';
+
 const DashboardList = ({ listData }) => {
+  const dateDifference = translateTime(timeDifference(listData?.updated_at, new Date()));
   return (
     <Grid
       container
@@ -112,9 +116,9 @@ const DashboardList = ({ listData }) => {
           Kegiatan Terakhir
         </Typography>
         <Grid container direction="row">
-          <Typography mr={2}>ETO to EFO</Typography>
+          <Typography mr={2}>{capitalizeFirstLetter(listData?.last_activity || '')}</Typography>
           <Typography variant="body1" color="#828282">
-            • 3j yang lalu
+            • {dateDifference || '-'}
           </Typography>
         </Grid>
       </Grid>
