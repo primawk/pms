@@ -182,7 +182,9 @@ export default function Dashboard() {
     data: dataAllSummary,
     isLoading: isLoadingAllSummary,
     isFetching: isFetchingAllSummary
-  } = useQuery(['all-summary'], () => MiningActivityService.getSummary({ activity_type: 'all', start_date: '2' }));
+  } = useQuery(['all-summary'], () =>
+    MiningActivityService.getSummary({ activity_type: 'all', start_date: '2' })
+  );
 
   // Table Target
 
@@ -211,7 +213,7 @@ export default function Dashboard() {
     setSubMenu(value);
   };
 
-  console.log(selectedYear);
+  console.log(years);
 
   return (
     <>
@@ -266,7 +268,7 @@ export default function Dashboard() {
               handleChangeSubMenu={handleChangeSubMenu}
               data={dataProduction?.data?.data}
               setSelectedYear={setSelectedYear}
-              // years={years}
+              years={years}
             />
 
             <InfoSection
