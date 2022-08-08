@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Button, Grid, TextField, MenuItem } from '@mui/material';
 import { Icon } from '@iconify/react';
 import filterIcon from '@iconify/icons-carbon/filter';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 // import { useQuery } from 'react-query';
 
 // // services
@@ -9,8 +12,9 @@ import filterIcon from '@iconify/icons-carbon/filter';
 
 // const years = ['2020', '2021', '2022'];
 
-const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelectedYear, years }) => {
+const FilterSection = ({ handleChangeSubMenu, selectedYear, subMenu, setSelectedYear, years }) => {
   // passed variable undefined i use this
+
   if (!years) {
     return null;
   }
@@ -19,11 +23,9 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
     setSelectedYear(event.target.value);
   };
 
-  const handleSubmit = () => {
-    console.log(selectedYear);
-  };
-
-  console.log(selectedYear);
+  // const handleSubmit = () => {
+  //  c
+  // };
 
   return (
     <>
@@ -79,21 +81,29 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
           }}
         >
           <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
-            <TextField
-              id="outlined-select-currency"
-              select
-              label="Tahun"
-              value={years}
-              onChange={(e) => setSelectedYear(e.target.value)}
-              placeholder="Tahun"
-              fullWidth
-            >
-              {years.map((option) => (
-                <MenuItem key={option} value={option}>
+            <FormControl fullWidth>
+              <InputLabel id="selectedYear">Tahun</InputLabel>
+              <Select
+                id="selectedYear"
+                select
+                label="Tahun"
+                name="years"
+                value={selectedYear}
+                // onChange={(e) => setSelectedYear(e.target.value)}
+                onChange={handleChangeYear}
+                placeholder="Tahun"
+                fullWidth
+              >
+                {/* {years.map((option, index) => (
+                <MenuItem key={option[index]} value={option}>
                   {option}
                 </MenuItem>
-              ))}
-            </TextField>
+              ))} */}
+
+                <MenuItem value={'2022'}>2022</MenuItem>
+                <MenuItem value={'2021'}>2021</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
 
           <Grid item md={1} xs={12}>
@@ -103,7 +113,7 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
           </Grid>
 
           <Grid item md={2} xs={12}>
-            <Button fullWidth variant="outlined" onClick={handleSubmit}>
+            <Button fullWidth variant="outlined">
               <Icon style={{ fontSize: '17px', marginLeft: '-15px' }} icon={filterIcon} />
               Filter
             </Button>

@@ -3,8 +3,12 @@ import BarChart from '../../components/Charts/BarChart';
 import React from 'react';
 
 const ChartSection = ({ chartData, data, target }) => {
+  if (!target) {
+    return null;
+  }
   return (
     <>
+ 
       <Grid width="100%">
         <BarChart chartData={chartData} />
       </Grid>
@@ -57,9 +61,9 @@ const ChartSection = ({ chartData, data, target }) => {
                 <Grid item>Target Produksi</Grid>
               </Grid>
             </TableCell>
-            {target?.map((item, index) => (
+            {target?.map((item) => (
               <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
-                {item[index].target}
+                {item}
               </TableCell>
             ))}
           </TableRow>

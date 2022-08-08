@@ -31,7 +31,7 @@ const menuList = [
 const data = [
   {
     name: 'Jan',
-    uv: 4000,
+    uv: 4000.1,
     pv: 4500
   },
   {
@@ -170,8 +170,10 @@ export default function Dashboard() {
 
   // Table Target
 
-  const [selectedYear, setSelectedYear] = useState(0);
+  const [selectedYear, setSelectedYear] = useState(2022);
   const { pageTarget, handleChangePageTarget } = usePagination();
+
+  console.log(selectedYear);
 
   const {
     data: dataProduction,
@@ -179,7 +181,7 @@ export default function Dashboard() {
     isFetching: isFetchingProduction
   } = useQuery(['data-target'], () =>
     ProductionService.getTarget({
-      year: 2022,
+      // year: selectedYear,
       row: 2,
       page: pageTarget
     })
@@ -187,12 +189,28 @@ export default function Dashboard() {
 
   const years = dataProduction?.data?.data.map((item) => item.year);
   const target = dataProduction?.data?.data.map((item) => item.target_list);
-  const targetData = target ? target.map((item, index) => item[index].target) : null;
-  // const targetList = targetData ? Object.key
+  const targetResult = target ? target[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show
 
-  console.log(targetData);
+  // const [chartData] = useState({
+  //   labels: data.map((item) => item.name),
+  //   legend: false,
+  //   datasets: [
+  //     {
+  //       label: 'Realisasi (Ton)',
+  //       data: data.map((item) => item.uv),
+  //       backgroundColor: ['#3F48C0'],
+  //       borderWidth: 2
+  //     },
+  //     {
+  //       label: 'Target Produksi',
+  //       data: targetResult ? targetResult?.map((item) => item) : null,
+  //       backgroundColor: ['#DA4540'],
+  //       borderWidth: 2
+  //     }
+  //   ]
+  // });
 
-  const [chartData] = useState({
+  const chartData = {
     labels: data.map((item) => item.name),
     legend: false,
     datasets: [
@@ -201,15 +219,15 @@ export default function Dashboard() {
         data: data.map((item) => item.uv),
         backgroundColor: ['#3F48C0'],
         borderWidth: 2
+      },
+      {
+        label: 'Target Produksi',
+        data: targetResult ? targetResult?.map((item) => item) : null,
+        backgroundColor: ['#DA4540'],
+        borderWidth: 2
       }
-      // {
-      //   label: 'Target Produksi',
-      //   data: Object.values(target).map((item, index) => item[index].target),
-      //   backgroundColor: ['#DA4540'],
-      //   borderWidth: 2
-      // }
     ]
-  });
+  };
 
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
@@ -282,7 +300,7 @@ export default function Dashboard() {
               isLoading={isLoadingAllSummary}
             />
 
-            <ChartSection chartData={chartData} data={data} target={target} />
+            <ChartSection chartData={chartData} data={data} target={targetResult} />
           </Grid>
         ) : (
           <>
