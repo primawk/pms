@@ -178,6 +178,14 @@ export default function Dashboard() {
     MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
   );
 
+  const {
+    data: dataAllSummary,
+    isLoading: isLoadingAllSummary,
+    isFetching: isFetchingAllSummary
+  } = useQuery(['all-summary'], () => MiningActivityService.getSummary({ activity_type: 'all', start_date: '2' }));
+
+  // Table Target
+
   const [selectedYear, setSelectedYear] = useState(0);
   const { pageTarget, handleChangePageTarget } = usePagination();
 
@@ -261,7 +269,11 @@ export default function Dashboard() {
               // years={years}
             />
 
-            <InfoSection />
+            <InfoSection
+              data={dataAllSummary}
+              isFetching={isFetchingAllSummary}
+              isLoading={isLoadingAllSummary}
+            />
 
             <ChartSection chartData={chartData} data={data} />
           </Grid>

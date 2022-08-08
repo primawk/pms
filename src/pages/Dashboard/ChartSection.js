@@ -73,7 +73,7 @@ const ChartSection = ({ chartData, data }) => {
             </TableCell>
             {data?.map((item) => (
               <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
-                {item?.uv} / {item?.pv} * 100
+                {/* {item?.uv} / {item?.pv} * 100 */}
               </TableCell>
             ))}
           </TableRow>
