@@ -2,7 +2,7 @@ import { Grid, Table, TableCell, TableContainer, TableRow } from '@mui/material'
 import BarChart from '../../components/Charts/BarChart';
 import React from 'react';
 
-const ChartSection = ({ chartData, data }) => {
+const ChartSection = ({ chartData, data, target }) => {
   return (
     <>
       <Grid width="100%">
@@ -57,9 +57,9 @@ const ChartSection = ({ chartData, data }) => {
                 <Grid item>Target Produksi</Grid>
               </Grid>
             </TableCell>
-            {data?.map((item) => (
+            {target?.map((item, index) => (
               <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
-                {item?.pv}
+                {item[index].target}
               </TableCell>
             ))}
           </TableRow>

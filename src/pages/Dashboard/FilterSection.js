@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, TextField, MenuItem } from '@mui/material';
 import { Icon } from '@iconify/react';
 import filterIcon from '@iconify/icons-carbon/filter';
@@ -10,7 +10,6 @@ import filterIcon from '@iconify/icons-carbon/filter';
 // const years = ['2020', '2021', '2022'];
 
 const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelectedYear, years }) => {
-
   // passed variable undefined i use this
   if (!years) {
     return null;
@@ -23,6 +22,8 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
   const handleSubmit = () => {
     console.log(selectedYear);
   };
+
+  console.log(selectedYear);
 
   return (
     <>
@@ -83,7 +84,7 @@ const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelected
               select
               label="Tahun"
               value={years}
-              onChange={handleChangeYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
               placeholder="Tahun"
               fullWidth
             >

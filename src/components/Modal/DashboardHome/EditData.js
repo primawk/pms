@@ -182,7 +182,6 @@ const EditData = ({ isShowing, toggle, year, id, dataTarget, isFetching, isLoadi
       queryClient.invalidateQueries(['data-target']);
     } catch (error) {
       toast.error(error.response.data.detail_message);
-      console.log(error);
       setLoading(false);
     }
   };

@@ -32,7 +32,7 @@ const data = [
   {
     name: 'Jan',
     uv: 4000,
-    pv: 4000
+    pv: 4500
   },
   {
     name: 'Feb',
@@ -96,24 +96,6 @@ const targetTableHead = ['TAHUN', 'BULAN', 'TARGET', 'ACTION'];
 export default function Dashboard() {
   const [menuTab, setMenuTab] = useState(0);
   const [subMenu, setSubMenu] = useState(0);
-  const [chartData] = useState({
-    labels: data.map((item) => item.name),
-    legend: false,
-    datasets: [
-      {
-        label: 'Realisasi (Ton)',
-        data: data.map((item) => item.uv),
-        backgroundColor: ['#3F48C0'],
-        borderWidth: 2
-      },
-      {
-        label: 'Target Produksi',
-        data: data.map((item) => item.pv),
-        backgroundColor: ['#DA4540'],
-        borderWidth: 2
-      }
-    ]
-  });
 
   // ore getting
   const {
@@ -197,13 +179,37 @@ export default function Dashboard() {
     isFetching: isFetchingProduction
   } = useQuery(['data-target'], () =>
     ProductionService.getTarget({
-      year: selectedYear,
+      year: 2022,
       row: 2,
       page: pageTarget
     })
   );
 
   const years = dataProduction?.data?.data.map((item) => item.year);
+  const target = dataProduction?.data?.data.map((item) => item.target_list);
+  const targetData = target ? target.map((item, index) => item[index].target) : null;
+  // const targetList = targetData ? Object.key
+
+  console.log(targetData);
+
+  const [chartData] = useState({
+    labels: data.map((item) => item.name),
+    legend: false,
+    datasets: [
+      {
+        label: 'Realisasi (Ton)',
+        data: data.map((item) => item.uv),
+        backgroundColor: ['#3F48C0'],
+        borderWidth: 2
+      }
+      // {
+      //   label: 'Target Produksi',
+      //   data: Object.values(target).map((item, index) => item[index].target),
+      //   backgroundColor: ['#DA4540'],
+      //   borderWidth: 2
+      // }
+    ]
+  });
 
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
@@ -212,8 +218,6 @@ export default function Dashboard() {
   const handleChangeSubMenu = (value) => {
     setSubMenu(value);
   };
-
-  console.log(years);
 
   return (
     <>
@@ -268,6 +272,7 @@ export default function Dashboard() {
               handleChangeSubMenu={handleChangeSubMenu}
               data={dataProduction?.data?.data}
               setSelectedYear={setSelectedYear}
+              selectedYear={selectedYear}
               years={years}
             />
 
@@ -277,7 +282,7 @@ export default function Dashboard() {
               isLoading={isLoadingAllSummary}
             />
 
-            <ChartSection chartData={chartData} data={data} />
+            <ChartSection chartData={chartData} data={data} target={target} />
           </Grid>
         ) : (
           <>

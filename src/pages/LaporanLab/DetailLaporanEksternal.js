@@ -122,9 +122,9 @@ const DetailEksternal = () => {
                 <Icon icon="akar-icons:arrow-back" color="#3f48c0" fontSize={16} />
                 <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
               </Button>
-              <Button variant="contained" sx={{ boxShadow: 0, fontWeight: '400' }}>
+              {/* <Button variant="contained" sx={{ boxShadow: 0, fontWeight: '400' }}>
                 Download Laporan
-              </Button>
+              </Button> */}
             </Grid>
           </Grid>
           <Grid
