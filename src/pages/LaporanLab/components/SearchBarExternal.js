@@ -3,7 +3,7 @@ import { Grid, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@mui/material/TextField';
-import FilterDate from 'components/Modal/LaporanLab/FilterDate';
+// import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 import { addDays } from 'date-fns';
 
 // custom hooks
@@ -61,13 +61,13 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
 
   return (
     <>
-      <FilterDate
+      {/* <FilterDate
         toggle={toggleDate}
         isShowing={isShowingDate}
         state={state}
         setState={setState}
         setSelectedDates={setSelectedDates}
-      />
+      /> */}
       <Grid
         container
         sx={{
@@ -105,7 +105,7 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
             }}
           />
         </Grid>
-        <Button
+        {/* <Button
           sx={{
             border: 1,
             borderRadius: '4px',
@@ -119,7 +119,7 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
           onClick={toggleDate}
         >
           Filter Tanggal | Hari ini <Icon icon="fe:drop-down" color="#828282" />
-        </Button>
+        </Button> */}
         <Button
           onClick={handleSubmit}
           variant="contained"

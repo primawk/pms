@@ -13,6 +13,7 @@ import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
+import { toast } from 'react-toastify';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -74,11 +75,10 @@ const EditLaporanEksternal = () => {
     try {
       const id = dataEdit?.id;
       await LabService.editReportExternal(formData, id);
-      console.log(data);
       setLoading(false);
       toggle();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.detail_message);
       setLoading(false);
     }
   };

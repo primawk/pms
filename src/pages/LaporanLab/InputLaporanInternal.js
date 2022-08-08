@@ -13,18 +13,49 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
 //  components
 import Navbar from '../../components/Navbar';
+import { LoadingModal } from 'components/Modal';
 // import HasilAnalisa from './components/HasilAnalisa';
 
 // services
 import LabService from 'services/LabService';
+import InventoryService from 'services/InventoryService';
 
 const InputLaporanInternal = () => {
+  const {
+    data: dataBukit,
+    isLoading,
+    isFetching
+  } = useQuery(['bukitId'], () =>
+    InventoryService.getHill({
+      inventory_type: null
+    })
+  );
+
+  const {
+    data: dataDome,
+    isLoading: isLoadingDome,
+    isFetching: isFetchingDome
+  } = useQuery(['domeId'], () =>
+    InventoryService.getDome({
+      inventory_type: 'inventory-efo'
+    })
+  );
+
+  const dome = dataDome?.data?.data.map((item) => item.name);
+  const bukitId = dataBukit?.data?.data.map((item) => item.name);
+
+  console.log(dome);
+
+  const [loading, setLoading] = useState(false);
   const [addFormData, setAddFormData] = useState({
     date: '',
     hill_id: '',
@@ -57,6 +88,7 @@ const InputLaporanInternal = () => {
   };
 
   const handleAddFormSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
@@ -81,11 +113,11 @@ const InputLaporanInternal = () => {
 
     try {
       await LabService.inputReport(data);
-      console.log(data);
-
-      console.log('success');
+      setLoading(false);
+      toggle();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.detail_message);
+      setLoading(false);
     }
   };
 
@@ -101,6 +133,7 @@ const InputLaporanInternal = () => {
 
   return (
     <>
+      {isFetching && isLoading && isFetchingDome && isLoadingDome && <LoadingModal />}
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
@@ -150,6 +183,7 @@ const InputLaporanInternal = () => {
                   <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
+                      required
                       inputFormat="dd/MM/yyyy"
                       name="date"
                       value={value}
@@ -172,14 +206,17 @@ const InputLaporanInternal = () => {
                       Pilih Bukit
                     </InputLabel>
                     <Select
+                      required
                       name="hill_id"
                       label="Pilih Bukit"
                       onChange={handleAddFormChange}
                       size="small"
                     >
-                      <MenuItem value="1">1</MenuItem>
-                      <MenuItem value="2">2</MenuItem>
-                      <MenuItem value="3">3</MenuItem>
+                      {bukitId?.map((value) => (
+                        <MenuItem key={value} value={value}>
+                          {value}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -199,6 +236,7 @@ const InputLaporanInternal = () => {
                       Pilih Jenis Sample
                     </InputLabel>
                     <Select
+                      required
                       name="sample_type"
                       labelId="Jenis Sample"
                       id="Jenis Sample"
@@ -229,6 +267,7 @@ const InputLaporanInternal = () => {
                       Pilih Tumpukan/Dome
                     </InputLabel>
                     <Select
+                      required
                       name="dome_id"
                       labelId="tumpukan"
                       id="tumpukan"
@@ -236,9 +275,11 @@ const InputLaporanInternal = () => {
                       onChange={handleAddFormChange}
                       size="small"
                     >
-                      <MenuItem value={'1'}>1</MenuItem>
-                      <MenuItem value={'2'}>2</MenuItem>
-                      <MenuItem value={'3'}>3</MenuItem>
+                      {dome?.map((value) => (
+                        <MenuItem key={value} value={value}>
+                          {value}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -264,6 +305,7 @@ const InputLaporanInternal = () => {
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Kode Sample</Box>
                   <TextField
+                    required
                     name="sample_code"
                     id="outlined-basic"
                     label="Kode Sample"
@@ -280,6 +322,7 @@ const InputLaporanInternal = () => {
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Inputan Preparasi</Box>
                   <TextField
+                    required
                     name="preparation"
                     id="outlined-basic"
                     label="Inputan Preparasi"
@@ -305,6 +348,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar Ni">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       name="ni_level"
                       id="Kadar Ni"
                       onChange={handleAddFormChange}
@@ -334,6 +378,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar MgO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="mgo_level"
                       id="Kadar MgO"
@@ -362,6 +407,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar SImgO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="simgo_level"
                       id="Kadar SImgO"
@@ -392,6 +438,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar Fe">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="fe_level"
                       id="Kadar Fe"
@@ -420,6 +467,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar SIO2">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="sio2_level"
                       id="Kadar SIO2"
@@ -448,6 +496,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Inc">Nilai Inc</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="inc"
                       id="Inc"
@@ -474,6 +523,7 @@ const InputLaporanInternal = () => {
                     <InputLabel htmlFor="Kadar CO">Nilai Kadar</InputLabel>
                     <OutlinedInput
                       // type="number"
+                      required
                       name="co_level"
                       id="Kadar CO"
                       onChange={handleAddFormChange}
@@ -501,6 +551,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar CaO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="cao_level"
                       id="Kadar CaO"
@@ -529,6 +580,7 @@ const InputLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Tonase">Tonase</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="tonnage"
                       id="Tonase"
@@ -567,7 +619,8 @@ const InputLaporanInternal = () => {
                 <Button onClick={() => navigate(-1)}>Back</Button>
               </Grid>
               <Grid item>
-                <Button
+                <LoadingButton
+                  loading={loading}
                   type="submit"
                   variant="contained"
                   // onClick={console.log(formik.date)}
@@ -575,7 +628,7 @@ const InputLaporanInternal = () => {
                   sx={{ width: '130%', boxShadow: '0' }}
                 >
                   Submit Laporan
-                </Button>
+                </LoadingButton>
               </Grid>
             </Grid>
           </div>
