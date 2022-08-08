@@ -94,7 +94,6 @@ const FormInventoryEfo = ({ toggle }) => {
             toggleLoading();
           });
       } else {
-        toggleLoading();
         values?.dome.forEach((_values) => {
           InventoryService.createDomeEfo({ ..._values })
             .then(() => {
@@ -320,7 +319,13 @@ const FormInventoryEfo = ({ toggle }) => {
               </Button>
             </Grid>
             <Grid item lg={4} xs={5}>
-              <LoadingButton loading={isLoadingAction} variant="contained" fullWidth type="submit">
+              <LoadingButton
+                loading={isLoadingAction}
+                variant="contained"
+                fullWidth
+                type="submit"
+                disabled={mode === 'edit' && values.name === undefined}
+              >
                 Save
               </LoadingButton>
             </Grid>

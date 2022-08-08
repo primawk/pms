@@ -2,7 +2,11 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
+// util
+import { capitalizeFirstLetter, timeDifference, translateTime } from 'utils/helper';
+
 const DashboardList = ({ listData }) => {
+  const dateDifference = translateTime(timeDifference(listData?.updated_at, new Date()));
   return (
     <Grid
       container
@@ -36,7 +40,11 @@ const DashboardList = ({ listData }) => {
         <Typography variant="body1" color="#828282">
           Tumpukan
         </Typography>
-        <Typography variant="h6">{listData?.dome_name || '-'}</Typography>
+        <Typography variant="h6">
+          {listData?.activity_type === 'ore-hauling-to-eto'
+            ? listData?.hill_name + '/' + listData?.dome_name
+            : listData?.hill_name || listData?.dome_name}
+        </Typography>
       </Grid>
       <Grid
         container
@@ -51,7 +59,9 @@ const DashboardList = ({ listData }) => {
         <Typography variant="body1" color="#828282">
           Tonase
         </Typography>
-        <Typography variant="h6">{listData?.tonnage_total || '-'}</Typography>
+        <Typography variant="h6">
+          {listData?.tonnage_total && `${parseFloat(listData?.tonnage_total) || 0} Ton`}
+        </Typography>
       </Grid>
       <Grid
         container
@@ -76,7 +86,7 @@ const DashboardList = ({ listData }) => {
             Ni
           </Typography>
           <Typography variant="body1">{`= ${
-            listData?.average_ni ? parseFloat(listData?.average_ni) : '0'
+            listData?.average_ni ? parseFloat(listData?.average_ni).toFixed(2) : '0'
           } %`}</Typography>
           <Typography
             variant="body2"
@@ -88,7 +98,7 @@ const DashboardList = ({ listData }) => {
             Fe
           </Typography>
           <Typography variant="body1">{`= ${
-            listData?.average_fe ? parseFloat(listData?.average_fe) : '0'
+            listData?.average_fe ? parseFloat(listData?.average_fe).toFixed(2) : '0'
           } %`}</Typography>
         </Grid>
       </Grid>
@@ -106,9 +116,9 @@ const DashboardList = ({ listData }) => {
           Kegiatan Terakhir
         </Typography>
         <Grid container direction="row">
-          <Typography mr={2}>ETO to EFO</Typography>
+          <Typography mr={2}>{capitalizeFirstLetter(listData?.last_activity || '')}</Typography>
           <Typography variant="body1" color="#828282">
-            • 3j yang lalu
+            • {dateDifference || '-'}
           </Typography>
         </Grid>
       </Grid>

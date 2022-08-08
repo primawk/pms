@@ -1,8 +1,9 @@
 import React from 'react';
 import { Grid, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import PropTypes from 'prop-types';
 
-export default function Footer({ handleBack }) {
+export default function Footer({ handleBack, loading }) {
   return (
     <Grid
       container
@@ -18,14 +19,15 @@ export default function Footer({ handleBack }) {
         </Button>
       </Grid>
       <Grid item lg={2.5}>
-        <Button variant="contained" fullWidth type="submit">
+        <LoadingButton loading={loading} variant="contained" fullWidth type="submit">
           Submit Laporan
-        </Button>
+        </LoadingButton>
       </Grid>
     </Grid>
   );
 }
 
 Footer.propTypes = {
-  handleBack: PropTypes.func
+  handleBack: PropTypes.func,
+  loading: PropTypes.bool
 };

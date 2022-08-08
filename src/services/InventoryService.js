@@ -68,6 +68,29 @@ const deleteDome = ({ idDome }) => {
   });
 };
 
+const deleteDomeEto = ({ dome_id }) => {
+  return request(`${INVENTORY_MODEL}/dome/${dome_id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
+const createHillEto = ({ dome_list }) => {
+  return request(`${INVENTORY_MODEL}/dome`, {
+    method: 'POST',
+    data: { dome_list },
+    headers: authHeader()
+  });
+};
+
+const editDomeEto = (data) => {
+  return request(`${INVENTORY_MODEL}/dome`, {
+    method: 'PUT',
+    data: data,
+    headers: authHeader()
+  });
+};
+
 const InventoryService = {
   getHill,
   getDome,
@@ -76,7 +99,10 @@ const InventoryService = {
   editHill,
   editDomeEfo,
   createDomeEfo,
-  deleteDome
+  deleteDome,
+  createHillEto,
+  deleteDomeEto,
+  editDomeEto
 };
 
 export default InventoryService;

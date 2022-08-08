@@ -39,7 +39,9 @@ const ReportList = ({ listData }) => {
             <Typography variant="h5">
               {listData?.activity_type ? capitalizeFirstLetter(listData?.activity_type) : ''}
             </Typography>
-            <Typography variant="body1">{`${listData?.hill_name} / ${listData?.dome_name}`}</Typography>
+            <Typography variant="body1" color="#828282">
+              {listData?.activity_code}
+            </Typography>
           </Stack>
         </Stack>
       </Grid>
@@ -59,24 +61,35 @@ const ReportList = ({ listData }) => {
         <Typography variant="body1" color="#828282">
           Inventory
         </Typography>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Icon width={15} height={15} icon={ArrowUp} color="#27AE60" />
-          <Typography variant="body1" style={{ margin: 1 }} color="#27AE60">
-            2.4 Ton
-          </Typography>
-          <Typography variant="body1" style={{ margin: 1 }}>
-            &nbsp;• Bukit 9 / Dome 1
-          </Typography>
-        </Stack>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Icon width={15} height={15} icon={ArrowDown} color="#DA4540" />
-          <Typography variant="body1" style={{ margin: 1 }} color="#DA4540">
-            2.4 Ton
-          </Typography>
-          <Typography variant="body1" style={{ margin: 1 }}>
-            &nbsp;• Bukit 9 / Dome 1
-          </Typography>
-        </Stack>
+        {listData?.tonnage_difference.charAt(0) === '-' ? (
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Icon width={15} height={15} icon={ArrowDown} color="#DA4540" />
+            <Typography variant="body1" style={{ margin: 1 }} color="#DA4540">
+              {listData?.tonnage_difference &&
+                `${parseFloat(listData?.tonnage_difference) || 0} Ton`}
+            </Typography>
+            <Typography variant="body1" style={{ margin: 1 }}>
+              &nbsp;•
+              {listData?.activity_type === 'ore-hauling-to-eto'
+                ? listData?.hill_name + '/' + listData?.dome_name
+                : listData?.hill_name || listData?.dome_name}
+            </Typography>
+          </Stack>
+        ) : (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Icon width={15} height={15} icon={ArrowUp} color="#27AE60" />
+            <Typography variant="body1" style={{ margin: 1 }} color="#27AE60">
+              {listData?.tonnage_difference &&
+                `${parseFloat(listData?.tonnage_difference) || 0} Ton`}
+            </Typography>
+            <Typography variant="body1" style={{ margin: 1 }}>
+              &nbsp;•{' '}
+              {listData?.activity_type === 'ore-hauling-to-eto'
+                ? listData?.hill_name + '/' + listData?.dome_name
+                : listData?.hill_name || listData?.dome_name}
+            </Typography>
+          </Stack>
+        )}
       </Grid>
       <Grid item lg={2} md={2} xs={6}>
         <Typography variant="body1" color="#828282">

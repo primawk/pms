@@ -15,9 +15,10 @@ import EditInventory from '../../components/Modal/Inventory/EditInventory';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
+import useAuth from 'hooks/useAuth';
 
 // table
-const HalfTableData = ({ dataTable, toggleForm, dataType }) => (
+const HalfTableData = ({ dataTable, toggleForm, dataType, isGranted }) => (
   <Table>
     <TableHead>
       <TableRow>
@@ -78,27 +79,29 @@ const HalfTableData = ({ dataTable, toggleForm, dataType }) => (
           </Grid>
         </TableCell>
         <TableCell rowSpan={dataTable?.length} align="center" style={{ verticalAlign: 'top' }}>
-          <Button
-            sx={{
-              background: '#E5E5FE',
-              boxShadow: '0',
-              color: '#3F48C0',
-              m: '0',
-              width: '8.313rem'
-            }}
-            variant="contained"
-            onClick={toggleForm}
-          >
-            <Icon style={{ fontSize: '1rem', marginRight: '0.5rem' }} icon={EditIcon} />
-            Edit Data
-          </Button>
+          {isGranted && (
+            <Button
+              sx={{
+                background: '#E5E5FE',
+                boxShadow: '0',
+                color: '#3F48C0',
+                m: '0',
+                width: '8.313rem'
+              }}
+              variant="contained"
+              onClick={toggleForm}
+            >
+              <Icon style={{ fontSize: '1rem', marginRight: '0.5rem' }} icon={EditIcon} />
+              Edit Data
+            </Button>
+          )}
         </TableCell>
       </TableRow>
     </TableBody>
   </Table>
 );
 
-const FullTableData = ({ dataTable, toggleForm }) => (
+const FullTableData = ({ dataTable, toggleForm, isGranted }) => (
   <Table>
     <TableHead>
       <TableRow>
@@ -117,7 +120,7 @@ const FullTableData = ({ dataTable, toggleForm }) => (
       </TableRow>
     </TableHead>
     <TableBody>
-      {dataTable?.length > 0 &&
+      {dataTable?.length > 0 ? (
         dataTable?.map((row, index) => (
           <TableRow key={row?.id}>
             {index === 0 && (
@@ -156,7 +159,7 @@ const FullTableData = ({ dataTable, toggleForm }) => (
                             textAlign: 'center'
                           }}
                         >
-                          {dome?.name || ''}
+                          {dome?.dome_name || ''}
                         </Grid>
                       ) : (
                         <Grid
@@ -169,7 +172,7 @@ const FullTableData = ({ dataTable, toggleForm }) => (
                             textAlign: 'center'
                           }}
                         >
-                          {dome?.name || ''}
+                          {dome?.dome_name || ''}
                         </Grid>
                       )}
                     </>
@@ -182,24 +185,56 @@ const FullTableData = ({ dataTable, toggleForm }) => (
                 align="center"
                 style={{ verticalAlign: 'top' }}
               >
-                <Button
-                  sx={{
-                    background: '#E5E5FE',
-                    boxShadow: '0',
-                    color: '#3F48C0',
-                    m: '0',
-                    width: '8.313rem'
-                  }}
-                  variant="contained"
-                  onClick={toggleForm}
-                >
-                  <Icon style={{ fontSize: '1rem', marginRight: '0.5rem' }} icon={EditIcon} />
-                  Edit Data
-                </Button>
+                {isGranted && (
+                  <Button
+                    sx={{
+                      background: '#E5E5FE',
+                      boxShadow: '0',
+                      color: '#3F48C0',
+                      m: '0',
+                      width: '8.313rem'
+                    }}
+                    variant="contained"
+                    onClick={toggleForm}
+                  >
+                    <Icon style={{ fontSize: '1rem', marginRight: '0.5rem' }} icon={EditIcon} />
+                    Edit Data
+                  </Button>
+                )}
               </TableCell>
             )}
           </TableRow>
-        ))}
+        ))
+      ) : (
+        <TableRow>
+          <TableCell
+            rowSpan={dataTable?.length + 1}
+            sx={{ border: '1px solid #F2F2F2', textAlign: 'center' }}
+          >
+            Inventory ETO
+          </TableCell>
+          <TableCell sx={{ p: 0, border: '1px solid #F2F2F2' }}></TableCell>
+          <TableCell sx={{ p: 0, border: '1px solid #F2F2F2' }}></TableCell>
+          <TableCell rowSpan={dataTable?.length} align="center" style={{ verticalAlign: 'top' }}>
+            {isGranted && (
+              <Button
+                sx={{
+                  background: '#E5E5FE',
+                  boxShadow: '0',
+                  color: '#3F48C0',
+                  m: '0',
+                  width: '8.313rem'
+                }}
+                variant="contained"
+                onClick={toggleForm}
+              >
+                <Icon style={{ fontSize: '1rem', marginRight: '0.5rem' }} icon={EditIcon} />
+                Edit Data
+              </Button>
+            )}
+          </TableCell>
+        </TableRow>
+      )}
     </TableBody>
   </Table>
 );
@@ -207,14 +242,21 @@ const FullTableData = ({ dataTable, toggleForm }) => (
 const TargetDataTable = ({ dataTable, dataType }) => {
   const { isShowing: isShowingForm, toggle: toggleForm } = useModal();
 
+  const { isGranted } = useAuth();
+
   return (
     <>
       <EditInventory toggle={toggleForm} isShowing={isShowingForm} />
       <TableContainer sx={{ mt: 3, width: '100%' }}>
         {dataType !== 'inventory-eto' ? (
-          <HalfTableData dataTable={dataTable} dataType={dataType} toggleForm={toggleForm} />
+          <HalfTableData
+            dataTable={dataTable}
+            dataType={dataType}
+            toggleForm={toggleForm}
+            isGranted={isGranted}
+          />
         ) : (
-          <FullTableData dataTable={dataTable} toggleForm={toggleForm} />
+          <FullTableData dataTable={dataTable} toggleForm={toggleForm} isGranted={isGranted} />
         )}
       </TableContainer>
     </>

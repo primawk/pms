@@ -8,10 +8,10 @@ import ArrowBack from '@iconify-icons/akar-icons/arrow-back';
 import usePagination from 'hooks/usePagination';
 
 // components
-import InfoSection from './InventorySection/InfoSection';
 import ListDome from './ListDome';
 import CustomPagination from '../../components/Pagination/index';
 import { LoadingModal } from 'components/Modal';
+import Summary from 'pages/Dashboard/InventorySection/Summary';
 
 // services
 import MiningActivityService from 'services/MiningActivityService';
@@ -35,7 +35,8 @@ const DetailDome = () => {
     () =>
       MiningActivityService.getDomeSummary({
         inventory_type: inventoryType,
-        dome_id: idDome
+        dome_id: inventoryType === 'inventory-sm' ? undefined : idDome,
+        hill_id: inventoryType === 'inventory-sm' ? idDome : undefined
       }),
     {
       keepPreviousData: true,
@@ -55,7 +56,8 @@ const DetailDome = () => {
       MiningActivityService.getActivity({
         page: page,
         row: 10,
-        dome_id: idDome
+        dome_id: inventoryType === 'inventory-sm' ? undefined : idDome,
+        hill_id: inventoryType === 'inventory-sm' ? idDome : undefined
       }),
     { keepPreviousData: true }
   );
@@ -87,12 +89,16 @@ const DetailDome = () => {
                       </Button>
                     </Grid>
                     <Grid item>
-                      <h2>{`${dataSummary?.hill_name} / ${dataSummary?.dome_name}`}</h2>
+                      <h2>
+                        {dataSummary?.activity_type === 'ore-hauling-to-eto'
+                          ? dataSummary?.hill_name + '/' + dataSummary?.dome_name
+                          : dataSummary?.hill_name || dataSummary?.dome_name}
+                      </h2>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <InfoSection dataSummary={dataSummary} />
+                  <Summary summary={dataSummary} />
                 </Grid>
               </Grid>
 

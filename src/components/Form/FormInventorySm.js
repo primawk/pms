@@ -94,7 +94,6 @@ const FormInventorySm = ({ toggle }) => {
             toggleLoading();
           });
       } else {
-        toggleLoading();
         values?.hill.forEach((_values) => {
           InventoryService.createHill({ ..._values })
             .then(() => {
@@ -320,7 +319,13 @@ const FormInventorySm = ({ toggle }) => {
               </Button>
             </Grid>
             <Grid item lg={4} xs={5}>
-              <LoadingButton loading={isLoadingAction} variant="contained" fullWidth type="submit">
+              <LoadingButton
+                loading={isLoadingAction}
+                variant="contained"
+                fullWidth
+                type="submit"
+                disabled={mode === 'edit' && values.name === undefined}
+              >
                 Save
               </LoadingButton>
             </Grid>

@@ -19,7 +19,7 @@ import MiningActivityService from 'services/MiningActivityService';
 // utils
 import { ceilTotalData } from 'utils/helper';
 
-export default function ReportSection({ selectedDate }) {
+export default function ReportSection({ selectedDate, filterDate }) {
   const { activityType } = useParams();
 
   const { page, handleChangePage } = usePagination();
@@ -65,7 +65,7 @@ export default function ReportSection({ selectedDate }) {
                   <Typography variant="h4">{data?.data?.pagination?.total_data}</Typography>
                   <Stack>
                     <Typography variant="h5">Kegiatan</Typography>
-                    <Typography variant="body1">Hari Ini</Typography>
+                    <Typography variant="body1">{filterDate}</Typography>
                   </Stack>
                 </Stack>
               )}

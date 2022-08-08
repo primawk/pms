@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 // components
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
-import { FormInventorySm, FormInventoryEfo } from 'components/Form';
+import { FormInventorySm, FormInventoryEfo, FormInventoryEto } from 'components/Form';
 
 const EditInventory = ({ isShowing, toggle }) => {
   const { dataType } = useParams();
@@ -12,7 +12,7 @@ const EditInventory = ({ isShowing, toggle }) => {
       <div style={{ padding: '30px' }}>
         <h2 style={{ paddingBottom: '40px', textAlign: 'center' }}>Edit Inventory</h2>
         {dataType === 'inventory-sm' && <FormInventorySm toggle={toggle} />}
-        {dataType === 'inventory-eto' && null}
+        {dataType === 'inventory-eto' && <FormInventoryEto toggle={toggle} />}
         {dataType === 'inventory-efo' && <FormInventoryEfo toggle={toggle} />}
       </div>
       {/* <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
