@@ -14,7 +14,10 @@ import { useNavigate } from 'react-router-dom';
 // components
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
 
-const PilihLaporan = ({ isShowing, toggle }) => {
+// services
+import ProductionService from 'services/Dashboard';
+
+const PilihLaporan = ({ isShowing, toggle, id }) => {
   const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
   const navigate = useNavigate();
 
@@ -23,6 +26,19 @@ const PilihLaporan = ({ isShowing, toggle }) => {
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
+  // const {
+  //   data: dataTarget
+  //   // isLoading: isLoadingOreGetting,
+  //   // isFetching: isFetchingOreGetting
+  // } = useQuery(['target'], () =>
+  //   ProductionService.getTarget({
+  //     year: id
+  //   })
+  // );
+
+  // const data = dataTarget?.data?.data;
+  // const dataEdit = data.map((obj) => obj.target_list);
 
   return (
     <CustomModal isShowing={isShowing} toggle={toggle} width="25.5rem">

@@ -36,7 +36,7 @@ const TargetDataInformation = () => {
           </Typography>
         </Grid>
         <Grid width="20%" container alignItems="center" justifyContent="flex-end">
-          <Button sx={{ width: '80%' }} variant="contained" onClick={toggle}>
+          <Button sx={{ width: '80%', boxShadow: 'none' }} variant="contained" onClick={toggle}>
             Tambah Target
           </Button>
         </Grid>

@@ -17,6 +17,12 @@ import { LoadingModal } from 'components/Modal';
 import MiningActivityService from 'services/MiningActivityService';
 import ProductionService from 'services/Dashboard';
 
+// custom hooks
+import usePagination from 'hooks/usePagination';
+
+// utils
+import { ceilTotalData } from 'utils/helper';
+
 const menuList = [
   { value: 0, label: 'Produksi' }
   // { value: 1, label: 'Penjualan' }
@@ -26,7 +32,7 @@ const data = [
   {
     name: 'Jan',
     uv: 4000,
-    pv: 2400
+    pv: 4000
   },
   {
     name: 'Feb',
@@ -85,43 +91,6 @@ const data = [
   }
 ];
 
-const sample = [
-  {
-    year: 2021,
-    detail: [
-      { month: 'Januari', target: '70.000' },
-      { month: 'Februari', target: '70.000' },
-      { month: 'Maret', target: '70.000' },
-      { month: 'April', target: '70.000' },
-      { month: 'Mei', target: '70.000' },
-      { month: 'Juni', target: '70.000' },
-      { month: 'Juli', target: '70.000' },
-      { month: 'Agustus', target: '70.000' },
-      { month: 'September', target: '70.000' },
-      { month: 'Oktober', target: '70.000' },
-      { month: 'November', target: '70.000' },
-      { month: 'Desember', target: '70.000' }
-    ]
-  },
-  {
-    year: 2020,
-    detail: [
-      { month: 'Januari', target: '70.000' },
-      { month: 'Februari', target: '70.000' },
-      { month: 'Maret', target: '70.000' },
-      { month: 'April', target: '70.000' },
-      { month: 'Mei', target: '70.000' },
-      { month: 'Juni', target: '70.000' },
-      { month: 'Juli', target: '70.000' },
-      { month: 'Agustus', target: '70.000' },
-      { month: 'September', target: '70.000' },
-      { month: 'Oktober', target: '70.000' },
-      { month: 'November', target: '70.000' },
-      { month: 'Desember', target: '70.000' }
-    ]
-  }
-];
-
 const targetTableHead = ['TAHUN', 'BULAN', 'TARGET', 'ACTION'];
 
 export default function Dashboard() {
@@ -138,7 +107,7 @@ export default function Dashboard() {
         borderWidth: 2
       },
       {
-        label: 'Data Produksi',
+        label: 'Target Produksi',
         data: data.map((item) => item.pv),
         backgroundColor: ['#DA4540'],
         borderWidth: 2
@@ -210,10 +179,29 @@ export default function Dashboard() {
   );
 
   const {
-    data: dataProduction
-    // isLoading: isLoadingOreGetting,
-    // isFetching: isFetchingOreGetting
-  } = useQuery(['production', 'target', 'year'], () => ProductionService.getTarget({}));
+    data: dataAllSummary,
+    isLoading: isLoadingAllSummary,
+    isFetching: isFetchingAllSummary
+  } = useQuery(['all-summary'], () => MiningActivityService.getSummary({ activity_type: 'all', start_date: '2' }));
+
+  // Table Target
+
+  const [selectedYear, setSelectedYear] = useState(0);
+  const { pageTarget, handleChangePageTarget } = usePagination();
+
+  const {
+    data: dataProduction,
+    isLoading: isLoadingProduction,
+    isFetching: isFetchingProduction
+  } = useQuery(['data-target'], () =>
+    ProductionService.getTarget({
+      year: selectedYear,
+      row: 2,
+      page: pageTarget
+    })
+  );
+
+  const years = dataProduction?.data?.data.map((item) => item.year);
 
   const handleChangeTab = (event, newValue) => {
     setMenuTab(newValue);
@@ -222,6 +210,8 @@ export default function Dashboard() {
   const handleChangeSubMenu = (value) => {
     setSubMenu(value);
   };
+
+  console.log(selectedYear);
 
   return (
     <>
@@ -271,9 +261,19 @@ export default function Dashboard() {
           <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
             <Typography variant="h5">Realisasi Produksi Tambang</Typography>
 
-            <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
+            <FilterSection
+              subMenu={subMenu}
+              handleChangeSubMenu={handleChangeSubMenu}
+              data={dataProduction?.data?.data}
+              setSelectedYear={setSelectedYear}
+              // years={years}
+            />
 
-            <InfoSection />
+            <InfoSection
+              data={dataAllSummary}
+              isFetching={isFetchingAllSummary}
+              isLoading={isLoadingAllSummary}
+            />
 
             <ChartSection chartData={chartData} data={data} />
           </Grid>
@@ -282,17 +282,30 @@ export default function Dashboard() {
             <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
               <Typography variant="h5">Data Target Produksi Tambang</Typography>
 
-              <FilterSection subMenu={subMenu} handleChangeSubMenu={handleChangeSubMenu} />
+              <FilterSection
+                subMenu={subMenu}
+                handleChangeSubMenu={handleChangeSubMenu}
+                selectedYear={selectedYear}
+                setSelectedYear={setSelectedYear}
+                data={dataProduction?.data?.data}
+                years={years}
+              />
 
               <TargetDataInformation />
 
               <TargetDataTable
-                sample={sample}
                 targetTableHead={targetTableHead}
-                dataProduction={dataProduction}
+                data={dataProduction?.data?.data}
+                dataPage={dataProduction}
+                isLoading={isLoadingProduction}
+                isFetching={isFetchingProduction}
               />
 
-              <CustomPagination />
+              <CustomPagination
+                count={ceilTotalData(dataProduction?.data?.pagination?.total_Page || 1, 2)}
+                page={pageTarget}
+                handleChangePage={handleChangePageTarget}
+              />
             </Grid>
           </>
         )}

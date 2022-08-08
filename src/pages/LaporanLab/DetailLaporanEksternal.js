@@ -28,6 +28,8 @@ const DetailEksternal = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
+  //  prepararasi analisa baris kedua  nomor kontak pengaju sample baris pertama
+
   const handleDelete = () => {
     setLoading(true);
     LabService.deleteReport({ id })
@@ -158,7 +160,9 @@ const DetailEksternal = () => {
                     width: '40%',
                     fontWeight: '400'
                   }}
-                  onClick={() => navigate(`/lab-report/edit/eksternal/${id}`, { state: dataReport })}
+                  onClick={() =>
+                    navigate(`/lab-report/edit/eksternal/${id}`, { state: dataReport })
+                  }
                 >
                   Edit Laporan
                 </Button>
@@ -186,7 +190,7 @@ const DetailEksternal = () => {
           {/* PDF */}
           <Grid sx={{ display: 'flex', flexDirection: 'column', margin: '1rem 0 0 2rem' }}>
             <h3>Informasi Sample</h3>
-            <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Grid container sx={{ display: 'flex', flexDirection: 'row', gap: '3rem' }}>
               <Grid item>
                 <Box
                   style={{
@@ -205,19 +209,36 @@ const DetailEksternal = () => {
               <Grid item>
                 <Box
                   style={{
-                    margin: '1rem 0.5rem 0.5rem 2rem',
+                    margin: '1rem 0 0.5rem 0',
                     fontSize: '0.875rem',
                     fontWeight: '700'
                   }}
                 >
                   Nama Pengaju Sample
                 </Box>
-                <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                <Box style={{ margin: '0 0 0.5rem 0', fontSize: '0.875rem' }}>
                   {dataReport?.sample_submitter}
                 </Box>
               </Grid>
+              <Grid item>
+                <Box
+                  style={{
+                    fontSize: '0.875rem',
+                    fontWeight: '700',
+                    margin: '1rem 0 0.5rem 0'
+                  }}
+                >
+                  Nomor Kontak Pengaju Sample
+                </Box>
+                <Box style={{ margin: '0.5rem 0 0.5rem 0', fontSize: '0.875rem' }}>
+                  {dataReport?.submitter_contact}
+                </Box>
+              </Grid>
             </Grid>
-            <Grid container sx={{ display: 'flex', flexDirection: 'row', marginTop: '1.5rem' }}>
+            <Grid
+              container
+              sx={{ display: 'flex', flexDirection: 'row', marginTop: '1.5rem', gap: '4.3rem' }}
+            >
               <Grid item>
                 <Box
                   style={{
@@ -225,15 +246,29 @@ const DetailEksternal = () => {
                     fontWeight: '700'
                   }}
                 >
-                  Nomor Kontak Pengaju Sample
+                  Preparasi
                 </Box>
-                <Box style={{ margin: '0.5rem 0.5rem 0.5rem 0', fontSize: '0.875rem' }}>
-                  {dataReport?.submitter_contact}
+                <Box style={{ margin: '0.5rem 0 0.5rem 0', fontSize: '0.875rem' }}>
+                  {dataReport?.preparation}
+                </Box>
+              </Grid>
+              <Grid item>
+                <Box
+                  style={{
+                    fontSize: '0.875rem',
+                    fontWeight: '700',
+                    margin: '0 0 0.5rem 0'
+                  }}
+                >
+                  Analisa
+                </Box>
+                <Box style={{ margin: '0.5rem 0 0.5rem 0', fontSize: '0.875rem' }}>
+                  {dataReport?.analysis}
                 </Box>
               </Grid>
             </Grid>
 
-            <Box sx={{ marginBottom: '1rem', fontSize: '20px' }}>
+            <Box sx={{ margin: '1rem 0 1rem 0', fontSize: '20px' }}>
               <h3>File Laporan</h3>
             </Box>
             <Grid
