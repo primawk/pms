@@ -7,9 +7,15 @@ import filterIcon from '@iconify/icons-carbon/filter';
 // // services
 // import ProductionService from 'services/Dashboard';
 
-const years = ['2020', '2021', '2022'];
+// const years = ['2020', '2021', '2022'];
 
-const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelectedYear }) => {
+const FilterSection = ({ handleChangeSubMenu, subMenu, selectedYear, setSelectedYear, years }) => {
+
+  // passed variable undefined i use this
+  if (!years) {
+    return null;
+  }
+
   const handleChangeYear = (event) => {
     setSelectedYear(event.target.value);
   };
