@@ -15,18 +15,46 @@ import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
 //  components
 import Navbar from '../../components/Navbar';
+import { LoadingModal } from 'components/Modal';
 // import HasilAnalisa from './components/HasilAnalisa';
 
 // services
 import LabService from 'services/LabService';
+import InventoryService from 'services/InventoryService';
 
 const InputLaporanInternal = () => {
+  const {
+    data: dataBukit,
+    isLoading,
+    isFetching
+  } = useQuery(['bukitId'], () =>
+    InventoryService.getHill({
+      inventory_type: null
+    })
+  );
+
+  const {
+    data: dataDome,
+    isLoading: isLoadingDome,
+    isFetching: isFetchingDome
+  } = useQuery(['domeId'], () =>
+    InventoryService.getDome({
+      inventory_type: 'inventory-efo'
+    })
+  );
+
+  const dome = dataDome?.data?.data.map((item) => item.name);
+  const bukitId = dataBukit?.data?.data.map((item) => item.name);
+
+  console.log(dome);
+
   const [loading, setLoading] = useState(false);
   const [addFormData, setAddFormData] = useState({
     date: '',
@@ -105,6 +133,7 @@ const InputLaporanInternal = () => {
 
   return (
     <>
+      {isFetching && isLoading && isFetchingDome && isLoadingDome && <LoadingModal />}
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
@@ -183,9 +212,11 @@ const InputLaporanInternal = () => {
                       onChange={handleAddFormChange}
                       size="small"
                     >
-                      <MenuItem value="1">1</MenuItem>
-                      <MenuItem value="2">2</MenuItem>
-                      <MenuItem value="3">3</MenuItem>
+                      {bukitId?.map((value) => (
+                        <MenuItem key={value} value={value}>
+                          {value}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -244,9 +275,11 @@ const InputLaporanInternal = () => {
                       onChange={handleAddFormChange}
                       size="small"
                     >
-                      <MenuItem value={'1'}>1</MenuItem>
-                      <MenuItem value={'2'}>2</MenuItem>
-                      <MenuItem value={'3'}>3</MenuItem>
+                      {dome?.map((value) => (
+                        <MenuItem key={value} value={value}>
+                          {value}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
