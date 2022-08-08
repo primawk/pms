@@ -89,7 +89,7 @@ export default function ListEksternal({
             {isGranted && (
               <Button
                 variant="contained"
-                onClick={() => navigate(`/input-laporan-eksternal`)}
+                onClick={() => navigate(`/lab-report/input-laporan-eksternal`)}
                 sx={{
                   width: '15.625',
                   height: '42px',
