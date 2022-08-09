@@ -32,7 +32,14 @@ const ListEdit = ({ data }) => {
               {Object.keys(row).map(function (key, index2) {
                 return (
                   <>
-                    <div style={{ display: 'flex', alignItems: 'center', padding: '0.1rem' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '0.1rem',
+                        gap: '1rem'
+                      }}
+                    >
                       <Icon icon="bxs:user-circle" color="#3f48c0" fontSize={24} /> {key}{' '}
                       {row[Object.keys(row)[index2]]}
                     </div>

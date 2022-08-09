@@ -2,13 +2,26 @@ import { Grid, Table, TableCell, TableContainer, TableRow } from '@mui/material'
 import BarChart from '../../components/Charts/BarChart';
 import React from 'react';
 
-const ChartSection = ({ chartData, data, target }) => {
+// components
+import { LoadingModal } from 'components/Modal';
+
+const ChartSection = ({
+  chartData,
+  target,
+  isLoading,
+  isFetching,
+  targetRealization,
+  targetPercentage,
+  isLoadingRealization,
+  isFetchingRealization
+}) => {
   if (!target) {
     return null;
   }
+
   return (
     <>
- 
+      {isFetching && isLoading && isFetchingRealization && isLoadingRealization && <LoadingModal />}
       <Grid width="100%">
         <BarChart chartData={chartData} />
       </Grid>
@@ -35,11 +48,19 @@ const ChartSection = ({ chartData, data, target }) => {
                 <Grid item>Realisasi (Ton)</Grid>
               </Grid>
             </TableCell>
-            {data?.map((item) => (
-              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
-                {item?.uv}
-              </TableCell>
-            ))}
+            {typeof targetRealization === 'undefined' ? (
+              <>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center" colSpan={12}>
+                  data tidak tersedia
+                </TableCell>
+              </>
+            ) : (
+              targetRealization?.map((item) => (
+                <TableCell key={item} sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  {item}
+                </TableCell>
+              ))
+            )}
           </TableRow>
           <TableRow>
             <TableCell
@@ -75,11 +96,19 @@ const ChartSection = ({ chartData, data, target }) => {
             >
               Presentase
             </TableCell>
-            {data?.map((item) => (
-              <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
-                {/* {item?.uv} / {item?.pv} * 100 */}
-              </TableCell>
-            ))}
+            {typeof targetRealization === 'undefined' ? (
+              <>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center" colSpan={12}>
+                  data tidak tersedia
+                </TableCell>
+              </>
+            ) : (
+              targetPercentage?.map((item) => (
+                <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  {item} %
+                </TableCell>
+              ))
+            )}
           </TableRow>
         </Table>
       </TableContainer>

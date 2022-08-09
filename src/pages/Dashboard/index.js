@@ -165,29 +165,50 @@ export default function Dashboard() {
     isLoading: isLoadingAllSummary,
     isFetching: isFetchingAllSummary
   } = useQuery(['all-summary'], () =>
-    MiningActivityService.getSummary({ activity_type: 'all', start_date: '2' })
+    MiningActivityService.getSummary({ activity_type: 'all', year: selectedYear })
   );
 
   // Table Target
 
-  const [selectedYear, setSelectedYear] = useState(2022);
-  const { pageTarget, handleChangePageTarget } = usePagination();
+  const {
+    data: dataYears,
+    isLoading: isLoadingYears,
+    isFetching: isFetchingYears
+  } = useQuery(['years'], () => ProductionService.getTarget({}));
 
-  console.log(selectedYear);
+  const years = dataYears?.data?.data.map((item) => item.year);
+  // const yearsDefault = years ? years[0].map((arrayItem) => arrayItem.target) : null;
+
+  const [selectedYear, setSelectedYear] = useState(0);
+
+  const { pageTarget, handleChangePageTarget } = usePagination();
 
   const {
     data: dataProduction,
     isLoading: isLoadingProduction,
     isFetching: isFetchingProduction
-  } = useQuery(['data-target'], () =>
+  } = useQuery(['data-target', selectedYear], () =>
     ProductionService.getTarget({
-      // year: selectedYear,
-      row: 2,
+      year: selectedYear,
       page: pageTarget
     })
   );
 
-  const years = dataProduction?.data?.data.map((item) => item.year);
+  const {
+    data: dataRealization,
+    isLoading: isLoadingRealization,
+    isFetching: isFetchingRealization
+  } = useQuery(['data-realization', selectedYear], () =>
+    ProductionService.getRealization({
+      year: selectedYear
+      // row: 2,
+      // page: pageTarget
+    })
+  );
+
+  const targetRealization = dataRealization?.data?.data.map((item) => item.realization);
+  const targetPercentage = dataRealization?.data?.data.map((item) => parseInt(item.presentase));
+
   const target = dataProduction?.data?.data.map((item) => item.target_list);
   const targetResult = target ? target[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show
 
@@ -216,7 +237,7 @@ export default function Dashboard() {
     datasets: [
       {
         label: 'Realisasi (Ton)',
-        data: data.map((item) => item.uv),
+        data: targetRealization ? targetRealization?.map((item) => item) : null,
         backgroundColor: ['#3F48C0'],
         borderWidth: 2
       },
@@ -237,6 +258,10 @@ export default function Dashboard() {
     setSubMenu(value);
   };
 
+  const handleChangeYear = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
   return (
     <>
       {
@@ -244,7 +269,10 @@ export default function Dashboard() {
         isFetchingOreHauling &&
           isFetchingOreGettingSummary &&
           isFetchingOreHaulingSummary &&
-          isFetchingEtoToEfoSummary && <LoadingModal />)
+          isFetchingEtoToEfoSummary &&
+          isFetchingProduction &&
+          isFetchingYears &&
+          isFetchingRealization && <LoadingModal />)
       }
       <Header title="DASHBOARD" background="dashboard.png" />
       <div className="app-content">
@@ -290,17 +318,32 @@ export default function Dashboard() {
               handleChangeSubMenu={handleChangeSubMenu}
               data={dataProduction?.data?.data}
               setSelectedYear={setSelectedYear}
+              handleChangeYear={handleChangeYear}
+              selectedYear={selectedYear}
+              years={years}
+              isFetching={isFetchingYears}
+              isLoading={isLoadingYears}
+            />
+
+            <InfoSection
+              data={dataAllSummary?.data?.data}
+              isFetching={isFetchingAllSummary}
+              isLoading={isLoadingAllSummary}
               selectedYear={selectedYear}
               years={years}
             />
 
-            <InfoSection
-              data={dataAllSummary}
-              isFetching={isFetchingAllSummary}
-              isLoading={isLoadingAllSummary}
+            <ChartSection
+              chartData={chartData}
+              data={data}
+              targetPercentage={targetPercentage}
+              targetRealization={targetRealization}
+              target={targetResult}
+              isLoading={isLoadingProduction}
+              isFetching={isFetchingProduction}
+              isLoadingRealization={isLoadingRealization}
+              isFetchingRealization={isFetchingRealization}
             />
-
-            <ChartSection chartData={chartData} data={data} target={targetResult} />
           </Grid>
         ) : (
           <>
