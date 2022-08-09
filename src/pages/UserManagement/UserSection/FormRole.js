@@ -66,17 +66,17 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
     },
     validationSchema: RoleSchema,
     onSubmit: (values) => {
-      toggleLoading();
+      toggleLoading(true);
       if (id) {
         RoleService.updateRole(values, id)
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
-            toggleLoading();
+            toggleLoading(false);
             queryClient.invalidateQueries(['roles', page]);
           })
           .catch((err) => {
-            toggleLoading();
+            toggleLoading(false);
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -91,14 +91,14 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
       } else {
         RoleService.createRole(values)
           .then(() => {
-            toggleLoading();
+            toggleLoading(false);
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
             queryClient.invalidateQueries(['roles', page]);
           })
           .catch((err) => {
-            toggleLoading();
+            toggleLoading(false);
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {

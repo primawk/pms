@@ -79,19 +79,19 @@ const FormInventorySm = ({ toggle }) => {
     initialValues: mode === 'edit' ? initialValueHill : initialValueAddHill,
     validationSchema: mode === 'edit' ? EditSmSchema : AddSmSchema,
     onSubmit: (values) => {
-      toggleLoading();
+      toggleLoading(true);
       if (mode === 'edit') {
         InventoryService.editHill({ ...values, idHill })
           .then(() => {
             toast.success('Bukit berhasil di edit !');
             toast.clearWaitingQueue();
-            toggleLoading();
+            toggleLoading(false);
             queryClient.invalidateQueries(['inventory', inventoryType, dataType]);
           })
           .then((err) => {
             toast.error(err.response.data.detail_message);
             toast.clearWaitingQueue();
-            toggleLoading();
+            toggleLoading(false);
           });
       } else {
         values?.hill.forEach((_values) => {
@@ -100,13 +100,13 @@ const FormInventorySm = ({ toggle }) => {
               toast.success('Bukit berhasil ditambahkan');
               toast.clearWaitingQueue();
               queryClient.invalidateQueries(['inventory', inventoryType, dataType]);
-              toggleLoading();
+              toggleLoading(false);
               toggle();
             })
             .catch((err) => {
               toast.error(err.response.data.detail_message);
               toast.clearWaitingQueue();
-              toggleLoading();
+              toggleLoading(false);
             });
         });
       }
@@ -114,19 +114,19 @@ const FormInventorySm = ({ toggle }) => {
   });
 
   const handleDelete = () => {
-    toggleLoading();
+    toggleLoading(true);
     InventoryService.deleteHill({ idHill })
       .then(() => {
         toast.success('Bukit berhasil di hapus !');
         toast.clearWaitingQueue();
         setIdHill('');
-        toggleLoading();
+        toggleLoading(false);
         queryClient.invalidateQueries(['inventory', inventoryType, dataType]);
       })
       .then((err) => {
         toast.error(err.response.data.detail_message);
         toast.clearWaitingQueue();
-        toggleLoading();
+        toggleLoading(false);
       });
   };
 

@@ -160,3 +160,34 @@ export default function Routes() {
     { path: '/404', element: <NotFound /> }
   ]);
 }
+
+// mining activity
+// {
+//   path: 'mining-activity',
+//   children: [
+//     {
+//       path: '*',
+//       element: <Navigate to="/mining-activity/all-activity" replace />
+//     },
+//     {
+//       path: ':activityType',
+//       element: <MiningActivity />
+//     },
+//     {
+//       path: ':activityType/add',
+//       element: <FormMiningActivity />
+//     },
+//     {
+//       path: ':activityType/edit/:id',
+//       element: <FormMiningActivity />
+//     },
+//     {
+//       path: ':activityType/detail/:id',
+//       element: <DetailActivity />
+//     },
+//     {
+//       path: ':activityType/detail/history/:id',
+//       element: <HistoryActivity />
+//     }
+//   ]
+// },
