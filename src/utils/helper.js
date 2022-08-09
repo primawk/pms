@@ -92,9 +92,9 @@ export const timeDifference = (startDate, endDate) => {
 };
 
 export const translateTime = (text) => {
-  if (text === 'a few second ago') return 'Baru saja';
-  if (text === 'a minute ago') return 'Beberapa menit lalu';
-  if (text === 'a hour ago') return 'Beberapa jam lalu';
+  if (text === 'a few seconds ago') return 'Hari ini';
+  if (text === 'a minute ago') return 'Hari ini';
+  if (text === 'a hour ago') return 'Hari ini';
   if (text === 'a day ago') return 'Kemarin';
   if (text === 'a week ago') return 'Minggu Lalu';
   if (text === 'a month ago') return 'Bulan lalu';
