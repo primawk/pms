@@ -2,6 +2,9 @@ import React from 'react';
 import { Grid, Box } from '@mui/material';
 import { Icon } from '@iconify/react';
 
+// util
+import { capitalizeFirstLetter } from 'utils/helper';
+
 const ListDome = ({ data }) => {
   return (
     <>
@@ -37,7 +40,7 @@ const ListDome = ({ data }) => {
                 <Icon icon="bxs:up-arrow" color="#27ae60" />
               </Box>
               <Box>
-                <h3 style={{ color: '#27ae60' }}>{`${data?.tonnage_total} Ton`}</h3>
+                <h3 style={{ color: '#27ae60' }}>{`${data?.tonnage_difference} Ton`}</h3>
               </Box>
             </Grid>
           </Grid>
@@ -98,7 +101,7 @@ const ListDome = ({ data }) => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>Ore Hauling ETO to EFO</h5>
+                  <h5>{capitalizeFirstLetter(data?.activity_type)}</h5>
                 </Box>
               </Grid>
             </Box>

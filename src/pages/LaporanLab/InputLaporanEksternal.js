@@ -11,11 +11,18 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { toast } from 'react-toastify';
+import EditedModal from '../../components/Modal/EditedModal/EditedModal';
+
+// custom hooks
+import useModal from '../../hooks/useModal';
 
 // services
 import LabService from 'services/LabService';
 
 const InputLaporanEksternal = () => {
+  const [loading, setLoading] = useState(false);
   const [attachment, setAttachment] = useState(null);
   const [addFormData, setAddFormData] = useState({
     date: '',
@@ -54,11 +61,11 @@ const InputLaporanEksternal = () => {
 
     try {
       await LabService.inputReportExternal(data, attachment);
-      console.log(data);
-
-      console.log('success');
+      setLoading(false);
+      toggle();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.detail_message);
+      setLoading(false);
     }
   };
 
@@ -76,8 +83,12 @@ const InputLaporanEksternal = () => {
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
+  const { isShowing, toggle } = useModal();
+
   return (
     <>
+      <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
           backgroundColor: '#F5F5F5',
@@ -366,9 +377,14 @@ const InputLaporanEksternal = () => {
                 <Button>Back</Button>
               </Grid>
               <Grid item>
-                <Button type="submit" variant="contained" sx={{ width: '130%', boxShadow: '0' }}>
+                <LoadingButton
+                  loading={loading}
+                  type="submit"
+                  variant="contained"
+                  sx={{ width: '130%', boxShadow: '0' }}
+                >
                   Submit Laporan
-                </Button>
+                </LoadingButton>
               </Grid>
             </Grid>
           </div>

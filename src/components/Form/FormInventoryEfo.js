@@ -79,19 +79,19 @@ const FormInventoryEfo = ({ toggle }) => {
     initialValues: mode === 'edit' ? initialValueDome : initialValueAddDome,
     validationSchema: mode === 'edit' ? EditSmSchema : AddSmSchema,
     onSubmit: (values) => {
-      toggleLoading();
+      toggleLoading(true);
       if (mode === 'edit') {
         InventoryService.editDomeEfo({ ...values, idDome })
           .then(() => {
             toast.success('Dome berhasil di edit !');
             toast.clearWaitingQueue();
-            toggleLoading();
+            toggleLoading(false);
             queryClient.invalidateQueries(['inventory', inventoryType, dataType]);
           })
           .then((err) => {
             toast.error(err.response.data.detail_message);
             toast.clearWaitingQueue();
-            toggleLoading();
+            toggleLoading(false);
           });
       } else {
         values?.dome.forEach((_values) => {
@@ -101,12 +101,12 @@ const FormInventoryEfo = ({ toggle }) => {
               toast.clearWaitingQueue();
               queryClient.invalidateQueries(['inventory', inventoryType, dataType]);
               toggle();
-              toggleLoading();
+              toggleLoading(false);
             })
             .catch((err) => {
               toast.error(err.response.data.detail_message);
               toast.clearWaitingQueue();
-              toggleLoading();
+              toggleLoading(false);
             });
         });
       }
@@ -114,19 +114,19 @@ const FormInventoryEfo = ({ toggle }) => {
   });
 
   const handleDelete = () => {
-    toggleLoading();
+    toggleLoading(true);
     InventoryService.deleteDome({ idDome })
       .then(() => {
         toast.success('Dome berhasil di hapus !');
         toast.clearWaitingQueue();
         setIdDome('');
-        toggleLoading();
+        toggleLoading(false);
         queryClient.invalidateQueries(['inventory', inventoryType, dataType]);
       })
       .then((err) => {
         toast.error(err.response.data.detail_message);
         toast.clearWaitingQueue();
-        toggleLoading();
+        toggleLoading(false);
       });
   };
 

@@ -131,28 +131,30 @@ export default function FormMiningCard() {
         ? EtoToEfoSchema
         : OreHaulingToEtoSchema,
     onSubmit: (values) => {
-      toggleLoading();
+      toggleLoading(true);
       if (id) {
         MiningActivityService.editActivity(values, id)
           .then(() => {
-            toggleLoading();
+            toggleLoading(false);
             toast.success('Data berhasil diubah!');
             toast.clearWaitingQueue();
             navigate(-1);
           })
           .catch((err) => {
             toast.error(err.response.data.message);
+            toggleLoading(false);
             toast.clearWaitingQueue();
           });
       } else {
         MiningActivityService.createActivity(values)
           .then(() => {
-            toggleLoading();
+            toggleLoading(false);
             toast.success('Data berhasil ditambahkan !');
             toast.clearWaitingQueue();
             navigate(-1);
           })
           .catch((err) => {
+            toggleLoading(false);
             toast.error(err.response.data.message);
             toast.clearWaitingQueue();
           });

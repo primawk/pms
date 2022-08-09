@@ -77,17 +77,17 @@ export default function FormUser({ isShowing, toggle, id, resetPage, search, pag
     },
     validationSchema: id ? UpdateSchema : CreateSchema,
     onSubmit: (values) => {
-      toggleLoading();
+      toggleLoading(true);
       if (id) {
         UserManagementService.updateUser({ ...values, id })
           .then(() => {
             toast.success('Data berhasil diubah !');
             toggle();
-            toggleLoading();
+            toggleLoading(false);
             queryClient.invalidateQueries(['users', page, search]);
           })
           .catch((err) => {
-            toggleLoading();
+            toggleLoading(false);
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
@@ -105,11 +105,11 @@ export default function FormUser({ isShowing, toggle, id, resetPage, search, pag
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
-            toggleLoading();
+            toggleLoading(false);
             queryClient.invalidateQueries(['users', 1, false]);
           })
           .catch((err) => {
-            toggleLoading();
+            toggleLoading(false);
             const { data: response } = err.response;
             if (response.detail_message && typeof response.detail_message === 'object') {
               if (response?.detail_message && typeof response?.detail_message === 'object') {
