@@ -41,8 +41,6 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
 
   const [year, setYear] = useState(0);
 
-  console.log(data);
-
   const handleEditClick = (year, target_list) => {
     getTargetYear(year).then((response) => {
       setDataEdit(response);

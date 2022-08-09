@@ -1,34 +1,45 @@
 import React, { useState } from 'react';
-import { Button, Grid, TextField, MenuItem } from '@mui/material';
+import { Button, Grid, MenuItem } from '@mui/material';
 import { Icon } from '@iconify/react';
 import filterIcon from '@iconify/icons-carbon/filter';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-// import { useQuery } from 'react-query';
+
+// components
+import { LoadingModal } from 'components/Modal';
 
 // // services
 // import ProductionService from 'services/Dashboard';
 
 // const years = ['2020', '2021', '2022'];
 
-const FilterSection = ({ handleChangeSubMenu, selectedYear, subMenu, setSelectedYear, years }) => {
+const FilterSection = ({
+  handleChangeSubMenu,
+  isLoading,
+  subMenu,
+  setSelectedYear,
+  years,
+  isFetching
+}) => {
   // passed variable undefined i use this
+  const [value, setValue] = useState(0);
 
   if (!years) {
     return null;
   }
 
-  const handleChangeYear = (event) => {
-    setSelectedYear(event.target.value);
+  const handleSubmit = () => {
+    setSelectedYear(parseInt(value));
   };
 
-  // const handleSubmit = () => {
-  //  c
-  // };
+  const handleReset = () => {
+    setSelectedYear(years[0]);
+  };
 
   return (
     <>
+      {isFetching && isLoading && <LoadingModal />}
       <Grid container direction="row" alignItems="center" justifyContent="space-between">
         <Grid
           container
@@ -84,38 +95,33 @@ const FilterSection = ({ handleChangeSubMenu, selectedYear, subMenu, setSelected
             <FormControl fullWidth>
               <InputLabel id="selectedYear">Tahun</InputLabel>
               <Select
-                id="selectedYear"
-                select
+                required
                 label="Tahun"
-                name="years"
-                value={selectedYear}
-                // onChange={(e) => setSelectedYear(e.target.value)}
-                onChange={handleChangeYear}
+                name="selectedYear"
+                defaultValue={years[0]}
+                onChange={(event) => setValue(event.target.value)}
                 placeholder="Tahun"
                 fullWidth
               >
-                {/* {years.map((option, index) => (
-                <MenuItem key={option[index]} value={option}>
-                  {option}
-                </MenuItem>
-              ))} */}
-
-                <MenuItem value={'2022'}>2022</MenuItem>
-                <MenuItem value={'2021'}>2021</MenuItem>
+                {years?.map((value) => (
+                  <MenuItem key={value} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
 
           <Grid item md={1} xs={12}>
-            <Button fullWidth variant="text" onClick={setSelectedYear(0)}>
+            <Button fullWidth variant="text" onClick={handleReset}>
               Clear
             </Button>
           </Grid>
 
-          <Grid item md={2} xs={12}>
-            <Button fullWidth variant="outlined">
-              <Icon style={{ fontSize: '17px', marginLeft: '-15px' }} icon={filterIcon} />
-              Filter
+          <Grid item>
+            <Button fullWidth variant="outlined" onClick={handleSubmit}>
+              <Icon style={{ fontSize: '17px' }} icon={filterIcon} />
+              <div style={{ marginLeft: '1rem' }}>Filter</div>
             </Button>
           </Grid>
         </Grid>

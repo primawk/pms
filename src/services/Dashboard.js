@@ -16,6 +16,28 @@ const getTarget = ({ year }) => {
   });
 };
 
+export async function getDefaultYear() {
+  const url = await `${MINING_ACTIVITY_MODEL}/target`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    headers: authHeader()
+  });
+  return promise.data.data.map((item) => item.year);
+}
+
+const getRealization = ({ year }) => {
+  const params = [];
+
+  if (year) {
+    params.push(['year', year]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/target/chart`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
 const deleteTarget = ({ _id }) => {
   return request(`${MINING_ACTIVITY_MODEL}/target/${_id}`, {
     method: 'DELETE',
@@ -24,7 +46,6 @@ const deleteTarget = ({ _id }) => {
 };
 
 const editTarget = (id, data) => {
-  console.log(data);
   return request(`${MINING_ACTIVITY_MODEL}/target/${id}`, {
     method: 'PUT',
     headers: authHeader(),
@@ -73,6 +94,7 @@ export async function getEdit(year) {
 
 const ProductionService = {
   getTarget,
+  getRealization,
   deleteTarget,
   addTarget,
   getTargetDetail,
