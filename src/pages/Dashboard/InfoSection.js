@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import InfoCard from './InventorySection/InfoCardHome';
 import Tonase from '../../assets/Images/Dashboard/Tonase.png';
@@ -8,13 +8,6 @@ import KadarSimgo from '../../assets/Images/Dashboard/simgo.png';
 import { LoadingModal } from 'components/Modal';
 
 const InfoSection = ({ selectedYear, data, isFetching, isLoading, years }) => {
-  console.log(selectedYear);
-  // const [yearDefault, setYears] = useState(years[0]);
-
-  // useEffect(() => {
-  //   setYears(years[0]);
-  // });
-
   if (!years) {
     return null;
   }
@@ -28,24 +21,40 @@ const InfoSection = ({ selectedYear, data, isFetching, isLoading, years }) => {
           <Typography variant="h3">{selectedYear === 0 ? years[0] : selectedYear}</Typography>
         </Grid>
         <Grid item md={2} xs={5}>
-          <InfoCard value={parseInt(data?.tonnage_total)} image={Tonase} name="Jumlah Tonase" />
+          {typeof data === 'undefined' ? (
+            <InfoCard value={0} image={Tonase} name="Jumlah Tonase" />
+          ) : (
+            <InfoCard value={parseInt(data?.tonnage_total)} image={Tonase} name="Jumlah Tonase" />
+          )}
         </Grid>
         <Grid item md={2} xs={5}>
-          <InfoCard value={data?.sublot_total} image={JumlahLot} name="Jumlah Lot" />
+          {typeof data === 'undefined' ? (
+            <InfoCard value={0} image={JumlahLot} name="Jumlah Lot" />
+          ) : (
+            <InfoCard value={data?.sublot_total} image={JumlahLot} name="Jumlah Lot" />
+          )}
         </Grid>
         <Grid item md={2} xs={5}>
-          <InfoCard
-            value={parseFloat(data?.average_ni).toFixed(2)}
-            image={KadarNi}
-            name="Rata-Rata Kadar Ni"
-          />
+          {typeof data === 'undefined' ? (
+            <InfoCard value={0} image={KadarNi} name="Rata-Rata Kadar Ni" />
+          ) : (
+            <InfoCard
+              value={parseFloat(data?.average_ni).toFixed(2)}
+              image={KadarNi}
+              name="Rata-Rata Kadar Ni"
+            />
+          )}
         </Grid>
         <Grid item md={2} xs={5}>
-          <InfoCard
-            value={parseFloat(data?.average_simgo).toFixed(2)}
-            image={KadarSimgo}
-            name="Rata-Rata Kadar SiMgO"
-          />
+          {typeof data === 'undefined' ? (
+            <InfoCard value={0} image={KadarSimgo} name="Rata-Rata Kadar SiMgO" />
+          ) : (
+            <InfoCard
+              value={parseFloat(data?.average_simgo).toFixed(2)}
+              image={KadarSimgo}
+              name="Rata-Rata Kadar SiMgO"
+            />
+          )}
         </Grid>
       </Grid>
     </>
