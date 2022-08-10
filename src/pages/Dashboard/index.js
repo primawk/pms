@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Tab, Tabs, Typography } from '@mui/material';
 import { useQuery } from 'react-query';
 
@@ -160,14 +160,6 @@ export default function Dashboard() {
     MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
   );
 
-  const {
-    data: dataAllSummary,
-    isLoading: isLoadingAllSummary,
-    isFetching: isFetchingAllSummary
-  } = useQuery(['all-summary'], () =>
-    MiningActivityService.getSummary({ activity_type: 'all', year: selectedYear })
-  );
-
   // Table Target
 
   const {
@@ -177,11 +169,29 @@ export default function Dashboard() {
   } = useQuery(['years'], () => ProductionService.getTarget({}));
 
   const years = dataYears?.data?.data.map((item) => item.year);
-  // const yearsDefault = years ? years[0].map((arrayItem) => arrayItem.target) : null;
 
-  const [selectedYear, setSelectedYear] = useState(0);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [filterYear, setFilterYear] = useState(0);
 
   const { pageTarget, handleChangePageTarget } = usePagination();
+  var myString = String(selectedYear);
+  myString += '-01-01';
+  const [summaryDate, setSummaryDate] = useState(myString);
+
+  useEffect(() => {
+    setSummaryDate(myString);
+  }, [selectedYear, myString]);
+
+  const {
+    data: dataAllSummary,
+    isLoading: isLoadingAllSummary,
+    isFetching: isFetchingAllSummary
+  } = useQuery(['all-summary', summaryDate], () =>
+    MiningActivityService.getSummary({
+      activity_type: 'all',
+      start_date: summaryDate
+    })
+  );
 
   const {
     data: dataProduction,
@@ -189,8 +199,17 @@ export default function Dashboard() {
     isFetching: isFetchingProduction
   } = useQuery(['data-target', selectedYear], () =>
     ProductionService.getTarget({
-      year: selectedYear,
-      page: pageTarget
+      year: selectedYear
+    })
+  );
+
+  const {
+    data: dataTableTarget,
+    isLoading: isLoadingTableTarget,
+    isFetching: isFetchingTableTarget
+  } = useQuery(['data-target', filterYear], () =>
+    ProductionService.getTarget({
+      year: filterYear
     })
   );
 
@@ -272,7 +291,8 @@ export default function Dashboard() {
           isFetchingEtoToEfoSummary &&
           isFetchingProduction &&
           isFetchingYears &&
-          isFetchingRealization && <LoadingModal />)
+          isFetchingRealization &&
+          isFetchingTableTarget && <LoadingModal />)
       }
       <Header title="DASHBOARD" background="dashboard.png" />
       <div className="app-content">
@@ -355,7 +375,9 @@ export default function Dashboard() {
                 handleChangeSubMenu={handleChangeSubMenu}
                 selectedYear={selectedYear}
                 setSelectedYear={setSelectedYear}
-                data={dataProduction?.data?.data}
+                dataTableTarget={dataTableTarget?.data?.data}
+                filterYear={filterYear}
+                setFilterYear={setFilterYear}
                 years={years}
               />
 
@@ -363,10 +385,10 @@ export default function Dashboard() {
 
               <TargetDataTable
                 targetTableHead={targetTableHead}
-                data={dataProduction?.data?.data}
+                data={dataTableTarget?.data?.data}
                 dataPage={dataProduction}
-                isLoading={isLoadingProduction}
-                isFetching={isFetchingProduction}
+                isLoading={isLoadingTableTarget}
+                isFetching={isFetchingTableTarget}
               />
 
               <CustomPagination
