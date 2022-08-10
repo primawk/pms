@@ -50,8 +50,41 @@ const ChartSection = ({
             </TableCell>
             {typeof targetRealization === 'undefined' ? (
               <>
-                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center" colSpan={12}>
-                  data tidak tersedia
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0
                 </TableCell>
               </>
             ) : (
@@ -98,8 +131,41 @@ const ChartSection = ({
             </TableCell>
             {typeof targetRealization === 'undefined' ? (
               <>
-                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center" colSpan={12}>
-                  data tidak tersedia
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
+                </TableCell>
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
+                  0 %
                 </TableCell>
               </>
             ) : (
