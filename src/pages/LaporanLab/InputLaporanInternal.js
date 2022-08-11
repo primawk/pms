@@ -30,13 +30,14 @@ import LabService from 'services/LabService';
 import InventoryService from 'services/InventoryService';
 
 const InputLaporanInternal = () => {
+  const [sampleType, setSampleType] = useState(null);
   const {
     data: dataBukit,
     isLoading,
     isFetching
-  } = useQuery(['bukitId'], () =>
+  } = useQuery(['bukitId', sampleType], () =>
     InventoryService.getHill({
-      inventory_type: null
+      inventory_type: sampleType
     })
   );
 
@@ -50,10 +51,21 @@ const InputLaporanInternal = () => {
     })
   );
 
-  const dome = dataDome?.data?.data.map((item) => item.name);
-  const bukitId = dataBukit?.data?.data.map((item) => item.name);
+  const {
+    data: dataDomeEto,
+    isLoading: isLoadingEto,
+    isFetching: isFetchingEto
+  } = useQuery(['domeEto'], () =>
+    InventoryService.getDome({
+      inventory_type: 'inventory-eto'
+    })
+  );
 
-  console.log(dome);
+  const dome = dataDome?.data?.data.map((item) => item.name);
+  const domeEto = dataDomeEto?.data?.data.map((item) => item.dome_list);
+  const bukitId = dataBukit?.data?.data.map((item) => item.name);
+  const domeEtov2 = domeEto ? [].concat.apply([], domeEto) : null;
+  const domeEtov3 = domeEtov2 ? Object.values(domeEtov2).map((item) => item.dome_name) : null;
 
   const [loading, setLoading] = useState(false);
   const [addFormData, setAddFormData] = useState({
@@ -83,6 +95,16 @@ const InputLaporanInternal = () => {
 
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
+
+    if (newFormData.sample_type === 'Sample Selective Mining') {
+      setSampleType('inventory-sm');
+    }
+    if (newFormData.sample_type === 'Sample ETO') {
+      setSampleType('inventory-eto');
+    }
+    if (newFormData.sample_type === 'Sample EFO') {
+      setSampleType('inventory-efo');
+    }
 
     setAddFormData(newFormData);
   };
@@ -133,7 +155,12 @@ const InputLaporanInternal = () => {
 
   return (
     <>
-      {isFetching && isLoading && isFetchingDome && isLoadingDome && <LoadingModal />}
+      {isFetching &&
+        isLoading &&
+        isFetchingDome &&
+        isLoadingDome &&
+        isLoadingEto &&
+        isFetchingEto && <LoadingModal />}
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
@@ -206,6 +233,14 @@ const InputLaporanInternal = () => {
                       Pilih Bukit
                     </InputLabel>
                     <Select
+                      disabled={
+                        !addFormData.sample_type ||
+                        addFormData.sample_type === 'Sample test PIT' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample Barging' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample EFO'
+                      }
                       required
                       name="hill_id"
                       label="Pilih Bukit"
@@ -267,6 +302,13 @@ const InputLaporanInternal = () => {
                       Pilih Tumpukan/Dome
                     </InputLabel>
                     <Select
+                      disabled={
+                        !addFormData.sample_type ||
+                        addFormData.sample_type === 'Sample test PIT' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample Barging' ||
+                        addFormData.sample_type === 'Sample Selective Mining'
+                      }
                       required
                       name="dome_id"
                       labelId="tumpukan"
@@ -275,11 +317,17 @@ const InputLaporanInternal = () => {
                       onChange={handleAddFormChange}
                       size="small"
                     >
-                      {dome?.map((value) => (
-                        <MenuItem key={value} value={value}>
-                          {value}
-                        </MenuItem>
-                      ))}
+                      {addFormData.sample_type === 'Sample ETO'
+                        ? domeEtov3?.map((value) => (
+                            <MenuItem key={value} value={value}>
+                              {value}
+                            </MenuItem>
+                          ))
+                        : dome?.map((value) => (
+                            <MenuItem key={value} value={value}>
+                              {value}
+                            </MenuItem>
+                          ))}
                     </Select>
                   </FormControl>
                 </Grid>

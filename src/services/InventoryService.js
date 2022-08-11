@@ -13,7 +13,6 @@ const getHill = ({ inventory_type }) => {
 };
 
 const getDome = ({ inventory_type }) => {
-  console.log('test');
   return request(`${INVENTORY_MODEL}/dome`, {
     method: 'GET',
     params: {
