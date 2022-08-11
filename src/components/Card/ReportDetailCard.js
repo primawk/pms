@@ -181,7 +181,7 @@ export default function ReportDetailCard() {
                       Jumlah Retase
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
-                      {`${detailActivity?.ritase_total || ''} Lot`}
+                      {`${detailActivity?.ritase_total || '0'} Lot`}
                     </Typography>
                   </Grid>
                 ) : (
@@ -190,7 +190,7 @@ export default function ReportDetailCard() {
                       Jumlah Sublot
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
-                      {`${detailActivity?.sublot_total || ''} Lot`}
+                      {`${detailActivity?.sublot_total || '0'} Lot`}
                     </Typography>
                   </Grid>
                 )}
@@ -200,7 +200,7 @@ export default function ReportDetailCard() {
                     Jumlah Tonase
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.tonnage_total || ''} Ton`}
+                    {`${detailActivity?.tonnage_total || '0'} Ton`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -219,7 +219,7 @@ export default function ReportDetailCard() {
                     Nilai Kadar
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.ni_level || ''} %`}
+                    {`${detailActivity?.ni_level || '0'} %`}
                   </Typography>
                 </Grid>
                 <Grid item container lg={5} xs={6} direction="column">
@@ -227,7 +227,7 @@ export default function ReportDetailCard() {
                     Ekuivalen Logam
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.ni_metal_equivalent || ''} Ton`}
+                    {`${detailActivity?.ni_metal_equivalent || '0'} Ton`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -246,7 +246,7 @@ export default function ReportDetailCard() {
                     Nilai Kadar
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.fe_level || ''} %`}
+                    {`${detailActivity?.fe_level || '0'} %`}
                   </Typography>
                 </Grid>
                 <Grid item container lg={5} xs={6} direction="column">
@@ -254,7 +254,7 @@ export default function ReportDetailCard() {
                     Ekuivalen Logam
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.fe_metal_equivalent || ''} Ton`}
+                    {`${detailActivity?.fe_metal_equivalent || '0'} Ton`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -273,7 +273,7 @@ export default function ReportDetailCard() {
                     Nilai Kadar
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.co_level || ''} %`}
+                    {`${detailActivity?.co_level || '0'} %`}
                   </Typography>
                 </Grid>
                 <Grid item container lg={5} xs={6} direction="column">
@@ -281,7 +281,7 @@ export default function ReportDetailCard() {
                     Ekuivalen Logam
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.co_metal_equivalent || ''} Ton`}
+                    {`${detailActivity?.co_metal_equivalent || '0'} Ton`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -300,7 +300,7 @@ export default function ReportDetailCard() {
                     Nilai Kadar
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.simgo_level || ''} %`}
+                    {`${detailActivity?.simgo_level || '0'} %`}
                   </Typography>
                 </Grid>
                 <Grid item container lg={5} xs={6} direction="column">
@@ -308,7 +308,7 @@ export default function ReportDetailCard() {
                     Ekuivalen Logam
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.simgo_metal_equivalent || ''} Ton`}
+                    {`${detailActivity?.simgo_metal_equivalent || '0'} Ton`}
                   </Typography>
                 </Grid>
               </Grid>

@@ -13,9 +13,6 @@ import useModal from 'hooks/useModal';
 import Header from 'components/Header';
 import { AllActivity, SpecificActivity, FilterDate } from './MiningSection';
 
-// utils
-import { timeDifference, translateTime } from 'utils/helper';
-
 // custom button
 const WhiteButton = styled(Button)(({ theme }) => ({
   backgroundColor: 'white',
@@ -68,10 +65,9 @@ export default function MiningActivity() {
     }
   };
 
-  const dateDifference = translateTime(
-    timeDifference(selectedDate?.startDate, selectedDate?.endDate)
-  );
-
+  const dateDifference = `${dayjs(selectedDate?.startDate).format('DD/MM/YYYY')}-${dayjs(
+    selectedDate?.endDate
+  ).format('DD/MM/YYYY')}`;
   return (
     <>
       <Header title="KEGIATAN TAMBANG" background="dashboard.png">
