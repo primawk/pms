@@ -3,43 +3,53 @@ import { Grid, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@mui/material/TextField';
-// import FilterDate from 'components/Modal/LaporanLab/FilterDate';
+import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 import { addDays } from 'date-fns';
+import dayjs from 'dayjs';
 
 // custom hooks
 import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
-const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
+const SearchBarEksternal = ({
+  posts,
+  setSearchResults,
+  setSelectedDates,
+  selectedDates,
+  menuTab
+}) => {
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     // e.preventDefault();
     // if (!e.target.value) return setSearchResults(posts);
-    const resultsArrayEksternal = Object.keys(posts)
-      .filter((key) => key.toLowerCase().includes(keyword.toLocaleLowerCase()))
-      .reduce((obj, key) => {
-        return Object.assign(obj, {
-          [key]: posts[key]
-        });
-      }, {});
-    setSearchResults(resultsArrayEksternal);
+    // const resultsArrayEksternal = Object.keys(posts)
+    //   .filter((key) => key.toLowerCase().includes(keyword.toLocaleLowerCase()))
+    //   .reduce((obj, key) => {
+    //     return Object.assign(obj, {
+    //       [key]: posts[key]
+    //     });
+    //   }, {});
+    // setSearchResults(resultsArrayEksternal);
+    const resultsArray = posts.filter(
+      (post) =>
+        post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
+        post.company_name?.toLowerCase().includes(keyword.toLowerCase())
+    );
+    setSearchResults(resultsArray);
   };
 
-  // const value = Object.values(posts[1]);
-
-  console.log(posts);
+  // console.log(filter);
 
   const handleReset = () => {
-    const resultsArrayEksternal = Object.keys(posts)
-      .filter((key) => key.includes(''))
-      .reduce((obj, key) => {
-        return Object.assign(obj, {
-          [key]: posts[key]
-        });
-      }, {});
-    // setSearchResults(resultsArray);
-    setSearchResults(resultsArrayEksternal);
+    // const resultsArray = posts.filter(
+    //   (post) =>
+    //     post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
+    //     post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
+    //     post.company_name?.toLowerCase().includes(keyword.toLowerCase())
+    // );
+    setSearchResults(posts);
     setKeyword('');
     setSelectedDates({});
     setState([
@@ -61,13 +71,17 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
 
   return (
     <>
-      {/* <FilterDate
+      <FilterDate
         toggle={toggleDate}
         isShowing={isShowingDate}
         state={state}
         setState={setState}
         setSelectedDates={setSelectedDates}
-      /> */}
+        setSearchResults={setSearchResults}
+        selectedDates={selectedDates}
+        menuTab={menuTab}
+        posts={posts}
+      />
       <Grid
         container
         sx={{
@@ -105,7 +119,7 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
             }}
           />
         </Grid>
-        {/* <Button
+        <Button
           sx={{
             border: 1,
             borderRadius: '4px',
@@ -118,8 +132,13 @@ const SearchBarEksternal = ({ posts, setSearchResults, setSelectedDates }) => {
           }}
           onClick={toggleDate}
         >
-          Filter Tanggal | Hari ini <Icon icon="fe:drop-down" color="#828282" />
-        </Button> */}
+          {selectedDates.startDate
+            ? `Filter Tanggal | ${dayjs(selectedDates.startDate).format('DD/MM/YYYY')} - ${dayjs(
+                selectedDates.endDate
+              ).format('DD/MM/YYYY')} `
+            : 'Filter Tanggal | Hari ini'}
+          <Icon icon="fe:drop-down" color="#828282" />
+        </Button>
         <Button
           onClick={handleSubmit}
           variant="contained"

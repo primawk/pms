@@ -127,6 +127,7 @@ export default function LaporanLab() {
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
             totalAnalysisEks={totalAnalysisEks}
+            menuTab={menuTab}
           />
         )}
       </div>

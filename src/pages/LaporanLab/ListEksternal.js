@@ -23,7 +23,8 @@ export default function ListEksternal({
   isFetchingActivity,
   totalPrepEks,
   totalPrep,
-  totalAnalysisEks
+  totalAnalysisEks,
+  menuTab
 }) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
@@ -46,7 +47,15 @@ export default function ListEksternal({
       });
   }, []);
 
-  const lastUpdate = Object.values(postsEksternal);
+  // .reduce((groups, item) => {
+  //   const group = groups[item.company_name] || [];
+  //   group.push(item);
+  //   groups[item.company_name] = group;
+  //   return groups;
+  // }, {});
+
+  // const lastUpdate = Object.values(postsEksternal);
+
 
   return (
     <>
@@ -58,6 +67,7 @@ export default function ListEksternal({
           setSearchResults={setSearchResultsEksternal}
           setSelectedDates={setSelectedDates}
           selectedDates={selectedDates}
+          menuTab={menuTab}
         />
         <Grid
           container
@@ -109,7 +119,7 @@ export default function ListEksternal({
           />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          <Result searchResults={searchResultsEksternal} lastUpdate={lastUpdate} />
+          <Result searchResults={searchResultsEksternal} />
 
           {/* Pagination */}
           <Grid

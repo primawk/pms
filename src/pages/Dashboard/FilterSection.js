@@ -21,8 +21,6 @@ const FilterSection = ({
   setSelectedYear,
   years,
   isFetching,
-  dataTableTarget,
-  filterYear,
   setFilterYear
 }) => {
   // passed variable undefined i use this
