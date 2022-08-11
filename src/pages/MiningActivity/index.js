@@ -11,8 +11,7 @@ import useModal from 'hooks/useModal';
 
 // components
 import Header from 'components/Header';
-import { AllActivity, SpecificActivity } from './MiningSection';
-import FilterDate from 'components/Modal/LaporanLab/FilterDate';
+import { AllActivity, SpecificActivity, FilterDate } from './MiningSection';
 
 // utils
 import { timeDifference, translateTime } from 'utils/helper';

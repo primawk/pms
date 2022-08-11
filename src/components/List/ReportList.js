@@ -106,7 +106,7 @@ const ReportList = ({ listData }) => {
         <Typography variant="body1" color="#828282">
           Tanggal Laporan Dibuat
         </Typography>
-        <Typography variant="h6">{dayjs(listData?.created_at).format('DD/MM/YYYY')}</Typography>
+        <Typography variant="h6">{dayjs(listData?.date).format('DD/MM/YYYY')}</Typography>
       </Grid>
     </Grid>
   );
