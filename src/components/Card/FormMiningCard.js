@@ -281,7 +281,7 @@ export default function FormMiningCard() {
                   container
                   direction="row"
                   justifyContent="flex-start"
-                  alignItems="center"
+                  alignItems="flex-start"
                   spacing={10}
                 >
                   <Grid item container lg={4.5} xs={4.5} direction="column">
@@ -312,57 +312,28 @@ export default function FormMiningCard() {
                   </Grid>
                 </Grid>
                 <Stack direction="column" spacing={3}>
-                  <Stack>
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Jenis Pengukuran
-                    </Typography>
-                    <FormControl>
-                      <TextField
-                        select
-                        placeholder="Pilih jenis kegiatan"
-                        fullWidth
-                        size="small"
-                        name="measurement_type"
-                        {...getFieldProps('measurement_type')}
-                        error={Boolean(touched.measurement_type && errors.measurement_type)}
-                        helperText={touched.measurement_type && errors.measurement_type}
-                      >
-                        {measurementType.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </FormControl>
-                  </Stack>
-                  {activityType === 'ore-hauling-to-eto' && (
-                    <>
-                      <Stack>
+                  {id ? (
+                    <Grid container direction="row" justifyContent="flex-start" alignItems="center">
+                      <Grid item container lg={6} xs={6} direction="column">
                         <Typography variant="h6" sx={{ mb: 3 }}>
-                          Nama Mitra
+                          Jenis Pengukuran
                         </Typography>
-                        <FormControl>
-                          <TextField
-                            placeholder="Nama Mitra"
-                            fullWidth
-                            size="small"
-                            name="partner"
-                            {...getFieldProps('partner')}
-                            error={Boolean(touched.partner && errors.partner)}
-                            helperText={touched.partner && errors.partner}
-                          />
-                        </FormControl>
-                      </Stack>
-                    </>
-                  )}
-                  {activityType !== 'ore-getting' && (
+                        <Typography variant="body1">{detailActivity?.measurement_type}</Typography>
+                      </Grid>
+                      {activityType === 'ore-hauling-to-eto' && (
+                        <Grid item container lg={6} xs={6} direction="column">
+                          <Typography variant="h6" sx={{ mb: 3 }}>
+                            Nama Mitra
+                          </Typography>
+                          <Typography variant="body1">{detailActivity?.partner}</Typography>
+                        </Grid>
+                      )}
+                    </Grid>
+                  ) : (
                     <>
-                      <Typography variant="h5" sx={{ mb: 3 }}>
-                        Bukit Asal
-                      </Typography>
                       <Stack>
                         <Typography variant="h6" sx={{ mb: 3 }}>
-                          Bukit Asal
+                          Jenis Pengukuran
                         </Typography>
                         <FormControl>
                           <TextField
@@ -370,121 +341,241 @@ export default function FormMiningCard() {
                             placeholder="Pilih jenis kegiatan"
                             fullWidth
                             size="small"
-                            name="hill_origin_id"
-                            {...getFieldProps('hill_origin_id')}
-                            error={Boolean(touched.hill_origin_id && errors.hill_origin_id)}
-                            helperText={touched.hill_origin_id && errors.hill_origin_id}
+                            name="measurement_type"
+                            {...getFieldProps('measurement_type')}
+                            error={Boolean(touched.measurement_type && errors.measurement_type)}
+                            helperText={touched.measurement_type && errors.measurement_type}
                           >
-                            {activityType === 'ore-hauling-to-eto'
-                              ? dataHillOrigin?.data?.data?.map((option) => (
-                                  <MenuItem key={option} value={option?.id}>
-                                    {option?.name}
-                                  </MenuItem>
-                                ))
-                              : dataDomeOrigin?.data?.data?.map((option) => (
-                                  <MenuItem key={option} value={option?.id}>
-                                    {option?.name}
-                                  </MenuItem>
-                                ))}
+                            {measurementType.map((option) => (
+                              <MenuItem key={option} value={option}>
+                                {option}
+                              </MenuItem>
+                            ))}
                           </TextField>
                         </FormControl>
                       </Stack>
+                      {activityType === 'ore-hauling-to-eto' && (
+                        <>
+                          <Stack>
+                            <Typography variant="h6" sx={{ mb: 3 }}>
+                              Nama Mitra
+                            </Typography>
+                            <FormControl>
+                              <TextField
+                                placeholder="Nama Mitra"
+                                fullWidth
+                                size="small"
+                                name="partner"
+                                {...getFieldProps('partner')}
+                                error={Boolean(touched.partner && errors.partner)}
+                                helperText={touched.partner && errors.partner}
+                              />
+                            </FormControl>
+                          </Stack>
+                        </>
+                      )}
                     </>
                   )}
-                  {activityType === 'eto-to-efo' && (
-                    <Stack>
-                      <Typography variant="h6" sx={{ mb: 3 }}>
-                        Dome Asal
-                      </Typography>
-                      <FormControl>
-                        <TextField
-                          select
-                          placeholder="Pilih jenis kegiatan"
-                          fullWidth
-                          size="small"
-                          name="dome_origin_id"
-                          {...getFieldProps('dome_origin_id')}
-                          error={Boolean(touched.dome_origin_id && errors.dome_origin_id)}
-                          helperText={touched.dome_origin_id && errors.dome_origin_id}
-                        >
-                          {activityType !== 'eto-to-efo'
-                            ? dataDomeOrigin?.data?.data?.map((option) => (
-                                <MenuItem key={option} value={option?.id}>
-                                  {option?.name}
-                                </MenuItem>
-                              ))
-                            : domeOrigin?.[0]?.dome_list?.map((option) => (
-                                <MenuItem key={option} value={option?.dome_id}>
-                                  {option?.dome_name}
-                                </MenuItem>
-                              ))}
-                        </TextField>
-                      </FormControl>
-                    </Stack>
-                  )}
-                  <Typography variant="h5" sx={{ mb: 3 }}>
-                    Bukit Tujuan
-                  </Typography>
-                  {activityType !== 'eto-to-efo' && (
-                    <Stack>
-                      <Typography variant="h6" sx={{ mb: 3 }}>
+                  {id ? (
+                    <>
+                      {activityType !== 'ore-getting' && (
+                        <>
+                          <Typography variant="h5" sx={{ mb: 3 }}>
+                            Bukit Asal
+                          </Typography>
+                          <Grid
+                            container
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="flex-start"
+                          >
+                            <Grid item container lg={6} xs={6} direction="column">
+                              <Typography variant="h6" sx={{ mb: 3 }}>
+                                Bukit Asal
+                              </Typography>
+                              <Typography variant="body1">
+                                {detailActivity?.hill_origin_name || ''}
+                              </Typography>
+                            </Grid>
+                            {activityType === 'eto-to-efo' && (
+                              <Grid item container lg={6} xs={6} direction="column">
+                                <Typography variant="h6" sx={{ mb: 3 }}>
+                                  Dome Asal
+                                </Typography>
+                                <Typography variant="body1">
+                                  {detailActivity?.dome_origin_name}
+                                </Typography>
+                              </Grid>
+                            )}
+                          </Grid>
+                        </>
+                      )}
+                      <Typography variant="h5" sx={{ mb: 3 }}>
                         Bukit Tujuan
                       </Typography>
-                      <FormControl>
-                        <TextField
-                          select
-                          placeholder="Pilih jenis kegiatan"
-                          fullWidth
-                          size="small"
-                          name="hill_id"
-                          {...getFieldProps('hill_id')}
-                          error={Boolean(touched.hill_id && errors.hill_id)}
-                          helperText={touched.hill_id && errors.hill_id}
-                        >
-                          {activityType === 'ore-getting'
-                            ? dataHillDestination?.data?.data?.map((option) => (
-                                <MenuItem key={option} value={option?.id}>
-                                  {option?.name}
-                                </MenuItem>
-                              ))
-                            : dataDomeDestination?.data?.data?.map((option) => (
-                                <MenuItem key={option} value={option?.id}>
-                                  {option?.name}
-                                </MenuItem>
-                              ))}
-                        </TextField>
-                      </FormControl>
-                    </Stack>
-                  )}
-                  {activityType !== 'ore-getting' && (
-                    <Stack>
-                      <Typography variant="h6" sx={{ mb: 3 }}>
-                        Dome Tujuan
+                      <Grid
+                        container
+                        direction="row"
+                        justifyContent="flex-start"
+                        alignItems="flex-start"
+                      >
+                        {activityType !== 'eto-to-efo' && (
+                          <Grid item container lg={6} xs={6} direction="column">
+                            <Typography variant="h6" sx={{ mb: 3 }}>
+                              Bukit Tujuan
+                            </Typography>
+                            <Typography variant="body1" sx={{ mb: 3 }}>
+                              {detailActivity?.hill_name || ''}
+                            </Typography>
+                          </Grid>
+                        )}
+
+                        {activityType !== 'ore-getting' && (
+                          <Grid item container lg={6} xs={6} direction="column">
+                            <Typography variant="h6" sx={{ mb: 3 }}>
+                              Dome Tujuan
+                            </Typography>
+                            <Typography variant="body1" sx={{ mb: 3 }}>
+                              {detailActivity?.dome_name || ''}
+                            </Typography>
+                          </Grid>
+                        )}
+                      </Grid>
+                    </>
+                  ) : (
+                    <>
+                      {activityType !== 'ore-getting' && (
+                        <>
+                          <Typography variant="h5" sx={{ mb: 3 }}>
+                            Bukit Asal
+                          </Typography>
+                          <Stack>
+                            <Typography variant="h6" sx={{ mb: 3 }}>
+                              Bukit Asal
+                            </Typography>
+                            <FormControl>
+                              <TextField
+                                select
+                                placeholder="Pilih jenis kegiatan"
+                                fullWidth
+                                size="small"
+                                name="hill_origin_id"
+                                {...getFieldProps('hill_origin_id')}
+                                error={Boolean(touched.hill_origin_id && errors.hill_origin_id)}
+                                helperText={touched.hill_origin_id && errors.hill_origin_id}
+                              >
+                                {activityType === 'ore-hauling-to-eto'
+                                  ? dataHillOrigin?.data?.data?.map((option) => (
+                                      <MenuItem key={option} value={option?.id}>
+                                        {option?.name}
+                                      </MenuItem>
+                                    ))
+                                  : dataDomeOrigin?.data?.data?.map((option) => (
+                                      <MenuItem key={option} value={option?.id}>
+                                        {option?.name}
+                                      </MenuItem>
+                                    ))}
+                              </TextField>
+                            </FormControl>
+                          </Stack>
+                        </>
+                      )}
+                      {activityType === 'eto-to-efo' && (
+                        <Stack>
+                          <Typography variant="h6" sx={{ mb: 3 }}>
+                            Dome Asal
+                          </Typography>
+                          <FormControl>
+                            <TextField
+                              select
+                              placeholder="Pilih jenis kegiatan"
+                              fullWidth
+                              size="small"
+                              name="dome_origin_id"
+                              {...getFieldProps('dome_origin_id')}
+                              error={Boolean(touched.dome_origin_id && errors.dome_origin_id)}
+                              helperText={touched.dome_origin_id && errors.dome_origin_id}
+                            >
+                              {activityType !== 'eto-to-efo'
+                                ? dataDomeOrigin?.data?.data?.map((option) => (
+                                    <MenuItem key={option} value={option?.id}>
+                                      {option?.name}
+                                    </MenuItem>
+                                  ))
+                                : domeOrigin?.[0]?.dome_list?.map((option) => (
+                                    <MenuItem key={option} value={option?.dome_id}>
+                                      {option?.dome_name}
+                                    </MenuItem>
+                                  ))}
+                            </TextField>
+                          </FormControl>
+                        </Stack>
+                      )}
+                      <Typography variant="h5" sx={{ mb: 3 }}>
+                        Bukit Tujuan
                       </Typography>
-                      <FormControl>
-                        <TextField
-                          select
-                          placeholder="Pilih jenis kegiatan"
-                          fullWidth
-                          size="small"
-                          {...getFieldProps('dome_id')}
-                          error={Boolean(touched.dome_id && errors.dome_id)}
-                          helperText={touched.dome_id && errors.dome_id}
-                        >
-                          {activityType === 'eto-to-efo'
-                            ? dataDomeDestination?.data?.data?.map((option) => (
-                                <MenuItem key={option} value={option?.id}>
-                                  {option?.name}
-                                </MenuItem>
-                              ))
-                            : domeDestination?.[0]?.dome_list?.map((option) => (
-                                <MenuItem key={option} value={option?.dome_id}>
-                                  {option?.dome_name}
-                                </MenuItem>
-                              ))}
-                        </TextField>
-                      </FormControl>
-                    </Stack>
+                      {activityType !== 'eto-to-efo' && (
+                        <Stack>
+                          <Typography variant="h6" sx={{ mb: 3 }}>
+                            Bukit Tujuan
+                          </Typography>
+                          <FormControl>
+                            <TextField
+                              select
+                              placeholder="Pilih jenis kegiatan"
+                              fullWidth
+                              size="small"
+                              name="hill_id"
+                              {...getFieldProps('hill_id')}
+                              error={Boolean(touched.hill_id && errors.hill_id)}
+                              helperText={touched.hill_id && errors.hill_id}
+                            >
+                              {activityType === 'ore-getting'
+                                ? dataHillDestination?.data?.data?.map((option) => (
+                                    <MenuItem key={option} value={option?.id}>
+                                      {option?.name}
+                                    </MenuItem>
+                                  ))
+                                : dataDomeDestination?.data?.data?.map((option) => (
+                                    <MenuItem key={option} value={option?.id}>
+                                      {option?.name}
+                                    </MenuItem>
+                                  ))}
+                            </TextField>
+                          </FormControl>
+                        </Stack>
+                      )}
+                      {activityType !== 'ore-getting' && (
+                        <Stack>
+                          <Typography variant="h6" sx={{ mb: 3 }}>
+                            Dome Tujuan
+                          </Typography>
+                          <FormControl>
+                            <TextField
+                              select
+                              placeholder="Pilih jenis kegiatan"
+                              fullWidth
+                              size="small"
+                              {...getFieldProps('dome_id')}
+                              error={Boolean(touched.dome_id && errors.dome_id)}
+                              helperText={touched.dome_id && errors.dome_id}
+                            >
+                              {activityType === 'eto-to-efo'
+                                ? dataDomeDestination?.data?.data?.map((option) => (
+                                    <MenuItem key={option} value={option?.id}>
+                                      {option?.name}
+                                    </MenuItem>
+                                  ))
+                                : domeDestination?.[0]?.dome_list?.map((option) => (
+                                    <MenuItem key={option} value={option?.dome_id}>
+                                      {option?.dome_name}
+                                    </MenuItem>
+                                  ))}
+                            </TextField>
+                          </FormControl>
+                        </Stack>
+                      )}
+                    </>
                   )}
                 </Stack>
               </Grid>
