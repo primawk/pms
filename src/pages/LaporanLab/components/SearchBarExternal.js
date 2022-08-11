@@ -132,7 +132,7 @@ const SearchBarEksternal = ({
           }}
           onClick={toggleDate}
         >
-          {selectedDates.startDate !== undefined
+          {selectedDates.startDate
             ? `Filter Tanggal | ${dayjs(selectedDates.startDate).format('DD/MM/YYYY')} - ${dayjs(
                 selectedDates.endDate
               ).format('DD/MM/YYYY')} `
