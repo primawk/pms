@@ -148,12 +148,7 @@ export async function fetchExternal(page, row, companyName) {
     params: new URLSearchParams(params),
     headers: authHeader()
   });
-  return promise.data.data.reduce((groups, item) => {
-    const group = groups[item.company_name] || [];
-    group.push(item);
-    groups[item.company_name] = group;
-    return groups;
-  }, {});
+  return promise.data.data;
 }
 
 export async function fetchExternalCompany({ startDate, endDate }, page, row, companyName) {

@@ -6,15 +6,21 @@ import dayjs from 'dayjs';
 const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
   const navigate = useNavigate();
 
-  const sumPreparation = lastUpdate[index].reduce((accumulator, object) => {
+  // if (!searchResultsv2) {
+  //   return null;
+  // }
+
+  const lastUpdatev2 = Object.values(lastUpdate);
+
+  const sumPreparation = lastUpdatev2[index].reduce((accumulator, object) => {
     return accumulator + object.preparation;
   }, 0);
 
-  const sumAnalysis = lastUpdate[index].reduce((accumulator, object) => {
+  const sumAnalysis = lastUpdatev2[index].reduce((accumulator, object) => {
     return accumulator + object.analysis;
   }, 0);
 
-  const reports = lastUpdate.map((item) => item.length);
+  const reports = lastUpdatev2?.map((item) => item.length);
 
   return (
     <>
@@ -117,7 +123,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>{dayjs(lastUpdate[index][0].updated_at).format('DD/MM/YYYY')}</h5>
+                  <h5>{dayjs(lastUpdatev2[index][0].updated_at).format('DD/MM/YYYY')}</h5>
                 </Box>
               </Grid>
             </Box>
