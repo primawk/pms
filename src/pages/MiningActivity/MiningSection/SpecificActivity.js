@@ -30,11 +30,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
       : undefined;
 
   // chart
-  const {
-    data: dataChart,
-    isLoading: isLoadingChart,
-    isFetching: isFetchingChart
-  } = useQuery(
+  const { data: dataChart, isFetching: isFetchingChart } = useQuery(
     ['mining', 'chart', activityType, selectedDate],
     () =>
       MiningActivityService.getActivityChart({
@@ -98,23 +94,21 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
   return (
     <>
       {isFetchingSummary && isFetchingActivity && isFetchingChart && <LoadingModal />}
-      {!isLoadingChart && (
-        <Grid
-          container
-          direction="row"
-          alignItems="flex-start"
-          justifyContent="space-between"
-          sx={{ padding: '1em 1.5em' }}
-          className="bg-white"
-        >
-          <ChartSection
-            subMenu={subMenu}
-            chartData={chartData}
-            handleChangeSubMenu={handleChangeSubMenu}
-            chartStyle={{ width: '100%', height: '40vh' }}
-          />
-        </Grid>
-      )}
+      <Grid
+        container
+        direction="row"
+        alignItems="flex-start"
+        justifyContent="space-between"
+        sx={{ padding: '1em 1.5em' }}
+        className="bg-white"
+      >
+        <ChartSection
+          subMenu={subMenu}
+          chartData={chartData}
+          handleChangeSubMenu={handleChangeSubMenu}
+          chartStyle={{ width: '100%', height: '40vh' }}
+        />
+      </Grid>
       {!isLoadingSummary && !isLoadingActivity && (
         <InventorySection
           title={
