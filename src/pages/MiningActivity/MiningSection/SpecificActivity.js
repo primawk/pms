@@ -11,6 +11,9 @@ import MiningActivityService from 'services/MiningActivityService';
 import { ChartSection, InventorySection, ReportSection } from '.';
 import { LoadingModal } from 'components/Modal';
 
+// util
+import { dateInterval } from 'utils/helper';
+
 export default function SpecificActivity({ selectedDate, filterDate }) {
   const [subMenu, setSubMenu] = useState(0);
 
@@ -56,6 +59,8 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
       }
     ]
   };
+
+  const interval = dateInterval(selectedDate?.startDate, selectedDate?.endDate);
 
   // summary
   const {
@@ -107,6 +112,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
           chartData={chartData}
           handleChangeSubMenu={handleChangeSubMenu}
           chartStyle={{ width: '100%', height: '40vh' }}
+          dateInterval={interval}
         />
       </Grid>
       {!isLoadingSummary && !isLoadingActivity && (

@@ -110,3 +110,7 @@ export const translateTime = (text) => {
       .replace('years', 'Tahun')
       .replace('ago', 'Lalu');
 };
+
+export const dateInterval = (startDate, endDate) => {
+  return dayjs(endDate).diff(startDate, 'day');
+};

@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from '@mui/material';
 import LineChart from 'components/Charts/LineChart';
 
-const ChartSection = ({ chartData, subMenu, handleChangeSubMenu, chartStyle }) => {
+const ChartSection = ({ chartData, subMenu, handleChangeSubMenu, chartStyle, dateInterval }) => {
   return (
     <>
       <Grid container direction="row" alignItems="center" justifyContent="space-between" mb={3}>
@@ -20,7 +20,7 @@ const ChartSection = ({ chartData, subMenu, handleChangeSubMenu, chartStyle }) =
         </Grid>
       </Grid>
 
-      <LineChart chartData={chartData} style={chartStyle} />
+      <LineChart chartData={chartData} style={chartStyle} dateInterval={dateInterval} />
     </>
   );
 };
