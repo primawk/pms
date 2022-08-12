@@ -2,7 +2,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-function LineChart({ chartData, style }) {
+function LineChart({ chartData, style, dateInterval }) {
   const options = {
     maintainAspectRatio: style ? false : true,
     plugins: {
@@ -19,7 +19,14 @@ function LineChart({ chartData, style }) {
       x: {
         type: 'timeseries',
         time: {
-          unit: 'day'
+          unit:
+            dateInterval > 150 && dateInterval < 365
+              ? 'week'
+              : dateInterval > 365 && dateInterval < 1825
+              ? 'month'
+              : dateInterval > 1825
+              ? 'year'
+              : 'day'
         },
         ticks: {
           source: 'auto'

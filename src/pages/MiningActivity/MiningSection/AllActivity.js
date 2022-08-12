@@ -10,6 +10,9 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 
+// util
+import { dateInterval } from 'utils/helper';
+
 export default function AllActivity({ selectedDate }) {
   const [subMenu, setSubMenu] = useState(0);
 
@@ -43,6 +46,8 @@ export default function AllActivity({ selectedDate }) {
       }
     ]
   };
+
+  const interval = dateInterval(selectedDate?.startDate, selectedDate?.endDate);
 
   // summary
   const {
@@ -184,6 +189,7 @@ export default function AllActivity({ selectedDate }) {
               subMenu={subMenu}
               chartData={chartData}
               handleChangeSubMenu={handleChangeSubMenu}
+              dateInterval={interval}
             />
           </Grid>
 
