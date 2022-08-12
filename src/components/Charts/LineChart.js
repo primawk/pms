@@ -8,14 +8,21 @@ function LineChart({ chartData, style }) {
     plugins: {
       legend: {
         display: true
-      },
-      scales: {
-        x: {
-          ticks: {
-            font: {
-              size: 32
-            }
-          }
+      }
+    },
+    elements: {
+      point: {
+        radius: 2
+      }
+    },
+    scales: {
+      x: {
+        type: 'timeseries',
+        time: {
+          unit: 'day'
+        },
+        ticks: {
+          source: 'auto'
         }
       }
     }
