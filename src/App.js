@@ -15,6 +15,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
+// chart
+import 'chart.js/auto';
+
 // ----------------------------------------------------------------------
 
 const queryClient = new QueryClient({

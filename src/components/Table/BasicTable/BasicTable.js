@@ -118,8 +118,6 @@ export default function BasicTable({
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('');
   const [selected, setSelected] = React.useState([]);
-  const [page] = React.useState(0);
-  const [rowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -192,54 +190,52 @@ export default function BasicTable({
               withSelect={withSelect}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      {withSelect && (
-                        <TableCell color="secondary" padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                          />
-                        </TableCell>
-                      )}
-                      {headCells.map((header) => {
-                        const arrHeader = header.id.split('.');
-                        if (arrHeader?.length === 2) {
-                          return (
-                            <TableCell color="secondary" key={header.id}>
-                              {row[arrHeader[0]][arrHeader[1]]}
-                            </TableCell>
-                          );
-                        } else if (header.cell) {
-                          return (
-                            <TableCell color="secondary" key={header.id}>
-                              {header.cell(row)}
-                            </TableCell>
-                          );
-                        } else {
-                          return (
-                            <TableCell color="secondary" key={header.id}>
-                              {row[header.id]}
-                            </TableCell>
-                          );
-                        }
-                      })}
-                    </TableRow>
-                  );
-                })}
+              {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
+                const isItemSelected = isSelected(row.id);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                  >
+                    {withSelect && (
+                      <TableCell color="secondary" padding="checkbox">
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </TableCell>
+                    )}
+                    {headCells.map((header) => {
+                      const arrHeader = header.id.split('.');
+                      if (arrHeader?.length === 2) {
+                        return (
+                          <TableCell color="secondary" key={header.id}>
+                            {row[arrHeader[0]][arrHeader[1]]}
+                          </TableCell>
+                        );
+                      } else if (header.cell) {
+                        return (
+                          <TableCell color="secondary" key={header.id}>
+                            {header.cell(row)}
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell color="secondary" key={header.id}>
+                            {row[header.id]}
+                          </TableCell>
+                        );
+                      }
+                    })}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>

@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 // components
 import Navbar from '../../components/Navbar';
-import EditLog from './components/EditLog';
+import EditLog from './components/editLog';
 
 // services
 import { getHistory } from 'services/LabService';
