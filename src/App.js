@@ -17,6 +17,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 
 // chart
 import 'chart.js/auto';
+import 'chartjs-adapter-moment';
 
 // ----------------------------------------------------------------------
 

@@ -152,6 +152,24 @@ const editActivity = (data, id) => {
   });
 };
 
+const getActivityChart = ({ activity_type, start_date, end_date } = {}) => {
+  const params = [];
+  if (activity_type) {
+    params.push(['activity_type', activity_type]);
+  }
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/activity/chart`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
 const MiningActivityService = {
   getActivity,
   getSummary,
@@ -159,7 +177,8 @@ const MiningActivityService = {
   getActivityById,
   createActivity,
   editActivity,
-  getHistoryEdit
+  getHistoryEdit,
+  getActivityChart
 };
 
 export default MiningActivityService;

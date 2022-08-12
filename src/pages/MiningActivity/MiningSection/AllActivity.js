@@ -10,47 +10,38 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 
-const data = [
-  {
-    name: 'Kegiatan 1',
-    uv: 1000,
-    pv: 2400
-  },
-  {
-    name: 'Kegiatan 2',
-    uv: 2000,
-    pv: 1398
-  },
-  {
-    name: 'Kegiatan 3',
-    uv: 2500,
-    pv: 9800
-  },
-  {
-    name: 'Kegiatan 4',
-    uv: 1500,
-    pv: 3908
-  }
-];
-
 export default function AllActivity({ selectedDate }) {
   const [subMenu, setSubMenu] = useState(0);
-  const [chartData] = useState({
-    labels: data.map((item) => item.name),
+
+  const handleChangeSubMenu = (value) => {
+    setSubMenu(value);
+  };
+
+  // chart
+  const { data: dataChart, isFetching: isFetchingChart } = useQuery(
+    ['mining', 'chart', 'all-activity', selectedDate],
+    () =>
+      MiningActivityService.getActivityChart({
+        start_date: selectedDate?.startDate,
+        end_date: selectedDate?.endDate
+      }),
+    { keepPreviousData: true }
+  );
+
+  const chartData = {
     legend: false,
     datasets: [
       {
         label: 'Realisasi (Ton)',
-        data: data.map((item) => item.uv),
+        data: dataChart?.data?.data.map((item) => ({
+          x: item?.date,
+          y: item?.tonnage_total
+        })),
         backgroundColor: ['#3F48C0'],
         borderColor: ['#3F48C0'],
         borderWidth: 2
       }
     ]
-  });
-
-  const handleChangeSubMenu = (value) => {
-    setSubMenu(value);
   };
 
   // summary
@@ -176,7 +167,8 @@ export default function AllActivity({ selectedDate }) {
         isFetchingOreHauling &&
           isFetchingOreGettingSummary &&
           isFetchingOreHaulingSummary &&
-          isFetchingEtoToEfoSummary && <LoadingModal />)
+          isFetchingEtoToEfoSummary &&
+          isFetchingChart && <LoadingModal />)
       }
       {!isLoadingAllSummary && (
         <Grid

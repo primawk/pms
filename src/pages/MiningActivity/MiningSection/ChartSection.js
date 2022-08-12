@@ -17,13 +17,6 @@ const ChartSection = ({ chartData, subMenu, handleChangeSubMenu, chartStyle }) =
           >
             Tonase
           </Button>
-          <Button
-            variant="outlined"
-            onClick={() => handleChangeSubMenu(1)}
-            sx={subMenu === 1 ? { background: '#E5E5FE', ml: 2 } : { ml: 2 }}
-          >
-            Lot
-          </Button>
         </Grid>
       </Grid>
 
