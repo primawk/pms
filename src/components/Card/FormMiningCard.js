@@ -141,7 +141,9 @@ export default function FormMiningCard() {
             navigate(-1);
           })
           .catch((err) => {
-            toast.error(err.response.data.message);
+            toast.error(
+              err?.response?.data?.detail_message?.message || err?.response?.data?.message
+            );
             toggleLoading(false);
             toast.clearWaitingQueue();
           });
@@ -155,7 +157,9 @@ export default function FormMiningCard() {
           })
           .catch((err) => {
             toggleLoading(false);
-            toast.error(err.response.data.message);
+            toast.error(
+              err?.response?.data?.detail_message?.message || err?.response?.data?.message
+            );
             toast.clearWaitingQueue();
           });
       }
