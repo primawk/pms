@@ -293,10 +293,7 @@ const DetailEksternal = () => {
                 }}
                 onClick={handlePdf}
               >
-                <Grid item sx={{ marginLeft: '5rem' }}>
-                  <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-                </Grid>
-                <Grid item sx={{ margin: 'auto' }} fontSize={80}>
+                <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
                   <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
                 </Grid>
               </Grid>

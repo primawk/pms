@@ -61,11 +61,11 @@ const InputLaporanInternal = () => {
     })
   );
 
-  const dome = dataDome?.data?.data.map((item) => item.name);
+  // const dome = dataDome?.data?.data.map((item) => item.name);
   const domeEto = dataDomeEto?.data?.data.map((item) => item.dome_list);
-  const bukitId = dataBukit?.data?.data.map((item) => item.name);
+  // const bukitId = dataBukit?.data?.data.map((item) => item.name);
   const domeEtov2 = domeEto ? [].concat.apply([], domeEto) : null;
-  const domeEtov3 = domeEtov2 ? Object.values(domeEtov2).map((item) => item.dome_name) : null;
+  // const domeEtov3 = domeEtov2 ? Object.values(domeEtov2).map((item) => item.dome_name) : null;
 
   const [loading, setLoading] = useState(false);
   const [addFormData, setAddFormData] = useState({
@@ -114,9 +114,9 @@ const InputLaporanInternal = () => {
     event.preventDefault();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
-      hill_id: addFormData.hill_id,
+      hill_id: addFormData.sample_type === 'Sample EFO' ? 0 : addFormData.hill_id,
       sample_type: addFormData.sample_type,
-      dome_id: addFormData.dome_id,
+      dome_id: addFormData.sample_type === 'Sample Selective Mining' ? 0 : addFormData.dome_id,
       sample_code: addFormData.sample_code,
       preparation: addFormData.preparation,
       ni_level: addFormData.ni_level,
@@ -247,9 +247,9 @@ const InputLaporanInternal = () => {
                       onChange={handleAddFormChange}
                       size="small"
                     >
-                      {bukitId?.map((value) => (
-                        <MenuItem key={value} value={value}>
-                          {value}
+                      {dataBukit?.data?.data.map((value, index) => (
+                        <MenuItem key={index} value={value.id}>
+                          {value.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -318,14 +318,14 @@ const InputLaporanInternal = () => {
                       size="small"
                     >
                       {addFormData.sample_type === 'Sample ETO'
-                        ? domeEtov3?.map((value) => (
-                            <MenuItem key={value} value={value}>
-                              {value}
+                        ? domeEtov2?.map((value, index) => (
+                            <MenuItem key={index} value={value.dome_id}>
+                              {value.dome_name}
                             </MenuItem>
                           ))
-                        : dome?.map((value) => (
-                            <MenuItem key={value} value={value}>
-                              {value}
+                        : dataDome?.data?.data?.map((value, index) => (
+                            <MenuItem key={index} value={value.id}>
+                              {value.name}
                             </MenuItem>
                           ))}
                     </Select>

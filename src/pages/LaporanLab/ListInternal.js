@@ -25,7 +25,8 @@ export default function ListInternal({
   isFetchingActivity,
   totalPrepEks,
   totalPrep,
-  totalAnalysisEks
+  totalAnalysisEks,
+  menuTab
 }) {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
@@ -104,6 +105,7 @@ export default function ListInternal({
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
             totalAnalysisEks={totalAnalysisEks}
+            menuTab={menuTab}
           />
 
           {/*List Laporan*/}

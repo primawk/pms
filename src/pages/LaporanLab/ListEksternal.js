@@ -56,7 +56,6 @@ export default function ListEksternal({
 
   // const lastUpdate = Object.values(postsEksternal);
 
-
   return (
     <>
       {/* <PilihLaporan toggle={toggle} isShowing={isShowing} /> */}
@@ -116,6 +115,7 @@ export default function ListEksternal({
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
             totalAnalysisEks={totalAnalysisEks}
+            menuTab={menuTab}
           />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}

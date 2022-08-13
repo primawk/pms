@@ -23,9 +23,12 @@ import LabService from 'services/LabService';
 
 const EditLaporanEksternal = () => {
   const [loading, setLoading] = useState(false);
+  const [filePreview, setFilePreview] = useState(null);
+  const [fileName, setFileName] = useState('');
   const location = useLocation();
 
   const dataEdit = location.state;
+  const dataEditContact = dataEdit ? dataEdit?.submitter_contact.substring(1) : null;
 
   const [attachment, setAttachment] = useState(null);
   const [addFormData, setAddFormData] = useState({
@@ -34,7 +37,7 @@ const EditLaporanEksternal = () => {
     preparation: dataEdit?.preparation,
     company_name: dataEdit?.company_name,
     sample_submitter: dataEdit?.sample_submitter,
-    submitter_contact: dataEdit?.submitter_contact,
+    submitter_contact: dataEditContact,
     report_type: 'external'
   });
 
@@ -53,13 +56,15 @@ const EditLaporanEksternal = () => {
   const handleEditFormSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
+    const number = '0';
+    const dataContact = number.concat(addFormData.submitter_contact);
     var formData = new FormData();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
       company_name: addFormData.company_name,
       sample_submitter: addFormData.sample_submitter,
       preparation: addFormData.preparation,
-      submitter_contact: addFormData.submitter_contact,
+      submitter_contact: dataContact,
       report_type: 'external',
       analysis: addFormData.analysis
     };
@@ -85,9 +90,12 @@ const EditLaporanEksternal = () => {
 
   const onBtnAddFile = (e) => {
     setAttachment(e.target.files[0]);
-    let preview = document.getElementById('pdfpreview');
-    preview.src = URL.createObjectURL(e.target.files[0]);
-    console.log(preview.src);
+    setFileName(e.target.files[0].name);
+    setFilePreview(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const onButtonPreview = () => {
+    window.open(filePreview, '_blank');
   };
 
   const [value, setValue] = useState(new Date(dataEdit?.date));
@@ -219,7 +227,7 @@ const EditLaporanEksternal = () => {
                         required
                         id="outlined-adornment-password"
                         name="submitter_contact"
-                        defaultValue={dataEdit.submitter_contact}
+                        defaultValue={dataEditContact}
                         onChange={handleAddFormChange}
                         startAdornment={
                           <InputAdornment position="start" backgroundColor="gray">
@@ -333,44 +341,83 @@ const EditLaporanEksternal = () => {
                   </Grid>
 
                   {/* PDF */}
-                  <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Box sx={{ marginBottom: '1rem' }}>
-                      <h3>File Laporan</h3>
-                    </Box>
-                    <Grid
-                      item
-                      sx={{
-                        backgroundColor: 'white',
-                        width: '7.438rem',
-                        height: '9.063rem',
-                        border: '1px solid #3F48C0',
-                        borderRadius: '4px'
-                      }}
-                    >
+                  {!attachment ? (
+                    <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <Box sx={{ marginBottom: '1rem' }}>
+                        <h3>File Laporan</h3>
+                      </Box>
                       <Grid
-                        container // container to make the justify content works
+                        item
                         sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignContent: 'center',
-                          marginTop: '0.5rem'
+                          backgroundColor: 'white',
+                          width: '7.438rem',
+                          height: '9.063rem',
+                          border: '1px solid #3F48C0',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
                         }}
+                        onClick={onButtonPreview}
                       >
-                        {/* <Grid item sx={{ marginLeft: '5rem' }}>
+                        <Grid
+                          container // container to make the justify content works
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            marginTop: '0.5rem'
+                          }}
+                        >
+                          {/* <Grid item sx={{ marginLeft: '5rem' }}>
                         <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-                      </Grid>
-                      <Grid item sx={{ margin: 'auto' }} fontSize={80}>
-                        <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
                       </Grid> */}
-                        <img id="pdfpreview" alt="Uploaded file" />
+
+                          <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
+                            <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
+                          </Grid>
+                        </Grid>
                       </Grid>
-                      <Grid item sx={{ marginTop: '7rem', fontSize: '0.875rem' }}>
-                        <p>{dataEdit?.attachment}</p>
-                      </Grid>
+                      <Box fontSize={'0.875rem'}>{dataEdit?.attachment}</Box>
                     </Grid>
-                    {/* <Box fontSize={'0.875rem'}>Laporan Eksternal.pdf</Box> */}
-                  </Grid>
+                  ) : (
+                    <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <Box sx={{ marginBottom: '1rem' }}>
+                        <h3>File Laporan</h3>
+                      </Box>
+                      <Grid
+                        item
+                        sx={{
+                          backgroundColor: 'white',
+                          width: '7.438rem',
+                          height: '9.063rem',
+                          border: '1px solid #3F48C0',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
+                        }}
+                        onClick={onButtonPreview}
+                      >
+                        <Grid
+                          container // container to make the justify content works
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            marginTop: '0.5rem'
+                          }}
+                        >
+                          {/* <Grid item sx={{ marginLeft: '5rem' }}>
+                        <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
+                      </Grid> */}
+
+                          <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
+                            <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Box fontSize={'0.875rem'}>{fileName}</Box>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>

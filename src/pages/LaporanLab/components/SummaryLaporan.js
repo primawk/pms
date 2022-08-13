@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 // services
 import LabService from 'services/LabService';
 
-const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks }) => {
+const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab }) => {
   // const [sumPreparationInternal, setPreparationInternal] = useState(0);
   const { data: dataEksternal } = useQuery(
     ['report', 'external'],
@@ -67,54 +67,57 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks }) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid
-          item
-          sx={{
-            backgroundColor: 'white',
-            border: '1px solid #E0E0E0',
-            borderRadius: '0.25rem',
-            width: '11rem',
-            height: '6.4375rem',
-            margin: '1.5rem 1rem 1.5rem 1.5rem '
-          }}
-        >
-          <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Laporan Internal</Box>
-          <Grid container>
-            <Grid item>
-              <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryInternal}</Box>
-            </Grid>
-            <Grid item>
-              <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-                <li style={{ fontSize: '0.8rem' }}>{totalPrep} Preparasi</li>
-                <li style={{ fontSize: '0.8rem' }}>{summaryInternal} Analisa</li>
+        {menuTab === 'internal' ? (
+          <Grid
+            item
+            sx={{
+              backgroundColor: 'white',
+              border: '1px solid #E0E0E0',
+              borderRadius: '0.25rem',
+              width: '11rem',
+              height: '6.4375rem',
+              margin: '1.5rem 1rem 1.5rem 1.5rem '
+            }}
+          >
+            <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Laporan Internal</Box>
+            <Grid container>
+              <Grid item>
+                <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryInternal}</Box>
+              </Grid>
+              <Grid item>
+                <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <li style={{ fontSize: '0.8rem' }}>{totalPrep} Preparasi</li>
+                  <li style={{ fontSize: '0.8rem' }}>{summaryInternal} Analisa</li>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          item
-          sx={{
-            backgroundColor: 'white',
-            border: '1px solid #E0E0E0',
-            borderRadius: '0.25rem',
-            width: '11rem',
-            height: '6.4375rem',
-            margin: '1.5rem 1rem 1.5rem 1.5rem '
-          }}
-        >
-          <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Laporan Eksternal</Box>
-          <Grid container>
-            <Grid item>
-              <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryEksternal}</Box>
-            </Grid>
-            <Grid item>
-              <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-                <li style={{ fontSize: '0.8rem' }}>{totalPrepEks} Preparasi</li>
-                <li style={{ fontSize: '0.8rem' }}>{totalAnalysisEks} Analisa</li>
+        ) : (
+          <Grid
+            item
+            sx={{
+              backgroundColor: 'white',
+              border: '1px solid #E0E0E0',
+              borderRadius: '0.25rem',
+              width: '11rem',
+              height: '6.4375rem',
+              margin: '1.5rem 1rem 1.5rem 1.5rem '
+            }}
+          >
+            <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Laporan Eksternal</Box>
+            <Grid container>
+              <Grid item>
+                <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryEksternal}</Box>
+              </Grid>
+              <Grid item>
+                <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <li style={{ fontSize: '0.8rem' }}>{totalPrepEks} Preparasi</li>
+                  <li style={{ fontSize: '0.8rem' }}>{totalAnalysisEks} Analisa</li>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )}
       </Grid>
     </>
   );

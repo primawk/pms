@@ -5,7 +5,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@mui/material/TextField';
 import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 import { addDays } from 'date-fns';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 // custom hooks
 import useModal from '../../../hooks/useModal';
@@ -119,7 +119,7 @@ const SearchBarEksternal = ({
             }}
           />
         </Grid>
-        <Button
+        {/* <Button
           sx={{
             border: 1,
             borderRadius: '4px',
@@ -138,11 +138,11 @@ const SearchBarEksternal = ({
               ).format('DD/MM/YYYY')} `
             : 'Filter Tanggal | Hari ini'}
           <Icon icon="fe:drop-down" color="#828282" />
-        </Button>
+        </Button> */}
         <Button
           onClick={handleSubmit}
           variant="contained"
-          sx={{ width: '14%', height: '3.4rem', marginLeft: '1rem', boxShadow: 0 }}
+          sx={{ width: '14%', height: '3.4rem', marginLeft: '14.8rem', boxShadow: 0 }}
         >
           Search
         </Button>

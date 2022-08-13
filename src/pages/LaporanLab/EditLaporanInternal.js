@@ -14,23 +14,61 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
+import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
 //  components
 import Navbar from '../../components/Navbar';
+import { LoadingModal } from 'components/Modal';
 // import HasilAnalisa from './components/HasilAnalisa';
 
 // services
 import LabService from 'services/LabService';
+import InventoryService from 'services/InventoryService';
 
 const EditLaporanInternal = () => {
+  const [sampleType, setSampleType] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const dataEdit = location.state;
+
+  const {
+    data: dataBukit,
+    isLoading,
+    isFetching
+  } = useQuery(['bukitId', sampleType], () =>
+    InventoryService.getHill({
+      inventory_type: sampleType
+    })
+  );
+
+  const {
+    data: dataDome,
+    isLoading: isLoadingDome,
+    isFetching: isFetchingDome
+  } = useQuery(['domeId'], () =>
+    InventoryService.getDome({
+      inventory_type: 'inventory-efo'
+    })
+  );
+
+  const {
+    data: dataDomeEto,
+    isLoading: isLoadingEto,
+    isFetching: isFetchingEto
+  } = useQuery(['domeEto'], () =>
+    InventoryService.getDome({
+      inventory_type: 'inventory-eto'
+    })
+  );
+
+  const domeEto = dataDomeEto?.data?.data.map((item) => item.dome_list);
+  const domeEtov2 = domeEto ? [].concat.apply([], domeEto) : null;
 
   const [addFormData, setAddFormData] = useState({
     date: dataEdit?.date,
@@ -60,6 +98,16 @@ const EditLaporanInternal = () => {
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
 
+    if (newFormData.sample_type === 'Sample Selective Mining') {
+      setSampleType('inventory-sm');
+    }
+    if (newFormData.sample_type === 'Sample ETO') {
+      setSampleType('inventory-eto');
+    }
+    if (newFormData.sample_type === 'Sample EFO') {
+      setSampleType('inventory-efo');
+    }
+
     setAddFormData(newFormData);
   };
 
@@ -68,9 +116,9 @@ const EditLaporanInternal = () => {
     event.preventDefault();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
-      hill_id: addFormData.hill_id,
+      hill_id: addFormData.sample_type === 'Sample EFO' ? 0 : addFormData.hill_id,
       sample_type: addFormData.sample_type,
-      dome_id: addFormData.dome_id,
+      dome_id: addFormData.sample_type === 'Sample Selective Mining' ? 0 : addFormData.dome_id,
       sample_code: addFormData.sample_code,
       preparation: addFormData.preparation,
       ni_level: addFormData.ni_level,
@@ -93,7 +141,7 @@ const EditLaporanInternal = () => {
       toggle();
       // navigate('/laporan-lab');
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.detail_message);
       setLoading(false);
     }
   };
@@ -108,6 +156,12 @@ const EditLaporanInternal = () => {
 
   return (
     <>
+      {isFetching &&
+        isLoading &&
+        isFetchingDome &&
+        isLoadingDome &&
+        isLoadingEto &&
+        isFetchingEto && <LoadingModal />}
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
@@ -180,15 +234,26 @@ const EditLaporanInternal = () => {
                       Pilih Bukit
                     </InputLabel>
                     <Select
+                      disabled={
+                        !addFormData.sample_type ||
+                        addFormData.sample_type === 'Sample test PIT' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample Barging' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample EFO'
+                      }
+                      required
                       name="hill_id"
                       label="Pilih Bukit"
-                      defaultValue={dataEdit.hill_id}
                       onChange={handleAddFormChange}
+                      defaultValue={dataEdit.hill_id}
                       size="small"
                     >
-                      <MenuItem value="1">1</MenuItem>
-                      <MenuItem value="2">2</MenuItem>
-                      <MenuItem value="3">3</MenuItem>
+                      {dataBukit?.data?.data.map((value, index) => (
+                        <MenuItem key={index} value={value.id}>
+                          {value.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -239,17 +304,33 @@ const EditLaporanInternal = () => {
                       Pilih Tumpukan/Dome
                     </InputLabel>
                     <Select
+                      disabled={
+                        !addFormData.sample_type ||
+                        addFormData.sample_type === 'Sample test PIT' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample Barging' ||
+                        addFormData.sample_type === 'Sample Selective Mining'
+                      }
+                      required
                       name="dome_id"
                       labelId="tumpukan"
                       id="tumpukan"
-                      defaultValue={dataEdit.dome_id}
                       label="Pilih Tumpukan/Dome"
                       onChange={handleAddFormChange}
+                      defaultValue={dataEdit.dome_id}
                       size="small"
                     >
-                      <MenuItem value={'1'}>1</MenuItem>
-                      <MenuItem value={'2'}>2</MenuItem>
-                      <MenuItem value={'3'}>3</MenuItem>
+                      {addFormData.sample_type === 'Sample ETO'
+                        ? domeEtov2?.map((value, index) => (
+                            <MenuItem key={index} value={value.dome_id}>
+                              {value.dome_name}
+                            </MenuItem>
+                          ))
+                        : dataDome?.data?.data?.map((value, index) => (
+                            <MenuItem key={index} value={value.id}>
+                              {value.name}
+                            </MenuItem>
+                          ))}
                     </Select>
                   </FormControl>
                 </Grid>

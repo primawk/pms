@@ -24,6 +24,8 @@ import LabService from 'services/LabService';
 const InputLaporanEksternal = () => {
   const [loading, setLoading] = useState(false);
   const [attachment, setAttachment] = useState(null);
+  const [fileName, setFileName] = useState('');
+  const [filePreview, setFilePreview] = useState(null);
   const [addFormData, setAddFormData] = useState({
     date: '',
     analysis: '',
@@ -47,13 +49,16 @@ const InputLaporanEksternal = () => {
   };
 
   const handleAddFormSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
+    const number = '0';
+    const dataContact = number.concat(addFormData.submitter_contact);
     const data = {
       date: dateToStringPPOBFormatterv2(value),
       company_name: addFormData.company_name,
       sample_submitter: addFormData.sample_submitter,
       preparation: addFormData.preparation,
-      submitter_contact: addFormData.submitter_contact,
+      submitter_contact: dataContact,
       report_type: 'external',
       analysis: addFormData.analysis
     };
@@ -71,9 +76,12 @@ const InputLaporanEksternal = () => {
 
   const onBtnAddFile = (e) => {
     setAttachment(e.target.files[0]);
-    let preview = document.getElementById('pdfpreview');
-    preview.src = URL.createObjectURL(e.target.files[0]);
-    console.log(preview.src);
+    setFileName(e.target.files[0].name);
+    setFilePreview(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const onButtonPreview = () => {
+    window.open(filePreview, '_blank');
   };
 
   const [value, setValue] = useState(new Date());
@@ -85,6 +93,8 @@ const InputLaporanEksternal = () => {
   };
 
   const { isShowing, toggle } = useModal();
+
+  // console.log(fileInput.current.files[0].name);
 
   return (
     <>
@@ -200,6 +210,7 @@ const InputLaporanEksternal = () => {
                   <Grid item sx={{ width: '22.5rem' }}>
                     <FormControl size="small" variant="outlined" fullWidth>
                       <OutlinedInput
+                        number
                         required
                         id="outlined-adornment-password"
                         name="submitter_contact"
@@ -318,41 +329,45 @@ const InputLaporanEksternal = () => {
                   </Grid>
 
                   {/* PDF */}
-                  <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Box sx={{ marginBottom: '1rem' }}>
-                      <h3>File Laporan</h3>
-                    </Box>
-                    <Grid
-                      item
-                      sx={{
-                        backgroundColor: 'white',
-                        width: '7.438rem',
-                        height: '9.063rem',
-                        border: '1px solid #3F48C0',
-                        borderRadius: '4px'
-                      }}
-                    >
+                  {attachment ? (
+                    <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <Box sx={{ marginBottom: '1rem' }}>
+                        <h3>File Laporan</h3>
+                      </Box>
                       <Grid
-                        container // container to make the justify content works
+                        item
                         sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignContent: 'center',
-                          marginTop: '0.5rem'
+                          backgroundColor: 'white',
+                          width: '7.438rem',
+                          height: '9.063rem',
+                          border: '1px solid #3F48C0',
+                          borderRadius: '4px',
+                          cursor: 'pointer'
                         }}
+                        onClick={onButtonPreview}
                       >
-                        {/* <Grid item sx={{ marginLeft: '5rem' }}>
+                        <Grid
+                          container // container to make the justify content works
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            marginTop: '0.5rem'
+                          }}
+                        >
+                          {/* <Grid item sx={{ marginLeft: '5rem' }}>
                         <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-                      </Grid>
-                      <Grid item sx={{ margin: 'auto' }} fontSize={80}>
-                        <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
                       </Grid> */}
-                        <img id="pdfpreview" alt="" />
+
+                          <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
+                            <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
+                          </Grid>
+                        </Grid>
                       </Grid>
+                      <Box fontSize={'0.875rem'}>{fileName}</Box>
                     </Grid>
-                    {/* <Box fontSize={'0.875rem'}>Laporan Eksternal.pdf</Box> */}
-                  </Grid>
+                  ) : null}
                 </Grid>
               </Grid>
             </Grid>
