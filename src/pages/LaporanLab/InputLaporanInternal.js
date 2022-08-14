@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -31,6 +31,9 @@ import InventoryService from 'services/InventoryService';
 
 const InputLaporanInternal = () => {
   const [sampleType, setSampleType] = useState(null);
+  const [validCode, setValidCode] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const {
     data: dataBukit,
     isLoading,
@@ -40,6 +43,18 @@ const InputLaporanInternal = () => {
       inventory_type: sampleType
     })
   );
+
+  const {
+    data: dataSample,
+    isLoading: isLoadingSample,
+    isFetching: isFetchingSample
+  } = useQuery(['dataSample'], () =>
+    LabService.getReport({
+      report_type: 'internal'
+    })
+  );
+
+  const dataSampleCode = dataSample?.data?.data.map((item) => item.sample_code);
 
   const {
     data: dataDome,
@@ -61,13 +76,9 @@ const InputLaporanInternal = () => {
     })
   );
 
-  // const dome = dataDome?.data?.data.map((item) => item.name);
   const domeEto = dataDomeEto?.data?.data.map((item) => item.dome_list);
-  // const bukitId = dataBukit?.data?.data.map((item) => item.name);
   const domeEtov2 = domeEto ? [].concat.apply([], domeEto) : null;
-  // const domeEtov3 = domeEtov2 ? Object.values(domeEtov2).map((item) => item.dome_name) : null;
 
-  const [loading, setLoading] = useState(false);
   const [addFormData, setAddFormData] = useState({
     date: '',
     hill_id: '',
@@ -153,6 +164,18 @@ const InputLaporanInternal = () => {
 
   const navigate = useNavigate();
 
+  //  sample code validation
+  useEffect(() => {
+    setValidCode(true);
+
+    for (let i = 0; i <= dataSampleCode?.length; i++) {
+      if (dataSampleCode[i] === addFormData.sample_code) {
+        setValidCode(false);
+      }
+    }
+
+  }, [addFormData.sample_code, dataSampleCode]);
+
   return (
     <>
       {isFetching &&
@@ -160,7 +183,9 @@ const InputLaporanInternal = () => {
         isFetchingDome &&
         isLoadingDome &&
         isLoadingEto &&
-        isFetchingEto && <LoadingModal />}
+        isFetchingEto &&
+        isLoadingSample &&
+        isFetchingSample && <LoadingModal />}
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
@@ -354,11 +379,13 @@ const InputLaporanInternal = () => {
                   <Box sx={{ marginBottom: '1rem' }}>Kode Sample</Box>
                   <TextField
                     required
+                    error={validCode ? false : true}
                     name="sample_code"
                     id="outlined-basic"
                     label="Kode Sample"
                     variant="outlined"
                     onChange={handleAddFormChange}
+                    helperText={validCode ? '' : 'Kode sample sudah ada.'}
                   />
                 </Grid>
                 <Grid
@@ -668,6 +695,7 @@ const InputLaporanInternal = () => {
               </Grid>
               <Grid item>
                 <LoadingButton
+                  disabled={validCode ? false : true}
                   loading={loading}
                   type="submit"
                   variant="contained"

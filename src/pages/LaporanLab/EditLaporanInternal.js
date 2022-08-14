@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -31,6 +31,7 @@ import InventoryService from 'services/InventoryService';
 
 const EditLaporanInternal = () => {
   const [sampleType, setSampleType] = useState(null);
+  const [validCode, setValidCode] = useState(true);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -46,6 +47,18 @@ const EditLaporanInternal = () => {
       inventory_type: sampleType
     })
   );
+
+  const {
+    data: dataSample,
+    isLoading: isLoadingSample,
+    isFetching: isFetchingSample
+  } = useQuery(['dataSample'], () =>
+    LabService.getReport({
+      report_type: 'internal'
+    })
+  );
+
+  const dataSampleCode = dataSample?.data?.data.map((item) => item.sample_code);
 
   const {
     data: dataDome,
@@ -154,6 +167,21 @@ const EditLaporanInternal = () => {
 
   const { isShowing, toggle } = useModal();
 
+  const existingCode = dataEdit?.sample_code;
+
+  //  sample code validation
+  useEffect(() => {
+    setValidCode(true);
+
+    for (let i = 0; i <= dataSampleCode?.length; i++) {
+      if (existingCode === addFormData.sample_code) {
+        setValidCode(true);
+      } else if (dataSampleCode[i] === addFormData.sample_code) {
+        setValidCode(false);
+      }
+    }
+  }, [addFormData.sample_code, dataSampleCode, existingCode]);
+
   return (
     <>
       {isFetching &&
@@ -161,7 +189,9 @@ const EditLaporanInternal = () => {
         isFetchingDome &&
         isLoadingDome &&
         isLoadingEto &&
-        isFetchingEto && <LoadingModal />}
+        isFetchingEto &&
+        isLoadingSample &&
+        isFetchingSample && <LoadingModal />}
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
@@ -212,6 +242,7 @@ const EditLaporanInternal = () => {
                   <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
+                      required
                       inputFormat="dd/MM/yyyy"
                       name="date"
                       value={value}
@@ -273,6 +304,7 @@ const EditLaporanInternal = () => {
                       Pilih Jenis Sample
                     </InputLabel>
                     <Select
+                      required
                       name="sample_type"
                       labelId="Jenis Sample"
                       id="Jenis Sample"
@@ -356,12 +388,15 @@ const EditLaporanInternal = () => {
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Kode Sample</Box>
                   <TextField
+                    required
+                    error={validCode ? false : true}
                     name="sample_code"
                     id="outlined-basic"
-                    // label="Kode Sample"
+                    label="Kode Sample"
                     variant="outlined"
                     onChange={handleAddFormChange}
                     defaultValue={dataEdit?.sample_code}
+                    helperText={validCode ? '' : 'Kode sample sudah ada.'}
                   />
                 </Grid>
                 <Grid
@@ -373,6 +408,7 @@ const EditLaporanInternal = () => {
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Inputan Preparasi</Box>
                   <TextField
+                    required
                     name="preparation"
                     id="outlined-basic"
                     label="Inputan Preparasi"
@@ -399,6 +435,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar Ni">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       name="ni_level"
                       id="Kadar Ni"
                       onChange={handleAddFormChange}
@@ -429,6 +466,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar MgO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="mgo_level"
                       id="Kadar MgO"
@@ -458,6 +496,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar SImgO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="simgo_level"
                       id="Kadar SImgO"
@@ -489,6 +528,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar Fe">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="fe_level"
                       id="Kadar Fe"
@@ -518,6 +558,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar SIO2">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="sio2_level"
                       id="Kadar SIO2"
@@ -547,6 +588,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Inc">Nilai Inc</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="inc"
                       defaultValue={dataEdit.inc}
@@ -573,6 +615,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar CO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="co_level"
                       id="Kadar CO"
@@ -602,6 +645,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar CaO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="cao_level"
                       id="Kadar CaO"
@@ -631,6 +675,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Tonase">Tonase</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="tonnage"
                       id="Tonase"
@@ -671,6 +716,7 @@ const EditLaporanInternal = () => {
               </Grid>
               <Grid item>
                 <LoadingButton
+                  disabled={validCode ? false : true}
                   type="submit"
                   variant="contained"
                   loading={loading}
