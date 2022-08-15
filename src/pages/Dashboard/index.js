@@ -225,8 +225,10 @@ export default function Dashboard() {
     })
   );
 
-  const targetRealization = dataRealization?.data?.data.map((item) => item.realization);
-  const targetPercentage = dataRealization?.data?.data.map((item) => parseInt(item.presentase));
+  const targetRealization = dataRealization?.data?.data.map((item) => item.realization).reverse();
+  const targetPercentage = dataRealization?.data?.data
+    .map((item) => parseInt(item.presentase))
+    .reverse();
 
   const target = dataProduction?.data?.data.map((item) => item.target_list);
   const targetResult = target ? target[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -14,23 +14,74 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
+import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
 //  components
 import Navbar from '../../components/Navbar';
+import { LoadingModal } from 'components/Modal';
 // import HasilAnalisa from './components/HasilAnalisa';
 
 // services
 import LabService from 'services/LabService';
+import InventoryService from 'services/InventoryService';
 
 const EditLaporanInternal = () => {
+  const [sampleType, setSampleType] = useState(null);
+  const [validCode, setValidCode] = useState(true);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const dataEdit = location.state;
+
+  const {
+    data: dataBukit,
+    isLoading,
+    isFetching
+  } = useQuery(['bukitId', sampleType], () =>
+    InventoryService.getHill({
+      inventory_type: sampleType
+    })
+  );
+
+  const {
+    data: dataSample,
+    isLoading: isLoadingSample,
+    isFetching: isFetchingSample
+  } = useQuery(['dataSample'], () =>
+    LabService.getReport({
+      report_type: 'internal'
+    })
+  );
+
+  const dataSampleCode = dataSample?.data?.data.map((item) => item.sample_code);
+
+  const {
+    data: dataDome,
+    isLoading: isLoadingDome,
+    isFetching: isFetchingDome
+  } = useQuery(['domeId'], () =>
+    InventoryService.getDome({
+      inventory_type: 'inventory-efo'
+    })
+  );
+
+  const {
+    data: dataDomeEto,
+    isLoading: isLoadingEto,
+    isFetching: isFetchingEto
+  } = useQuery(['domeEto'], () =>
+    InventoryService.getDome({
+      inventory_type: 'inventory-eto'
+    })
+  );
+
+  const domeEto = dataDomeEto?.data?.data.map((item) => item.dome_list);
+  const domeEtov2 = domeEto ? [].concat.apply([], domeEto) : null;
 
   const [addFormData, setAddFormData] = useState({
     date: dataEdit?.date,
@@ -60,6 +111,16 @@ const EditLaporanInternal = () => {
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
 
+    if (newFormData.sample_type === 'Sample Selective Mining') {
+      setSampleType('inventory-sm');
+    }
+    if (newFormData.sample_type === 'Sample ETO') {
+      setSampleType('inventory-eto');
+    }
+    if (newFormData.sample_type === 'Sample EFO') {
+      setSampleType('inventory-efo');
+    }
+
     setAddFormData(newFormData);
   };
 
@@ -68,9 +129,9 @@ const EditLaporanInternal = () => {
     event.preventDefault();
     const data = {
       date: dateToStringPPOBFormatterv2(value),
-      hill_id: addFormData.hill_id,
+      hill_id: addFormData.sample_type === 'Sample EFO' ? 0 : addFormData.hill_id,
       sample_type: addFormData.sample_type,
-      dome_id: addFormData.dome_id,
+      dome_id: addFormData.sample_type === 'Sample Selective Mining' ? 0 : addFormData.dome_id,
       sample_code: addFormData.sample_code,
       preparation: addFormData.preparation,
       ni_level: addFormData.ni_level,
@@ -93,7 +154,7 @@ const EditLaporanInternal = () => {
       toggle();
       // navigate('/laporan-lab');
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.detail_message);
       setLoading(false);
     }
   };
@@ -106,8 +167,31 @@ const EditLaporanInternal = () => {
 
   const { isShowing, toggle } = useModal();
 
+  const existingCode = dataEdit?.sample_code;
+
+  //  sample code validation
+  useEffect(() => {
+    setValidCode(true);
+
+    for (let i = 0; i <= dataSampleCode?.length; i++) {
+      if (existingCode === addFormData.sample_code) {
+        setValidCode(true);
+      } else if (dataSampleCode[i] === addFormData.sample_code) {
+        setValidCode(false);
+      }
+    }
+  }, [addFormData.sample_code, dataSampleCode, existingCode]);
+
   return (
     <>
+      {isFetching &&
+        isLoading &&
+        isFetchingDome &&
+        isLoadingDome &&
+        isLoadingEto &&
+        isFetchingEto &&
+        isLoadingSample &&
+        isFetchingSample && <LoadingModal />}
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
@@ -158,6 +242,7 @@ const EditLaporanInternal = () => {
                   <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
+                      required
                       inputFormat="dd/MM/yyyy"
                       name="date"
                       value={value}
@@ -180,15 +265,26 @@ const EditLaporanInternal = () => {
                       Pilih Bukit
                     </InputLabel>
                     <Select
+                      disabled={
+                        !addFormData.sample_type ||
+                        addFormData.sample_type === 'Sample test PIT' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample Barging' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample EFO'
+                      }
+                      required
                       name="hill_id"
                       label="Pilih Bukit"
-                      defaultValue={dataEdit.hill_id}
                       onChange={handleAddFormChange}
+                      defaultValue={dataEdit.hill_id}
                       size="small"
                     >
-                      <MenuItem value="1">1</MenuItem>
-                      <MenuItem value="2">2</MenuItem>
-                      <MenuItem value="3">3</MenuItem>
+                      {dataBukit?.data?.data.map((value, index) => (
+                        <MenuItem key={index} value={value.id}>
+                          {value.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -208,6 +304,7 @@ const EditLaporanInternal = () => {
                       Pilih Jenis Sample
                     </InputLabel>
                     <Select
+                      required
                       name="sample_type"
                       labelId="Jenis Sample"
                       id="Jenis Sample"
@@ -239,17 +336,33 @@ const EditLaporanInternal = () => {
                       Pilih Tumpukan/Dome
                     </InputLabel>
                     <Select
+                      disabled={
+                        !addFormData.sample_type ||
+                        addFormData.sample_type === 'Sample test PIT' ||
+                        addFormData.sample_type === 'Sample Spesial Check' ||
+                        addFormData.sample_type === 'Sample Barging' ||
+                        addFormData.sample_type === 'Sample Selective Mining'
+                      }
+                      required
                       name="dome_id"
                       labelId="tumpukan"
                       id="tumpukan"
-                      defaultValue={dataEdit.dome_id}
                       label="Pilih Tumpukan/Dome"
                       onChange={handleAddFormChange}
+                      defaultValue={dataEdit.dome_id}
                       size="small"
                     >
-                      <MenuItem value={'1'}>1</MenuItem>
-                      <MenuItem value={'2'}>2</MenuItem>
-                      <MenuItem value={'3'}>3</MenuItem>
+                      {addFormData.sample_type === 'Sample ETO'
+                        ? domeEtov2?.map((value, index) => (
+                            <MenuItem key={index} value={value.dome_id}>
+                              {value.dome_name}
+                            </MenuItem>
+                          ))
+                        : dataDome?.data?.data?.map((value, index) => (
+                            <MenuItem key={index} value={value.id}>
+                              {value.name}
+                            </MenuItem>
+                          ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -275,12 +388,15 @@ const EditLaporanInternal = () => {
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Kode Sample</Box>
                   <TextField
+                    required
+                    error={validCode ? false : true}
                     name="sample_code"
                     id="outlined-basic"
-                    // label="Kode Sample"
+                    label="Kode Sample"
                     variant="outlined"
                     onChange={handleAddFormChange}
                     defaultValue={dataEdit?.sample_code}
+                    helperText={validCode ? '' : 'Kode sample sudah ada.'}
                   />
                 </Grid>
                 <Grid
@@ -292,6 +408,7 @@ const EditLaporanInternal = () => {
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Inputan Preparasi</Box>
                   <TextField
+                    required
                     name="preparation"
                     id="outlined-basic"
                     label="Inputan Preparasi"
@@ -318,6 +435,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar Ni">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       name="ni_level"
                       id="Kadar Ni"
                       onChange={handleAddFormChange}
@@ -348,6 +466,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar MgO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="mgo_level"
                       id="Kadar MgO"
@@ -377,6 +496,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar SImgO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="simgo_level"
                       id="Kadar SImgO"
@@ -408,6 +528,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar Fe">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="fe_level"
                       id="Kadar Fe"
@@ -437,6 +558,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar SIO2">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="sio2_level"
                       id="Kadar SIO2"
@@ -466,6 +588,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Inc">Nilai Inc</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="inc"
                       defaultValue={dataEdit.inc}
@@ -492,6 +615,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar CO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="co_level"
                       id="Kadar CO"
@@ -521,6 +645,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Kadar CaO">Nilai Kadar</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="cao_level"
                       id="Kadar CaO"
@@ -550,6 +675,7 @@ const EditLaporanInternal = () => {
                   <FormControl size="small" variant="outlined">
                     <InputLabel htmlFor="Tonase">Tonase</InputLabel>
                     <OutlinedInput
+                      required
                       // type="number"
                       name="tonnage"
                       id="Tonase"
@@ -590,6 +716,7 @@ const EditLaporanInternal = () => {
               </Grid>
               <Grid item>
                 <LoadingButton
+                  disabled={validCode ? false : true}
                   type="submit"
                   variant="contained"
                   loading={loading}
