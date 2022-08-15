@@ -168,7 +168,8 @@ export default function Dashboard() {
     isFetching: isFetchingYears
   } = useQuery(['years'], () => ProductionService.getTarget({}));
 
-  const years = dataYears?.data?.data.map((item) => item.year);
+  const years =
+    typeof dataYears === 'undefined' ? null : dataYears?.data?.data.map((item) => item.year);
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [filterYear, setFilterYear] = useState(0);
@@ -225,13 +226,24 @@ export default function Dashboard() {
     })
   );
 
-  const targetRealization = dataRealization?.data?.data.map((item) => item.realization).reverse();
-  const targetPercentage = dataRealization?.data?.data
-    .map((item) => parseInt(item.presentase))
-    .reverse();
+  const targetRealization =
+    typeof dataRealization === 'undefined'
+      ? null
+      : dataRealization?.data?.data.map((item) => item.realization).reverse();
 
-  const target = dataProduction?.data?.data.map((item) => item.target_list);
-  const targetResult = target ? target[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show
+  const targetPercentage =
+    typeof dataRealization === 'undefined'
+      ? null
+      : dataRealization?.data?.data.map((item) => parseInt(item.presentase)).reverse();
+
+  const target =
+    typeof dataProduction === 'undefined'
+      ? null
+      : dataProduction?.data?.data.map((item) => item.target_list);
+
+  console.log(target);
+
+  const targetResult = target?.length > 0 ? target[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show
 
   // const [chartData] = useState({
   //   labels: data.map((item) => item.name),
