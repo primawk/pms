@@ -19,6 +19,7 @@ import ProductionService from 'services/Dashboard';
 
 // custom hooks
 import usePagination from 'hooks/usePagination';
+import useAuth from 'hooks/useAuth';
 
 // utils
 import { ceilTotalData } from 'utils/helper';
@@ -94,6 +95,7 @@ const data = [
 const targetTableHead = ['TAHUN', 'BULAN', 'TARGET', 'ACTION'];
 
 export default function Dashboard() {
+  useAuth();
   const [menuTab, setMenuTab] = useState(0);
   const [subMenu, setSubMenu] = useState(0);
 
@@ -240,8 +242,6 @@ export default function Dashboard() {
     typeof dataProduction === 'undefined'
       ? null
       : dataProduction?.data?.data.map((item) => item.target_list);
-
-  console.log(target);
 
   const targetResult = target?.length > 0 ? target[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show
 
