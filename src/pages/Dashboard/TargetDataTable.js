@@ -17,7 +17,7 @@ import EditData from '../../components/Modal/DashboardHome/EditData';
 import DeleteData from '../../components/Modal/DeleteModal/Dashboard';
 import { toast } from 'react-toastify';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useQueryClient } from 'react-query';
+// import { useQueryClient } from 'react-query';
 
 // components
 import { LoadingModal } from 'components/Modal';
@@ -40,7 +40,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
   const [dataDelete, setDataDelete] = useState([]);
   const [dataTarget, setDataTarget] = useState([]);
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const [year, setYear] = useState(0);
 
@@ -67,23 +67,34 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
     toggleDelete();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     setLoading(true);
-    id.forEach((_id) => {
-      ProductionService.deleteTarget({ _id });
-    });
-    setLoading(false);
-    toast
-      .success('Data berhasil dihapus !')
-      .then(() => {
-        toggleDelete();
-        queryClient.invalidateQueries(['data-target']);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.detail_message);
-        setLoading(false);
-        toggleDelete();
+    // id.forEach((_id) => {
+    //   ProductionService.deleteTarget({ _id });
+    // });
+    // setLoading(false);
+    // toast.success('Data berhasil dihapus !');
+    // toggleDelete()
+    //   .then(() => {
+    //     queryClient.invalidateQueries(['data-target']);
+    //   })
+    //   .catch((err) => {
+    //     toast.error(err.response.data.detail_message);
+    //     setLoading(false);
+    //     toggleDelete();
+    //   });
+    try {
+      await id.forEach((_id) => {
+        ProductionService.deleteTarget({ _id });
       });
+      setLoading(false);
+      toggleDelete();
+    } catch (err) {
+      toast.error(err.response.data.detail_message);
+      setLoading(false);
+      toggleDelete();
+    }
+    // setTimeout(queryClient.invalidateQueries(['data-target']), 6000);
   };
 
   return (
