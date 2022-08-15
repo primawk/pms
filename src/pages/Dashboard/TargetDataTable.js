@@ -17,6 +17,7 @@ import EditData from '../../components/Modal/DashboardHome/EditData';
 import DeleteData from '../../components/Modal/DeleteModal/Dashboard';
 import { toast } from 'react-toastify';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useQueryClient } from 'react-query';
 
 // components
 import { LoadingModal } from 'components/Modal';
@@ -38,6 +39,8 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
   const [dataEditId, setDataEditId] = useState([]);
   const [dataDelete, setDataDelete] = useState([]);
   const [dataTarget, setDataTarget] = useState([]);
+
+  const queryClient = useQueryClient();
 
   const [year, setYear] = useState(0);
 
@@ -68,11 +71,13 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
     setLoading(true);
     id.forEach((_id) => {
       ProductionService.deleteTarget({ _id });
-    })
+    });
+    setLoading(false);
+    toast
+      .success('Data berhasil dihapus !')
       .then(() => {
-        toast.success('Data berhasil dihapus !');
-        setLoading(false);
         toggleDelete();
+        queryClient.invalidateQueries(['data-target']);
       })
       .catch((err) => {
         toast.error(err.response.data.detail_message);

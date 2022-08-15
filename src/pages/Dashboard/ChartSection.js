@@ -48,7 +48,7 @@ const ChartSection = ({
                 <Grid item>Realisasi (Ton)</Grid>
               </Grid>
             </TableCell>
-            {typeof targetRealization === 'undefined' ? (
+            {typeof targetRealization === 'undefined' || targetRealization === null ? (
               <>
                 <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
                   0
@@ -129,7 +129,7 @@ const ChartSection = ({
             >
               Presentase
             </TableCell>
-            {typeof targetRealization === 'undefined' ? (
+            {typeof targetPercentage === 'undefined' || targetPercentage === null ? (
               <>
                 <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
                   0 %

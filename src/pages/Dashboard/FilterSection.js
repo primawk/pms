@@ -26,7 +26,11 @@ const FilterSection = ({
   // passed variable undefined i use this
   const [value, setValue] = useState(new Date().getFullYear());
 
-  if (!years) {
+  // if (!years) {
+  //   return null;
+  // }
+
+  if (typeof years === 'undefined' || !years) {
     return null;
   }
 

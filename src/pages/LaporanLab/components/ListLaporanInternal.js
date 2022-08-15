@@ -76,7 +76,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item sx={{ width: '10%' }}>
+      <Grid item sx={{ width: '11%' }}>
         <Grid
           container
           sx={{
