@@ -29,7 +29,7 @@ const Summary = ({ summary }) => {
             name="Jumlah Tonase"
           />
         </Grid>
-        {summary?.activity_type !== 'ore-hauling-to-eto' ? (
+        {summary?.inventory_type === 'inventory-sm' ? (
           <Grid item md={6} xs={6}>
             <InfoCard value={summary?.sublot_total || '-'} image={JumlahLot} name="Jumlah Lot" />
           </Grid>

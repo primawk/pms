@@ -103,7 +103,7 @@ const getDomeSummary = ({
   if (end_date) {
     params.push(['end_date', end_date]);
   }
-  return request(`${MINING_ACTIVITY_MODEL}/activity/inven-summary`, {
+  return request(`${MINING_ACTIVITY_MODEL}/activity/inven-list`, {
     method: 'GET',
     params: new URLSearchParams(params),
     headers: authHeader()
@@ -170,6 +170,44 @@ const getActivityChart = ({ activity_type, start_date, end_date } = {}) => {
   });
 };
 
+const getInventorySumary = ({
+  page,
+  row,
+  inventory_type,
+  dome_id,
+  start_date,
+  end_date,
+  hill_id
+} = {}) => {
+  const params = [];
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (row) {
+    params.push(['row', row]);
+  }
+  if (inventory_type) {
+    params.push(['inventory_type', inventory_type]);
+  }
+  if (dome_id) {
+    params.push(['dome_id', dome_id]);
+  }
+  if (hill_id) {
+    params.push(['hill_id', hill_id]);
+  }
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/activity/inven-summary`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
 const MiningActivityService = {
   getActivity,
   getSummary,
@@ -178,7 +216,8 @@ const MiningActivityService = {
   createActivity,
   editActivity,
   getHistoryEdit,
-  getActivityChart
+  getActivityChart,
+  getInventorySumary
 };
 
 export default MiningActivityService;

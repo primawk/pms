@@ -41,8 +41,8 @@ const DashboardList = ({ listData }) => {
           Tumpukan
         </Typography>
         <Typography variant="h6">
-          {listData?.activity_type === 'ore-hauling-to-eto'
-            ? listData?.hill_name + '/' + listData?.dome_name
+          {listData?.inventory_type === 'inventory-eto'
+            ? listData?.hill_name + ' / ' + listData?.dome_name
             : listData?.hill_name || listData?.dome_name}
         </Typography>
       </Grid>
@@ -60,7 +60,7 @@ const DashboardList = ({ listData }) => {
           Tonase
         </Typography>
         <Typography variant="h6">
-          {listData?.tonnage_total && `${parseFloat(listData?.tonnage_total) || 0} Ton`}
+          {listData?.tonnage_total && `${parseFloat(listData?.tonnage_total).toFixed(2) || 0} Ton`}
         </Typography>
       </Grid>
       <Grid

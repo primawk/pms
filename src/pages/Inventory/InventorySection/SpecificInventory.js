@@ -27,8 +27,11 @@ export default function SpecificInventory() {
     isLoading: isLoadingSummary,
     isFetching: isFetchingSummary
   } = useQuery(
-    ['mining', 'summary', activityType],
-    () => MiningActivityService.getSummary({ activity_type: activityType }),
+    ['mining', 'summary', inventoryType],
+    () =>
+      MiningActivityService.getInventorySumary({
+        inventory_type: inventoryType
+      }),
     { keepPreviousData: true }
   );
 
@@ -44,7 +47,7 @@ export default function SpecificInventory() {
       MiningActivityService.getDomeSummary({
         page: 1,
         row: 3,
-        inventory_type: 'inventory-sm'
+        inventory_type: inventoryType
       }),
     { keepPreviousData: true }
   );
@@ -70,7 +73,7 @@ export default function SpecificInventory() {
                   ? 'Stockfile'
                   : 'Stockyard'
               }
-              summary={dataSummary?.data?.data[0]}
+              summary={dataSummary?.data?.data}
               listData={dataActivity?.data?.data}
             />
           )}

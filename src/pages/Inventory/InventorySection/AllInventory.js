@@ -36,8 +36,8 @@ export default function AllInventory() {
     data: dataOreGettingSummary,
     isLoading: isLoadingOreGettingSummary,
     isFetching: isFetchingOreGettingSummary
-  } = useQuery(['mining', 'summary', 'ore-getting'], () =>
-    MiningActivityService.getSummary({ activity_type: 'ore-getting' })
+  } = useQuery(['mining', 'summary', 'inventory-sm'], () =>
+    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-sm' })
   );
 
   // ore hauling to eto
@@ -59,8 +59,8 @@ export default function AllInventory() {
     data: dataOreHaulingSummary,
     isLoading: isLoadingOreHaulingSummary,
     isFetching: isFetchingOreHaulingSummary
-  } = useQuery(['mining', 'summary', 'ore-hauling-to-eto'], () =>
-    MiningActivityService.getSummary({ activity_type: 'ore-hauling-to-eto' })
+  } = useQuery(['mining', 'summary', 'inventory-eto'], () =>
+    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-eto' })
   );
 
   // eto to efo
@@ -82,18 +82,18 @@ export default function AllInventory() {
     data: dataEtoToEfoSummary,
     isLoading: isLoadingEtoToEfoSummary,
     isFetching: isFetchingEtoToEfoSummary
-  } = useQuery(['mining', 'summary', 'eto-to-efo'], () =>
-    MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
+  } = useQuery(['mining', 'summary', 'inventory-efo'], () =>
+    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-efo' })
   );
   return (
     <>
-      {
-        (isFetchingOreGetting && isFetchingEtoToEfo && isFetchingOreGetting,
+      {isFetchingOreGetting &&
+        isFetchingEtoToEfo &&
+        isFetchingOreGetting &&
         isFetchingOreHauling &&
-          isFetchingOreGettingSummary &&
-          isFetchingOreHaulingSummary &&
-          isFetchingEtoToEfoSummary && <LoadingModal />)
-      }
+        isFetchingOreGettingSummary &&
+        isFetchingOreHaulingSummary &&
+        isFetchingEtoToEfoSummary && <LoadingModal />}
       {!isLoadingOreGetting &&
         !isLoadingOreGettingSummary &&
         dataOreGetting &&
@@ -101,7 +101,7 @@ export default function AllInventory() {
           <InventorySection
             title="Realisasi Produksi Inventory SM"
             subtitle="Kegiatan Penambangan"
-            summary={dataOreGettingSummary?.data?.data?.[0]}
+            summary={dataOreGettingSummary?.data?.data}
             listData={dataOreGetting?.data?.data}
             count={ceilTotalData(dataOreGetting?.data?.pagination?.total_data || 0, 15)}
             page={pageOreGetting}
@@ -115,7 +115,7 @@ export default function AllInventory() {
           <InventorySection
             title="Realisasi Produksi Inventory ETO"
             subtitle="Stockfile"
-            summary={dataOreHaulingSummary?.data?.data?.[0]}
+            summary={dataOreHaulingSummary?.data?.data}
             listData={dataOreHauling?.data?.data}
             count={ceilTotalData(dataOreHauling?.data?.pagination?.total_data || 0, 15)}
             page={pageOreHauling}
@@ -126,7 +126,7 @@ export default function AllInventory() {
         <InventorySection
           title="Realisasi Produksi Inventory EFO"
           subtitle="Stockyard"
-          summary={dataEtoToEfoSummary?.data?.data?.[0]}
+          summary={dataEtoToEfoSummary?.data?.data}
           listData={dataEtoToEfo?.data?.data}
           count={ceilTotalData(dataEtoToEfo?.data?.pagination?.total_data || 0, 15)}
           page={pageEtoToEfo}

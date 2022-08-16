@@ -36,7 +36,7 @@ export default function AllActivity({ selectedDate }) {
     datasets: [
       {
         label: 'Realisasi (Ton)',
-        data: dataChart?.data?.data.map((item) => ({
+        data: dataChart?.data?.data?.map((item) => ({
           x: item?.date,
           y: item?.tonnage_total
         })),
@@ -89,10 +89,10 @@ export default function AllActivity({ selectedDate }) {
     isLoading: isLoadingOreGettingSummary,
     isFetching: isFetchingOreGettingSummary
   } = useQuery(
-    ['mining', 'summary', 'ore-getting', selectedDate],
+    ['mining', 'summary', 'inventory-sm', selectedDate],
     () =>
-      MiningActivityService.getSummary({
-        activity_type: 'ore-getting',
+      MiningActivityService.getInventorySumary({
+        inventory_type: 'inventory-sm',
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate
       }),
@@ -122,10 +122,10 @@ export default function AllActivity({ selectedDate }) {
     isLoading: isLoadingOreHaulingSummary,
     isFetching: isFetchingOreHaulingSummary
   } = useQuery(
-    ['mining', 'summary', 'ore-hauling-to-eto', selectedDate],
+    ['mining', 'summary', 'inventory-eto', selectedDate],
     () =>
-      MiningActivityService.getSummary({
-        activity_type: 'ore-hauling-to-eto',
+      MiningActivityService.getInventorySumary({
+        inventory_type: 'inventory-eto',
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate
       }),
@@ -155,10 +155,10 @@ export default function AllActivity({ selectedDate }) {
     isLoading: isLoadingEtoToEfoSummary,
     isFetching: isFetchingEtoToEfoSummary
   } = useQuery(
-    ['mining', 'summary', 'eto-to-efo', selectedDate],
+    ['mining', 'summary', 'inventory-efo', selectedDate],
     () =>
-      MiningActivityService.getSummary({
-        activity_type: 'eto-to-efo',
+      MiningActivityService.getInventorySumary({
+        inventory_type: 'inventory-efo',
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate
       }),
@@ -167,14 +167,15 @@ export default function AllActivity({ selectedDate }) {
 
   return (
     <>
-      {
-        (isFetchingAllSummary && isFetchingOreGetting && isFetchingEtoToEfo && isFetchingOreGetting,
+      {isFetchingAllSummary &&
+        isFetchingOreGetting &&
+        isFetchingEtoToEfo &&
+        isFetchingOreGetting &&
         isFetchingOreHauling &&
-          isFetchingOreGettingSummary &&
-          isFetchingOreHaulingSummary &&
-          isFetchingEtoToEfoSummary &&
-          isFetchingChart && <LoadingModal />)
-      }
+        isFetchingOreGettingSummary &&
+        isFetchingOreHaulingSummary &&
+        isFetchingEtoToEfoSummary &&
+        isFetchingChart && <LoadingModal />}
       {!isLoadingAllSummary && (
         <Grid
           container
@@ -202,7 +203,7 @@ export default function AllActivity({ selectedDate }) {
         <InventorySection
           title="Realisasi Produksi Inventory SM"
           subtitle="Kegiatan Penambangan"
-          summary={dataOreGettingSummary?.data?.data?.[0]}
+          summary={dataOreGettingSummary?.data?.data}
           listData={dataOreGetting?.data?.data}
         />
       )}
@@ -210,7 +211,7 @@ export default function AllActivity({ selectedDate }) {
         <InventorySection
           title="Realisasi Produksi Inventory ETO"
           subtitle="Stockfile"
-          summary={dataOreHaulingSummary?.data?.data?.[0]}
+          summary={dataOreHaulingSummary?.data?.data}
           listData={dataOreHauling?.data?.data}
         />
       )}
@@ -218,7 +219,7 @@ export default function AllActivity({ selectedDate }) {
         <InventorySection
           title="Realisasi Produksi Inventory EFO"
           subtitle="Stockyard"
-          summary={dataEtoToEfoSummary?.data?.data?.[0]}
+          summary={dataEtoToEfoSummary?.data?.data}
           listData={dataEtoToEfo?.data?.data}
         />
       )}

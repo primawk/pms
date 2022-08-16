@@ -116,8 +116,8 @@ export default function Dashboard() {
     data: dataOreGettingSummary,
     isLoading: isLoadingOreGettingSummary,
     isFetching: isFetchingOreGettingSummary
-  } = useQuery(['mining', 'summary', 'ore-getting'], () =>
-    MiningActivityService.getSummary({ activity_type: 'ore-getting' })
+  } = useQuery(['mining', 'summary', 'inventory-sm'], () =>
+    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-sm' })
   );
 
   // ore hauling to eto
@@ -137,8 +137,8 @@ export default function Dashboard() {
     data: dataOreHaulingSummary,
     isLoading: isLoadingOreHaulingSummary,
     isFetching: isFetchingOreHaulingSummary
-  } = useQuery(['mining', 'summary', 'ore-hauling-to-eto'], () =>
-    MiningActivityService.getSummary({ activity_type: 'ore-hauling-to-eto' })
+  } = useQuery(['mining', 'summary', 'inventory-eto'], () =>
+    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-eto' })
   );
 
   // eto to efo
@@ -158,8 +158,8 @@ export default function Dashboard() {
     data: dataEtoToEfoSummary,
     isLoading: isLoadingEtoToEfoSummary,
     isFetching: isFetchingEtoToEfoSummary
-  } = useQuery(['mining', 'summary', 'eto-to-efo'], () =>
-    MiningActivityService.getSummary({ activity_type: 'eto-to-efo' })
+  } = useQuery(['mining', 'summary', 'inventory-efo'], () =>
+    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-efo' })
   );
 
   // Table Target
@@ -424,7 +424,7 @@ export default function Dashboard() {
               <InventorySection
                 title="Realisasi Produksi Inventory SM"
                 subtitle="Kegiatan Penambangan"
-                summary={dataOreGettingSummary?.data?.data?.[0]}
+                summary={dataOreGettingSummary?.data?.data}
                 listData={dataOreGetting?.data?.data}
               />
             )}
@@ -435,7 +435,7 @@ export default function Dashboard() {
               <InventorySection
                 title="Realisasi Produksi Inventory ETO"
                 subtitle="Stockfile"
-                summary={dataOreHaulingSummary?.data?.data?.[0]}
+                summary={dataOreHaulingSummary?.data?.data}
                 listData={dataOreHauling?.data?.data}
               />
             )}
@@ -446,7 +446,7 @@ export default function Dashboard() {
               <InventorySection
                 title="Realisasi Produksi Inventory EFO"
                 subtitle="Stockyard"
-                summary={dataEtoToEfoSummary?.data?.data?.[0]}
+                summary={dataEtoToEfoSummary?.data?.data}
                 listData={dataEtoToEfo?.data?.data}
               />
             )}

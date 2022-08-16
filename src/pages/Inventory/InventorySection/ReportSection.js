@@ -55,20 +55,6 @@ export default function ReportSection() {
             sx={{ p: 3, mb: 0 }}
           >
             <Stack direction="row" spacing={3} alignItems="center">
-              {activityType !== 'all-activity' && (
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  spacing={3}
-                  sx={{ p: 2, border: '1px solid #F2F2F2' }}
-                >
-                  <Typography variant="h4">{data?.data?.pagination?.total_data}</Typography>
-                  <Stack>
-                    <Typography variant="h5">Kegiatan</Typography>
-                    <Typography variant="body1">Hari Ini</Typography>
-                  </Stack>
-                </Stack>
-              )}
               <Typography variant="h5">Laporan Kegiatan Tambang</Typography>
             </Stack>
           </Stack>

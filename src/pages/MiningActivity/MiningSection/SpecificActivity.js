@@ -49,7 +49,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
     datasets: [
       {
         label: 'Realisasi (Ton)',
-        data: dataChart?.data?.data.map((item) => ({
+        data: dataChart?.data?.data?.map((item) => ({
           x: item?.date,
           y: item?.tonnage_total
         })),
@@ -68,10 +68,10 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
     isLoading: isLoadingSummary,
     isFetching: isFetchingSummary
   } = useQuery(
-    ['mining', 'summary', activityType, selectedDate],
+    ['mining', 'summary', inventoryType, selectedDate],
     () =>
-      MiningActivityService.getSummary({
-        activity_type: activityType,
+      MiningActivityService.getInventorySumary({
+        inventory_type: inventoryType,
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate
       }),
@@ -131,7 +131,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
               ? 'Stockfile'
               : 'Stockyard'
           }
-          summary={dataSummary?.data?.data?.[0]}
+          summary={dataSummary?.data?.data}
           listData={dataActivity?.data?.data}
         />
       )}

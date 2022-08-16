@@ -73,7 +73,7 @@ export default function RoleTable() {
 
   const { page, handleChangePage, resetPage } = usePagination();
 
-  const { data, isLoading, isFetching } = useQuery(['roles', page], () =>
+  const { data, isLoading, isFetching } = useQuery(['roles-list', page], () =>
     RoleService.getRole({
       page,
       row: 10
@@ -106,7 +106,7 @@ export default function RoleTable() {
         toast.success('Data berhasil dihapus !');
         toggleLoading(false);
         toggleDelete();
-        queryClient.invalidateQueries(['roles', page]);
+        queryClient.invalidateQueries(['roles-list', page]);
       })
       .catch((err) => {
         toast.error(err.response.data.detail_message);

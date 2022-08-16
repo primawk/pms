@@ -587,7 +587,7 @@ export default function FormMiningCard() {
                 <Typography variant="h5" sx={{ mb: 3 }}>
                   Jumlah Produksi
                 </Typography>
-                {activityType !== 'ore-hauling-to-eto' ? (
+                {activityType === 'ore-getting' ? (
                   <>
                     <Grid
                       container

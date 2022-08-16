@@ -73,7 +73,7 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
             toast.success('Data berhasil diubah !');
             toggle();
             toggleLoading(false);
-            queryClient.invalidateQueries(['roles', page]);
+            queryClient.invalidateQueries(['roles-list', page]);
           })
           .catch((err) => {
             toggleLoading(false);
@@ -95,7 +95,7 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
             toast.success('Data berhasil ditambahkan !');
             resetPage();
             toggle();
-            queryClient.invalidateQueries(['roles', page]);
+            queryClient.invalidateQueries(['roles-list', page]);
           })
           .catch((err) => {
             toggleLoading(false);
