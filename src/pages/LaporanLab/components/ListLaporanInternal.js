@@ -36,7 +36,7 @@ const ListLaporanInternal = ({ data }) => {
           }}
         >
           <Box>
-            <img src="/img/eksternal.png" alt=""></img>
+            <img src="/img/Icon Laporan.png" alt=""></img>
           </Box>
 
           <Grid item>

@@ -23,6 +23,7 @@ import { fetchInternal } from 'services/LabService';
 export default function ListInternal({
   dataInternal,
   isFetchingActivity,
+  isLoadingActivity,
   totalPrepEks,
   totalPrep,
   totalAnalysisEks,
@@ -32,7 +33,7 @@ export default function ListInternal({
   const [searchResults, setSearchResults] = useState([]);
   const [posts, setPosts] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
-  const { page, handleChangePage } = usePagination();
+  const { page, handleChangePage, resetPage } = usePagination(1);
   const { isGranted } = useAuth();
 
   const row = 5;
@@ -44,7 +45,7 @@ export default function ListInternal({
         return json;
       })
       .then((json) => {
-        setSearchResults(json);
+        setSearchResults(json?.data?.data);
       });
   }, [selectedDates, page]);
 
@@ -52,10 +53,11 @@ export default function ListInternal({
     <>
       <div className="app-content">
         <SearchBar
-          posts={posts}
+          posts={dataInternal?.data?.data}
           setSearchResults={setSearchResults}
           setSelectedDates={setSelectedDates}
           selectedDates={selectedDates}
+          resetPage={resetPage}
         />
         <Grid
           container
@@ -109,7 +111,7 @@ export default function ListInternal({
           />
 
           {/*List Laporan*/}
-          {isFetchingActivity && <LoadingModal />}
+          {isFetchingActivity && isLoadingActivity && <LoadingModal />}
           <Lists searchResults={searchResults} />
 
           {/* Pagination */}
@@ -125,7 +127,7 @@ export default function ListInternal({
           >
             <Grid item sx={{ width: '100%' }}>
               <CustomPagination
-                count={ceilTotalData(dataInternal?.data?.pagination?.total_data || 0, 5)}
+                count={ceilTotalData(posts?.data?.pagination?.total_data || 0, 5)}
                 page={page}
                 handleChangePage={handleChangePage}
               />

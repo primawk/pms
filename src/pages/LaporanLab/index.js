@@ -44,7 +44,7 @@ export default function LaporanLab() {
 
   const {
     data,
-    // isLoading: isLoadingActivity,
+    isLoading: isLoadingInternal,
     isFetching: isFetchingActivityInternal
   } = useQuery(
     ['report', 'internal'],
@@ -57,7 +57,7 @@ export default function LaporanLab() {
 
   const {
     data: dataEksternal,
-    // isLoading: isLoadingActivity,
+    isLoading: isLoadingExternal,
     isFetching: isFetchingActivityExternal
   } = useQuery(
     ['report', 'external'],
@@ -116,6 +116,7 @@ export default function LaporanLab() {
           <ListInternal
             dataInternal={data}
             isFetchingActivity={isFetchingActivityInternal}
+            isLoadingActivity={isLoadingInternal}
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
             totalAnalysisEks={totalAnalysisEks}
@@ -125,6 +126,7 @@ export default function LaporanLab() {
           <ListEksternal
             dataEksternal={dataEksternal?.data?.data}
             isFetchingActivity={isFetchingActivityExternal}
+            isLoadingActivity={isLoadingExternal}
             totalPrepEks={totalPrepEks}
             totalPrep={totalPrep}
             totalAnalysisEks={totalAnalysisEks}

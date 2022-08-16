@@ -10,10 +10,10 @@ import { LoadingModal } from 'components/Modal';
 import Result from './resultEksternal';
 
 // utils
-// import { ceilTotalData } from 'utils/helper';
+import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
-// import usePagination from 'hooks/usePagination';
+import usePagination from 'hooks/usePagination';
 import useAuth from 'hooks/useAuth';
 
 // services
@@ -32,9 +32,9 @@ export default function ListEksternal({
   const [postsEksternal, setPostsEksternal] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
   const { isGranted } = useAuth();
-
-  // const { page, handleChangePage } = usePagination();
-  // const row = 5;
+  // const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(15);
+  const { page, handleChangePage } = usePagination();
 
   useEffect(() => {
     fetchExternal()
@@ -47,14 +47,10 @@ export default function ListEksternal({
       });
   }, []);
 
-  // .reduce((groups, item) => {
-  //   const group = groups[item.company_name] || [];
-  //   group.push(item);
-  //   groups[item.company_name] = group;
-  //   return groups;
-  // }, {});
-
-  // const lastUpdate = Object.values(postsEksternal);
+  // Get current posts
+  const indexOfLastPost = page * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = searchResultsEksternal.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
     <>
@@ -119,7 +115,7 @@ export default function ListEksternal({
           />
           {/*List Laporan*/}
           {isFetchingActivity && <LoadingModal />}
-          <Result searchResults={searchResultsEksternal} />
+          <Result searchResults={currentPosts} />
 
           {/* Pagination */}
           <Grid
@@ -133,7 +129,11 @@ export default function ListEksternal({
             }}
           >
             <Grid item sx={{ width: '100%' }}>
-              <CustomPagination />
+              <CustomPagination
+                count={ceilTotalData(searchResultsEksternal.length || 0, 15)}
+                page={page}
+                handleChangePage={handleChangePage}
+              />
             </Grid>
           </Grid>
         </Grid>

@@ -119,7 +119,7 @@ export async function fetchInternal({ startDate, endDate }, page, row) {
     params: new URLSearchParams(params),
     headers: authHeader()
   });
-  return promise.data.data;
+  return promise;
 }
 
 export async function fetchExternal(page, row, companyName) {
@@ -148,7 +148,7 @@ export async function fetchExternal(page, row, companyName) {
     params: new URLSearchParams(params),
     headers: authHeader()
   });
-  return promise.data.data;
+  return promise?.data?.data;
 }
 
 export async function fetchExternalCompany({ startDate, endDate }, page, row, companyName) {

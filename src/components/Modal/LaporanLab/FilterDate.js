@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button } from '@mui/material';
 import dayjs from 'dayjs';
 import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
+// import { addDays } from 'date-fns';
 
 // components
 import CustomModal from 'components/Modal/CustomModal/FilterDate';
@@ -17,67 +17,69 @@ const FilterDate = ({
   menuTab,
   posts,
   selectedDates,
-  setSearchResults
+  setSearchResults,
+  resetPage
 }) => {
-  const [value, setValue] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: 'selection'
-    }
-  ]);
+  // const [value, setValue] = useState([
+  //   {
+  //     startDate: null,
+  //     endDate: null,
+  //     key: 'selection'
+  //   }
+  // ]);
 
   useEffect(() => {
     setSelectedDates({
-      startDate: new Date(value[0].startDate).getTime(),
-      endDate: new Date(value[0].endDate).getTime()
+      // startDate: dayjs(value[0].startDate).format('YYYY-MM-DD'),
+      // endDate: dayjs(value[0].endDate).format('YYYY-MM-DD')
     });
-  }, [value, setSelectedDates]);
+  }, [setSelectedDates]);
 
   return (
     <>
-      {menuTab !== 'eksternal' ? (
-        <>
-          <CustomModal isShowing={isShowing} toggle={toggle} width={'61%'}>
-            <DateRangePicker
-              onChange={(item) => setState([item.selection])}
-              showSelectionPreview={true}
-              moveRangeOnFirstSelection={false}
-              months={1}
-              ranges={state}
-              direction="horizontal"
-            />
-            <Grid
-              container
-              direction="row"
-              alignItem="center"
-              justifyContent="flex-end"
-              columnSpacing={3}
-              sx={{ pb: 3, pr: 3 }}
+      {/* {menuTab !== 'eksternal' ? (
+        <> */}
+      <CustomModal isShowing={isShowing} toggle={toggle} width={'61%'}>
+        <DateRangePicker
+          onChange={(item) => setState([item.selection])}
+          showSelectionPreview={true}
+          moveRangeOnFirstSelection={false}
+          months={1}
+          ranges={state}
+          direction="horizontal"
+        />
+        <Grid
+          container
+          direction="row"
+          alignItem="center"
+          justifyContent="flex-end"
+          columnSpacing={3}
+          sx={{ pb: 3, pr: 3 }}
+        >
+          <Grid item>
+            <Button sx={{ fontSize: '1rem' }} onClick={toggle} variant="outlined">
+              Cancel
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              sx={{ fontSize: '1rem' }}
+              variant="contained"
+              onClick={() => {
+                toggle();
+                resetPage();
+                setSelectedDates({
+                  startDate: dayjs(state[0].startDate).format('YYYY-MM-DD'),
+                  endDate: dayjs(state[0].endDate).format('YYYY-MM-DD')
+                });
+              }}
             >
-              <Grid item>
-                <Button sx={{ fontSize: '1rem' }} onClick={toggle} variant="outlined">
-                  Cancel
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  sx={{ fontSize: '1rem' }}
-                  variant="contained"
-                  onClick={() => {
-                    toggle();
-                    setSelectedDates({
-                      startDate: dayjs(state[0].startDate).format('YYYY-MM-DD'),
-                      endDate: dayjs(state[0].endDate).format('YYYY-MM-DD')
-                    });
-                  }}
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </CustomModal>
-        </>
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
+      </CustomModal>
+      {/* </>
       ) : (
         <CustomModal isShowing={isShowing} toggle={toggle} width={'61%'}>
           <DateRangePicker
@@ -124,7 +126,7 @@ const FilterDate = ({
             </Grid>
           </Grid>
         </CustomModal>
-      )}
+      )} */}
     </>
   );
 };

@@ -11,11 +11,11 @@ import dayjs from 'dayjs';
 import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
-const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates }) => {
+const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates, resetPage }) => {
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
   const handleSubmit = () => {
-    const resultsArray = posts.filter(
+    const resultsArray = posts?.filter(
       (post) =>
         post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
         post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -59,6 +59,7 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates })
         state={state}
         setState={setState}
         setSelectedDates={setSelectedDates}
+        resetPage={resetPage}
       />
       <Grid
         container

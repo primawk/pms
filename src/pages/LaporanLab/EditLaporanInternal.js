@@ -151,8 +151,8 @@ const EditLaporanInternal = () => {
       const id = dataEdit?.id;
       await LabService.editReport(data, id);
       setLoading(false);
+      navigate('/lab-report');
       toggle();
-      // navigate('/laporan-lab');
     } catch (error) {
       toast.error(error.response.data.detail_message);
       setLoading(false);

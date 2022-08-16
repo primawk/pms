@@ -22,13 +22,26 @@ import useModal from '../../hooks/useModal';
 import LabService from 'services/LabService';
 
 const EditLaporanEksternal = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [filePreview, setFilePreview] = useState(null);
+  // const [filePreview, setFilePreview] = useState(null);
   const [fileName, setFileName] = useState('');
   const location = useLocation();
 
   const dataEdit = location.state;
   const dataEditContact = dataEdit ? dataEdit?.submitter_contact.substring(1) : null;
+  const attachmentFile = dataEdit?.attachment;
+
+  async function handlePdf() {
+    try {
+      const response = await LabService.getPdf(attachmentFile);
+      const file = new Blob([response.data], { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const [attachment, setAttachment] = useState(null);
   const [addFormData, setAddFormData] = useState({
@@ -81,6 +94,7 @@ const EditLaporanEksternal = () => {
       const id = dataEdit?.id;
       await LabService.editReportExternal(formData, id);
       setLoading(false);
+      navigate(-2);
       toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);
@@ -91,16 +105,10 @@ const EditLaporanEksternal = () => {
   const onBtnAddFile = (e) => {
     setAttachment(e.target.files[0]);
     setFileName(e.target.files[0].name);
-    setFilePreview(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const onButtonPreview = () => {
-    window.open(filePreview, '_blank');
+    // setFilePreview(URL.createObjectURL(e.target.files[0]));
   };
 
   const [value, setValue] = useState(new Date(dataEdit?.date));
-
-  const navigate = useNavigate();
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -356,7 +364,7 @@ const EditLaporanEksternal = () => {
                           borderRadius: '4px',
                           cursor: 'pointer'
                         }}
-                        onClick={onButtonPreview}
+                        onClick={handlePdf}
                       >
                         <Grid
                           container // container to make the justify content works
@@ -368,10 +376,6 @@ const EditLaporanEksternal = () => {
                             marginTop: '0.5rem'
                           }}
                         >
-                          {/* <Grid item sx={{ marginLeft: '5rem' }}>
-                        <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-                      </Grid> */}
-
                           <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
                             <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
                           </Grid>
@@ -394,7 +398,6 @@ const EditLaporanEksternal = () => {
                           borderRadius: '4px',
                           cursor: 'pointer'
                         }}
-                        onClick={onButtonPreview}
                       >
                         <Grid
                           container // container to make the justify content works
