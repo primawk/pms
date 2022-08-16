@@ -27,9 +27,13 @@ export async function getDefaultYear() {
 
 const getRealization = ({ year }) => {
   const params = [];
+  const activity_type = 'eto-to-efo';
 
   if (year) {
     params.push(['year', year]);
+  }
+  if (activity_type) {
+    params.push(['activity_type', activity_type]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/target/chart`, {
     method: 'GET',
