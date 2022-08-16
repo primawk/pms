@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
@@ -7,9 +7,11 @@ import DeleteData from '../../components/Modal/DeleteModal/index';
 import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+import ReactToPrint from 'react-to-print';
 
 // components
 import { LoadingModal } from 'components/Modal';
+import LabReportPdf from 'components/LabReportPdf';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -20,6 +22,8 @@ import LabService from 'services/LabService';
 
 const DetailInternal = () => {
   const navigate = useNavigate();
+  const componentRef = useRef();
+
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
   const { isGranted } = useAuth();
 
@@ -60,6 +64,10 @@ const DetailInternal = () => {
 
   return (
     <>
+      {/* PDF COMPONENT */}
+      <div style={{ display: 'none' }}>
+        <LabReportPdf innerRef={componentRef} data={'anjas kelas'} />
+      </div>
       <DeleteData
         toggle={toggleDelete}
         isShowing={isShowingDelete}
@@ -105,9 +113,15 @@ const DetailInternal = () => {
                 <Icon icon="akar-icons:arrow-back" color="#3f48c0" fontSize={16} />
                 <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
               </Button>
-              {/* <Button variant="contained" sx={{ boxShadow: 0, fontWeight: '400' }}>
-                Download Laporan
-              </Button> */}
+              <ReactToPrint
+                documentTitle="ResiUser"
+                trigger={() => (
+                  <Button variant="contained" sx={{ boxShadow: 0, fontWeight: '400' }}>
+                    Download Laporan
+                  </Button>
+                )}
+                content={() => componentRef.current}
+              />
             </Grid>
           </Grid>
           <Grid
@@ -169,7 +183,7 @@ const DetailInternal = () => {
               </Button>
             )}
           </Grid>
-          <Grid item sx={{ }}>
+          <Grid item sx={{}}>
             <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
               <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
                 <h3 style={{ margin: '2.5rem 0.5rem 1.5rem 2rem' }}>Informasi Sample</h3>

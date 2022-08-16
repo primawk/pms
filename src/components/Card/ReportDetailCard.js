@@ -175,7 +175,7 @@ export default function ReportDetailCard() {
                 alignItems="center"
                 spacing={10}
               >
-                {detailActivity?.activity_type === 'ore-hauling-to-eto' ? (
+                {detailActivity?.activity_type !== 'ore-getting' ? (
                   <Grid item container lg={5} xs={6} direction="column">
                     <Typography variant="h6" sx={{ mb: 3 }}>
                       Jumlah Retase
