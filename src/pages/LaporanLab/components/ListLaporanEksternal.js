@@ -53,7 +53,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
             }}
           >
             <Box>
-              <img src="/img/eksternal.png" alt=""></img>
+              <img src="/img/ikonEksternal.png" alt=""></img>
             </Box>
             <Grid item>
               <Box>

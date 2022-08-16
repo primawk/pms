@@ -22,6 +22,7 @@ import useModal from '../../hooks/useModal';
 import LabService from 'services/LabService';
 
 const InputLaporanEksternal = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [attachment, setAttachment] = useState(null);
   const [fileName, setFileName] = useState('');
@@ -67,6 +68,7 @@ const InputLaporanEksternal = () => {
     try {
       await LabService.inputReportExternal(data, attachment);
       setLoading(false);
+      navigate(-1);
       toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);
@@ -85,8 +87,6 @@ const InputLaporanEksternal = () => {
   };
 
   const [value, setValue] = useState(new Date());
-
-  const navigate = useNavigate();
 
   const handleChange = (newValue) => {
     setValue(newValue);

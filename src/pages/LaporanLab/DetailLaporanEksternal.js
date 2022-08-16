@@ -65,7 +65,6 @@ const DetailEksternal = () => {
   async function handlePdf() {
     try {
       const response = await LabService.getPdf(attachment);
-      // fileDownload(response, `INVOICE-${id}.pdf`);
       const file = new Blob([response.data], { type: 'application/pdf' });
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);

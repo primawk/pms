@@ -56,6 +56,8 @@ export default function CompanyReport() {
       });
   }, [selectedDates, companyName, page]);
 
+
+
   const sumPreparation = dataEksternal?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.preparation;
   }, 0);

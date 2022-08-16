@@ -30,6 +30,7 @@ import LabService from 'services/LabService';
 import InventoryService from 'services/InventoryService';
 
 const InputLaporanInternal = () => {
+  const navigate = useNavigate();
   const [sampleType, setSampleType] = useState(null);
   const [validCode, setValidCode] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -147,6 +148,7 @@ const InputLaporanInternal = () => {
     try {
       await LabService.inputReport(data);
       setLoading(false);
+      navigate('/lab-report');
       toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);
@@ -162,8 +164,6 @@ const InputLaporanInternal = () => {
 
   const { isShowing, toggle } = useModal();
 
-  const navigate = useNavigate();
-
   //  sample code validation
   useEffect(() => {
     setValidCode(true);
@@ -173,7 +173,6 @@ const InputLaporanInternal = () => {
         setValidCode(false);
       }
     }
-
   }, [addFormData.sample_code, dataSampleCode]);
 
   return (

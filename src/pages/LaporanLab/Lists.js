@@ -3,7 +3,7 @@ import List from './components/ListLaporanInternal';
 import { Grid, Box } from '@mui/material';
 
 const Lists = ({ searchResults }) => {
-  const results = searchResults.map((data) => <List key={data.id} data={data} />);
+  const results = searchResults?.map((data) => <List key={data.id} data={data} />);
 
   const content = results?.length ? (
     results
