@@ -81,7 +81,7 @@ export default function FormMiningCard() {
 
   const EtoToEfoSchema = Yup.object().shape({
     measurement_type: Yup.string().required('Measurement type is required'),
-    sublot_total: Yup.number().required('Sublot total is required'),
+    ritase_total: Yup.number().required('Retase total is required'),
     tonnage_total: Yup.number().required('Tonnage total is required'),
     ni_level: Yup.number().required('Ni level is required'),
     ni_metal_equivalent: Yup.number().required('Ni equivalent is required'),
