@@ -9,8 +9,16 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 
+// custom hook
+import usePagination from 'hooks/usePagination';
+
+// utils
+import { ceilTotalData } from 'utils/helper';
+
 export default function SpecificInventory() {
   const { inventoryType } = useParams();
+
+  const { page, handleChangePage } = usePagination();
 
   const activityType =
     inventoryType === 'inventory-sm'
@@ -42,11 +50,11 @@ export default function SpecificInventory() {
     isFetching: isFetchingActivity
     // inventoryType
   } = useQuery(
-    ['mining', 'dome-list', inventoryType],
+    ['mining', 'dome-list', inventoryType, page],
     () =>
       MiningActivityService.getDomeSummary({
-        page: 1,
-        row: 3,
+        page: page,
+        row: 10,
         inventory_type: inventoryType
       }),
     { keepPreviousData: true }
@@ -75,6 +83,9 @@ export default function SpecificInventory() {
               }
               summary={dataSummary?.data?.data}
               listData={dataActivity?.data?.data}
+              page={page}
+              handleChangePage={handleChangePage}
+              count={ceilTotalData(dataActivity?.data?.pagination?.total_data || 0, 10)}
             />
           )}
           <ReportSection />

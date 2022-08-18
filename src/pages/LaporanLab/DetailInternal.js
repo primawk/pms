@@ -66,7 +66,7 @@ const DetailInternal = () => {
     <>
       {/* PDF COMPONENT */}
       <div style={{ display: 'none' }}>
-        <LabReportPdf innerRef={componentRef} data={'anjas kelas'} />
+        <LabReportPdf innerRef={componentRef} data={dataReport} />
       </div>
       <DeleteData
         toggle={toggleDelete}
@@ -114,7 +114,7 @@ const DetailInternal = () => {
                 <div style={{ marginLeft: '1rem', fontWeight: '400' }}>Back</div>
               </Button>
               <ReactToPrint
-                documentTitle="ResiUser"
+                documentTitle={`Report Laporan Internal ${dataReport?.sample_code}`}
                 trigger={() => (
                   <Button variant="contained" sx={{ boxShadow: 0, fontWeight: '400' }}>
                     Download Laporan
