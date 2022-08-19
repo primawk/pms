@@ -21,6 +21,7 @@ import { fetchExternal } from 'services/LabService';
 
 export default function ListEksternal({
   isFetchingActivity,
+  isLoadingActivity,
   totalPrepEks,
   totalPrep,
   totalAnalysisEks,
@@ -32,9 +33,9 @@ export default function ListEksternal({
   const [postsEksternal, setPostsEksternal] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
   const { isGranted } = useAuth();
-  // const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(15);
   const [postsPerPage] = useState(15);
-  const { page, handleChangePage } = usePagination();
+  const { page, handleChangePage, resetPage } = usePagination();
 
   useEffect(() => {
     fetchExternal()
@@ -46,6 +47,8 @@ export default function ListEksternal({
         setSearchResultsEksternal(json);
       });
   }, []);
+
+  console.log(searchResultsEksternal);
 
   // Get current posts
   const indexOfLastPost = page * postsPerPage;
@@ -63,6 +66,7 @@ export default function ListEksternal({
           setSelectedDates={setSelectedDates}
           selectedDates={selectedDates}
           menuTab={menuTab}
+          resetPage={resetPage}
         />
         <Grid
           container
@@ -113,8 +117,9 @@ export default function ListEksternal({
             totalAnalysisEks={totalAnalysisEks}
             menuTab={menuTab}
           />
+          
           {/*List Laporan*/}
-          {isFetchingActivity && <LoadingModal />}
+          {isFetchingActivity && isLoadingActivity && <LoadingModal />}
           <Result searchResults={currentPosts} />
 
           {/* Pagination */}

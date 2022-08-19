@@ -9,12 +9,12 @@ import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Lists from './resultDetailEksternal';
 import { useQuery } from 'react-query';
+import { LoadingModal } from 'components/Modal';
 
 // utils
 import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
-// import useModal from '../../hooks/useModal';
 import usePagination from 'hooks/usePagination';
 
 // services
@@ -27,47 +27,49 @@ export default function CompanyReport() {
   const [posts, setPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
-  const { page, handleChangePage } = usePagination();
+  const [keyword, setKeyword] = useState('');
+  const { page, handleChangePage, resetPage } = usePagination();
   const companyName = location.state;
   const row = 15;
 
   const {
-    data: dataEksternal
-    // isLoading: isLoadingActivity,
-    // isFetching: isFetchingActivityExternal
+    data: dataEksternal,
+    isLoading,
+    isFetching
   } = useQuery(
-    ['external'],
+    ['external', page, keyword, selectedDates],
     () =>
       LabService.getReport({
         report_type: 'external',
-        companyName: companyName
+        companyName: companyName,
+        keyword: keyword,
+        page: page,
+        row: row,
+        startDate: selectedDates.startDate,
+        endDate: selectedDates.endDate
       })
     // { keepPreviousData: true }
   );
 
   useEffect(() => {
-    fetchExternalCompany(selectedDates, page, row, companyName)
-      .then((response) => {
-        setPosts(response);
-        return response;
-      })
-      .then((response) => {
-        setSearchResults(response?.data.data);
-      });
-  }, [selectedDates, companyName, page]);
+    fetchExternalCompany(companyName).then((response) => {
+      setPosts(response);
+      return response;
+    });
+    setSearchResults(dataEksternal?.data?.data);
+  }, [companyName, dataEksternal]);
 
-
-
-  const sumPreparation = dataEksternal?.data?.data.reduce((accumulator, object) => {
+  const sumPreparation = posts?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.preparation;
   }, 0);
 
-  const sumAnalysis = dataEksternal?.data?.data.reduce((accumulator, object) => {
+  const sumAnalysis = posts?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.analysis;
   }, 0);
 
   return (
     <>
+      {isFetching && isLoading && <LoadingModal />}
       <div className="app-content">
         <Header background="headerPerusahaan.png">
           <Grid
@@ -132,7 +134,7 @@ export default function CompanyReport() {
                 Jumlah Pengajuan
               </Box>
               <Box sx={{ margin: '0.75rem 1rem 1rem 1rem', fontSize: '1.5rem', fontWeight: '700' }}>
-                {dataEksternal?.data?.data?.length}
+                {posts?.data?.data?.length}
               </Box>
             </Grid>
             <Grid
@@ -222,6 +224,9 @@ export default function CompanyReport() {
             setSearchResults={setSearchResults}
             setSelectedDates={setSelectedDates}
             selectedDates={selectedDates}
+            keyword={keyword}
+            setKeyword={setKeyword}
+            resetPage={resetPage}
           />
 
           {/*List Laporan*/}

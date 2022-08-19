@@ -11,17 +11,26 @@ import dayjs from 'dayjs';
 import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
-const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates, resetPage }) => {
-  const [keyword, setKeyword] = useState('');
+const SearchBar = ({
+  keyword,
+  setKeyword,
+  posts,
+  setSearchResults,
+  setSelectedDates,
+  selectedDates,
+  resetPage
+}) => {
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
-  const handleSubmit = () => {
-    const resultsArray = posts?.filter(
-      (post) =>
-        post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
-        post.company_name?.toLowerCase().includes(keyword.toLowerCase())
-    );
-    setSearchResults(resultsArray);
+  const [search, setSearch] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setKeyword(search);
+    resetPage();
+  };
+
+  const handleSearchChange = (e) => {
+    // if (!e.target.value) return setSearchResults(posts);
+    setSearch(e.target.value);
   };
 
   const handleReset = () => {
@@ -33,6 +42,7 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates, r
     );
     setSearchResults(resultsArray);
     setKeyword('');
+    setSearch('');
     setSelectedDates({});
     setState([
       {
@@ -86,9 +96,9 @@ const SearchBar = ({ posts, setSearchResults, setSelectedDates, selectedDates, r
             id="search"
             placeholder="Cari Nomor Sample/Nama Perusahaan/Requester"
             variant="outlined"
-            value={keyword}
             fullWidth
-            onChange={(e) => setKeyword(e.target.value)}
+            value={search}
+            onChange={handleSearchChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
