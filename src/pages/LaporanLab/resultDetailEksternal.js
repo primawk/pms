@@ -3,9 +3,11 @@ import List from './components/DetailEksternal';
 import { Grid, Box } from '@mui/material';
 
 const Lists = ({ searchResults }) => {
-  const results = Object.values(searchResults).map((item, index) => (
-    <List data={item} i={index} />
-  ));
+  // const results = Object.values(searchResults).map((item, index) => (
+  //   <List data={item} i={index} />
+  // ));
+
+  const results = searchResults?.map((item, index) => <List data={item} i={index} />);
 
   const content = results?.length ? (
     results

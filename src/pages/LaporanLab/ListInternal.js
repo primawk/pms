@@ -14,11 +14,11 @@ import Lists from './Lists';
 import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
-import usePagination from 'hooks/usePagination';
+// import usePagination from 'hooks/usePagination';
 import useAuth from 'hooks/useAuth';
 
 // services
-import { fetchInternal } from 'services/LabService';
+// import { fetchInternal } from 'services/LabService';
 
 export default function ListInternal({
   dataInternal,
@@ -27,27 +27,25 @@ export default function ListInternal({
   totalPrepEks,
   totalPrep,
   totalAnalysisEks,
-  menuTab
+  menuTab,
+  keyword,
+  setKeyword,
+  page,
+  handleChangePage,
+  resetPage,
+  setSelectedDates,
+  selectedDates
 }) {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [selectedDates, setSelectedDates] = useState({});
-  const { page, handleChangePage, resetPage } = usePagination(1);
+  // const [posts, setPosts] = useState([]);
+
+  // const { page, handleChangePage, resetPage } = usePagination(1);
   const { isGranted } = useAuth();
 
-  const row = 5;
-
   useEffect(() => {
-    fetchInternal(selectedDates, page, row)
-      .then((json) => {
-        setPosts(json);
-        return json;
-      })
-      .then((json) => {
-        setSearchResults(json?.data?.data);
-      });
-  }, [selectedDates, page]);
+    setSearchResults(dataInternal?.data?.data);
+  }, [dataInternal]);
 
   return (
     <>
@@ -58,6 +56,8 @@ export default function ListInternal({
           setSelectedDates={setSelectedDates}
           selectedDates={selectedDates}
           resetPage={resetPage}
+          keyword={keyword}
+          setKeyword={setKeyword}
         />
         <Grid
           container
@@ -127,7 +127,7 @@ export default function ListInternal({
           >
             <Grid item sx={{ width: '100%' }}>
               <CustomPagination
-                count={ceilTotalData(posts?.data?.pagination?.total_data || 0, 5)}
+                count={ceilTotalData(dataInternal?.data?.pagination?.total_data || 0, 15)}
                 page={page}
                 handleChangePage={handleChangePage}
               />

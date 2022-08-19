@@ -3,8 +3,14 @@ import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 import axios from 'axios';
 
-const getReport = ({ page, row, report_type, companyName } = {}) => {
+const getReport = ({ page, row, report_type, keyword, startDate, endDate } = {}) => {
   const params = [];
+  if (startDate) {
+    params.push(['start_date', startDate]);
+  }
+  if (endDate) {
+    params.push(['end_date', endDate]);
+  }
   if (report_type) {
     params.push(['report_type', report_type]);
   }
@@ -14,8 +20,11 @@ const getReport = ({ page, row, report_type, companyName } = {}) => {
   if (row) {
     params.push(['row', row]);
   }
-  if (companyName) {
-    params.push(['company_name', companyName]);
+  if (keyword) {
+    params.push(['company_name', keyword]);
+  }
+  if (keyword) {
+    params.push(['sample_code', keyword]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/report`, {
     method: 'GET',

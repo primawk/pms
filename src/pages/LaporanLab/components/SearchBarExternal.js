@@ -16,12 +16,13 @@ const SearchBarEksternal = ({
   setSearchResults,
   setSelectedDates,
   selectedDates,
-  menuTab
+  menuTab,
+  resetPage
 }) => {
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
   const handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     // if (!e.target.value) return setSearchResults(posts);
     // const resultsArrayEksternal = Object.keys(posts)
     //   .filter((key) => key.toLowerCase().includes(keyword.toLocaleLowerCase()))
@@ -31,6 +32,8 @@ const SearchBarEksternal = ({
     //     });
     //   }, {});
     // setSearchResults(resultsArrayEksternal);
+    resetPage();
+
     const resultsArray = posts.filter(
       (post) =>
         post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||

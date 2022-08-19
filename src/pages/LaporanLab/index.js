@@ -14,20 +14,25 @@ import LabService from 'services/LabService';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
-// import usePagination from 'hooks/usePagination';
+import usePagination from 'hooks/usePagination';
 
 export default function LaporanLab() {
   const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
+
+  const [keyword, setKeyword] = useState('');
+  const [selectedDates, setSelectedDates] = useState({});
 
   const menuList = [
     { value: 'internal', label: 'Laporan Internal' },
     { value: 'eksternal', label: 'Laporan Eksternal' }
   ];
 
-  const { report_type } = useParams();
+  const { page, handleChangePage, resetPage } = usePagination(1);
 
-  // const { page, totalPage, handleChangePage } = usePagination(pagination || { total_data: 0 });
+  const row = 15;
+
+  const { report_type } = useParams();
 
   const [menuTab, setMenuTab] = useState(report_type || '');
 
@@ -47,10 +52,15 @@ export default function LaporanLab() {
     isLoading: isLoadingInternal,
     isFetching: isFetchingActivityInternal
   } = useQuery(
-    ['report', 'internal'],
+    ['report', page, keyword, selectedDates],
     () =>
       LabService.getReport({
-        report_type: 'internal'
+        report_type: 'internal',
+        keyword: keyword,
+        row: row,
+        page: page,
+        startDate: selectedDates.startDate,
+        endDate: selectedDates.endDate
       })
     // { keepPreviousData: true }
   );
@@ -121,6 +131,13 @@ export default function LaporanLab() {
             totalPrep={totalPrep}
             totalAnalysisEks={totalAnalysisEks}
             menuTab={menuTab}
+            keyword={keyword}
+            setKeyword={setKeyword}
+            page={page}
+            handleChangePage={handleChangePage}
+            resetPage={resetPage}
+            setSelectedDates={setSelectedDates}
+            selectedDates={selectedDates}
           />
         ) : (
           <ListEksternal
@@ -131,6 +148,7 @@ export default function LaporanLab() {
             totalPrep={totalPrep}
             totalAnalysisEks={totalAnalysisEks}
             menuTab={menuTab}
+            resetPage={resetPage}
           />
         )}
       </div>
