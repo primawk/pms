@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { Grid, Tab, Tabs } from '@mui/material';
 import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 
@@ -14,14 +14,21 @@ import { LoadingModal } from 'components/Modal';
 // util
 import { dateInterval } from 'utils/helper';
 
-export default function SpecificActivity({ selectedDate, filterDate }) {
-  const [subMenu, setSubMenu] = useState(0);
+const menuList = [
+  { value: 'ore-hauling-to-eto', label: 'Ore Hauling Front to ETO' },
+  { value: 'eto-to-efo', label: 'Ore Hauling ETO to EFO' }
+];
 
+export default function SpecificActivity({ selectedDate, filterDate }) {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { activityType } = useParams();
 
-  const handleChangeSubMenu = (value) => {
-    setSubMenu(value);
-  };
+  const [menuTab, setMenuTab] = useState('');
+
+  useEffect(() => {
+    setMenuTab(activityType);
+  }, [activityType]);
 
   const inventoryType =
     activityType === 'ore-getting'
@@ -62,6 +69,19 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
 
   const interval = dateInterval(selectedDate?.startDate, selectedDate?.endDate);
 
+  const handleChangeTab = (event, _menuTab) => {
+    setMenuTab(_menuTab);
+    switch (_menuTab) {
+      case 'ore-hauling-to-eto':
+        navigate('/mining-activity/hauling/ore-hauling-to-eto');
+        break;
+      case 'eto-to-efo':
+        navigate('/mining-activity/hauling/eto-to-efo');
+        break;
+      default:
+        navigate('/mining-activity/hauling/ore-hauling-to-eto');
+    }
+  };
   // summary
   const {
     data: dataSummary,
@@ -99,6 +119,39 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
   return (
     <>
       {isFetchingSummary && isFetchingActivity && isFetchingChart && <LoadingModal />}
+      {pathname?.includes('hauling') && (
+        <Tabs
+          value={menuTab}
+          onChange={handleChangeTab}
+          textColor="primary"
+          sx={{ margin: '20px' }}
+          indicatorColor="primary"
+          TabIndicatorProps={{
+            sx: {
+              bgcolor: '#3F48C0',
+              height: '4px'
+            }
+          }}
+        >
+          {menuList?.map((item) => (
+            <Tab
+              key={item.value}
+              value={item.value}
+              label={item.label}
+              sx={
+                item.value === menuTab
+                  ? {
+                      backgroundColor: '#E5E5FE',
+                      border: '1px solid #3F48C0',
+                      borderRadius: '4px',
+                      transition: '0.3s'
+                    }
+                  : { background: 'white' }
+              }
+            />
+          ))}
+        </Tabs>
+      )}
       <Grid
         container
         direction="row"
@@ -108,9 +161,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
         className="bg-white"
       >
         <ChartSection
-          subMenu={subMenu}
           chartData={chartData}
-          handleChangeSubMenu={handleChangeSubMenu}
           chartStyle={{ width: '100%', height: '40vh' }}
           dateInterval={interval}
         />
