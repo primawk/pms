@@ -48,8 +48,6 @@ export default function ListEksternal({
       });
   }, []);
 
-  console.log(searchResultsEksternal);
-
   // Get current posts
   const indexOfLastPost = page * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -90,7 +88,7 @@ export default function ListEksternal({
             }}
           >
             <Box sx={{ margin: '1.5rem 1rem 1.5rem 1.5rem ' }}>
-              <h3>List Laporan Lab Eksternal</h3>
+              <h3>List Laporan Lab Eksternal | Sabtu, 12 Juli 2022</h3>
             </Box>
 
             {isGranted && (
@@ -117,7 +115,7 @@ export default function ListEksternal({
             totalAnalysisEks={totalAnalysisEks}
             menuTab={menuTab}
           />
-          
+
           {/*List Laporan*/}
           {isFetchingActivity && isLoadingActivity && <LoadingModal />}
           <Result searchResults={currentPosts} />
