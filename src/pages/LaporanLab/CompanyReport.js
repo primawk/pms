@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Box } from '@mui/material';
 import CustomPagination from '../../components/Pagination/index';
 // import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/SearchBarExternal';
 import Lists from './resultDetailEksternal';
 import { useQuery } from 'react-query';
 import { LoadingModal } from 'components/Modal';
@@ -23,6 +23,7 @@ import { fetchExternalCompany } from 'services/LabService';
 import LabService from 'services/LabService';
 
 export default function CompanyReport() {
+  const navigate = useNavigate();
   const location = useLocation();
   // const { isShowing, toggle } = useModal();
   const [posts, setPosts] = useState([]);
@@ -223,8 +224,10 @@ export default function CompanyReport() {
                 container
                 sx={{
                   gap: '1rem',
-                  paddingRight: '2rem'
+                  paddingRight: '2rem',
+                  cursor: 'pointer'
                 }}
+                onClick={() => navigate(-1)}
               >
                 <Grid item>
                   <Icon icon="akar-icons:arrow-left" color="#3f48c0" />

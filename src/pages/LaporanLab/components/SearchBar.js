@@ -131,7 +131,7 @@ const SearchBar = ({
         <Button
           onClick={handleSubmit}
           variant="contained"
-          sx={{ width: '14%', height: '3.4rem', marginLeft: '1rem', boxShadow: 0 }}
+          sx={{ height: '3.4rem', marginLeft: '1rem', boxShadow: 0, padding: 3 }}
         >
           Search
         </Button>

@@ -96,15 +96,17 @@ const SearchBarEksternal = ({
           height: '4.625rem',
           borderRadius: '8px 8px 0 0'
         }}
+        spacing={0}
       >
         <Grid
           item
           sx={{
             backgroundColor: 'white',
             borderRadius: '4px',
-            marginLeft: '1.5rem',
-            width: '45%'
+            marginLeft: '1.5rem'
+            // width: '45%'
           }}
+          xs={5.5}
         >
           <TextField
             id="search"
@@ -142,13 +144,20 @@ const SearchBarEksternal = ({
             : 'Filter Tanggal | Hari ini'}
           <Icon icon="fe:drop-down" color="#828282" />
         </Button> */}
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          sx={{ width: '14%', height: '3.4rem', marginLeft: '14.8rem', boxShadow: 0 }}
-        >
-          Search
-        </Button>
+        <Grid item>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            sx={{
+              height: '3.4rem',
+              marginLeft: '14.8rem',
+              boxShadow: 0,
+              padding: 3
+            }}
+          >
+            Search
+          </Button>
+        </Grid>
         <Grid item>
           <Button
             sx={{

@@ -19,8 +19,8 @@ const DetailEksternal = ({ data, i }) => {
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
-          padding: 1,
-          margin: '0 1.5rem 0 0',
+          paddingBottom: 3,
+          margin: '0 1rem 0 0',
           // width: '96.5%',
           // height: '6.125rem',
           borderBottom: 1,
@@ -116,7 +116,7 @@ const DetailEksternal = ({ data, i }) => {
         </Grid>
 
         {/* Column 4 */}
-        <Grid item md={2} xs={2}>
+        <Grid item md={3} xs={3}>
           <Grid
             container
             sx={{

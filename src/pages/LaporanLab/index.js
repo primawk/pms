@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 // components
 import { Grid, Tab, Tabs } from '@mui/material';
 import Header from 'components/Header';
+import ListEksternalv2 from './ListEksternalv2';
 import ListEksternal from './ListEksternal';
 import ListInternal from './ListInternal';
 import PilihLaporan from '../../components/Modal/LaporanLab/PilihLaporan';
@@ -22,6 +23,7 @@ export default function LaporanLab() {
 
   const [keyword, setKeyword] = useState('');
   const [selectedDates, setSelectedDates] = useState({});
+  const [targetDate, setDate] = useState('');
 
   const menuList = [
     { value: 'internal', label: 'Laporan Internal' },
@@ -139,6 +141,20 @@ export default function LaporanLab() {
             setSelectedDates={setSelectedDates}
             selectedDates={selectedDates}
           />
+        ) : menuTab === 'eksternal' ? (
+          <ListEksternalv2
+            dataEksternal={dataEksternal?.data?.data}
+            isFetchingActivity={isFetchingActivityExternal}
+            isLoadingActivity={isLoadingExternal}
+            totalPrepEks={totalPrepEks}
+            totalPrep={totalPrep}
+            totalAnalysisEks={totalAnalysisEks}
+            menuTab={menuTab}
+            resetPage={resetPage}
+            setMenuTab={setMenuTab}
+            targetDate={targetDate}
+            setDate={setDate}
+          />
         ) : (
           <ListEksternal
             dataEksternal={dataEksternal?.data?.data}
@@ -149,6 +165,7 @@ export default function LaporanLab() {
             totalAnalysisEks={totalAnalysisEks}
             menuTab={menuTab}
             resetPage={resetPage}
+            targetDate={targetDate}
           />
         )}
       </div>

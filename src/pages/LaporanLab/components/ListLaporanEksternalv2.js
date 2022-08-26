@@ -31,8 +31,8 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
-          padding: 1,
-          margin: '0 1.5rem 0 0',
+          paddingBottom: 3,
+          margin: '0 1rem 0 0',
           // width: '96.5%',
           // height: '6.125rem',
           borderBottom: 1,
@@ -105,7 +105,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
         </Grid>
 
         {/* Column 4 */}
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Grid
             container
             sx={{

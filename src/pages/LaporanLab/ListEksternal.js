@@ -25,7 +25,8 @@ export default function ListEksternal({
   totalPrepEks,
   totalPrep,
   totalAnalysisEks,
-  menuTab
+  menuTab,
+  targetDate
 }) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
@@ -88,7 +89,7 @@ export default function ListEksternal({
             }}
           >
             <Box sx={{ margin: '1.5rem 1rem 1.5rem 1.5rem ' }}>
-              <h3>List Laporan Lab Eksternal | Sabtu, 12 Juli 2022</h3>
+              <h3>List Laporan Lab Eksternal | Sabtu, {targetDate}</h3>
             </Box>
 
             {isGranted && (
