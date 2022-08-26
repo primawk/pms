@@ -25,8 +25,8 @@ const WhiteButton = styled(Button)(({ theme }) => ({
 const menuList = [
   { value: 'all-activity', label: 'Semua' },
   { value: 'ore-getting', label: 'Ore Getting' },
-  { value: 'ore-hauling-to-eto', label: 'Ore Hauling Front to ETO' },
-  { value: 'eto-to-efo', label: 'Ore Hauling ETO to EFO' }
+  { value: 'hauling', label: 'Hauling' },
+  { value: 'shipment', label: 'Shipments' }
 ];
 
 export default function MiningActivity() {
@@ -54,11 +54,11 @@ export default function MiningActivity() {
       case 'ore-getting':
         navigate('/mining-activity/ore-getting');
         break;
-      case 'ore-hauling-to-eto':
-        navigate('/mining-activity/ore-hauling-to-eto');
+      case 'hauling':
+        navigate('/mining-activity/hauling/ore-hauling-to-eto');
         break;
-      case 'eto-to-efo':
-        navigate('/mining-activity/eto-to-efo');
+      case 'shipment':
+        navigate('/mining-activity/shipment');
         break;
       default:
         navigate('/mining-activity/all-activity');
@@ -68,6 +68,7 @@ export default function MiningActivity() {
   const dateDifference = `${dayjs(selectedDate?.startDate).format('DD/MM/YYYY')}-${dayjs(
     selectedDate?.endDate
   ).format('DD/MM/YYYY')}`;
+
   return (
     <>
       <Header title="KEGIATAN TAMBANG" background="dashboard.png">
@@ -123,8 +124,10 @@ export default function MiningActivity() {
         </Grid>
         {menuTab === 'all-activity' ? (
           <AllActivity selectedDate={selectedDate} />
-        ) : (
+        ) : menuTab !== 'shipment' ? (
           <SpecificActivity selectedDate={selectedDate} filterDate={dateDifference} />
+        ) : (
+          'pengiriman'
         )}
       </div>
     </>

@@ -33,41 +33,42 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab }) 
 
   return (
     <>
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          backgroundColor: 'white',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start'
-        }}
-      >
+      {menuTab === 'internal' ? (
         <Grid
-          item
+          container
           sx={{
+            display: 'flex',
             backgroundColor: 'white',
-            border: '1px solid #E0E0E0',
-            borderRadius: '0.25rem',
-            width: '11rem',
-            height: '6.4375rem',
-            margin: '1.5rem 1rem 1.5rem 1.5rem '
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
           }}
         >
-          <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Semua Laporan</Box>
-          <Grid container>
-            <Grid item>
-              <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryTotal} </Box>
-            </Grid>
-            <Grid item>
-              <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-                <li style={{ fontSize: '0.8rem' }}>{allPrep} Preparasi</li>
-                <li style={{ fontSize: '0.8rem' }}>{allAnalysis} Analisa</li>
+          <Grid
+            item
+            sx={{
+              backgroundColor: 'white',
+              border: '1px solid #E0E0E0',
+              borderRadius: '0.25rem',
+              width: '11rem',
+              height: '6.4375rem',
+              margin: '1.5rem 1rem 1.5rem 1.5rem '
+            }}
+          >
+            <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Semua Laporan</Box>
+            <Grid container>
+              <Grid item>
+                <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryTotal} </Box>
+              </Grid>
+              <Grid item>
+                <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <li style={{ fontSize: '0.8rem' }}>{allPrep} Preparasi</li>
+                  <li style={{ fontSize: '0.8rem' }}>{allAnalysis} Analisa</li>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        {menuTab === 'internal' ? (
+
           <Grid
             item
             sx={{
@@ -92,7 +93,145 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab }) 
               </Grid>
             </Grid>
           </Grid>
-        ) : (
+        </Grid>
+      ) : menuTab === 'eksternal' ? (
+        <Grid container sx={{ margin: '0 0 0 0.5rem' }} spacing={2}>
+          {/* Semua Laporan */}
+          <Grid item xs={2.5}>
+            <Grid
+              container
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                border: '1px solid #E0E0E0',
+                borderRadius: '0.25rem',
+                alignItems: 'center'
+                //   // marginRight: '1rem'
+              }}
+              spacing={0}
+            >
+              <Grid
+                item
+                sx={{
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  padding: '0.5rem 0 0.5rem 0.5rem',
+                  borderRight: 1,
+                  borderColor: '#E0E0E0'
+                }}
+                xs={2}
+              >
+                {summaryTotal}
+              </Grid>
+              <Grid
+                item
+                sx={{
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  padding: '0.5rem 0 0.5rem 0'
+                }}
+                xs={9}
+              >
+                <Box
+                  container
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: '500'
+                  }}
+                  textAlign="center"
+                >
+                  Semua Laporan
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {/* Laporan Eksternal */}
+          <Grid item xs={2.5}>
+            <Grid
+              container
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                border: '1px solid #E0E0E0',
+                borderRadius: '0.25rem',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              spacing={0}
+            >
+              <Grid
+                item
+                sx={{
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  padding: '0.5rem 0 0.5rem 0.5rem',
+                  borderRight: 1,
+                  borderColor: '#E0E0E0'
+                }}
+                xs={2}
+              >
+                {summaryEksternal}
+              </Grid>
+              <Grid
+                item
+                sx={{
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  padding: '0.5rem 0 0.5rem 0'
+                }}
+                xs={9}
+              >
+                <Box
+                  container
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: '500'
+                  }}
+                  textAlign="center"
+                >
+                  Laporan Eksternal
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            backgroundColor: 'white',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+          }}
+        >
+          <Grid
+            item
+            sx={{
+              backgroundColor: 'white',
+              border: '1px solid #E0E0E0',
+              borderRadius: '0.25rem',
+              width: '11rem',
+              height: '6.4375rem',
+              margin: '1.5rem 1rem 1.5rem 1.5rem '
+            }}
+          >
+            <Box sx={{ margin: '1rem 1rem 0.5rem 1rem' }}>Semua Laporan</Box>
+            <Grid container>
+              <Grid item>
+                <Box sx={{ margin: '0 1.5rem 0 1rem', fontSize: '1.5rem' }}>{summaryTotal} </Box>
+              </Grid>
+              <Grid item>
+                <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <li style={{ fontSize: '0.8rem' }}>{allPrep} Preparasi</li>
+                  <li style={{ fontSize: '0.8rem' }}>{allAnalysis} Analisa</li>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+
           <Grid
             item
             sx={{
@@ -117,8 +256,8 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab }) 
               </Grid>
             </Grid>
           </Grid>
-        )}
-      </Grid>
+        </Grid>
+      )}
     </>
   );
 };

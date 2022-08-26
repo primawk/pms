@@ -19,14 +19,15 @@ const DetailEksternal = ({ data, i }) => {
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
-          margin: '0 1.5rem 0 1.5rem',
-          width: '96.5%',
-          height: '6.125rem',
+          paddingBottom: 3,
+          margin: '0 1rem 0 0',
+          // width: '96.5%',
+          // height: '6.125rem',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
-          gap: '2rem',
           cursor: 'pointer'
         }}
+        spacing={3}
         onClick={() => navigate(`/lab-report/detail/eksternal/${id}`, { state: data })}
       >
         <Grid item>
@@ -39,13 +40,30 @@ const DetailEksternal = ({ data, i }) => {
               gap: '1rem'
             }}
           > */}
-          <Grid item md={1} xs={12} sx={{ marginLeft: '0.5rem' }}>
+          <Grid item md={2} xs={2}>
             <h4> {i + 1}</h4>
           </Grid>
           {/* </Grid> */}
         </Grid>
+        {/* Column 1 */}
+        <Grid item md={2} xs={2}>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginLeft: '1rem'
+            }}
+          >
+            <Box sx={{ marginBottom: '0.5rem' }}>
+              <h5 style={{ color: '#828282' }}>Kode Sample</h5>
+            </Box>
+            <Box sx={{ fontWeight: '700', fontSize: '1rem' }}>TS-001</Box>
+          </Grid>
+        </Grid>
+
         {/* Column 2 */}
-        <Grid item sx={{ width: '20%' }}>
+        <Grid item md={2} xs={2}>
           <Grid
             container
             sx={{
@@ -73,7 +91,7 @@ const DetailEksternal = ({ data, i }) => {
         </Grid>
 
         {/* Column 3 */}
-        <Grid item>
+        <Grid item md={2} xs={2}>
           <Grid
             container
             sx={{
@@ -98,7 +116,7 @@ const DetailEksternal = ({ data, i }) => {
         </Grid>
 
         {/* Column 4 */}
-        <Grid item>
+        <Grid item md={3} xs={3}>
           <Grid
             container
             sx={{
@@ -117,7 +135,7 @@ const DetailEksternal = ({ data, i }) => {
         </Grid>
 
         {/* Column 5 */}
-        <Grid item>
+        <Grid item md={2} xs={2}>
           <Grid
             container
             sx={{

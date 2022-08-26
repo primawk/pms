@@ -1,25 +1,19 @@
 import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
-import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { toast } from 'react-toastify';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
+import add from 'assets/Images/ant-design_plus-circle-outlined.png';
+import InputEksternal from './components/inputEksternal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
 // services
-import LabService from 'services/LabService';
+// import LabService from 'services/LabService';
 
 const InputLaporanEksternal = () => {
   const navigate = useNavigate();
@@ -55,7 +49,7 @@ const InputLaporanEksternal = () => {
     const number = '0';
     const dataContact = number.concat(addFormData.submitter_contact);
     const data = {
-      date: dateToStringPPOBFormatterv2(value),
+      date: '2022-08-25',
       company_name: addFormData.company_name,
       sample_submitter: addFormData.sample_submitter,
       preparation: addFormData.preparation,
@@ -66,7 +60,8 @@ const InputLaporanEksternal = () => {
     // formData.append('image', images);
 
     try {
-      await LabService.inputReportExternal(data, attachment);
+      // await LabService.inputReportExternal(data, attachment);
+      console.log(data);
       setLoading(false);
       navigate(-1);
       toggle();
@@ -86,15 +81,42 @@ const InputLaporanEksternal = () => {
     window.open(filePreview, '_blank');
   };
 
-  const [value, setValue] = useState(new Date());
+  // const [value, setValue] = useState(new Date());
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  // const handleChange = (newValue) => {
+  //   setValue(newValue);
+  // };
 
   const { isShowing, toggle } = useModal();
 
-  // console.log(fileInput.current.files[0].name);
+  const [inputList, setInputList] = useState([
+    <InputEksternal
+      handleAddFormChange={handleAddFormChange}
+      onBtnAddFile={onBtnAddFile}
+      attachment={attachment}
+      onButtonPreview={onButtonPreview}
+      fileName={fileName}
+      // setAddFormData={setAddFormData}
+      // addFormData={addFormData}
+    />
+  ]);
+
+  const onAddBtnClick = (event) => {
+    setInputList(
+      inputList.concat(
+        <InputEksternal
+          key={inputList.length}
+          handleAddFormChange={handleAddFormChange}
+          onBtnAddFile={onBtnAddFile}
+          onButtonPreview={onButtonPreview}
+          fileName={fileName}
+          attachment={attachment}
+          // setAddFormData={setAddFormData}
+          // addFormData={addFormData}
+        />
+      )
+    );
+  };
 
   return (
     <>
@@ -102,8 +124,6 @@ const InputLaporanEksternal = () => {
       <div
         style={{
           backgroundColor: '#F5F5F5',
-          width: '100%',
-          height: '100%',
           overflow: 'auto', // it makes this container follow the height of its content
           position: 'relative'
         }}
@@ -117,259 +137,107 @@ const InputLaporanEksternal = () => {
               //   alignItems: 'flex-start',
               flexDirection: 'column',
               backgroundColor: 'white',
-              height: '72.5rem',
               width: '90%',
               marginTop: '6rem',
               marginLeft: 'auto',
               marginRight: 'auto',
-              marginBottom: 'auto',
+              marginBottom: '10rem',
               borderRadius: '4px'
             }}
           >
-            <Grid item sx={{ height: '6%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
-              <Grid container>
+            <Grid item sx={{ padding: '1rem', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
                 <Box>
-                  <h2 style={{ margin: '1rem 0.5rem 0.3rem 2rem' }}>Input Laporan Eksternal Lab</h2>
+                  <h2 style={{ paddingLeft: '1rem' }}>Input Laporan Eksternal Lab</h2>
+                </Box>
+                <Box>
+                  <Grid
+                    container
+                    sx={{
+                      gap: '1rem',
+                      paddingRight: '57.5px',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => navigate(-1)}
+                  >
+                    <Grid item>
+                      <Icon icon="akar-icons:arrow-left" color="#3f48c0" />
+                    </Grid>
+                    <Grid item>
+                      <h2
+                        style={{
+                          // margin: '1rem 0.5rem 0.3rem 0',
+                          fontWeight: '500',
+                          fontSize: '14px'
+                        }}
+                      >
+                        Back
+                      </h2>
+                    </Grid>
+                  </Grid>
                 </Box>
               </Grid>
             </Grid>
-            <Grid item sx={{ height: '27%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
-              <h4 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Informasi Sample</h4>
-              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    margin: '1.5rem 0.5rem 0.5rem 2rem',
-                    width: '22.5rem'
-                  }}
-                >
-                  <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
-                  <Grid item sx={{ width: '22.5rem' }}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
-                      <DesktopDatePicker
-                        required
-                        inputFormat="dd/MM/yyyy"
-                        value={value}
-                        onChange={handleChange}
-                        renderInput={(params) => <TextField {...params} size="small" />}
-                      />
-                    </LocalizationProvider>
-                  </Grid>
-                </Grid>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    margin: '1.5rem 0.5rem 0.5rem 2rem',
-                    width: '22.5rem'
-                  }}
-                >
-                  <Box sx={{ marginBottom: '1rem' }}>Nama Pengaju Sample</Box>
-                  {/* <Grid item sx={{ width: '22.5rem' }}> */}
-                  <TextField
-                    required
-                    id="outlined-basic"
-                    label="Nama Pengaju Sample"
-                    variant="outlined"
-                    name="sample_submitter"
-                    onChange={handleAddFormChange}
-                    size="small"
-                  />
-                  {/* </Grid> */}
-                </Grid>
-              </Grid>
-              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    margin: '1.5rem 0.5rem 0.5rem 2rem',
-                    width: '22.5rem'
-                  }}
-                >
-                  <Box sx={{ marginBottom: '1rem' }}>Nama Perusahaan</Box>
-                  <TextField
-                    required
-                    id="outlined-basic"
-                    label="Nama Perusahaan"
-                    variant="outlined"
-                    name="company_name"
-                    onChange={handleAddFormChange}
-                    size="small"
-                  />
-                </Grid>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    margin: '1.5rem 0.5rem 0.5rem 2rem'
-                  }}
-                >
-                  <Box sx={{ marginBottom: '1rem' }}>Nomor Kontak Pengaju Sample</Box>
-                  <Grid item sx={{ width: '22.5rem' }}>
-                    <FormControl size="small" variant="outlined" fullWidth>
-                      <OutlinedInput
-                        number
-                        required
-                        id="outlined-adornment-password"
-                        name="submitter_contact"
-                        onChange={handleAddFormChange}
-                        startAdornment={
-                          <InputAdornment position="start" backgroundColor="gray">
-                            +62
-                          </InputAdornment>
-                        }
-                        placeholder="Nomor Kontak Pengaju Sample"
-                        fullWidth
-                      />
-                    </FormControl>
-                  </Grid>
+            <Grid item sx={{ padding: '1rem', borderBottom: 1, borderBottomColor: '#3F48C0' }}>
+              <Grid
+                container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Grid item>
+                  <Box>
+                    <h2
+                      style={{
+                        paddingLeft: '1rem',
+                        paddingBottom: '1.3rem',
+                        fontWeight: '400',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      Tanggal
+                    </h2>
+                  </Box>
+                  <Box>
+                    <h2 style={{ paddingLeft: '1rem', fontWeight: '400', fontSize: '0.875rem' }}>
+                      12/02/2021
+                    </h2>
+                  </Box>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item sx={{ height: '55%', borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
-              <h2 style={{ margin: '1.5rem 0.5rem 0 2rem' }}>Preparasi dan Analisa </h2>
-              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    margin: '1.5rem 0.5rem 0.5rem 2rem'
-                  }}
-                >
-                  <Box sx={{ marginBottom: '1rem' }}>Preparasi</Box>
-                  <TextField
-                    required
-                    id="outlined-basic"
-                    label="Preparasi"
-                    name="preparation"
-                    onChange={handleAddFormChange}
-                    variant="outlined"
-                    size="small"
-                  />
-                </Grid>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    margin: '1.5rem 0.5rem 0.5rem 2rem'
-                  }}
-                >
-                  <Box sx={{ marginBottom: '1rem' }}>Analisa</Box>
-                  <TextField
-                    required
-                    id="outlined-basic"
-                    label="Analisa"
-                    name="analysis"
-                    onChange={handleAddFormChange}
-                    variant="outlined"
-                    size="small"
-                  />
-                </Grid>
-              </Grid>
-              <Grid item sx={{ margin: '1.5rem 0.5rem 0 2rem' }}>
-                <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <Grid sx={{ display: 'flex', flexDirection: 'column', marginRight: '2rem' }}>
-                    <Box sx={{ marginBottom: '1rem' }}>
-                      <h3>Upload Laporan</h3>
-                    </Box>
-                    <Grid
-                      item
-                      sx={{
-                        backgroundColor: '#E5E5FE',
-                        width: '27.25rem',
-                        height: '14.563rem',
-                        border: '1px dashed #3F48C0',
-                        borderRadius: '8px'
-                      }}
-                    >
-                      <Grid
-                        container // container to make the justify content works
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignContent: 'center',
-                          marginTop: '1.5rem'
-                        }}
-                      >
-                        <Grid item sx={{ margin: 'auto' }}>
-                          <Icon icon="bi:cloud-upload" color="#3f48c0" fontSize={70} />
-                        </Grid>
-                        <Grid item sx={{ margin: 'auto' }} fontSize={'0.875rem'}>
-                          Upload file .pdf untuk laporan
-                        </Grid>
-                        <Grid item sx={{ margin: 'auto' }} fontSize={'0.875rem'}>
-                          eksternal disini. Ukuran max
-                        </Grid>
-                        <Grid
-                          item
-                          sx={{ margin: 'auto', marginBottom: '1rem' }}
-                          fontSize={'0.875rem'}
-                        >
-                          laporan 1mb.
-                        </Grid>
-                        <Grid item sx={{ margin: 'auto' }} fontSize={'0.875rem'}>
-                          <Button
-                            variant="contained"
-                            component="label"
-                            onChange={onBtnAddFile}
-                            sx={{ boxShadow: 'none' }}
-                          >
-                            <input
-                              required
-                              type="file"
-                              style={{ marginLeft: '4rem', cursor: 'pointer' }}
-                            />
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
 
-                  {/* PDF */}
-                  {attachment ? (
-                    <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Box sx={{ marginBottom: '1rem' }}>
-                        <h3>File Laporan</h3>
-                      </Box>
-                      <Grid
-                        item
-                        sx={{
-                          backgroundColor: 'white',
-                          width: '7.438rem',
-                          height: '9.063rem',
-                          border: '1px solid #3F48C0',
-                          borderRadius: '4px',
-                          cursor: 'pointer'
-                        }}
-                        onClick={onButtonPreview}
-                      >
-                        <Grid
-                          container // container to make the justify content works
-                          sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignContent: 'center',
-                            marginTop: '0.5rem'
-                          }}
-                        >
-                          {/* <Grid item sx={{ marginLeft: '5rem' }}>
-                        <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-                      </Grid> */}
+            {/* input laporan */}
+            {inputList}
 
-                          <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
-                            <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Box fontSize={'0.875rem'}>{fileName}</Box>
-                    </Grid>
-                  ) : null}
-                </Grid>
-              </Grid>
+            <Grid
+              item
+              sx={{
+                padding: '1rem',
+                borderBottom: 1,
+                borderBottomColor: '#E0E0E0',
+                alignItems: 'center'
+              }}
+            >
+              <Box container textAlign="center">
+                <Button variant="contained" sx={{ boxShadow: '0' }} onClick={onAddBtnClick}>
+                  <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                    <img src={add} alt=""></img>
+                  </Box>
+                  Tambah Data
+                </Button>
+              </Box>
             </Grid>
           </Grid>
           <div

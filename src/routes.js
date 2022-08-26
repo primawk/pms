@@ -55,6 +55,10 @@ export default function Routes() {
           element: <MiningActivity />
         },
         {
+          path: 'mining-activity/hauling/:activityType',
+          element: <MiningActivity />
+        },
+        {
           path: 'inventory',
           element: <Navigate to="/inventory/all-inventory" replace />
         },

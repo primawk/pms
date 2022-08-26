@@ -1,5 +1,5 @@
 import React from 'react';
-import List from './components/ListLaporanEksternal';
+import List from './components/ListLaporanEksternalv2';
 import { Grid, Box } from '@mui/material';
 
 const resultEksternal = ({ searchResults }) => {

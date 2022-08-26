@@ -3,6 +3,7 @@ import { Grid, Box } from '@mui/material';
 import dayjs from 'dayjs';
 import Lists from './ListEdit';
 
+
 const editLog = (date, index) => {
   const value = Object.values(date.value[date?.date], index).map(({ description }) => description);
   const name = Object.values(date.value[date?.date], index).map(({ account_name }) => account_name);

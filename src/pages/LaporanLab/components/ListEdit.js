@@ -3,7 +3,6 @@ import { Grid } from '@mui/material';
 import { Icon } from '@iconify/react';
 
 const ListEdit = ({ data }) => {
-  console.log(data);
   return (
     <>
       <Grid item>
