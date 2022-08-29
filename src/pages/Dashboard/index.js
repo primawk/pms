@@ -92,7 +92,7 @@ const data = [
   }
 ];
 
-const targetTableHead = ['TAHUN', 'BULAN', 'TARGET', 'ACTION'];
+const targetTableHead = ['TAHUN', 'BULAN', 'TARGET', 'TOTAL TARGET', 'ACTION'];
 
 export default function Dashboard() {
   useAuth();
