@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
-  const navigate = useNavigate();
+// services
+import { fetchExternalCompany } from 'services/LabService';
+import LabService from 'services/LabService';
 
-  // if (!searchResultsv2) {
-  //   return null;
-  // }
+const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCompanyName }) => {
+  // console.log(data);
 
   const lastUpdatev2 = Object.values(lastUpdate);
 
@@ -22,6 +22,11 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
 
   const reports = lastUpdatev2?.map((item) => item.length);
 
+  const handleBtn = () => {
+    setCompanyReport(true);
+    setCompanyName(data);
+  };
+
   return (
     <>
       <Grid
@@ -33,14 +38,14 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
           alignItems: 'center',
           paddingBottom: 3,
           margin: '0 1rem 0 0',
-          // width: '96.5%',
+          width: '100%',
           // height: '6.125rem',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
           cursor: 'pointer'
         }}
         spacing={3}
-        onClick={() => navigate('/lab-report/laporan-perusahaan', { state: data })}
+        onClick={handleBtn}
       >
         {/* Column 1 */}
         <Grid item xs={2}>
@@ -141,7 +146,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate }) => {
             }}
           >
             <Box sx={{ marginBottom: '0.5rem' }}>
-              <h5 style={{ color: '#828282' }}>Terakhir di Edit</h5>
+              <h5 style={{ color: '#828282' }}>Sample Terakhir</h5>
             </Box>
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>

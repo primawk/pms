@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 // services
 import LabService from 'services/LabService';
 
-const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab }) => {
+const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab, calendar }) => {
   // const [sumPreparationInternal, setPreparationInternal] = useState(0);
   const { data: dataEksternal } = useQuery(
     ['report', 'external'],
@@ -94,7 +94,7 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab }) 
             </Grid>
           </Grid>
         </Grid>
-      ) : menuTab === 'eksternal' ? (
+      ) : calendar ? (
         <Grid container sx={{ margin: '0 0 0 0.5rem' }} spacing={2}>
           {/* Semua Laporan */}
           <Grid item xs={2.5}>

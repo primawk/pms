@@ -21,7 +21,7 @@ const DetailEksternal = ({ data, i }) => {
           alignItems: 'center',
           paddingBottom: 3,
           margin: '0 1rem 0 0',
-          // width: '96.5%',
+          width: '100%',
           // height: '6.125rem',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',

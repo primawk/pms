@@ -2,17 +2,26 @@ import React from 'react';
 import List from './components/ListLaporanEksternalv2';
 import { Grid, Box } from '@mui/material';
 
-const resultEksternal = ({ searchResults }) => {
-  const searchResultsv2 = searchResults.reduce((groups, item) => {
-    const group = groups[item.company_name] || [];
-    group.push(item);
-    groups[item.company_name] = group;
-    return groups;
-  }, {});
+const resultEksternal = ({ searchResults, setCompanyReport, companyName, setCompanyName }) => {
+  // const searchResultsv2 = searchResults.reduce((groups, item) => {
+  //   const group = groups[item.company_name] || [];
+  //   group.push(item);
+  //   groups[item.company_name] = group;
+  //   return groups;
+  // }, {});
 
-  const results = Object.keys(searchResultsv2).map((item, index) => (
-    <List data={item} index={index} lastUpdate={searchResultsv2} />
-  ));
+  // const results = Object.keys(searchResults).map((item, index) => (
+  //   <List
+  //     data={item}
+  //     index={index}
+  //     // lastUpdate={searchResultsv2}
+  //     setCompanyReport={setCompanyReport}
+  //     companyName={companyName}
+  //     setCompanyName={setCompanyName}
+  //   />
+  // ));
+
+  const results = searchResults;
 
   const content = results?.length ? (
     results
