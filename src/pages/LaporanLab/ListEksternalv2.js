@@ -103,7 +103,8 @@ export default function ListEksternal({
   });
 
   const datav2 = data ? Object.values(data).map((item) => item.reports) : null;
-  var result = [].concat.apply([], Object.values(datav2)); // combines arrays of objects into one array
+
+  let result = datav2 ? [].concat.apply([], Object.values(datav2)) : null; // combines arrays of objects into one array
 
   const events = result
     ? result?.map((item) => {
@@ -115,7 +116,7 @@ export default function ListEksternal({
           end: new Date(item.date)
         };
       })
-    : null;
+    : [];
 
   const clickRef = useRef(null);
 
@@ -305,7 +306,7 @@ export default function ListEksternal({
             {/*List Laporan*/}
             {isFetchingActivity && isLoadingActivity && <LoadingModal />}
             <Result
-              searchResults={datav2}
+              searchResults={result}
               setCompanyReport={setCompanyReport}
               companyName={companyName}
               setCompanyName={setCompanyName}

@@ -8,7 +8,7 @@ import { fetchExternalCompany } from 'services/LabService';
 import LabService from 'services/LabService';
 
 const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCompanyName }) => {
-  // console.log(data);
+  console.log(data);
 
   const lastUpdatev2 = Object.values(lastUpdate);
 
@@ -86,7 +86,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCo
               <img src="/img/ikonEksternal.png" alt=""></img>
             </Box>
             <Box>
-              <h5>{data}</h5>
+              <h5>{data.company_name}</h5>
             </Box>
           </Grid>
         </Grid>
