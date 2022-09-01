@@ -32,6 +32,8 @@ import useModal from '../../hooks/useModal';
 import { fetchExternal } from 'services/LabService';
 
 export default function ListEksternal({
+  search,
+  setSearch,
   data,
   isFetchingActivity,
   isLoadingActivity,
@@ -48,7 +50,8 @@ export default function ListEksternal({
   companyName,
   setCompanyName,
   setStartDate,
-  setEndDate
+  setEndDate,
+  startDate
 }) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
@@ -61,7 +64,7 @@ export default function ListEksternal({
   const { isShowing, toggle } = useModal();
   const { toggle: toggleView, isShowing: isShowingView } = useModal();
 
-  const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
+  const [searchResultsEksternal, setSearchResultsEksternal] = useState();
 
   useEffect(() => {
     fetchExternal()
@@ -86,9 +89,9 @@ export default function ListEksternal({
   // }, []);
 
   // Get current posts
-  const indexOfLastPost = page * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = searchResultsEksternal.slice(indexOfFirstPost, indexOfLastPost);
+  // const indexOfLastPost = page * postsPerPage;
+  // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  // const currentPosts = searchResultsEksternal.slice(indexOfFirstPost, indexOfLastPost);
 
   const locales = {
     'en-US': require('date-fns/locale/en-US')
@@ -186,7 +189,8 @@ export default function ListEksternal({
         toggle={toggle}
         isShowing={isShowing}
         targetDate={targetDate}
-        navigate={navigate}
+        // navigate={navigate}
+        startDate={startDate}
       />
       <ViewLaporanEksternal
         toggle={toggleView}
@@ -201,11 +205,15 @@ export default function ListEksternal({
 
       <div className="app-content">
         <SearchBarExternal
-          // posts={postsEksternal}
-          // setSearchResults={setSearchResultsEksternal}
+          posts={result}
+          setSearchResults={setSearchResultsEksternal}
           setSelectedDates={setSelectedDates}
           selectedDates={selectedDates}
           menuTab={menuTab}
+          setCalendar={setCalendar}
+          setSearch={setSearch}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
           // resetPage={resetPage}
         />
 
@@ -305,12 +313,21 @@ export default function ListEksternal({
 
             {/*List Laporan*/}
             {isFetchingActivity && isLoadingActivity && <LoadingModal />}
-            <Result
-              searchResults={result}
-              setCompanyReport={setCompanyReport}
-              companyName={companyName}
-              setCompanyName={setCompanyName}
-            />
+            {search ? (
+              <Result
+                searchResults={searchResultsEksternal}
+                setCompanyReport={setCompanyReport}
+                companyName={companyName}
+                setCompanyName={setCompanyName}
+              />
+            ) : (
+              <Result
+                searchResults={result}
+                setCompanyReport={setCompanyReport}
+                companyName={companyName}
+                setCompanyName={setCompanyName}
+              />
+            )}
 
             {/* Pagination */}
             <Grid
@@ -320,15 +337,16 @@ export default function ListEksternal({
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'flex-start',
-                marginRight: '3rem'
+                marginRight: '3rem',
+                marginBottom: '2rem'
               }}
             >
               <Grid item sx={{ width: '100%' }}>
-                <CustomPagination
+                {/* <CustomPagination
                   count={ceilTotalData(searchResultsEksternal.length || 0, 15)}
                   page={page}
                   handleChangePage={handleChangePage}
-                />
+                /> */}
               </Grid>
             </Grid>
           </Grid>

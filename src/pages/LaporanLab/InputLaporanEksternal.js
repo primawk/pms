@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import add from 'assets/Images/ant-design_plus-circle-outlined.png';
 import InputEksternal from './components/inputEksternal';
+import dayjs from 'dayjs';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -17,78 +18,52 @@ import LabService from 'services/LabService';
 
 const InputLaporanEksternal = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  let date = dayjs(location.state).format('DD/MM/YYYY');
   const [loading, setLoading] = useState(false);
   const [attachment, setAttachment] = useState([]);
   const [fileName, setFileName] = useState('');
   const [filePreview, setFilePreview] = useState(null);
 
-  const [addFormData, setAddFormData] = useState([
-    {
-      date: '',
-      analysis: '',
-      preparation: '',
-      company_name: '',
-      sample_submitter: '',
-      submitter_contact: '',
-      report_type: 'external'
-    }
-  ]);
-
-  const [allEvents, setAllEvents] = useState(addFormData);
-  const [newEvent, setNewEvent] = useState({
-    date: '',
-    analysis: '',
-    preparation: '',
-    company_name: '',
-    sample_submitter: '',
-    submitter_contact: '',
-    report_type: 'external'
-  });
-
-  const handleAddFormChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.name;
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
-
-    setAddFormData(newFormData);
-  };
+  const [allEvent, setAllEvent] = useState([]);
 
   const handleAddFormSubmit = async (event) => {
     // setLoading(true);
     event.preventDefault();
-    const number = '0';
-    const dataContact = number.concat(addFormData.submitter_contact);
-    const data = [
-      {
-        date: '2022-08-25',
-        company_name: 'test',
-        sample_submitter: 'test',
-        preparation: '11',
-        submitter_contact: '11',
-        report_type: 'external',
-        analysis: '11',
-        attachment: attachment[0]
-      },
-      {
-        date: '2022-08-25',
-        company_name: 'test2',
-        sample_submitter: 'test2',
-        preparation: '12',
-        submitter_contact: '12',
-        report_type: 'external',
-        analysis: '12',
-        attachment: attachment[1]
-      }
-    ];
-    // formData.append('image', images);
+    // const number = '0';
+    // const dataContact = number.concat(addFormData.submitter_contact);
+    // const data = {
+    //   date: '',
+    //   analysis: addFormData.analysis,
+    //   preparation: addFormData.preparation,
+    //   company_name: addFormData.company_name,
+    //   sample_submitter: addFormData.sample_submitter,
+    //   submitter_contact: addFormData.submitter_contact,
+    //   report_type: 'external'
+    // };
+
+    // const datav2 = [
+    //   {
+    //     lastModified: 1655090498030,
+    //     name: 'Sertifikat_Basket_Dzaki_Makkili_Kuntoro_v2.pdf',
+    //     size: 1595079,
+    //     type: 'application/pdf',
+    //     webkitRelativePath: ''
+    //   }
+    // ];
+
+    // const data = allEvent.map((obj, index) => Object.assign({}, obj, attachment[index]));
+
+    // console.log(attachment);
+
+    // console.log(attachment);
+    // const data = allEvent.concat(attachment);
+    // let merged = [{ ...allEvent, ...datav2 }];
+    // console.log(data);
 
     try {
-      await LabService.inputReportExternalMany(data);
-    
+      await LabService.inputReportExternalMany(allEvent, attachment);
+      // console.log(data);
       // setLoading(false);
       // navigate(-1);
       // toggle();
@@ -118,35 +93,36 @@ const InputLaporanEksternal = () => {
 
   const [inputList, setInputList] = useState([
     <InputEksternal
-      handleAddFormChange={handleAddFormChange}
+      date={date}
       onBtnAddFile={onBtnAddFile}
       attachment={attachment}
       onButtonPreview={onButtonPreview}
       fileName={fileName}
-      // setAddFormData={setAddFormData}
-      // addFormData={addFormData}
+      allEvent={allEvent}
+      setAllEvent={setAllEvent}
     />
   ]);
 
-  const onAddBtnClick = (event) => {
+  const onAddBtnClick = () => {
     setInputList(
       inputList.concat(
         <InputEksternal
+          date={date}
           key={inputList.length}
-          handleAddFormChange={handleAddFormChange}
           onBtnAddFile={onBtnAddFile}
           onButtonPreview={onButtonPreview}
           fileName={fileName}
           attachment={attachment}
-          // setAddFormData={setAddFormData}
-          // addFormData={addFormData}
+          allEvent={allEvent}
+          setAllEvent={setAllEvent}
         />
       )
     );
-    setAllEvents([...allEvents, newEvent]);
+    // console.log(newEvent);
+    // setAllEvent([...allEvent, addFormData]);
   };
 
-  console.log(allEvents);
+  console.log(allEvent);
 
   return (
     <>
@@ -241,7 +217,7 @@ const InputLaporanEksternal = () => {
                   </Box>
                   <Box>
                     <h2 style={{ paddingLeft: '1rem', fontWeight: '400', fontSize: '0.875rem' }}>
-                      12/02/2021
+                      {date}
                     </h2>
                   </Box>
                 </Grid>

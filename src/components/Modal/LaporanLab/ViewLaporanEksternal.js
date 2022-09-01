@@ -14,7 +14,8 @@ const ViewLaporanEksternal = ({
   navigate,
   setCalendar,
   setStartDate,
-  setEndDate
+  setEndDate,
+  set
 }) => {
   const queryClient = useQueryClient();
   const handleBtn = () => {

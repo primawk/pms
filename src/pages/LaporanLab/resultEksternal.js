@@ -10,8 +10,10 @@ const resultEksternal = ({ searchResults, setCompanyReport, companyName, setComp
     return groups;
   }, {});
 
-  const results = searchResults
-    ? Object.values(searchResults).map((item, index) => (
+  console.log(searchResultsv2);
+
+  const results = searchResultsv2
+    ? Object.keys(searchResultsv2).map((item, index) => (
         <List
           data={item}
           index={index}

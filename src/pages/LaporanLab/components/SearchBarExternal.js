@@ -12,12 +12,15 @@ import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
 const SearchBarEksternal = ({
+  setSearch,
   posts,
   setSearchResults,
   setSelectedDates,
   selectedDates,
   menuTab,
-  resetPage
+  setCalendar,
+  setStartDate,
+  setEndDate
 }) => {
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
@@ -32,7 +35,7 @@ const SearchBarEksternal = ({
     //     });
     //   }, {});
     // setSearchResults(resultsArrayEksternal);
-    resetPage();
+    // resetPage();
 
     const resultsArray = posts.filter(
       (post) =>
@@ -40,7 +43,10 @@ const SearchBarEksternal = ({
         post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
         post.company_name?.toLowerCase().includes(keyword.toLowerCase())
     );
+    setSearch(true);
+    setCalendar(false);
     setSearchResults(resultsArray);
+    console.log(resultsArray);
   };
 
   // console.log(filter);
@@ -52,7 +58,11 @@ const SearchBarEksternal = ({
     //     post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
     //     post.company_name?.toLowerCase().includes(keyword.toLowerCase())
     // );
-    setSearchResults(posts);
+    // setSearchResults(posts);
+    setSearch(false);
+    setCalendar(true);
+    setStartDate('');
+    setEndDate('');
     setKeyword('');
     setSelectedDates({});
     setState([

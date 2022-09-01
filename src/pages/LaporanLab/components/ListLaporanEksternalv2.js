@@ -8,9 +8,10 @@ import { fetchExternalCompany } from 'services/LabService';
 import LabService from 'services/LabService';
 
 const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCompanyName }) => {
-  console.log(data);
-
   const lastUpdatev2 = Object.values(lastUpdate);
+  const companyName = Object.keys(data);
+
+  console.log(companyName);
 
   const sumPreparation = lastUpdatev2[index].reduce((accumulator, object) => {
     return accumulator + object.preparation;
@@ -86,7 +87,7 @@ const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCo
               <img src="/img/ikonEksternal.png" alt=""></img>
             </Box>
             <Box>
-              <h5>{data.company_name}</h5>
+              <h5>{data}</h5>
             </Box>
           </Grid>
         </Grid>

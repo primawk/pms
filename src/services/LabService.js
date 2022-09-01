@@ -103,20 +103,28 @@ const inputReportExternal = (data, attachment) => {
   });
 };
 
-const inputReportExternalMany = (data) => {
-  // console.log(data);
-  var form_data = new FormData();
+// INPUT MANY
+const inputReportExternalMany = (data, attachment) => {
+  console.log(data);
+  var formData = new FormData();
 
   for (var key in data) {
-    form_data.append(key, data[key]);
+    formData.append(key, JSON.stringify(data[key]));
   }
+  for (var key in attachment) {
+    formData.append(key, attachment[key]);
+  }
+
   // form_data.append('attachment', attachment);
-  console.log(form_data);
+  // console.log FORMDATA
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
 
   return request(`${MINING_ACTIVITY_MODEL}/report/create-many`, {
     method: 'POST',
     headers: authHeader(),
-    data: form_data
+    data: formData
   });
 };
 

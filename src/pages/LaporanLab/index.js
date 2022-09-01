@@ -29,6 +29,7 @@ export default function LaporanLab() {
   const [companyName, setCompanyName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [search, setSearch] = useState(false);
 
   const menuList = [
     { value: 'internal', label: 'Laporan Internal' },
@@ -53,6 +54,8 @@ export default function LaporanLab() {
       default:
         navigate('/lab-report/internal');
         setCalendar(true);
+        setStartDate('');
+        setEndDate('');
     }
   };
 
@@ -229,6 +232,9 @@ export default function LaporanLab() {
                   setCompanyName={setCompanyName}
                   setStartDate={setStartDate}
                   setEndDate={setEndDate}
+                  search={search}
+                  setSearch={setSearch}
+                  startDate={startDate}
                 />
               )
               // ) : (

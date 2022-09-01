@@ -1,11 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import dayjs from 'dayjs';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
 
-const InputLaporanEksternal = ({ isShowing, toggle, targetDate, navigate }) => {
+const InputLaporanEksternal = ({ isShowing, toggle, targetDate }) => {
+  const navigate = useNavigate();
+  console.log(dayjs(targetDate).format('YYYY-MM-DD'));
   return (
     <>
       <CustomModal isShowing={isShowing} toggle={toggle} width="298px">
@@ -37,7 +41,7 @@ const InputLaporanEksternal = ({ isShowing, toggle, targetDate, navigate }) => {
               variant="contained"
               sx={{ boxShadow: 0 }}
               fullWidth
-              onClick={() => navigate(`/lab-report/input-laporan-eksternal`)}
+              onClick={() => navigate(`/lab-report/input-laporan-eksternal`, { state: targetDate })}
             >
               Input Laporan Lab
             </Button>

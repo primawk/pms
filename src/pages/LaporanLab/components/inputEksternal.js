@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import dayjs from 'dayjs';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -10,14 +8,41 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import { Icon } from '@iconify/react';
 
 const InputEksternal = ({
-  // i need to pu {} when pass function as a prop to child component
-  // value,
+  // i need to put {} when pass function as a prop to child component
   onBtnAddFile,
   attachment,
   onButtonPreview,
   fileName,
-  handleAddFormChange
+  setAllEvent,
+  allEvent,
+  date
 }) => {
+  const [addFormData, setAddFormData] = useState({
+    date: dayjs(date).format('YYYY-MM-DD'),
+    analysis: '',
+    preparation: '',
+    company_name: '',
+    sample_submitter: '',
+    submitter_contact: '',
+    report_type: 'external'
+  });
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData);
+  };
+
+  // important!!!
+  useEffect(() => {
+    setAllEvent([...allEvent, addFormData]);
+  }, [addFormData]);
+
   return (
     <>
       <Grid item sx={{ borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
@@ -187,6 +212,7 @@ const InputEksternal = ({
                     >
                       <input
                         required
+                        multiple
                         type="file"
                         style={{ marginLeft: '4rem', cursor: 'pointer' }}
                       />

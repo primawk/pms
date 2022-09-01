@@ -53,9 +53,9 @@ export default function CompanyReport({ setCompanyReport, companyName }) {
   useEffect(() => {
     fetchExternalCompany(companyName).then((response) => {
       setPosts(response);
+      setSearchResults(response?.data?.data);
       return response;
     });
-    setSearchResults(dataEksternal?.data?.data);
   }, [companyName]);
 
   const sumPreparation = posts?.data?.data.reduce((accumulator, object) => {
@@ -66,7 +66,7 @@ export default function CompanyReport({ setCompanyReport, companyName }) {
     return accumulator + object.analysis;
   }, 0);
 
-  console.log(dataEksternal?.data?.data);
+  console.log(posts);
 
   return (
     <>
