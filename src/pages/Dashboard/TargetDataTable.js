@@ -160,57 +160,72 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
                       {detail.target}
                     </TableCell>
                     {detail.month === 'Januari' ? (
-                      <TableCell
-                        sx={{
-                          border: '1px solid #F2F2F2',
-                          justifyContent: 'flex-start',
-                          alignItems: 'flex-start'
-                        }}
-                        rowSpan={item.target_list?.length}
-                      >
-                        <Grid
-                          container
-                          sx={{
-                            justifyContent: 'space-around',
-                            alignItems: 'flex-start',
-                            marginBottom: '40rem'
-                          }}
+                      <>
+                        <TableCell
+                          align="center"
+                          sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
+                          rowSpan={item.target_list?.length + 1}
                         >
-                          <Grid item md={5} xs={12} padding="0.2em 0">
-                            {isGranted && (
-                              <Button
-                                sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
-                                fullWidth
-                                variant="contained"
-                                onClick={() => handleEditClick(item.year, item.target_list)}
-                              >
-                                <Icon
-                                  style={{ fontSize: '17px', marginRight: '1rem' }}
-                                  icon={EditIcon}
-                                />
-                                Edit Data
-                              </Button>
-                            )}
+                          {item?.total_target}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            border: '1px solid #F2F2F2',
+                            justifyContent: 'flex-start',
+                            alignItems: 'flex-start'
+                          }}
+                          rowSpan={item.target_list?.length}
+                        >
+                          <Grid
+                            container
+                            sx={{
+                              justifyContent: 'space-around',
+                              alignItems: 'flex-start',
+                              marginBottom: '40rem'
+                            }}
+                          >
+                            <Grid item md={5} xs={12} padding="0.2em 0">
+                              {isGranted && (
+                                <Button
+                                  sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
+                                  fullWidth
+                                  variant="contained"
+                                  onClick={() => handleEditClick(item.year, item.target_list)}
+                                >
+                                  <Icon
+                                    style={{ fontSize: '17px', marginRight: '1rem' }}
+                                    icon={EditIcon}
+                                  />
+                                  Edit Data
+                                </Button>
+                              )}
+                            </Grid>
+                            <Grid
+                              item
+                              md={5}
+                              xs={12}
+                              padding="0.2em 0"
+                              sx={{ alignItems: 'center' }}
+                            >
+                              {isGranted && (
+                                <LoadingButton
+                                  loading={loading}
+                                  sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
+                                  fullWidth
+                                  variant="contained"
+                                  onClick={() => handleDeleteClick(item.target_list)}
+                                >
+                                  <Icon
+                                    style={{ fontSize: '17px', marginRight: '0.5rem' }}
+                                    icon={DeleteIcon}
+                                  />
+                                  Delete Data
+                                </LoadingButton>
+                              )}
+                            </Grid>
                           </Grid>
-                          <Grid item md={5} xs={12} padding="0.2em 0" sx={{ alignItems: 'center' }}>
-                            {isGranted && (
-                              <LoadingButton
-                                loading={loading}
-                                sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
-                                fullWidth
-                                variant="contained"
-                                onClick={() => handleDeleteClick(item.target_list)}
-                              >
-                                <Icon
-                                  style={{ fontSize: '17px', marginRight: '0.5rem' }}
-                                  icon={DeleteIcon}
-                                />
-                                Delete Data
-                              </LoadingButton>
-                            )}
-                          </Grid>
-                        </Grid>
-                      </TableCell>
+                        </TableCell>
+                      </>
                     ) : null}
                   </TableRow>
                 ))}
