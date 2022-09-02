@@ -11,8 +11,6 @@ const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCo
   const lastUpdatev2 = Object.values(lastUpdate);
   const companyName = Object.keys(data);
 
-  console.log(companyName);
-
   const sumPreparation = lastUpdatev2[index].reduce((accumulator, object) => {
     return accumulator + object.preparation;
   }, 0);

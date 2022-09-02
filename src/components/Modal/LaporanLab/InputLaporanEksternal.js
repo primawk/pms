@@ -9,7 +9,6 @@ import CustomModal from 'components/Modal/CustomModal/CustomModal';
 
 const InputLaporanEksternal = ({ isShowing, toggle, targetDate }) => {
   const navigate = useNavigate();
-  console.log(dayjs(targetDate).format('YYYY-MM-DD'));
   return (
     <>
       <CustomModal isShowing={isShowing} toggle={toggle} width="298px">

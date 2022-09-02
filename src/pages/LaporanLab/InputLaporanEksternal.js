@@ -28,10 +28,9 @@ const InputLaporanEksternal = () => {
   const [allEvent, setAllEvent] = useState([]);
 
   const handleAddFormSubmit = async (event) => {
-    // setLoading(true);
+    setLoading(true);
     event.preventDefault();
-    // const number = '0';
-    // const dataContact = number.concat(addFormData.submitter_contact);
+
     // const data = {
     //   date: '',
     //   analysis: addFormData.analysis,
@@ -63,10 +62,9 @@ const InputLaporanEksternal = () => {
 
     try {
       await LabService.inputReportExternalMany(allEvent, attachment);
-      // console.log(data);
-      // setLoading(false);
-      // navigate(-1);
-      // toggle();
+      setLoading(false);
+      navigate(-1);
+      toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);
       setLoading(false);
@@ -82,12 +80,6 @@ const InputLaporanEksternal = () => {
   const onButtonPreview = () => {
     window.open(filePreview, '_blank');
   };
-
-  // const [value, setValue] = useState(new Date());
-
-  // const handleChange = (newValue) => {
-  //   setValue(newValue);
-  // };
 
   const { isShowing, toggle } = useModal();
 
@@ -121,8 +113,6 @@ const InputLaporanEksternal = () => {
     // console.log(newEvent);
     // setAllEvent([...allEvent, addFormData]);
   };
-
-  console.log(allEvent);
 
   return (
     <>

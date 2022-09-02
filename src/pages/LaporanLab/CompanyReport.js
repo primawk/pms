@@ -66,7 +66,6 @@ export default function CompanyReport({ setCompanyReport, companyName }) {
     return accumulator + object.analysis;
   }, 0);
 
-  console.log(posts);
 
   return (
     <>

@@ -209,8 +209,6 @@ export async function fetchExternalCompany(companyName) {
   // const row = 2;
   const params = [];
 
-  console.log(companyName);
-
   // if (startDate) {
   //   params.push(['start_date', startDate]);
   // }

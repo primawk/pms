@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Icon } from '@iconify/react';
+import dayjs from 'dayjs';
 
 // components
 import { Grid, Tab, Tabs, Box } from '@mui/material';
@@ -14,12 +15,18 @@ import CompanyReport from './CompanyReport';
 import LabService from 'services/LabService';
 
 // custom hooks
-import useModal from '../../hooks/useModal';
+// import useModal from '../../hooks/useModal';
 import usePagination from 'hooks/usePagination';
 
 export default function LaporanLab() {
-  const { isShowing, toggle } = useModal();
+  // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
+
+  const currentYear = new Date().getFullYear();
+  const firstDay = new Date(currentYear, 0, 1);
+  const lastDay = new Date(currentYear, 11, 31);
+  const firstDate = dayjs(firstDay).format('YYYY-MM-DD');
+  const lastDate = dayjs(lastDay).format('YYYY-MM-DD');
 
   const [keyword, setKeyword] = useState('');
   const [selectedDates, setSelectedDates] = useState({});
@@ -27,8 +34,8 @@ export default function LaporanLab() {
   const [calendar, setCalendar] = useState(true);
   const [companyReport, setCompanyReport] = useState(false);
   const [companyName, setCompanyName] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState(firstDate);
+  const [endDate, setEndDate] = useState(lastDate);
   const [search, setSearch] = useState(false);
 
   const menuList = [
@@ -54,8 +61,8 @@ export default function LaporanLab() {
       default:
         navigate('/lab-report/internal');
         setCalendar(true);
-        setStartDate('');
-        setEndDate('');
+        setStartDate(firstDate);
+        setEndDate(lastDate);
     }
   };
 
@@ -109,8 +116,8 @@ export default function LaporanLab() {
   let totalPrep = 0;
 
   const handleBtn = () => {
-    setStartDate('');
-    setEndDate('');
+    setStartDate(firstDate);
+    setEndDate(lastDate);
     setCalendar(true);
   };
 
@@ -235,6 +242,8 @@ export default function LaporanLab() {
                   search={search}
                   setSearch={setSearch}
                   startDate={startDate}
+                  firstDate={firstDate}
+                  lastDate={lastDate}
                 />
               )
               // ) : (

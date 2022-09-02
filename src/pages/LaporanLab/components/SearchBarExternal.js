@@ -20,7 +20,9 @@ const SearchBarEksternal = ({
   menuTab,
   setCalendar,
   setStartDate,
-  setEndDate
+  setEndDate,
+  firstDate,
+  lastDate
 }) => {
   const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
@@ -61,8 +63,8 @@ const SearchBarEksternal = ({
     // setSearchResults(posts);
     setSearch(false);
     setCalendar(true);
-    setStartDate('');
-    setEndDate('');
+    setStartDate(firstDate);
+    setEndDate(lastDate);
     setKeyword('');
     setSelectedDates({});
     setState([

@@ -18,7 +18,7 @@ const InputEksternal = ({
   date
 }) => {
   const [addFormData, setAddFormData] = useState({
-    date: dayjs(date).format('YYYY-MM-DD'),
+    date: dayjs(date).format('YYYY-DD-MM'),
     analysis: '',
     preparation: '',
     company_name: '',
@@ -26,11 +26,16 @@ const InputEksternal = ({
     submitter_contact: '',
     report_type: 'external'
   });
+
   const handleAddFormChange = (event) => {
     event.preventDefault();
 
     const fieldName = event.target.name;
-    const fieldValue = event.target.value;
+    let fieldValue = event.target.value;
+
+    if (fieldName === 'submitter_contact') {
+      fieldValue = '0' + event.target.value;
+    }
 
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
@@ -41,7 +46,7 @@ const InputEksternal = ({
   // important!!!
   useEffect(() => {
     setAllEvent([...allEvent, addFormData]);
-  }, [addFormData]);
+  }, [addFormData, allEvent, setAllEvent]);
 
   return (
     <>
