@@ -121,6 +121,8 @@ const InputLaporanInternal = () => {
     setAddFormData(newFormData);
   };
 
+  console.log(addFormData);
+
   const handleAddFormSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();

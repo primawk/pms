@@ -126,7 +126,12 @@ const DetailInternal = () => {
           </Grid>
           <Grid
             item
-            sx={{ height: '19%', borderBottom: 1, borderBottomColor: '#E0E0E0', width: '30%' }}
+            sx={{
+              height: '19%',
+              borderBottom: 1,
+              borderBottomColor: '#E0E0E0',
+              width: '30%'
+            }}
           >
             <Box style={{ margin: '1rem 0.5rem 1rem 2rem', fontSize: '1rem' }}>
               Laporan Internal Lab
@@ -183,91 +188,98 @@ const DetailInternal = () => {
               </Button>
             )}
           </Grid>
-          <Grid item sx={{}}>
-            <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-              <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ margin: '2.5rem 0.5rem 1.5rem 2rem' }}>Informasi Sample</h3>
-                <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <Grid item>
-                    <Box
-                      style={{
-                        margin: '0 0.5rem 0.5rem 2rem',
-                        fontSize: '0.875rem',
-                        fontWeight: '700',
-                        width: '5.5rem'
-                      }}
-                    >
-                      Tanggal
-                    </Box>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      {dayjs(dataReport?.date).format('DD/MM/YYYY')}
-                    </Box>
+          <Grid container spacing={0}>
+            <Grid item xs={4}>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ margin: '2.5rem 0.5rem 1.5rem 2rem' }}>Informasi Sample</h3>
+                  <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Grid item>
+                      <Box
+                        style={{
+                          margin: '0 0.5rem 0.5rem 2rem',
+                          fontSize: '0.875rem',
+                          fontWeight: '700',
+                          width: '5.5rem'
+                        }}
+                      >
+                        Tanggal
+                      </Box>
+                      <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                        {dayjs(dataReport?.date).format('DD/MM/YYYY')}
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Box
+                        style={{
+                          margin: '0 0.5rem 0.5rem 2rem',
+                          fontSize: '0.875rem',
+                          fontWeight: '700'
+                        }}
+                      >
+                        Jenis Sample
+                      </Box>
+                      <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                        {dataReport?.sample_type}
+                      </Box>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <Box
-                      style={{
-                        margin: '0 0.5rem 0.5rem 2rem',
-                        fontSize: '0.875rem',
-                        fontWeight: '700'
-                      }}
-                    >
-                      Jenis Sample
-                    </Box>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      {dataReport?.sample_type}
-                    </Box>
-                  </Grid>
-                </Grid>
-                <Grid container sx={{ display: 'flex', flexDirection: 'row', marginTop: '1.5rem' }}>
-                  <Grid item>
-                    <Box
-                      style={{
-                        margin: '0 0.5rem 0.5rem 2rem',
-                        fontSize: '0.875rem',
-                        width: '5.5rem',
-                        fontWeight: '700'
-                      }}
-                    >
-                      Bukit
-                    </Box>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      {dataReport?.hill_name}
-                    </Box>
-                    <Box
-                      style={{
-                        margin: '2rem 0.5rem 0.5rem 2rem',
-                        fontSize: '0.875rem',
-                        width: '5.5rem',
-                        fontWeight: '700'
-                      }}
-                    >
-                      Preparasi
-                    </Box>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      {dataReport?.preparation}
-                    </Box>
-                  </Grid>
-                  <Grid item>
-                    <Box
-                      style={{
-                        margin: '0 0.5rem 0.5rem 2rem',
-                        fontSize: '0.875rem',
-                        fontWeight: '700'
-                      }}
-                    >
-                      Tumpukan/Dome
-                    </Box>
-                    <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
-                      {dataReport?.dome_name}
-                    </Box>
+                  <Grid
+                    container
+                    sx={{ display: 'flex', flexDirection: 'row', marginTop: '1.5rem' }}
+                  >
+                    <Grid item>
+                      <Box
+                        style={{
+                          margin: '0 0.5rem 0.5rem 2rem',
+                          fontSize: '0.875rem',
+                          width: '5.5rem',
+                          fontWeight: '700'
+                        }}
+                      >
+                        Bukit
+                      </Box>
+                      <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                        {dataReport?.hill_name}
+                      </Box>
+                      <Box
+                        style={{
+                          margin: '2rem 0.5rem 0.5rem 2rem',
+                          fontSize: '0.875rem',
+                          width: '5.5rem',
+                          fontWeight: '700'
+                        }}
+                      >
+                        Preparasi
+                      </Box>
+                      <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                        {dataReport?.preparation}
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Box
+                        style={{
+                          margin: '0 0.5rem 0.5rem 2rem',
+                          fontSize: '0.875rem',
+                          fontWeight: '700'
+                        }}
+                      >
+                        Tumpukan/Dome
+                      </Box>
+                      <Box style={{ margin: '0 0.5rem 0.5rem 2rem', fontSize: '0.875rem' }}>
+                        {dataReport?.dome_name}
+                      </Box>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
+            </Grid>
+            <Grid item xs={8}>
               <Grid
+                container
                 sx={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  marginLeft: '8rem'
+                  flexDirection: 'column'
                 }}
               >
                 <h3 style={{ margin: '2.5rem 0.5rem 1.5rem 0' }}>Hasil Analisa</h3>
@@ -374,32 +386,37 @@ const DetailInternal = () => {
                       sx={{
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
                       }}
                     >
-                      <Grid item>
+                      <Grid item xs={6}>
                         <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar SiO</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          {dataReport?.sio2_level} %
-                        </Box>
                       </Grid>
-                      <Grid item>
-                        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Grid item sx={{ margin: '1rem 0.3rem 0 0', fontSize: '1rem' }}>
+                      <Grid item xs={6}>
+                        <Grid
+                          container
+                          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                          spacing={0}
+                        >
+                          <Grid item xs={6}>
                             <img src="/img/si.png" alt=""></img>
                           </Grid>
-                          <Grid item sx={{ margin: '1rem 1rem 0 0', fontSize: '1rem' }}>
+                          <Grid item xs={6}>
                             <img src="/img/o.png" alt=""></img>
                           </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
+                    <Box
+                      sx={{
+                        margin: '0 1rem 1rem 1rem',
+                        fontSize: '1.5rem',
+                        fontWeight: '700'
+                      }}
+                    >
+                      {dataReport?.sio2_level} %
+                    </Box>
                   </Grid>
                   <Grid
                     item
@@ -418,32 +435,37 @@ const DetailInternal = () => {
                       sx={{
                         display: 'flex',
                         flexDirection: 'row',
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
                       }}
                     >
-                      <Grid item>
+                      <Grid item xs={7}>
                         <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar MgO</Box>
-                        <Box
-                          sx={{
-                            margin: '0.75rem 1rem 1rem 1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: '700'
-                          }}
-                        >
-                          {dataReport?.mgo_level} %
-                        </Box>
                       </Grid>
-                      <Grid item>
-                        <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Grid item sx={{ margin: '1rem 0.3rem 0 0', fontSize: '1rem' }}>
+                      <Grid item xs={5}>
+                        <Grid
+                          container
+                          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                          spacing={0}
+                        >
+                          <Grid item xs={6}>
                             <img src="/img/si.png" alt=""></img>
                           </Grid>
-                          <Grid item sx={{ margin: '1rem 1rem 0 0', fontSize: '1rem' }}>
+                          <Grid item xs={6}>
                             <img src="/img/o.png" alt=""></img>
                           </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
+                    <Box
+                      sx={{
+                        margin: '0 1rem 1rem 1rem',
+                        fontSize: '1.5rem',
+                        fontWeight: '700'
+                      }}
+                    >
+                      {dataReport?.mgo_level} %
+                    </Box>
                   </Grid>
                 </Grid>
                 <Grid sx={{ display: 'flex', flexDirection: 'row' }}>

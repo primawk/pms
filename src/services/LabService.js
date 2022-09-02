@@ -3,8 +3,10 @@ import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 import axios from 'axios';
 
-const getReport = ({ page, row, report_type, keyword, startDate, endDate } = {}) => {
+const getReport = ({ page, row, report_type, keyword, startDate, endDate, companyName } = {}) => {
   const params = [];
+
+  // console.log(companyName);
   if (startDate) {
     params.push(['start_date', startDate]);
   }
@@ -20,8 +22,8 @@ const getReport = ({ page, row, report_type, keyword, startDate, endDate } = {})
   if (row) {
     params.push(['row', row]);
   }
-  if (keyword) {
-    params.push(['company_name', keyword]);
+  if (companyName) {
+    params.push(['company_name', companyName]);
   }
   if (keyword) {
     params.push(['sample_code', keyword]);
@@ -36,6 +38,23 @@ const getReport = ({ page, row, report_type, keyword, startDate, endDate } = {})
 const getReportDetail = ({ id } = {}) => {
   return request(`${MINING_ACTIVITY_MODEL}/report/${id}`, {
     method: 'GET',
+    headers: authHeader()
+  });
+};
+
+const getReportDaily = (startDate) => {
+  const params = [];
+
+  if (startDate.start_date) {
+    params.push(['start_date', startDate.start_date]);
+  }
+  if (startDate.end_date) {
+    params.push(['end_date', startDate.end_date]);
+  }
+
+  return request(`${MINING_ACTIVITY_MODEL}/report/daily?report_type=external`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
     headers: authHeader()
   });
 };
@@ -81,6 +100,31 @@ const inputReportExternal = (data, attachment) => {
     method: 'POST',
     headers: authHeader(),
     data: form_data
+  });
+};
+
+// INPUT MANY
+const inputReportExternalMany = (data, attachment) => {
+  console.log(data);
+  var formData = new FormData();
+
+  for (var key in data) {
+    formData.append(key, JSON.stringify(data[key]));
+  }
+  for (var key in attachment) {
+    formData.append(key, attachment[key]);
+  }
+
+  // form_data.append('attachment', attachment);
+  // console.log FORMDATA
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
+
+  return request(`${MINING_ACTIVITY_MODEL}/report/create-many`, {
+    method: 'POST',
+    headers: authHeader(),
+    data: formData
   });
 };
 
@@ -160,23 +204,23 @@ export async function fetchExternal(page, row, companyName) {
   return promise?.data?.data;
 }
 
-export async function fetchExternalCompany({ startDate, endDate }, page, row, companyName) {
+export async function fetchExternalCompany(companyName) {
   // const page = 5;
   // const row = 2;
   const params = [];
 
-  if (startDate) {
-    params.push(['start_date', startDate]);
-  }
-  if (endDate) {
-    params.push(['end_date', endDate]);
-  }
-  if (page) {
-    params.push(['page', page]);
-  }
-  if (row) {
-    params.push(['row', row]);
-  }
+  // if (startDate) {
+  //   params.push(['start_date', startDate]);
+  // }
+  // if (endDate) {
+  //   params.push(['end_date', endDate]);
+  // }
+  // if (page) {
+  //   params.push(['page', page]);
+  // }
+  // if (row) {
+  //   params.push(['row', row]);
+  // }
   if (companyName) {
     params.push(['company_name', companyName]);
   }
@@ -207,9 +251,11 @@ export async function getHistory(id) {
 const LabService = {
   getReport,
   getReportDetail,
+  getReportDaily,
   deleteReport,
   inputReport,
   inputReportExternal,
+  inputReportExternalMany,
   editReportExternal,
   editReport,
   getPdf,

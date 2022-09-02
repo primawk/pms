@@ -1,11 +1,30 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
+import dayjs from 'dayjs';
+import { useQueryClient } from 'react-query';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
 
-const ViewLaporanEksternal = ({ isShowing, toggle, targetDate, navigate, setMenuTab }) => {
+const ViewLaporanEksternal = ({
+  isShowing,
+  toggle,
+  targetDate,
+  navigate,
+  setCalendar,
+  setStartDate,
+  setEndDate,
+  set
+}) => {
+  const queryClient = useQueryClient();
+  const handleBtn = () => {
+    setStartDate(dayjs(targetDate).format('YYYY-MM-DD'));
+    setEndDate(dayjs(targetDate).format('YYYY-MM-DD'));
+    queryClient.invalidateQueries(['calendar']);
+    setCalendar(false);
+    toggle();
+  };
   return (
     <>
       <CustomModal isShowing={isShowing} toggle={toggle} width="298px">
@@ -44,7 +63,7 @@ const ViewLaporanEksternal = ({ isShowing, toggle, targetDate, navigate, setMenu
             </Button>
           </Grid>
 
-          <Grid item textAlign={'center'} onClick={() => setMenuTab('perDay')}>
+          <Grid item textAlign={'center'} onClick={handleBtn}>
             <Button
               variant="contained"
               sx={{

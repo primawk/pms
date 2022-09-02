@@ -22,7 +22,7 @@ import usePagination from 'hooks/usePagination';
 import { fetchExternalCompany } from 'services/LabService';
 import LabService from 'services/LabService';
 
-export default function CompanyReport() {
+export default function CompanyReport({ setCompanyReport, companyName }) {
   const navigate = useNavigate();
   const location = useLocation();
   // const { isShowing, toggle } = useModal();
@@ -31,7 +31,6 @@ export default function CompanyReport() {
   const [selectedDates, setSelectedDates] = useState({});
   const [keyword, setKeyword] = useState('');
   const { page, handleChangePage, resetPage } = usePagination();
-  const companyName = location.state;
   const row = 15;
 
   const {
@@ -39,16 +38,14 @@ export default function CompanyReport() {
     isLoading,
     isFetching
   } = useQuery(
-    ['external', page, keyword, selectedDates],
+    ['external', page, keyword, selectedDates, companyName],
     () =>
       LabService.getReport({
         report_type: 'external',
-        companyName: companyName,
+        company_name: companyName,
         keyword: keyword,
         page: page,
-        row: row,
-        startDate: selectedDates.startDate,
-        endDate: selectedDates.endDate
+        row: row
       })
     // { keepPreviousData: true }
   );
@@ -56,10 +53,10 @@ export default function CompanyReport() {
   useEffect(() => {
     fetchExternalCompany(companyName).then((response) => {
       setPosts(response);
+      setSearchResults(response?.data?.data);
       return response;
     });
-    setSearchResults(dataEksternal?.data?.data);
-  }, [companyName, dataEksternal]);
+  }, [companyName]);
 
   const sumPreparation = posts?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.preparation;
@@ -68,6 +65,7 @@ export default function CompanyReport() {
   const sumAnalysis = posts?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.analysis;
   }, 0);
+
 
   return (
     <>
@@ -110,7 +108,7 @@ export default function CompanyReport() {
                   color: 'black'
                 }}
               >
-                <h3>{location.state}</h3>
+                <h3>{companyName}</h3>
               </Box>
             </Grid>
             <Grid
@@ -227,7 +225,7 @@ export default function CompanyReport() {
                   paddingRight: '2rem',
                   cursor: 'pointer'
                 }}
-                onClick={() => navigate(-1)}
+                onClick={() => setCompanyReport(false)}
               >
                 <Grid item>
                   <Icon icon="akar-icons:arrow-left" color="#3f48c0" />

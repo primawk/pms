@@ -11,26 +11,30 @@ import 'moment-timezone';
 import dayjs from 'dayjs';
 
 // components
-import { Grid } from '@mui/material';
+import { Grid, Button, Box } from '@mui/material';
 import SearchBarExternal from './components/SearchBarExternal';
 import InputLaporanEksternal from '../../components/Modal/LaporanLab/InputLaporanEksternal';
 import ViewLaporanEksternal from '../../components/Modal/LaporanLab/ViewLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
-// import { LoadingModal } from 'components/Modal';
-// import Result from './resultEksternal';
+import CustomPagination from '../../components/Pagination/index';
+import { LoadingModal } from 'components/Modal';
+import Result from './resultEksternal';
 
 // utils
-// import { ceilTotalData } from 'utils/helper';
+import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
-// import usePagination from 'hooks/usePagination';
-// import useAuth from 'hooks/useAuth';
+import usePagination from 'hooks/usePagination';
+import useAuth from 'hooks/useAuth';
 import useModal from '../../hooks/useModal';
 
 // services
-// import { fetchExternal } from 'services/LabService';
+import { fetchExternal } from 'services/LabService';
 
 export default function ListEksternal({
+  search,
+  setSearch,
+  data,
   isFetchingActivity,
   isLoadingActivity,
   totalPrepEks,
@@ -39,18 +43,39 @@ export default function ListEksternal({
   menuTab,
   setMenuTab,
   targetDate,
-  setDate
+  setDate,
+  calendar,
+  setCalendar,
+  setCompanyReport,
+  companyName,
+  setCompanyName,
+  setStartDate,
+  setEndDate,
+  startDate
 }) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   // const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
-  // const [postsEksternal, setPostsEksternal] = useState([]);
+  const [postsEksternal, setPostsEksternal] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
-  // const { isGranted } = useAuth();
-  // const [postsPerPage] = useState(15);
-  // const { page, handleChangePage, resetPage } = usePagination();
+  const { isGranted } = useAuth();
+  const [postsPerPage] = useState(15);
+  const { page, handleChangePage, resetPage } = usePagination();
   const { isShowing, toggle } = useModal();
   const { toggle: toggleView, isShowing: isShowingView } = useModal();
+
+  const [searchResultsEksternal, setSearchResultsEksternal] = useState();
+
+  useEffect(() => {
+    fetchExternal()
+      .then((json) => {
+        setPostsEksternal(json);
+        return json;
+      })
+      .then((json) => {
+        setSearchResultsEksternal(json);
+      });
+  }, []);
 
   // useEffect(() => {
   //   fetchExternal()
@@ -71,6 +96,7 @@ export default function ListEksternal({
   const locales = {
     'en-US': require('date-fns/locale/en-US')
   };
+
   const localizer = dateFnsLocalizer({
     format,
     parse,
@@ -79,60 +105,21 @@ export default function ListEksternal({
     locales
   });
 
-  // const data = [
-  //   {
-  //     account_id: 4,
-  //     account_name: 'Superadmin',
-  //     analysis: 3,
-  //     attachment: 'lab_4a276194-d99d-40d1-9278-6d5fa6dfb23f.pdf',
-  //     cao_level: null,
-  //     co_level: null,
-  //     company_name: 'PT. Sukajaya',
-  //     created_at: '2022-08-16T05:55:16.229056',
-  //     date: '2022-08-16',
-  //     dome_id: null,
-  //     fe_level: null,
-  //     hill_id: null,
-  //     id: 20,
-  //     inc: null,
-  //     mgo_level: null,
-  //     ni_level: null,
-  //     preparation: 2,
-  //     report_type: 'external',
-  //     sample_code: null,
-  //     sample_submitter: 'Didin',
-  //     sample_type: null,
-  //     simgo_level: null,
-  //     sio2_level: null,
-  //     submitter_contact: '08736352718',
-  //     tonnage: null,
-  //     updated_at: '2022-08-16T05:55:16.229099'
-  //   }
-  // ];
+  const datav2 = data ? Object.values(data).map((item) => item.reports) : null;
 
-  // const datav2 = data?.map((item) => item.company_name);
-  // console.log(datav2);
+  let result = datav2 ? [].concat.apply([], Object.values(datav2)) : null; // combines arrays of objects into one array
 
-  const events = [
-    {
-      title: 'PT. Mandala',
-      allDay: true,
-      start: new Date(),
-      end: new Date()
-    },
-    {
-      title: 'PT. Mandala Jaya',
-      allDay: true,
-      start: new Date(),
-      end: new Date()
-    },
-    {
-      title: 'PT. Sukamaju',
-      allDay: true,
-      start: new Date('2022-08-18'),
-      end: new Date('2022-08-18')
-    }
-  ];
+  const events = result
+    ? result?.map((item) => {
+        return {
+          // i need to put return !!
+          title: item.company_name,
+          allDay: true,
+          start: new Date(item.date),
+          end: new Date(item.date)
+        };
+      })
+    : [];
 
   const clickRef = useRef(null);
 
@@ -202,7 +189,8 @@ export default function ListEksternal({
         toggle={toggle}
         isShowing={isShowing}
         targetDate={targetDate}
-        navigate={navigate}
+        // navigate={navigate}
+        startDate={startDate}
       />
       <ViewLaporanEksternal
         toggle={toggleView}
@@ -210,57 +198,159 @@ export default function ListEksternal({
         targetDate={targetDate}
         navigate={navigate}
         setMenuTab={setMenuTab}
+        setCalendar={setCalendar}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
       />
 
       <div className="app-content">
         <SearchBarExternal
-          // posts={postsEksternal}
-          // setSearchResults={setSearchResultsEksternal}
+          posts={result}
+          setSearchResults={setSearchResultsEksternal}
           setSelectedDates={setSelectedDates}
           selectedDates={selectedDates}
           menuTab={menuTab}
+          setCalendar={setCalendar}
+          setSearch={setSearch}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
           // resetPage={resetPage}
         />
-        <Grid
-          sx={{
-            // display: 'flex',
-            backgroundColor: 'white',
-            // flexDirection: 'column',
-            // alignItems: 'flex-start',
-            // height: 'auto',
-            padding: '0.1rem 0 1rem 0',
-            marginTop: '1.125rem'
-          }}
-        >
-          {/* Summary Laporan */}
 
-          <SummaryLaporan
-            totalPrepEks={totalPrepEks}
-            totalPrep={totalPrep}
-            totalAnalysisEks={totalAnalysisEks}
-            menuTab={menuTab}
-          />
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            messages={{
-              next: '>',
-              previous: '<',
-              today: 'Bulan ini',
-              month: 'Bulan',
-              week: 'Minggu',
-              day: 'Hari',
-              Sunday: 'Minggu'
+        {calendar ? (
+          <Grid
+            sx={{
+              // display: 'flex',
+              backgroundColor: 'white',
+              // flexDirection: 'column',
+              // alignItems: 'flex-start',
+              // height: 'auto',
+              padding: '0.1rem 0 1rem 0',
+              marginTop: '1.125rem'
             }}
-            selectable
-            eventPropGetter={eventPropGetter}
-            onSelectEvent={onSelectEvent}
-            onSelectSlot={onSelectSlot}
-            style={{ height: 500, margin: '25px' }}
-          />
-        </Grid>
+          >
+            {/* Summary Laporan */}
+
+            <SummaryLaporan
+              totalPrepEks={totalPrepEks}
+              totalPrep={totalPrep}
+              totalAnalysisEks={totalAnalysisEks}
+              menuTab={menuTab}
+              calendar={calendar}
+            />
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              messages={{
+                next: '>',
+                previous: '<',
+                today: 'Bulan ini',
+                month: 'Bulan',
+                week: 'Minggu',
+                day: 'Hari',
+                Sunday: 'Minggu'
+              }}
+              selectable
+              eventPropGetter={eventPropGetter}
+              onSelectEvent={onSelectEvent}
+              onSelectSlot={onSelectSlot}
+              style={{ height: 500, margin: '25px' }}
+            />
+          </Grid>
+        ) : (
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              backgroundColor: 'white',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              height: 'auto',
+              marginTop: '1.125rem'
+            }}
+          >
+            <Grid
+              container
+              sx={{
+                display: 'flex',
+                backgroundColor: 'white',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start'
+              }}
+            >
+              <Box sx={{ margin: '1.5rem 1rem 1.5rem 1.5rem ' }}>
+                <h3>List Laporan Lab Eksternal | Sabtu, {targetDate}</h3>
+              </Box>
+
+              {isGranted && (
+                <Button
+                  variant="contained"
+                  onClick={() => navigate(`/lab-report/input-laporan-eksternal`)}
+                  sx={{
+                    width: '15.625',
+                    height: '42px',
+                    marginRight: '1.5rem',
+                    marginLeft: 'auto',
+                    boxShadow: 0
+                  }}
+                >
+                  Input Laporan Lab
+                </Button>
+              )}
+            </Grid>
+            {/* Summary Laporan */}
+
+            <SummaryLaporan
+              totalPrepEks={totalPrepEks}
+              totalPrep={totalPrep}
+              totalAnalysisEks={totalAnalysisEks}
+              menuTab={menuTab}
+              calendar={calendar}
+            />
+
+            {/*List Laporan*/}
+            {isFetchingActivity && isLoadingActivity && <LoadingModal />}
+            {search ? (
+              <Result
+                searchResults={searchResultsEksternal}
+                setCompanyReport={setCompanyReport}
+                companyName={companyName}
+                setCompanyName={setCompanyName}
+              />
+            ) : (
+              <Result
+                searchResults={result}
+                setCompanyReport={setCompanyReport}
+                companyName={companyName}
+                setCompanyName={setCompanyName}
+              />
+            )}
+
+            {/* Pagination */}
+            <Grid
+              container
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                marginRight: '3rem',
+                marginBottom: '2rem'
+              }}
+            >
+              <Grid item sx={{ width: '100%' }}>
+                {/* <CustomPagination
+                  count={ceilTotalData(searchResultsEksternal.length || 0, 15)}
+                  page={page}
+                  handleChangePage={handleChangePage}
+                /> */}
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
       </div>
     </>
   );
