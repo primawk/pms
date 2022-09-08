@@ -89,10 +89,16 @@ export default function LaporanLab() {
     isLoading: isLoadingExternal,
     isFetching: isFetchingActivityExternal
   } = useQuery(
-    ['report', 'external'],
+    ['report', companyName],
     () =>
       LabService.getReport({
-        report_type: 'external'
+        report_type: 'external',
+        keyword: keyword,
+        row: row,
+        page: page,
+        startDate: null,
+        endDate: null,
+        companyName: companyName
       })
     // { keepPreviousData: true }
   );
@@ -119,12 +125,24 @@ export default function LaporanLab() {
     setStartDate(firstDate);
     setEndDate(lastDate);
     setCalendar(true);
+    setKeyword('');
+    setSearch(false);
   };
+
+  const [searchResultsEksternal, setSearchResultsEksternal] = useState(dataEksternal?.data?.data);
 
   return (
     <>
       {companyReport ? (
-        <CompanyReport setCompanyReport={setCompanyReport} companyName={companyName} />
+        <CompanyReport
+          setSearch={setSearch}
+          companyReport={companyReport}
+          setCompanyReport={setCompanyReport}
+          companyName={companyName}
+          dataEksternal={dataEksternal?.data?.data}
+          isFetching={isFetchingActivityExternal}
+          isLoading={isLoadingExternal}
+        />
       ) : (
         <>
           <Header title="Laporan Lab" background="dashboard.png" />
@@ -224,6 +242,8 @@ export default function LaporanLab() {
                   dataEksternal={dataEksternal?.data?.data}
                   isFetchingActivity={isFetchingCalendar}
                   isLoadingActivity={isLoadingCalendar}
+                  isFetchingExternal={isFetchingActivityExternal}
+                  isLoadingExternal={isLoadingExternal}
                   totalPrepEks={totalPrepEks}
                   totalPrep={totalPrep}
                   totalAnalysisEks={totalAnalysisEks}
@@ -240,10 +260,14 @@ export default function LaporanLab() {
                   setStartDate={setStartDate}
                   setEndDate={setEndDate}
                   search={search}
+                  searchResultsEksternal={searchResultsEksternal}
+                  setSearchResultsEksternal={setSearchResultsEksternal}
                   setSearch={setSearch}
                   startDate={startDate}
                   firstDate={firstDate}
                   lastDate={lastDate}
+                  keyword={keyword}
+                  setKeyword={setKeyword}
                 />
               )
               // ) : (

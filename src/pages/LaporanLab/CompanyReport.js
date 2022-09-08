@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 // components
 import { Grid, Box } from '@mui/material';
@@ -8,7 +7,6 @@ import CustomPagination from '../../components/Pagination/index';
 import Header from './components/Header';
 import SearchBar from './components/SearchBarExternal';
 import Lists from './resultDetailEksternal';
-import { useQuery } from 'react-query';
 import { LoadingModal } from 'components/Modal';
 import { Icon } from '@iconify/react';
 
@@ -20,43 +18,52 @@ import usePagination from 'hooks/usePagination';
 
 // services
 import { fetchExternalCompany } from 'services/LabService';
-import LabService from 'services/LabService';
 
-export default function CompanyReport({ setCompanyReport, companyName }) {
-  const navigate = useNavigate();
-  const location = useLocation();
+export default function CompanyReport({
+  companyReport,
+  setSearch,
+  setCompanyReport,
+  companyName,
+  dataEksternal,
+  isFetching,
+  isLoading
+}) {
+  // const navigate = useNavigate();
+  // const location = useLocation();
   // const { isShowing, toggle } = useModal();
   const [posts, setPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedDates, setSelectedDates] = useState({});
   const [keyword, setKeyword] = useState('');
   const { page, handleChangePage, resetPage } = usePagination();
-  const row = 15;
 
-  const {
-    data: dataEksternal,
-    isLoading,
-    isFetching
-  } = useQuery(
-    ['external', page, keyword, selectedDates, companyName],
-    () =>
-      LabService.getReport({
-        report_type: 'external',
-        company_name: companyName,
-        keyword: keyword,
-        page: page,
-        row: row
-      })
-    // { keepPreviousData: true }
-  );
+  // const {
+  //   data: dataEksternal,
+  //   isLoading,
+  //   isFetching
+  // } = useQuery(
+  //   ['external', page, keyword, selectedDates, companyName],
+  //   () =>
+  //     LabService.getReport({
+  //       report_type: 'external',
+  //       company_name: companyName,
+  //       keyword: keyword,
+  //       page: page,
+  //       row: row
+  //     })
+  //   // { keepPreviousData: true }
+  // );
 
   useEffect(() => {
-    fetchExternalCompany(companyName).then((response) => {
-      setPosts(response);
-      setSearchResults(response?.data?.data);
-      return response;
-    });
-  }, [companyName]);
+    fetchExternalCompany(companyName)
+      .then((response) => {
+        setPosts(response);
+        return response;
+      })
+      .then(() => {
+        setSearchResults(dataEksternal);
+      });
+  }, [companyName, dataEksternal]);
 
   const sumPreparation = posts?.data?.data.reduce((accumulator, object) => {
     return accumulator + object.preparation;
@@ -66,6 +73,9 @@ export default function CompanyReport({ setCompanyReport, companyName }) {
     return accumulator + object.analysis;
   }, 0);
 
+  const handleBtn = () => {
+    setCompanyReport(false);
+  };
 
   return (
     <>
@@ -225,7 +235,7 @@ export default function CompanyReport({ setCompanyReport, companyName }) {
                   paddingRight: '2rem',
                   cursor: 'pointer'
                 }}
-                onClick={() => setCompanyReport(false)}
+                onClick={handleBtn}
               >
                 <Grid item>
                   <Icon icon="akar-icons:arrow-left" color="#3f48c0" />
@@ -246,7 +256,9 @@ export default function CompanyReport({ setCompanyReport, companyName }) {
           </Grid>
 
           <SearchBar
+            companyReport={companyReport}
             posts={posts?.data?.data}
+            setSearch={setSearch}
             setSearchResults={setSearchResults}
             setSelectedDates={setSelectedDates}
             selectedDates={selectedDates}

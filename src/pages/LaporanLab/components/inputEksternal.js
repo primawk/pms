@@ -6,19 +6,32 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { Icon } from '@iconify/react';
+import { useQuery } from 'react-query';
+
+// component(s)
+import { LoadingModal } from 'components/Modal';
+
+// services
+import LabService from 'services/LabService';
 
 const InputEksternal = ({
   // i need to put {} when pass function as a prop to child component
-  onBtnAddFile,
+  // onBtnAddFile,
   attachment,
-  onButtonPreview,
-  fileName,
+  // onButtonPreview,
+  // fileName,
   setAllEvent,
   allEvent,
-  date
+  date,
+  setAttachment
 }) => {
+  const [file, setFile] = useState([]);
+  const [fileName, setFileName] = useState('');
+  const [filePreview, setFilePreview] = useState(null);
+  const [validCode, setValidCode] = useState(true);
   const [addFormData, setAddFormData] = useState({
     date: dayjs(date).format('YYYY-DD-MM'),
+    sample_code: '',
     analysis: '',
     preparation: '',
     company_name: '',
@@ -26,6 +39,22 @@ const InputEksternal = ({
     submitter_contact: '',
     report_type: 'external'
   });
+
+  const {
+    data: dataSample,
+    isLoading: isLoadingSample,
+    isFetching: isFetchingSample
+  } = useQuery(['dataSample'], () =>
+    LabService.getReport({
+      report_type: 'external'
+    })
+  );
+
+  const dataSampleCode = dataSample?.data?.data.map((item) => item.sample_code);
+
+  const onButtonPreview = () => {
+    window.open(filePreview, '_blank');
+  };
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -43,15 +72,62 @@ const InputEksternal = ({
     setAddFormData(newFormData);
   };
 
+  const onBtnAddFile = (e) => {
+    setFile([...attachment, e.target.files[0]]);
+    setFileName(e.target.files[0].name);
+    setFilePreview(URL.createObjectURL(e.target.files[0]));
+  };
+
   // important!!!
   useEffect(() => {
     setAllEvent([...allEvent, addFormData]);
-  }, [addFormData, allEvent, setAllEvent]);
+    setAttachment(file);
+  }, [addFormData, allEvent, setAllEvent, file, setAttachment]);
+
+  useEffect(() => {
+    setValidCode(true);
+
+    for (let i = 0; i <= dataSampleCode?.length; i++) {
+      if (dataSampleCode[i] === addFormData.sample_code) {
+        setValidCode(false);
+      }
+    }
+  }, [addFormData.sample_code, dataSampleCode]);
+
+  console.log(dataSampleCode);
 
   return (
     <>
+      {isLoadingSample && isFetchingSample && <LoadingModal />}
+
       <Grid item sx={{ borderBottom: 1, borderBottomColor: '#E0E0E0' }}>
         <h4 style={{ padding: '1.5rem 0.5rem 0 2rem' }}>Informasi Sample</h4>
+        <Grid container>
+          <Grid
+            item
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '1.5rem 1.5rem 0.5rem 2rem'
+            }}
+            xs={12}
+            sm={6}
+            md={4}
+          >
+            <Box sx={{ paddingBottom: '1rem' }}>Kode Sample</Box>
+            <TextField
+              required
+              id="outlined-basic"
+              label="Kode Sample"
+              variant="outlined"
+              name="sample_code"
+              onChange={handleAddFormChange}
+              error={validCode ? false : true}
+              helperText={validCode ? '' : 'Kode sample sudah ada.'}
+              size="small"
+            />
+          </Grid>
+        </Grid>
         <Grid container>
           <Grid
             item
@@ -228,7 +304,7 @@ const InputEksternal = ({
             </Grid>
 
             {/* PDF */}
-            {attachment ? (
+            {file.length ? (
               <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ marginBottom: '1rem' }}>
                   <h3>File Laporan</h3>

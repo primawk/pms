@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DeleteData from '../../components/Modal/DeleteModal/index';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
@@ -27,6 +27,7 @@ const DetailEksternal = () => {
 
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   //  prepararasi analisa baris kedua  nomor kontak pengaju sample baris pertama
 
@@ -34,6 +35,7 @@ const DetailEksternal = () => {
     setLoading(true);
     LabService.deleteReport({ id })
       .then(() => {
+        queryClient.invalidateQueries(['calendar']); // to update the calendar after delete
         navigate(-1);
         toast.success('Data berhasil dihapus !');
         setLoading(false);
@@ -48,7 +50,7 @@ const DetailEksternal = () => {
 
   const {
     data,
-    // isLoading: isLoadingActivity,
+    isLoading: isLoadingActivity,
     isFetching: isFetchingActivity
   } = useQuery(
     ['report'],
@@ -95,7 +97,7 @@ const DetailEksternal = () => {
       >
         <Navbar />
 
-        {isFetchingActivity && <LoadingModal />}
+        {isLoadingActivity && isFetchingActivity && <LoadingModal />}
 
         <Grid
           container

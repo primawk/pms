@@ -16,20 +16,12 @@ import SearchBarExternal from './components/SearchBarExternal';
 import InputLaporanEksternal from '../../components/Modal/LaporanLab/InputLaporanEksternal';
 import ViewLaporanEksternal from '../../components/Modal/LaporanLab/ViewLaporanEksternal';
 import SummaryLaporan from './components/SummaryLaporan';
-import CustomPagination from '../../components/Pagination/index';
 import { LoadingModal } from 'components/Modal';
 import Result from './resultEksternal';
 
-// utils
-import { ceilTotalData } from 'utils/helper';
-
 // custom hooks
-import usePagination from 'hooks/usePagination';
 import useAuth from 'hooks/useAuth';
 import useModal from '../../hooks/useModal';
-
-// services
-import { fetchExternal } from 'services/LabService';
 
 export default function ListEksternal({
   search,
@@ -51,31 +43,23 @@ export default function ListEksternal({
   setCompanyName,
   setStartDate,
   setEndDate,
-  startDate
+  startDate,
+  // dataEksternal,
+  keyword,
+  setKeyword,
+  searchResultsEksternal,
+  setSearchResultsEksternal
 }) {
   // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   // const [searchResultsEksternal, setSearchResultsEksternal] = useState([]);
-  const [postsEksternal, setPostsEksternal] = useState([]);
+  // const [postsEksternal, setPostsEksternal] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
   const { isGranted } = useAuth();
-  const [postsPerPage] = useState(15);
-  const { page, handleChangePage, resetPage } = usePagination();
+  // const [postsPerPage] = useState(15);
+  // const { page, handleChangePage, resetPage } = usePagination();
   const { isShowing, toggle } = useModal();
   const { toggle: toggleView, isShowing: isShowingView } = useModal();
-
-  const [searchResultsEksternal, setSearchResultsEksternal] = useState();
-
-  useEffect(() => {
-    fetchExternal()
-      .then((json) => {
-        setPostsEksternal(json);
-        return json;
-      })
-      .then((json) => {
-        setSearchResultsEksternal(json);
-      });
-  }, []);
 
   // useEffect(() => {
   //   fetchExternal()
@@ -119,7 +103,7 @@ export default function ListEksternal({
           end: new Date(item.date)
         };
       })
-    : [];
+    : []; // so it wont go blank when there is no data
 
   const clickRef = useRef(null);
 
@@ -214,7 +198,8 @@ export default function ListEksternal({
           setSearch={setSearch}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
-          // resetPage={resetPage}
+          keyword={keyword}
+          setKeyword={setKeyword}
         />
 
         {calendar ? (
