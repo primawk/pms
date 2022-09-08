@@ -14,8 +14,7 @@ const ViewLaporanEksternal = ({
   navigate,
   setCalendar,
   setStartDate,
-  setEndDate,
-  set
+  setEndDate
 }) => {
   const queryClient = useQueryClient();
   const handleBtn = () => {
@@ -56,7 +55,7 @@ const ViewLaporanEksternal = ({
           <Grid
             item
             textAlign={'center'}
-            onClick={() => navigate(`/lab-report/input-laporan-eksternal`)}
+            onClick={() => navigate(`/lab-report/input-laporan-eksternal`, { state: targetDate })}
           >
             <Button variant="contained" sx={{ boxShadow: 0 }} fullWidth>
               Input Laporan Lab

@@ -58,7 +58,7 @@ const DetailEksternal = ({ data, i }) => {
             <Box sx={{ marginBottom: '0.5rem' }}>
               <h5 style={{ color: '#828282' }}>Kode Sample</h5>
             </Box>
-            <Box sx={{ fontWeight: '700', fontSize: '1rem' }}>TS-001</Box>
+            <Box sx={{ fontWeight: '700', fontSize: '1rem' }}>{data?.sample_code}</Box>
           </Grid>
         </Grid>
 

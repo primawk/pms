@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 // services
-import { fetchExternalCompany } from 'services/LabService';
-import LabService from 'services/LabService';
+// import { fetchExternalCompany } from 'services/LabService';
+// import LabService from 'services/LabService';
 
 const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCompanyName }) => {
   const lastUpdatev2 = Object.values(lastUpdate);
-  const companyName = Object.keys(data);
 
   const sumPreparation = lastUpdatev2[index].reduce((accumulator, object) => {
     return accumulator + object.preparation;

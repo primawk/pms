@@ -12,6 +12,7 @@ import useModal from '../../../hooks/useModal';
 
 //  import setState to a component?
 const SearchBarEksternal = ({
+  companyReport,
   setSearch,
   posts,
   setSearchResults,
@@ -22,9 +23,10 @@ const SearchBarEksternal = ({
   setStartDate,
   setEndDate,
   firstDate,
-  lastDate
+  lastDate,
+  keyword,
+  setKeyword
 }) => {
-  const [keyword, setKeyword] = useState('');
   const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,15 +47,18 @@ const SearchBarEksternal = ({
         post.account_name?.toLowerCase().includes(keyword.toLowerCase()) ||
         post.company_name?.toLowerCase().includes(keyword.toLowerCase())
     );
-    setSearch(true);
-    setCalendar(false);
-    setSearchResults(resultsArray);
-    console.log(resultsArray);
+    if (companyReport) {
+      setSearchResults(resultsArray);
+    } else {
+      setSearch(true);
+      setCalendar(false);
+      setSearchResults(resultsArray);
+    }
   };
 
   // console.log(filter);
 
-  const handleReset = () => {
+  const handleReset = (e) => {
     // const resultsArray = posts.filter(
     //   (post) =>
     //     post.sample_code?.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -61,19 +66,24 @@ const SearchBarEksternal = ({
     //     post.company_name?.toLowerCase().includes(keyword.toLowerCase())
     // );
     // setSearchResults(posts);
-    setSearch(false);
-    setCalendar(true);
-    setStartDate(firstDate);
-    setEndDate(lastDate);
-    setKeyword('');
-    setSelectedDates({});
-    setState([
-      {
-        ...state[0],
-        startDate: new Date(),
-        endDate: new Date()
-      }
-    ]);
+    if (companyReport) {
+      setKeyword('');
+      if (!e.target.value) return setSearchResults(posts); // restore the original list
+    } else {
+      setSearch(false);
+      setCalendar(true);
+      setStartDate(firstDate);
+      setEndDate(lastDate);
+      setKeyword('');
+      setSelectedDates({});
+      setState([
+        {
+          ...state[0],
+          startDate: new Date(),
+          endDate: new Date()
+        }
+      ]);
+    }
   };
 
   const [state, setState] = useState([

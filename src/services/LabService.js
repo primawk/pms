@@ -3,10 +3,9 @@ import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 import axios from 'axios';
 
-const getReport = ({ page, row, report_type, keyword, startDate, endDate, companyName } = {}) => {
+const getReport = ({ page, row, report_type, keyword, startDate, endDate, companyName }) => {
   const params = [];
 
-  // console.log(companyName);
   if (startDate) {
     params.push(['start_date', startDate]);
   }
@@ -111,8 +110,8 @@ const inputReportExternalMany = (data, attachment) => {
   for (var key in data) {
     formData.append(key, JSON.stringify(data[key]));
   }
-  for (var key in attachment) {
-    formData.append(key, attachment[key]);
+  for (var pdf in attachment) {
+    formData.append(pdf, attachment[pdf]);
   }
 
   // form_data.append('attachment', attachment);

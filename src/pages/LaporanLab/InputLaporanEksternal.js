@@ -22,8 +22,6 @@ const InputLaporanEksternal = () => {
   let date = dayjs(location.state).format('DD/MM/YYYY');
   const [loading, setLoading] = useState(false);
   const [attachment, setAttachment] = useState([]);
-  const [fileName, setFileName] = useState('');
-  const [filePreview, setFilePreview] = useState(null);
 
   const [allEvent, setAllEvent] = useState([]);
 
@@ -71,27 +69,20 @@ const InputLaporanEksternal = () => {
     }
   };
 
-  const onBtnAddFile = (e) => {
-    setAttachment([...attachment, e.target.files[0]]);
-    setFileName(e.target.files[0].name);
-    setFilePreview(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const onButtonPreview = () => {
-    window.open(filePreview, '_blank');
-  };
-
   const { isShowing, toggle } = useModal();
 
   const [inputList, setInputList] = useState([
     <InputEksternal
       date={date}
-      onBtnAddFile={onBtnAddFile}
+      // onBtnAddFile={onBtnAddFile}
       attachment={attachment}
-      onButtonPreview={onButtonPreview}
-      fileName={fileName}
+      // onButtonPreview={onButtonPreview}
+      // fileName={fileName}
       allEvent={allEvent}
       setAllEvent={setAllEvent}
+      setAttachment={setAttachment}
+      // setFileName={setFileName}
+      // setFilePreview={setFilePreview}
     />
   ]);
 
@@ -101,17 +92,16 @@ const InputLaporanEksternal = () => {
         <InputEksternal
           date={date}
           key={inputList.length}
-          onBtnAddFile={onBtnAddFile}
-          onButtonPreview={onButtonPreview}
-          fileName={fileName}
+          // onBtnAddFile={onBtnAddFile}
+          // onButtonPreview={onButtonPreview}
+          // fileName={fileName}
           attachment={attachment}
           allEvent={allEvent}
           setAllEvent={setAllEvent}
+          setAttachment={setAttachment}
         />
       )
     );
-    // console.log(newEvent);
-    // setAllEvent([...allEvent, addFormData]);
   };
 
   return (
