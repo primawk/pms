@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
-import { Stack, Button, Typography } from '@mui/material';
+import { Stack, Button, Typography, TextField, MenuItem, InputAdornment } from '@mui/material';
 import { useQuery } from 'react-query';
+import { Icon } from '@iconify/react';
 
 // custom hooks
 import useModal from 'hooks/useModal';
@@ -55,7 +56,7 @@ export default function ReportSection({ selectedDate, filterDate }) {
             sx={{ p: 3, mb: 0 }}
           >
             <Stack direction="row" spacing={3} alignItems="center">
-              {activityType !== 'all-activity' && (
+              {activityType !== 'all-activity' && activityType !== 'shipment' && (
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -69,11 +70,41 @@ export default function ReportSection({ selectedDate, filterDate }) {
                   </Stack>
                 </Stack>
               )}
-              <Typography variant="h5">Laporan Kegiatan Tambang</Typography>
+              <Typography variant="h5">
+                Laporan Kegiatan {activityType === 'shipment' && 'Pemasaran'} Tambang
+              </Typography>
+            </Stack>
+            <Stack direction="row" spacing={3} alignItems="center" sx={{ pr: 5 }}>
+              <TextField
+                placeholder="Cari Laporan"
+                size="small"
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Icon icon="akar-icons:search" fontSize={20} />
+                    </InputAdornment>
+                  )
+                }}
+              ></TextField>
+              <TextField select value="newest" fullWidth size="small">
+                <MenuItem value="newest">
+                  <Stack direction="row">
+                    <p>Urutan |&nbsp;</p>
+                    <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
+                  </Stack>
+                </MenuItem>
+                <MenuItem value="oldest">
+                  <Stack direction="row">
+                    <p>Urutan |&nbsp;</p>
+                    <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
+                  </Stack>
+                </MenuItem>
+              </TextField>
             </Stack>
             {isGranted && (
               <Button variant="contained" onClick={toggle}>
-                Input Kegiatan Tambang
+                Input Kegiatan {activityType === 'shipment' ? 'Pemasaran' : 'Tambang'}
               </Button>
             )}
           </Stack>

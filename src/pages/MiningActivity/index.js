@@ -35,7 +35,14 @@ export default function MiningActivity() {
 
   const { isShowing, toggle } = useModal();
 
-  const [menuTab, setMenuTab] = useState(activityType || '');
+  const [menuTab, setMenuTab] = useState(
+    activityType === 'ore-hauling-to-eto'
+      ? 'hauling'
+      : activityType === 'eto-to-efo'
+      ? 'hauling'
+      : activityType || ''
+  );
+
   const [filter, setFilter] = useState([
     {
       startDate: dayjs(new Date()).subtract(7, 'day').toDate(),
@@ -124,10 +131,8 @@ export default function MiningActivity() {
         </Grid>
         {menuTab === 'all-activity' ? (
           <AllActivity selectedDate={selectedDate} />
-        ) : menuTab !== 'shipment' ? (
-          <SpecificActivity selectedDate={selectedDate} filterDate={dateDifference} />
         ) : (
-          'pengiriman'
+          <SpecificActivity selectedDate={selectedDate} filterDate={dateDifference} />
         )}
       </div>
     </>

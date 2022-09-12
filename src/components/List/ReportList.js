@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Stack, Avatar } from '@mui/material';
+import { Grid, Typography, Stack, Avatar, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import dayjs from 'dayjs';
@@ -10,10 +10,14 @@ import ArrowDown from '@iconify/icons-ant-design/caret-down-filled';
 import ExcavatorIcon from 'assets/Images/MiningActivity/ore-getting.png';
 import TruckIcon from 'assets/Images/MiningActivity/ore-hauling-to-eto.png';
 
+// custom hooks
+import useAuth from 'hooks/useAuth';
+
 // utils
 import { capitalizeFirstLetter } from 'utils/helper';
 
 const ReportList = ({ listData }) => {
+  const { roleName } = useAuth();
   return (
     <Grid
       container
@@ -51,47 +55,67 @@ const ReportList = ({ listData }) => {
         </Typography>
         <Typography variant="h6">{listData?.product_type}</Typography>
       </Grid>
-      <Grid item lg={1.25} md={1.25} xs={3}>
-        <Typography variant="body1" color="#828282">
-          Block
-        </Typography>
-        <Typography variant="h6">{listData?.block}</Typography>
-      </Grid>
-      <Grid item lg={3} md={3} xs={6}>
-        <Typography variant="body1" color="#828282">
-          Inventory
-        </Typography>
-        {listData?.tonnage_difference.charAt(0) === '-' ? (
+      {listData?.activity_type !== 'shipment' && (
+        <Grid item lg={1} md={1} xs={3}>
+          <Typography variant="body1" color="#828282">
+            Block
+          </Typography>
+          <Typography variant="h6">{listData?.block}</Typography>
+        </Grid>
+      )}
+      {listData?.activity_type !== 'shipment' ? (
+        <Grid item lg={2.5} md={2.5} xs={6}>
+          <Typography variant="body1" color="#828282">
+            Inventory
+          </Typography>
+          {listData?.tonnage_difference.charAt(0) === '-' ? (
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Icon width={15} height={15} icon={ArrowDown} color="#DA4540" />
+              <Typography variant="body1" style={{ margin: 1 }} color="#DA4540">
+                {listData?.tonnage_difference &&
+                  `${parseFloat(listData?.tonnage_difference) || 0} Ton`}
+              </Typography>
+              <Typography variant="body1" style={{ margin: 1 }}>
+                &nbsp;•{' '}
+                {listData?.activity_type === 'ore-hauling-to-eto'
+                  ? listData?.hill_name + '/' + listData?.dome_name
+                  : listData?.hill_name || listData?.dome_name}
+              </Typography>
+            </Stack>
+          ) : (
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Icon width={15} height={15} icon={ArrowUp} color="#27AE60" />
+              <Typography variant="body1" style={{ margin: 1 }} color="#27AE60">
+                {listData?.tonnage_difference &&
+                  `${parseFloat(listData?.tonnage_difference) || 0} Ton`}
+              </Typography>
+              <Typography variant="body1" style={{ margin: 1 }}>
+                &nbsp;•{' '}
+                {listData?.activity_type === 'ore-hauling-to-eto'
+                  ? listData?.hill_name + '/' + listData?.dome_name
+                  : listData?.hill_name || listData?.dome_name}
+              </Typography>
+            </Stack>
+          )}
+        </Grid>
+      ) : (
+        <Grid item lg={2.25} md={2.25} xs={6}>
+          <Typography variant="body1" color="#828282">
+            Inventory
+          </Typography>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Icon width={15} height={15} icon={ArrowDown} color="#DA4540" />
-            <Typography variant="body1" style={{ margin: 1 }} color="#DA4540">
-              {listData?.tonnage_difference &&
-                `${parseFloat(listData?.tonnage_difference) || 0} Ton`}
-            </Typography>
             <Typography variant="body1" style={{ margin: 1 }}>
-              &nbsp;•
-              {listData?.activity_type === 'ore-hauling-to-eto'
-                ? listData?.hill_name + '/' + listData?.dome_name
-                : listData?.hill_name || listData?.dome_name}
+              &nbsp;• {listData?.hill_name || listData?.dome_name}
             </Typography>
           </Stack>
-        ) : (
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Icon width={15} height={15} icon={ArrowUp} color="#27AE60" />
-            <Typography variant="body1" style={{ margin: 1 }} color="#27AE60">
-              {listData?.tonnage_difference &&
-                `${parseFloat(listData?.tonnage_difference) || 0} Ton`}
-            </Typography>
             <Typography variant="body1" style={{ margin: 1 }}>
-              &nbsp;•{' '}
-              {listData?.activity_type === 'ore-hauling-to-eto'
-                ? listData?.hill_name + '/' + listData?.dome_name
-                : listData?.hill_name || listData?.dome_name}
+              &nbsp;• {listData?.hill_name || listData?.dome_name}
             </Typography>
           </Stack>
-        )}
-      </Grid>
-      <Grid item lg={2} md={2} xs={6}>
+        </Grid>
+      )}
+      <Grid item lg={2.5} md={2.5} xs={6}>
         <Typography variant="body1" color="#828282">
           Dibuat Oleh
         </Typography>
@@ -108,6 +132,18 @@ const ReportList = ({ listData }) => {
         </Typography>
         <Typography variant="h6">{dayjs(listData?.date).format('DD/MM/YYYY')}</Typography>
       </Grid>
+      {listData?.activity_type === 'shipment' && (
+        <Grid item lg={1.25} md={1.25} xs={3}>
+          <Typography variant="body1" color="#828282">
+            Status
+          </Typography>
+          {roleName === 'Komisarin' ? (
+            <Button variant="contained">Ubah COA</Button>
+          ) : (
+            <Typography variant="h6">Provisi</Typography>
+          )}
+        </Grid>
+      )}
     </Grid>
   );
 };
