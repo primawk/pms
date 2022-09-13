@@ -1,0 +1,21 @@
+version: "3.7"
+services: 
+  pms-dashboard-staging:
+      build: ../
+      container_name: pms-dashboard-staging
+      restart: always
+      ports: 
+        - 80:3000
+      networks: 
+        - environment-staging
+      volumes:
+        - pms-dashboard-vol-staging:/usr/share/nginx/html
+networks:
+  environment-staging:
+    external: true
+    name: environment-staging
+
+volumes:
+  pms-dashboard-vol-staging:
+    external: true
+    name: pms-dashboard-vol-staging
