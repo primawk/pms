@@ -13,10 +13,14 @@ deploy:staging:
   cache: {}
   before_script:
     - apk add --no-cache openssh-client ca-certificates bash rsync
-    - eval $(ssh-agent -s)
-    - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
+    - mkdir -p ~/.ssh
+    - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST:$PROJECT_LOCATION_STAGING -p $PROJECT_DEPLOY_PORT
+    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST:$PROJECT_LOCATION_STAGING
     - >
       ssh -t $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_STAGING ;
@@ -34,10 +38,14 @@ deploy:production:
   cache: {}
   before_script:
     - apk add --no-cache openssh-client ca-certificates bash rsync
-    - eval $(ssh-agent -s)
-    - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
+    - mkdir -p ~/.ssh
+    - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION -p $PROJECT_DEPLOY_PORT 
+    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
     - >
       ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_PRODUCTION ;
