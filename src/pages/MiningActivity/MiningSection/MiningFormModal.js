@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Grid, TextField, MenuItem, Stack, FormControl, Button } from '@mui/material';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -25,6 +25,10 @@ const miningActivityList = [
   {
     label: 'Ore Hauling ETO TO EFO',
     value: 'eto-to-efo'
+  },
+  {
+    label: 'Pemasaran di Dermaga',
+    value: 'shipment'
   }
 ];
 
@@ -33,6 +37,7 @@ const productList = ['Biji Nikel', 'Limonite'];
 const blockList = ['Utara', 'Selatan'];
 
 export default function MiningFormModal({ isShowing, toggle }) {
+  const { activityType } = useParams();
   const navigate = useNavigate();
 
   const today = new Date();
@@ -67,11 +72,21 @@ export default function MiningFormModal({ isShowing, toggle }) {
     }
   });
 
-  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values } = formik;
+  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values, resetForm } = formik;
+
+  useEffect(() => {
+    resetForm();
+    setFieldValue('activity_type', activityType);
+  }, [activityType, resetForm, setFieldValue]);
+
   return (
     <CustomModal isShowing={isShowing} toggle={toggle} width="40%">
       <center>
-        <h2 style={{ marginBottom: '20px' }}>Input Realisasi Kegiatan Produksi Mineral</h2>
+        <h2 style={{ marginBottom: '20px' }}>
+          {activityType !== 'shipment'
+            ? 'Input Realisasi Kegiatan Produksi Mineral'
+            : 'Input Realisasi Kegiatan Pemasaran di Dermaga'}
+        </h2>
       </center>
       <FormikProvider value={formik}>
         <Form autoComplete="off" onSubmit={handleSubmit}>
@@ -161,25 +176,27 @@ export default function MiningFormModal({ isShowing, toggle }) {
                     ))}
                   </TextField>
                 </FormControl>
-                <FormControl>
-                  <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Block</h4>
-                  <TextField
-                    select
-                    placeholder="Pilih jenis kegiatan"
-                    fullWidth
-                    size="small"
-                    name="block"
-                    {...getFieldProps('block')}
-                    error={Boolean(touched.block && errors.block)}
-                    helperText={touched.block && errors.block}
-                  >
-                    {blockList.map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </FormControl>
+                {values?.activity_type !== 'shipment' && (
+                  <FormControl>
+                    <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Block</h4>
+                    <TextField
+                      select
+                      placeholder="Pilih jenis kegiatan"
+                      fullWidth
+                      size="small"
+                      name="block"
+                      {...getFieldProps('block')}
+                      error={Boolean(touched.block && errors.block)}
+                      helperText={touched.block && errors.block}
+                    >
+                      {blockList.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </FormControl>
+                )}
               </Stack>
             </Grid>
           </Grid>

@@ -72,6 +72,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, search, pag
       birthdate: id ? dayjs(detailUser?.birthdate).format('MM/DD/YYYY') : new Date('2010/01/01'),
       phone: id ? detailUser?.phone : '',
       username: id ? detailUser?.username : '',
+      email: '',
       password: '',
       role_id: id ? detailUser?.role_id : ''
     },

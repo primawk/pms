@@ -16,6 +16,7 @@ export default function useAuth() {
   const currentPath = location.pathname.split('/')[1];
 
   const [isGranted, setIsGranted] = useState(false);
+  const [roleName, setRoleName] = useState('');
 
   const { data } = useQuery(['roles', id], () => RoleService.getRoleById({ id }), {
     keepPreviousData: true,
@@ -23,6 +24,7 @@ export default function useAuth() {
   });
 
   useEffect(() => {
+    setRoleName(data?.data?.data?.name);
     if (typeof window !== 'undefined') {
       if (!userPms) {
         navigate('/auth/login');
@@ -42,6 +44,7 @@ export default function useAuth() {
     }
   }, [data]);
   return {
-    isGranted
+    isGranted,
+    roleName
   };
 }

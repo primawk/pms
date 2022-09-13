@@ -95,7 +95,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate
       }),
-    { keepPreviousData: true }
+    { keepPreviousData: true, enabled: activityType !== 'shipment' }
   );
 
   // activity
@@ -113,7 +113,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate
       }),
-    { keepPreviousData: true }
+    { keepPreviousData: true, enabled: activityType !== 'shipment' }
   );
 
   return (
@@ -166,7 +166,7 @@ export default function SpecificActivity({ selectedDate, filterDate }) {
           dateInterval={interval}
         />
       </Grid>
-      {!isLoadingSummary && !isLoadingActivity && (
+      {!isLoadingSummary && !isLoadingActivity && activityType !== 'shipment' && (
         <InventorySection
           title={
             activityType === 'ore-getting'
