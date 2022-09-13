@@ -1,0 +1,21 @@
+version: "3.7"
+services: 
+  pms-dashboard-production:
+      build: ../
+      container_name: pms-dashboard-production
+      restart: always
+      ports: 
+        - 80:3000
+      networks: 
+        - environment-production
+      volumes:
+        - pms-dashboard-vol-production:/usr/share/nginx/html
+networks:
+  environment-production:
+    external: true
+    name: environment-production
+
+volumes:
+  pms-dashboard-vol-production:
+    external: true
+    name: pms-dashboard-vol-production
