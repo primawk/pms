@@ -16,7 +16,7 @@ deploy:staging:
     - eval $(ssh-agent -s)
     - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
   script:
-    - rsync -e "ssh -o StrictHostKeyChecking=no" -p $PROJECT_DEPLOY_PORT -avrc --delete . $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST:$PROJECT_LOCATION_STAGING
+    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST:$PROJECT_LOCATION_STAGING -p $PROJECT_DEPLOY_PORT
     - >
       ssh -t $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_STAGING ;
@@ -37,7 +37,7 @@ deploy:production:
     - eval $(ssh-agent -s)
     - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
   script:
-    - rsync -e "ssh -o StrictHostKeyChecking=no" -p $PROJECT_DEPLOY_PORT -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
+    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION -p $PROJECT_DEPLOY_PORT 
     - >
       ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_PRODUCTION ;
