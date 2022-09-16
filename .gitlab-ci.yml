@@ -3,56 +3,53 @@ stages:
   - production
 
 variables:
-  PROJECT_LOCATION_STAGING: $PROJECT_LOCATION_STAGING
-  PROJECT_LOCATION_PRODUCTION: $PROJECT_LOCATION_PRODUCTION
-  PROJECT_DEPLOY_PORT: $PROJECT_DEPLOY_PORT
-  
-deploy:staging:
+  PROJECT_LOCATION_STAGING: /var/www/html/staging/cms-react-staging/
+  PROJECT_LOCATION_PRODUCTION: /var/www/html/production/cms-react-production/
+
+deploy_staging:
+  image: node:14
   stage: staging
-  image: alpine:latest
   cache: {}
   before_script:
-    - apk add --no-cache openssh-client ca-certificates bash rsync
-    - mkdir -p ~/.ssh
-    - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 700 ~/.ssh/id_rsa
-    - eval "$(ssh-agent -s)"
-    - ssh-add ~/.ssh/id_rsa
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - apt-get update && apt-get install rsync -y
+    - eval $(ssh-agent -s)
+    - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
   script:
-    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST:$PROJECT_LOCATION_STAGING
-    - >
-      ssh -t $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST -p $PROJECT_DEPLOY_PORT "
-      cd $PROJECT_LOCATION_STAGING ;
-      cp configs/.env.staging ./.env ;
-      cd manifest ;
-      docker-compose -f docker-compose.staging.yml down ;
-      docker-compose -f docker-compose.staging.yml up --build -d
-      "
+    - echo "Building deploy package"
+    - cp configs/.env.staging ./.env
+    - yarn install
+    - CI=false && yarn run build
+    - echo "Build successful"
+    - cd build/
+    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_USER@$DEPLOY_HOST:$PROJECT_LOCATION_STAGING
+
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
   only:
     - staging
 
-deploy:production:
+deploy_production:
+  image: node:14
   stage: production
-  image: alpine:latest
   cache: {}
   before_script:
-    - apk add --no-cache openssh-client ca-certificates bash rsync
-    - mkdir -p ~/.ssh
-    - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 700 ~/.ssh/id_rsa
-    - eval "$(ssh-agent -s)"
-    - ssh-add ~/.ssh/id_rsa
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - apt-get update && apt-get install rsync -y
+    - eval $(ssh-agent -s)
+    - /bin/bash -c 'ssh-add <(echo "$SERVER_SECRET_KEY")'
   script:
-    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
-    - >
-      ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
-      cd $PROJECT_LOCATION_PRODUCTION ;
-      cp configs/.env.production ./.env ;
-      cd manifest ;
-      docker-compose -f docker-compose.production.yml down ;
-      docker-compose -f docker-compose.production.yml up --build -d
-      "
+    - echo "Building deploy package"
+    - cp configs/.env.production ./.env
+    - yarn install
+    - yarn run build
+    - echo "Build successful"
+    - cd build/
+    - rsync -e "ssh -o StrictHostKeyChecking=no" -avrc --delete . $DEPLOY_USER@$DEPLOY_HOST:$PROJECT_LOCATION_PRODUCTION
+
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
   only:
     - production
