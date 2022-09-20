@@ -4,6 +4,7 @@ import HomeIcon from '@iconify/icons-carbon/home';
 import OreGettingIcon from '@iconify/icons-eos-icons/data-mining';
 import LabIcon from '@iconify/icons-icomoon-free/lab';
 import Inventory from '../../../assets/Images/Vector.png';
+import BankData from '../../../assets/Images/bank_data.png';
 
 const getIcon = (name) => <Icon icon={name} height={24} width={24} color="#3f48c0" />;
 const getImg = (name) => (
@@ -40,6 +41,11 @@ const sidebarConfig = [
     title: 'Laporan Lab',
     path: 'lab-report',
     icon: getIcon(LabIcon)
+  },
+  {
+    title: 'Bank Data',
+    path: 'bank-data',
+    icon: getImg(BankData)
   }
 ];
 
