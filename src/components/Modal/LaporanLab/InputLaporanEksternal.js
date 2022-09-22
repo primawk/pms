@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import dayjs from 'dayjs';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
