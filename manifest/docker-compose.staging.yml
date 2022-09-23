@@ -17,5 +17,5 @@ networks:
 
 volumes:
   pms-dashboard-vol-staging:
-    external: true
+    external: false
     name: pms-dashboard-vol-staging

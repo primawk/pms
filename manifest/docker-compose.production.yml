@@ -17,5 +17,5 @@ networks:
 
 volumes:
   pms-dashboard-vol-production:
-    external: true
+    external: false
     name: pms-dashboard-vol-production
