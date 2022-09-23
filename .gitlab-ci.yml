@@ -24,6 +24,7 @@ deploy:staging:
     - >
       ssh -t $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_STAGING ;
+      rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
       cd manifest ;
       docker-compose -f docker-compose.staging.yml down ;
@@ -49,6 +50,7 @@ deploy:production:
     - >
       ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_PRODUCTION ;
+      rm -rf .env.development ;
       cp configs/.env.production ./.env ;
       cd manifest ;
       docker-compose -f docker-compose.production.yml down ;
