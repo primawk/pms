@@ -33,7 +33,7 @@ const BankData = () => {
                     </Grid>
                   </Grid>
                   <Grid item sx={{ padding: '16px 16px 0 0' }}>
-                    2
+                    <img src="/img/SemuaDokumen.png" alt=""></img>
                   </Grid>
                 </Grid>
               </Grid>
