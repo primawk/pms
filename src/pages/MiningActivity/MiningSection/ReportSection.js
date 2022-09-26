@@ -74,34 +74,36 @@ export default function ReportSection({ selectedDate, filterDate }) {
                 Laporan Kegiatan {activityType === 'shipment' && 'Pemasaran'} Tambang
               </Typography>
             </Stack>
-            <Stack direction="row" spacing={3} alignItems="center" sx={{ pr: 5 }}>
-              <TextField
-                placeholder="Cari Laporan"
-                size="small"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Icon icon="akar-icons:search" fontSize={20} />
-                    </InputAdornment>
-                  )
-                }}
-              ></TextField>
-              <TextField select value="newest" fullWidth size="small">
-                <MenuItem value="newest">
-                  <Stack direction="row">
-                    <p>Urutan |&nbsp;</p>
-                    <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
-                  </Stack>
-                </MenuItem>
-                <MenuItem value="oldest">
-                  <Stack direction="row">
-                    <p>Urutan |&nbsp;</p>
-                    <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
-                  </Stack>
-                </MenuItem>
-              </TextField>
-            </Stack>
+            {activityType === 'shipment' && (
+              <Stack direction="row" spacing={3} alignItems="center" sx={{ pr: 5 }}>
+                <TextField
+                  placeholder="Cari Laporan"
+                  size="small"
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon icon="akar-icons:search" fontSize={20} />
+                      </InputAdornment>
+                    )
+                  }}
+                ></TextField>
+                <TextField select value="newest" fullWidth size="small">
+                  <MenuItem value="newest">
+                    <Stack direction="row">
+                      <p>Urutan |&nbsp;</p>
+                      <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem value="oldest">
+                    <Stack direction="row">
+                      <p>Urutan |&nbsp;</p>
+                      <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
+                    </Stack>
+                  </MenuItem>
+                </TextField>
+              </Stack>
+            )}
             {isGranted && (
               <Button variant="contained" onClick={toggle}>
                 Input Kegiatan {activityType === 'shipment' ? 'Pemasaran' : 'Tambang'}

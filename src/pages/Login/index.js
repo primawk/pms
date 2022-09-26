@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import JwtDecode from 'jwt-decode';
 import {
   Grid,
   Box,
@@ -24,6 +25,14 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userPms = JSON.parse(localStorage.getItem('user-pms'));
+    const decoded = userPms?.access_token && JwtDecode(userPms?.access_token);
+    if (Date.now() < decoded?.exp * 1000) {
+      navigate('/dashboard');
+    }
+  });
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().required('Username is required'),

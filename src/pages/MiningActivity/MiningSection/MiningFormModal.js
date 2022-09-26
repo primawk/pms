@@ -47,7 +47,7 @@ export default function MiningFormModal({ isShowing, toggle }) {
     date: Yup.string().required('Date is required'),
     time: Yup.string().required('Time is required'),
     product_type: Yup.string().required('Product Type is required'),
-    block: Yup.string().required('Block is required')
+    block: Yup.string()
   });
 
   const formik = useFormik({
@@ -56,7 +56,7 @@ export default function MiningFormModal({ isShowing, toggle }) {
       date: today,
       time: today,
       product_type: '',
-      block: ''
+      block: 'Utara'
     },
     validationSchema: MiningFormSchema,
     onSubmit: (values) => {

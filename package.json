@@ -34,6 +34,7 @@
     "react-date-range": "^1.4.0",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.1.0",
+    "react-dropzone": "^11.3.4",
     "react-pro-sidebar": "^0.7.1",
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0",

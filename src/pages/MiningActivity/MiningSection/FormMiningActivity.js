@@ -9,6 +9,7 @@ import useAuth from 'hooks/useAuth';
 
 // components
 import FormMiningCard from 'components/Card/FormMiningCard';
+import FormShipmentCard from 'components/Card/FormShipmentCard';
 
 export default function FormMiningActiviy() {
   const { activityType } = useParams();
@@ -33,13 +34,17 @@ export default function FormMiningActiviy() {
           >
             <Grid item>
               <Stack direction="row" spacing={2}>
-                <Typography variant="h4">{capitalizeFirstLetter(activityType)}</Typography>
+                <Typography variant="h4">
+                  {activityType === 'shipment'
+                    ? 'Pemasaran di Dermaga'
+                    : capitalizeFirstLetter(activityType)}
+                </Typography>
               </Stack>
             </Grid>
           </Grid>
         </div>
         <hr />
-        <FormMiningCard />
+        {activityType === 'shipment' ? <FormShipmentCard /> : <FormMiningCard />}
       </div>
     </>
   );
