@@ -6,16 +6,16 @@ services:
       restart: always
       ports: 
         - 3000:3000
-      networks: 
-        - environment-production
-      volumes:
-        - pms-dashboard-vol-production:/usr/share/nginx/html
-networks:
-  environment-production:
-    external: true
-    name: environment-production
+#       networks: 
+#         - environment-production
+#       volumes:
+#         - pms-dashboard-vol-production:/usr/share/nginx/html
+# networks:
+#   environment-production:
+#     external: true
+#     name: environment-production
 
-volumes:
-  pms-dashboard-vol-production:
-    external: true
-    name: pms-dashboard-vol-production
+# volumes:
+#   pms-dashboard-vol-production:
+#     external: false
+#     name: pms-dashboard-vol-production

@@ -6,16 +6,16 @@ services:
       restart: always
       ports: 
         - 3000:3000
-      networks: 
-        - environment-staging
-      volumes:
-        - pms-dashboard-vol-staging:/usr/share/nginx/html
-networks:
-  environment-staging:
-    external: true
-    name: environment-staging
+#       networks: 
+#         - environment-staging
+#       volumes:
+#         - pms-dashboard-vol-staging:/usr/share/nginx/html
+# networks:
+#   environment-staging:
+#     external: true
+#     name: environment-staging
 
-volumes:
-  pms-dashboard-vol-staging:
-    external: true
-    name: pms-dashboard-vol-staging
+# volumes:
+#   pms-dashboard-vol-staging:
+#     external: false
+#     name: pms-dashboard-vol-staging
