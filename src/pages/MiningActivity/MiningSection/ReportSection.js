@@ -88,17 +88,23 @@ export default function ReportSection({ selectedDate, filterDate }) {
                     )
                   }}
                 ></TextField>
-                <TextField select value="newest" fullWidth size="small">
+                <TextField
+                  select
+                  value="newest"
+                  fullWidth
+                  size="small"
+                  InputProps={{
+                    startAdornment: <Typography>Urutan |</Typography>
+                  }}
+                >
                   <MenuItem value="newest">
                     <Stack direction="row">
-                      <p>Urutan |&nbsp;</p>
                       <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
                     </Stack>
                   </MenuItem>
                   <MenuItem value="oldest">
                     <Stack direction="row">
-                      <p>Urutan |&nbsp;</p>
-                      <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
+                      <p style={{ fontWeight: 'bolder' }}>Terlama</p>
                     </Stack>
                   </MenuItem>
                 </TextField>

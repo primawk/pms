@@ -1552,6 +1552,13 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify/icons-mdi@^1.2.31":
+  version "1.2.31"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-mdi/-/icons-mdi-1.2.31.tgz#701dae4099bffbc235f6a6a0606a981636372824"
+  integrity sha512-/F9YDLpXXTicI2WOw5lqucNt4xoLH/yBOo35MJloCUTSmWENQIQcI72a3pEG5qUHyEkonhZVGZPRXfyyfd5e9w==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/react@^3.2.2":
   version "3.2.2"
   resolved "https://registry.npmjs.org/@iconify/react/-/react-3.2.2.tgz"

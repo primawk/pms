@@ -28,6 +28,7 @@ import DetailDome from 'pages/Inventory/DetailDome';
 import EditLaporanInternal from 'pages/LaporanLab/EditLaporanInternal';
 import EditLaporanEksternal from 'pages/LaporanLab/EditLaporanEksternal';
 import BankData from 'pages/BankData';
+import MiningTool from 'pages/MiningTool';
 
 export default function Routes() {
   return useRoutes([
@@ -86,6 +87,10 @@ export default function Routes() {
         {
           path: 'bank-data',
           element: <BankData />
+        },
+        {
+          path: 'mining-tool',
+          element: <MiningTool />
         },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]

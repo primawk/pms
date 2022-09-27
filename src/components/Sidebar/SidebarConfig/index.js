@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react';
 import UserIcon from '@iconify/icons-carbon/user-avatar-filled';
 import HomeIcon from '@iconify/icons-carbon/home';
 import OreGettingIcon from '@iconify/icons-eos-icons/data-mining';
+import MiningToolIcon from '@iconify/icons-mdi/dump-truck';
 import LabIcon from '@iconify/icons-icomoon-free/lab';
 import Inventory from '../../../assets/Images/Vector.png';
 import BankData from '../../../assets/Images/bank_data.png';
@@ -41,6 +42,11 @@ const sidebarConfig = [
     title: 'Laporan Lab',
     path: 'lab-report',
     icon: getIcon(LabIcon)
+  },
+  {
+    title: 'Alat Tambang',
+    path: 'mining-tool',
+    icon: getIcon(MiningToolIcon)
   },
   {
     title: 'Bank Data',
