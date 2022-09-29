@@ -30,6 +30,7 @@ import EditLaporanEksternal from 'pages/LaporanLab/EditLaporanEksternal';
 import BankData from 'pages/BankData';
 import MiningTool from 'pages/MiningTool';
 import FormMiningTool from 'pages/MiningTool/MiningToolSection/FormMiningTool';
+import { MiningToolGrouped } from 'pages/MiningTool/MiningToolSection';
 
 export default function Routes() {
   return useRoutes([
@@ -93,6 +94,10 @@ export default function Routes() {
           path: 'mining-tool',
           element: <MiningTool />
         },
+        {
+          path: 'mining-tool/list/:companyId',
+          element: <MiningToolGrouped />
+        },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
     },
@@ -106,6 +111,10 @@ export default function Routes() {
           children: [
             {
               path: 'add',
+              element: <FormMiningTool />
+            },
+            {
+              path: 'edit/:id',
               element: <FormMiningTool />
             }
           ]

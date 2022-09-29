@@ -8,7 +8,6 @@ export default function Header({ children, title, background }) {
       direction="row"
       justifyContent="flex-start"
       alignItems="center"
-      spacing={2}
       sx={{
         backgroundImage: `url(/img/${background})`,
         backgroundRepeat: 'no-repeat',
@@ -16,14 +15,19 @@ export default function Header({ children, title, background }) {
         backgroundPosition: 'center',
         width: '100%',
         height: '21vh',
-        padding: 5,
+        pr: 5,
+        pl: 5,
         margin: 0
       }}
     >
-      <Grid item>
-        <h2 style={{ color: 'white' }}>{title}</h2>
+      {title && (
+        <Grid item sx={{ mr: 1 }}>
+          <h2 style={{ color: 'white' }}>{title}</h2>
+        </Grid>
+      )}
+      <Grid item md={!title && 12}>
+        {children}
       </Grid>
-      <Grid item>{children}</Grid>
     </Grid>
   );
 }

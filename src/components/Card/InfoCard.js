@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
-const InfoCard = ({ name, image, value, date, children }) => {
+const InfoCard = ({ name, image, value, date, children, sx }) => {
   return (
     <Grid
       container
@@ -16,7 +16,8 @@ const InfoCard = ({ name, image, value, date, children }) => {
         padding: '16px 12px',
         mt: 2,
         mb: 2,
-        minWidth: '100%'
+        minWidth: '100%',
+        ...sx
       }}
     >
       <Grid
