@@ -1,19 +1,13 @@
 import { Grid, Stack, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
-
-// utils
-import { capitalizeFirstLetter } from 'utils/helper';
 
 // custom hook
-import useAuth from 'hooks/useAuth';
+// import useAuth from 'hooks/useAuth';
 
 // components
-import FormMiningCard from 'components/Card/FormMiningCard';
-import FormShipmentCard from 'components/Card/FormShipmentCard';
+import FormMiningToolCard from 'components/Card/FormMiningToolCard';
 
-export default function FormMiningActiviy() {
-  const { activityType } = useParams();
-  useAuth();
+export default function FormMiningTool() {
+  //   useAuth();
   return (
     <>
       <div className="app-content">
@@ -34,17 +28,13 @@ export default function FormMiningActiviy() {
           >
             <Grid item>
               <Stack direction="row" spacing={2}>
-                <Typography variant="h4">
-                  {activityType === 'shipment'
-                    ? 'Pemasaran di Dermaga'
-                    : capitalizeFirstLetter(activityType)}
-                </Typography>
+                <Typography variant="h4">Penggunaan Alat Tambang</Typography>
               </Stack>
             </Grid>
           </Grid>
         </div>
         <hr />
-        {activityType === 'shipment' ? <FormShipmentCard /> : <FormMiningCard />}
+        <FormMiningToolCard />
       </div>
     </>
   );

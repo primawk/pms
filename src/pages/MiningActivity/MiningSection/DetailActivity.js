@@ -13,6 +13,7 @@ import useAuth from 'hooks/useAuth';
 
 // components
 import ReportDetailCard from 'components/Card/ReportDetailCard';
+import ShipmentDetailCard from 'components/Card/ShipmentDetailCard';
 import { LoadingModal } from 'components/Modal';
 
 // service
@@ -89,7 +90,7 @@ export default function DetailActivity() {
         </Grid>
       </div>
       <hr />
-      <ReportDetailCard />
+      {activityType === 'shipment' ? <ShipmentDetailCard /> : <ReportDetailCard />}
     </div>
   );
 }
