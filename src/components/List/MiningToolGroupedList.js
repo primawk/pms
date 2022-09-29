@@ -18,12 +18,12 @@ const MiningToolGroupedList = ({ listData }) => {
         padding: '0.5em'
       }}
     >
-      <Grid item md={1}>
+      <Grid item md={0.5}>
         <Typography variant="h4" sx={{ textAlign: 'center', alignSelf: 'center' }}>
           1
         </Typography>
       </Grid>
-      <Grid item md={1.5} container justifyContent="space-between">
+      <Grid item md={2} container justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Jenis Peralatan
         </Typography>
