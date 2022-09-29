@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 
-export default function Header({ children, title, background }) {
+export default function Header({ children, title, background, sx }) {
   return (
     <Grid
       container
@@ -15,9 +15,9 @@ export default function Header({ children, title, background }) {
         backgroundPosition: 'center',
         width: '100%',
         height: '21vh',
-        pr: 5,
-        pl: 5,
-        margin: 0
+        padding: 8,
+        margin: 0,
+        ...sx
       }}
     >
       {title && (

@@ -9,7 +9,7 @@ export default function MiningToolGrouped() {
   return (
     <>
       <div className="app-content">
-        <Header background="headerPerusahaan.png">
+        <Header background="headerPerusahaan.png" sx={{ p: 0 }}>
           <center>
             <Grid
               container
