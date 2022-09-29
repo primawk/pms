@@ -16,6 +16,10 @@ export default function MiningTool() {
           {
             x: '2022/09/09',
             y: 100
+          },
+          {
+            x: '2022/09/10',
+            y: 200
           }
         ],
         backgroundColor: ['#3F48C0'],
@@ -24,6 +28,7 @@ export default function MiningTool() {
       }
     ]
   };
+
   return (
     <>
       <Header title="ALAT TAMBANG" background="dashboard.png" />

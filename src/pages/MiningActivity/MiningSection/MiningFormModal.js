@@ -29,6 +29,10 @@ const miningActivityList = [
   {
     label: 'Pemasaran di Dermaga',
     value: 'shipment'
+  },
+  {
+    label: 'Pengguanaan Alat Tambang',
+    value: 'tambang'
   }
 ];
 
@@ -60,15 +64,27 @@ export default function MiningFormModal({ isShowing, toggle }) {
     },
     validationSchema: MiningFormSchema,
     onSubmit: (values) => {
-      navigate(`/mining-activity/${values?.activity_type}/add`, {
-        state: {
-          activity_type: values?.activity_type,
-          date: dayjs(values?.date).format('YYYY-MM-DD'),
-          time: dayjs(values?.time).format('HH:mm'),
-          product_type: values?.product_type,
-          block: values?.block
-        }
-      });
+      if (values?.activity_type === 'tambang') {
+        navigate(`/mining-tool/add`, {
+          state: {
+            activity_type: values?.activity_type,
+            date: dayjs(values?.date).format('YYYY-MM-DD'),
+            time: dayjs(values?.time).format('HH:mm'),
+            product_type: values?.product_type,
+            block: values?.block
+          }
+        });
+      } else {
+        navigate(`/mining-activity/${values?.activity_type}/add`, {
+          state: {
+            activity_type: values?.activity_type,
+            date: dayjs(values?.date).format('YYYY-MM-DD'),
+            time: dayjs(values?.time).format('HH:mm'),
+            product_type: values?.product_type,
+            block: values?.block
+          }
+        });
+      }
     }
   });
 
@@ -76,7 +92,7 @@ export default function MiningFormModal({ isShowing, toggle }) {
 
   useEffect(() => {
     resetForm();
-    setFieldValue('activity_type', activityType);
+    setFieldValue('activity_type', activityType || 'tambang');
   }, [activityType, resetForm, setFieldValue]);
 
   return (

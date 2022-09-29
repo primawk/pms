@@ -29,6 +29,7 @@ import EditLaporanInternal from 'pages/LaporanLab/EditLaporanInternal';
 import EditLaporanEksternal from 'pages/LaporanLab/EditLaporanEksternal';
 import BankData from 'pages/BankData';
 import MiningTool from 'pages/MiningTool';
+import FormMiningTool from 'pages/MiningTool/MiningToolSection/FormMiningTool';
 
 export default function Routes() {
   return useRoutes([
@@ -99,6 +100,16 @@ export default function Routes() {
       // navbar only layout ( detail, history, input , etc )
       element: <LayoutNavbar />,
       children: [
+        // mining tool
+        {
+          path: 'mining-tool',
+          children: [
+            {
+              path: 'add',
+              element: <FormMiningTool />
+            }
+          ]
+        },
         // mining activity
         {
           path: 'mining-activity',

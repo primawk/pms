@@ -12,11 +12,13 @@ import { Icon } from '@iconify/react';
 
 // custom hooks
 import usePagination from 'hooks/usePagination';
+import useModal from 'hooks/useModal';
 // import useAuth from 'hooks/useAuth';
 
 //components
 import MiningToolReportList from 'components/List/MiningToolReportList';
 import CustomPagination from 'components/Pagination';
+import { MiningFormModal } from '.';
 
 // utils
 import { ceilTotalData } from 'utils/helper';
@@ -24,10 +26,13 @@ import { ceilTotalData } from 'utils/helper';
 export default function MiningToolReport({ selectedDate, filterDate }) {
   const { page, handleChangePage } = usePagination();
 
+  const { isShowing, toggle } = useModal();
+
   // const { isGranted } = useAuth();
 
   return (
     <>
+      <MiningFormModal isShowing={isShowing} toggle={toggle} />
       <Grid
         container
         direction="row"
@@ -76,7 +81,9 @@ export default function MiningToolReport({ selectedDate, filterDate }) {
           </TextField>
         </Grid>
         <Grid item md={2.5} sx={{ pr: 2 }}>
-          <Button variant="contained">Input Penggunaan Alat</Button>
+          <Button variant="contained" onClick={toggle}>
+            Input Penggunaan Alat
+          </Button>
           {/* {isGranted && <Button variant="contained">Input Kegiatan Penggunaan Alat Tambang</Button>} */}
         </Grid>
       </Grid>
