@@ -12,7 +12,7 @@ deploy:staging:
   image: alpine:latest
   cache: {}
   before_script:
-    - apk add --no-cache openssh-client ca-certificates bash rsync sshpass
+    - apk add --no-cache openssh-client ca-certificates bash rsync
     - mkdir -p ~/.ssh
     - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
@@ -20,24 +20,15 @@ deploy:staging:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - sshpass -p '$SERVER_PASS' rsync -e ssh -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_STAGING
+    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST:$PROJECT_LOCATION_STAGING
     - >
-      sshpass -p "$SERVER_PASS" ssh -t $USER_STAGING@$HOSTS_STAGING "
+      ssh -t $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_STAGING ;
       rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
-      docker build -t asefamarudin/react:latest
-      docker push asefamarudin/react:latest
-      docker rmi -f asefamarudin/react:latest
-      docker image prune -f ;
-      ssh $USER_STAGING@$HOSTS_FE_STAGING $SHELL << EOF
-      cd /root/repositories
-      docker pull asefamarudin/react:latest
-      docker-compose up -d
-      docker image prune -f
-      exit
-      EOF
-      pwd 
+      cd manifest ;
+      docker-compose -f docker-compose.staging.yml down ;
+      docker-compose -f docker-compose.staging.yml up --build -d
       "
 only:
     - staging
