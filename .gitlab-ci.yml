@@ -28,15 +28,14 @@ deploy:staging:
       cp configs/.env.staging ./.env ;
       docker build -t asefamarudin/react:latest . ;
       docker push asefamarudin/react:latest ;
-      docker rmi -f asefamarudin/react:latest ;
-      ssh $USER_STAGING@$HOSTS_FE_STAGING $SHELL << EOF
-      cd /root/repositories
-      docker pull asefamarudin/react:latest
-      docker-compose up -d
+      docker rmi -f asefamarudin/react:latest 
+      "
+    - >
+      sshpass -p "$SERVER_PASS_FE_STAGING" ssh -t $USER_FE_STAGING@$HOSTS__FE_STAGING "
+      cd /root/repositories ;
+      docker pull asefamarudin/react:latest ;
+      docker-compose up -d ;
       docker image prune -f
-      exit
-      EOF
-      pwd 
       "
   only:
     - staging
