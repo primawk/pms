@@ -20,9 +20,9 @@ deploy:staging:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - sshpass -p '$SERVER_PASS' rsync -e ssh -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_STAGING
+    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_STAGING
     - >
-      sshpass -p "$SERVER_PASS" ssh -t $USER_STAGING@$HOSTS_STAGING "
+      ssh -t $USER_STAGING@$HOSTS_STAGING "
       cd $PROJECT_LOCATION_STAGING ;
       rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
@@ -31,7 +31,7 @@ deploy:staging:
       docker rmi -f asefamarudin/react:latest 
       "
     - >
-      sshpass -p "$SERVER_PASS_FE_STAGING" ssh -t $USER_FE_STAGING@$HOSTS__FE_STAGING "
+      ssh -t $USER_FE_STAGING@$HOSTS_FE_STAGING "
       cd /root/repositories ;
       docker pull asefamarudin/react:latest ;
       docker-compose up -d ;
