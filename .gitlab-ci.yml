@@ -26,10 +26,17 @@ deploy:staging:
       cd $PROJECT_LOCATION_STAGING ;
       rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
-      cd manifest ;
-      docker build -t asefamarudin/react:latest ;
+      docker build -t asefamarudin/react:latest . ;
       docker push asefamarudin/react:latest ;
-      docker rmi -f asefamarudin/react:latest
+      docker rmi -f asefamarudin/react:latest ;
+      ssh $USER_STAGING@$HOSTS_FE_STAGING $SHELL << EOF
+      cd /root/repositories
+      docker pull asefamarudin/react:latest
+      docker-compose up -d
+      docker image prune -f
+      exit
+      EOF
+      pwd 
       "
   only:
     - staging
