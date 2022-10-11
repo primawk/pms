@@ -26,9 +26,17 @@ deploy:staging:
       cd $PROJECT_LOCATION_STAGING ;
       rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
-      cd manifest ;
-      docker-compose -f docker-compose.staging.yml down ;
-      docker-compose -f docker-compose.staging.yml up --build -d
+      docker build -t cms-react:latest . ;
+      docker save --output saved-image.tar cms-react:latest;
+      docker rmi -f cms-react:latest 
+      "
+    - >
+      ssh -t $USER_FE_STAGING@$HOSTS_FE_STAGING "
+      cd /root/repositories ;
+      scp $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_STAGING/saved-image.tar ./ ;
+      docker load --input saved-image.tar ;
+      docker-compose up -d ;
+      docker image prune -f
       "
   only:
     - staging
