@@ -29,8 +29,8 @@ export default function useAuth() {
       if (!userPms) {
         navigate('/auth/login');
       } else {
-        const decoded = JwtDecode(userPms.access_token);
-        if (Date.now() > decoded.exp * 1000) {
+        const decoded = JwtDecode(userPms?.access_token);
+        if (Date.now() > decoded?.exp * 1000) {
           localStorage.clear();
           navigate('/');
           window.location.reload();

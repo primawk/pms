@@ -201,6 +201,7 @@ export default function FormMiningCard() {
   useEffect(() => {
     if (id === undefined && !values?.activity_type && !values?.date) {
       navigate(-1);
+      navigate(0);
     }
   }, []);
 

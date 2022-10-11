@@ -131,7 +131,7 @@ export default function RoleTable() {
           headCells={headCells}
           withSelect={isGranted}
           withToolbar={isGranted}
-          rows={data?.data?.data}
+          rows={data?.data?.data || []}
           actions={isGranted ? actions : []}
           edit={isGranted}
           onEdit={handleEdit}

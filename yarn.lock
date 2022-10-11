@@ -1410,6 +1410,13 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify/icons-mdi@^1.2.31":
+  "integrity" "sha512-/F9YDLpXXTicI2WOw5lqucNt4xoLH/yBOo35MJloCUTSmWENQIQcI72a3pEG5qUHyEkonhZVGZPRXfyyfd5e9w=="
+  "resolved" "https://registry.npmjs.org/@iconify/icons-mdi/-/icons-mdi-1.2.31.tgz"
+  "version" "1.2.31"
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/react@^3.2.2":
   "integrity" "sha512-z3+Jno3VcJzgNHsN5mEvYMsgCkOZkydqdIwOxjXh45+i2Vs9RGH68Y52vt39izwFSfuYUXhaW+1u7m7+IhCn/g=="
   "resolved" "https://registry.npmjs.org/@iconify/react/-/react-3.2.2.tgz"
@@ -3070,6 +3077,11 @@
   "integrity" "sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg=="
   "resolved" "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz"
   "version" "2.1.2"
+
+"attr-accept@^2.2.2":
+  "integrity" "sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg=="
+  "resolved" "https://registry.npmjs.org/attr-accept/-/attr-accept-2.2.2.tgz"
+  "version" "2.2.2"
 
 "autoprefixer@^10.4.7":
   "integrity" "sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA=="
@@ -4935,6 +4947,13 @@
     "loader-utils" "^2.0.0"
     "schema-utils" "^3.0.0"
 
+"file-selector@^0.4.0":
+  "integrity" "sha512-iACCiXeMYOvZqlF1kTiYINzgepRBymz1wwjiuup9u9nayhb6g4fSwiyJ/6adli+EPwrWtpgQAh2PoS7HukEGEg=="
+  "resolved" "https://registry.npmjs.org/file-selector/-/file-selector-0.4.0.tgz"
+  "version" "0.4.0"
+  dependencies:
+    "tslib" "^2.0.3"
+
 "filelist@^1.0.1":
   "integrity" "sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q=="
   "resolved" "https://registry.npmjs.org/filelist/-/filelist-1.0.4.tgz"
@@ -5140,11 +5159,6 @@
   "integrity" "sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw=="
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
-
-"fsevents@^2.3.2", "fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
@@ -8206,6 +8220,15 @@
   dependencies:
     "loose-envify" "^1.1.0"
     "scheduler" "^0.23.0"
+
+"react-dropzone@^11.3.4":
+  "integrity" "sha512-zxCMwhfPy1olUEbw3FLNPLhAm/HnaYH5aELIEglRbqabizKAdHs0h+WuyOpmA+v1JXn0++fpQDdNfUagWt5hJQ=="
+  "resolved" "https://registry.npmjs.org/react-dropzone/-/react-dropzone-11.7.1.tgz"
+  "version" "11.7.1"
+  dependencies:
+    "attr-accept" "^2.2.2"
+    "file-selector" "^0.4.0"
+    "prop-types" "^15.8.1"
 
 "react-error-overlay@^6.0.11":
   "integrity" "sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg=="

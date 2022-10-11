@@ -1,5 +1,7 @@
-import React from 'react';
-
 export default function NotFound() {
-  return <div>Mau kemana bang gaada inimah</div>;
+  return (
+    <center>
+      <h1>HALAMAN TIDAK DITEMUKAN</h1>
+    </center>
+  );
 }

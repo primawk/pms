@@ -31,6 +31,9 @@ import BankData from 'pages/BankData';
 import Lossing from 'pages/Lossing';
 import InputBankData from 'pages/BankData/InputBankData';
 import DataReport from './pages/BankData/components/DataReport';
+import MiningTool from 'pages/MiningTool';
+import FormMiningTool from 'pages/MiningTool/MiningToolSection/FormMiningTool';
+import { MiningToolGrouped } from 'pages/MiningTool/MiningToolSection';
 
 export default function Routes() {
   return useRoutes([
@@ -98,7 +101,14 @@ export default function Routes() {
           path: 'lab-report/laporan-perusahaan',
           element: <CompanyReport />
         },
-
+        {
+          path: 'mining-tool',
+          element: <MiningTool />
+        },
+        {
+          path: 'mining-tool/list/:companyId',
+          element: <MiningToolGrouped />
+        },
         { path: '*', element: <Navigate to="/404" replace /> }
       ]
     },
@@ -106,6 +116,20 @@ export default function Routes() {
       // navbar only layout ( detail, history, input , etc )
       element: <LayoutNavbar />,
       children: [
+        // mining tool
+        {
+          path: 'mining-tool',
+          children: [
+            {
+              path: 'add',
+              element: <FormMiningTool />
+            },
+            {
+              path: 'edit/:id',
+              element: <FormMiningTool />
+            }
+          ]
+        },
         // mining activity
         {
           path: 'mining-activity',

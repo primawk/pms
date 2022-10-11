@@ -3,7 +3,7 @@ import { Grid, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import PropTypes from 'prop-types';
 
-export default function Footer({ handleBack, loading }) {
+export default function Footer({ handleBack, loading, step }) {
   return (
     <Grid
       container
@@ -20,7 +20,7 @@ export default function Footer({ handleBack, loading }) {
       </Grid>
       <Grid item lg={2.5}>
         <LoadingButton loading={loading} variant="contained" fullWidth type="submit">
-          Submit Laporan
+          {!!step ? 'Next Page' : 'Submit Laporan'}
         </LoadingButton>
       </Grid>
     </Grid>
@@ -29,5 +29,6 @@ export default function Footer({ handleBack, loading }) {
 
 Footer.propTypes = {
   handleBack: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  step: PropTypes.number
 };
