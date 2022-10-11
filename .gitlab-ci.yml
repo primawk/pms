@@ -27,7 +27,7 @@ deploy:staging:
       rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
       docker build -t cms-react:latest . ;
-      docker docker save --output saved-image.tar cms-react:latest;
+      docker save --output saved-image.tar cms-react:latest;
       docker rmi -f cms-react:latest 
       "
     - >
