@@ -26,14 +26,15 @@ deploy:staging:
       cd $PROJECT_LOCATION_STAGING ;
       rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
-      docker build -t asefamarudin/react:latest . ;
-      docker push asefamarudin/react:latest ;
-      docker rmi -f asefamarudin/react:latest 
+      docker build -t cms-react:latest . ;
+      docker docker save --output saved-image.tar cms-react:latest;
+      docker rmi -f cms-react:latest 
       "
     - >
       ssh -t $USER_FE_STAGING@$HOSTS_FE_STAGING "
       cd /root/repositories ;
-      docker pull asefamarudin/react:latest ;
+      scp $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_STAGING/saved-image.tar ./ ;
+      docker load --input saved-image.tar ;
       docker-compose up -d ;
       docker image prune -f
       "
