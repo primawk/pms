@@ -6,6 +6,7 @@ import MiningToolIcon from '@iconify/icons-mdi/dump-truck';
 import LabIcon from '@iconify/icons-icomoon-free/lab';
 import Inventory from '../../../assets/Images/Vector.png';
 import BankData from '../../../assets/Images/bank_data.png';
+import ModulLossing from '../../../assets/Images/modul-lossing.png';
 
 const getIcon = (name) => <Icon icon={name} height={24} width={24} color="#3f48c0" />;
 const getImg = (name) => (
@@ -52,6 +53,11 @@ const sidebarConfig = [
     title: 'Bank Data',
     path: 'bank-data',
     icon: getImg(BankData)
+  },
+  {
+    title: 'Modul Lossing',
+    path: 'modul-lossing',
+    icon: getImg(ModulLossing)
   }
 ];
 

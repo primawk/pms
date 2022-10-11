@@ -28,6 +28,9 @@ import DetailDome from 'pages/Inventory/DetailDome';
 import EditLaporanInternal from 'pages/LaporanLab/EditLaporanInternal';
 import EditLaporanEksternal from 'pages/LaporanLab/EditLaporanEksternal';
 import BankData from 'pages/BankData';
+import Lossing from 'pages/Lossing';
+import InputBankData from 'pages/BankData/InputBankData';
+import DataReport from './pages/BankData/components/DataReport';
 import MiningTool from 'pages/MiningTool';
 import FormMiningTool from 'pages/MiningTool/MiningToolSection/FormMiningTool';
 import { MiningToolGrouped } from 'pages/MiningTool/MiningToolSection';
@@ -38,6 +41,18 @@ export default function Routes() {
       element: <LayoutSidebar />,
       children: [
         { path: '/', element: <Navigate to="/auth/login" replace /> },
+        {
+          path: 'bank-data',
+          element: <BankData />
+        },
+        {
+          path: 'bank-data/list',
+          element: <DataReport />
+        },
+        {
+          path: 'modul-lossing',
+          element: <Lossing />
+        },
         {
           path: 'user-management',
           element: <Navigate to="/user-management/user" replace />
@@ -85,10 +100,6 @@ export default function Routes() {
         {
           path: 'lab-report/laporan-perusahaan',
           element: <CompanyReport />
-        },
-        {
-          path: 'bank-data',
-          element: <BankData />
         },
         {
           path: 'mining-tool',
@@ -152,6 +163,11 @@ export default function Routes() {
           ]
         }
       ]
+    },
+    // Bank Data
+    {
+      path: 'bank-data/input',
+      element: <InputBankData />
     },
     // Laporan Lab
     {

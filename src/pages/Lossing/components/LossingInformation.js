@@ -2,23 +2,22 @@ import React from 'react';
 import { Button, Grid, Typography } from '@mui/material';
 import { Icon } from '@iconify/react';
 import InfoIcon from '@iconify/icons-carbon/information-filled';
-import TambahTarget from '../../components/Modal/DashboardHome/TambahTarget';
+// import TambahTarget from '../../components/Modal/DashboardHome/TambahTarget';
 
 // custom hooks
-import useModal from '../../hooks/useModal';
+// import useModal from '../../hooks/useModal';
 
 const TargetDataInformation = () => {
-  const { isShowing, toggle } = useModal();
+  // const { isShowing, toggle } = useModal();
 
   return (
     <>
-      <TambahTarget toggle={toggle} isShowing={isShowing} />
+      {/* <TambahTarget toggle={toggle} isShowing={isShowing} /> */}
       <Grid
         container
         direction="row"
         alignItems="center"
-        sx={{ justifyContent: 'space-between' }}
-        mt={3}
+        sx={{ justifyContent: 'space-between', padding: '24px 1.5rem' }}
         gap={1}
       >
         <Grid
@@ -32,22 +31,22 @@ const TargetDataInformation = () => {
             padding: '16px 0 12px 0',
             background: '#F2F2F2'
           }}
-          xs={10}
+          xs={9.9}
         >
           <Grid item xs={0.5} sx={{ marginLeft: '0.5rem' }}>
             <Icon color="#3F48C0" icon={InfoIcon} />
           </Grid>
           <Grid item xs={11}>
             <Typography variant="body2" sx={{ whiteSpace: 'break-spaces' }}>
-              Input data target untuk dapat <b>membandingkan realisasi produksi tambang</b>. Data
-              target berdasarkan tahun dan bulan, Untuk menambahkan data target, silahkan klik{' '}
-              <b>tambah target</b>.
+              Input data estimasi untuk dapat membandingkan estimasi awal dengan hasil produksi.
+              Data estimasi berdasarkan hari. Untuk menambahkan data estimasi, silahkan klik tambah
+              estimasi
             </Typography>
           </Grid>
         </Grid>
         <Grid item sx={{ backgroundColor: 'yellow' }}>
-          <Button sx={{ boxShadow: 'none' }} variant="contained" onClick={toggle}>
-            Tambah Target
+          <Button sx={{ boxShadow: 'none' }} variant="contained">
+            Tambah Estimasi
           </Button>
         </Grid>
       </Grid>

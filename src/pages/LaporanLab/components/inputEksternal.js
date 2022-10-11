@@ -94,8 +94,6 @@ const InputEksternal = ({
     }
   }, [addFormData.sample_code, dataSampleCode]);
 
-  console.log(dataSampleCode);
-
   return (
     <>
       {isLoadingSample && isFetchingSample && <LoadingModal />}
@@ -276,7 +274,7 @@ const InputEksternal = ({
                     <Icon icon="bi:cloud-upload" color="#3f48c0" fontSize={70} />
                   </Grid>
                   <Grid item sx={{ margin: 'auto' }} fontSize={'0.875rem'}>
-                    Upload file .pdf untuk laporan
+                    Upload file
                   </Grid>
                   <Grid item sx={{ margin: 'auto' }} fontSize={'0.875rem'}>
                     eksternal disini. Ukuran max
