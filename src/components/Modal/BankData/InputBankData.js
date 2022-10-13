@@ -16,7 +16,7 @@ const InputBankData = ({ isShowing, toggle, targetDate }) => {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  
+
   return (
     <>
       <CustomModal isShowing={isShowing} toggle={toggle} width="408px">
@@ -73,17 +73,17 @@ const InputBankData = ({ isShowing, toggle, targetDate }) => {
           <Grid item sx={{ margin: '0 24px 24px 24px' }}>
             <Grid item container spacing={2} sx={{ flexDirection: 'row-reverse' }}>
               <Grid item>
-                <Button variant="outlined" onClick={toggle}>
-                  Cancel
-                </Button>
-              </Grid>
-              <Grid item>
                 <Button
                   variant="contained"
                   sx={{ boxShadow: 0 }}
                   onClick={() => navigate(`/bank-data/input`)}
                 >
                   Submit
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="outlined" onClick={toggle}>
+                  Cancel
                 </Button>
               </Grid>
             </Grid>

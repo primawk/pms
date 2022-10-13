@@ -63,7 +63,7 @@ const FilterDate = ({
           </Grid>
           <Grid item>
             <Button
-              sx={{ fontSize: '1rem' }}
+              sx={{ fontSize: '1rem', boxShadow: 'none' }}
               variant="contained"
               onClick={() => {
                 toggle();

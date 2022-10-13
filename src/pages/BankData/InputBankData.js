@@ -4,7 +4,7 @@ import { Grid, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import add from 'assets/Images/ant-design_plus-circle-outlined.png';
 import LoadingButton from '@mui/lab/LoadingButton';
-import BankDataReport from './components/BankDataReport';
+import BankDataReport from '../../components/BankData/BankDataReport';
 import alert from '../../assets/Images/clock-history.png';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';

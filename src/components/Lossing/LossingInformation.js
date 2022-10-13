@@ -7,7 +7,7 @@ import InfoIcon from '@iconify/icons-carbon/information-filled';
 // custom hooks
 // import useModal from '../../hooks/useModal';
 
-const TargetDataInformation = () => {
+const TargetDataInformation = ({ toggle }) => {
   // const { isShowing, toggle } = useModal();
 
   return (
@@ -33,7 +33,7 @@ const TargetDataInformation = () => {
           }}
           xs={9.9}
         >
-          <Grid item xs={0.5} sx={{ marginLeft: '0.5rem' }}>
+          <Grid item sx={{ margin: '0 0.5rem 0 0.5rem' }}>
             <Icon color="#3F48C0" icon={InfoIcon} />
           </Grid>
           <Grid item xs={11}>
@@ -44,8 +44,8 @@ const TargetDataInformation = () => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid item sx={{ backgroundColor: 'yellow' }}>
-          <Button sx={{ boxShadow: 'none' }} variant="contained">
+        <Grid item sx={{}}>
+          <Button sx={{ boxShadow: 'none' }} variant="contained" onClick={toggle}>
             Tambah Estimasi
           </Button>
         </Grid>

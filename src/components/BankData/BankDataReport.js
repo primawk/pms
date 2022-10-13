@@ -9,9 +9,9 @@ import { Icon } from '@iconify/react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import pdf from '../../../assets/Images/pdf.png';
+import pdf from '../../assets/Images/pdf.png';
 import dayjs from 'dayjs';
-import { dateToStringPPOBFormatterv2 } from '../../../utils/helper';
+import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
 
 const BankDataReport = ({
   // i need to put {} when pass function as a prop to child component
@@ -139,7 +139,7 @@ const BankDataReport = ({
           >
             <Box sx={{ paddingBottom: '1rem', fontWeight: 700 }}>Masa Berlaku Dokumen</Box>
             <Box sx={{ paddingBottom: '1rem', fontWeight: 400 }}>Tanggal</Box>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
               <DesktopDatePicker
                 required
                 inputFormat="dd/MM/yyyy"

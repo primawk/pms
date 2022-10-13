@@ -124,7 +124,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
             <TableRow>
               {targetTableHead?.map((item) => (
                 <TableCell
-                  sx={{ background: '#F2F2F2', border: '1px solid #F2F2F2' }}
+                  sx={{ background: '#F2F2F2', border: '1px solid #E0E0E0' }}
                   key={item}
                   align="center"
                 >
@@ -139,7 +139,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
                 <TableRow key={item}>
                   <TableCell
                     align="center"
-                    sx={{ border: '1px solid #F2F2F2', minWidth: '10vw' }}
+                    sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
                     rowSpan={item.target_list?.length + 1}
                   >
                     {item.year}
@@ -149,13 +149,13 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
                   <TableRow>
                     <TableCell
                       align="center"
-                      sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
+                      sx={{ border: '1px solid #E0E0E0', minWidth: '15vw' }}
                     >
                       {detail.month}
                     </TableCell>
                     <TableCell
                       align="center"
-                      sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
+                      sx={{ border: '1px solid #E0E0E0', minWidth: '15vw' }}
                     >
                       {detail.target}
                     </TableCell>
@@ -163,14 +163,14 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
                       <>
                         <TableCell
                           align="center"
-                          sx={{ border: '1px solid #F2F2F2', minWidth: '15vw' }}
-                          rowSpan={item.target_list?.length + 1}
+                          sx={{ border: '1px solid #E0E0E0', minWidth: '15vw' }}
+                          rowSpan={item.target_list?.length}
                         >
                           {item?.total_target}
                         </TableCell>
                         <TableCell
                           sx={{
-                            border: '1px solid #F2F2F2',
+                            border: '1px solid #E0E0E0',
                             justifyContent: 'flex-start',
                             alignItems: 'flex-start'
                           }}
@@ -183,8 +183,9 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
                               alignItems: 'flex-start',
                               marginBottom: '40rem'
                             }}
+                            gap={1}
                           >
-                            <Grid item md={5} xs={12} padding="0.2em 0">
+                            <Grid item xs={6} padding="0.2em 0">
                               {isGranted && (
                                 <Button
                                   sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
@@ -200,13 +201,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
                                 </Button>
                               )}
                             </Grid>
-                            <Grid
-                              item
-                              md={5}
-                              xs={12}
-                              padding="0.2em 0"
-                              sx={{ alignItems: 'center' }}
-                            >
+                            <Grid item xs={6} padding="0.2em 0" sx={{ alignItems: 'center' }}>
                               {isGranted && (
                                 <LoadingButton
                                   loading={loading}

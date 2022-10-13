@@ -29,8 +29,9 @@ import EditLaporanInternal from 'pages/LaporanLab/EditLaporanInternal';
 import EditLaporanEksternal from 'pages/LaporanLab/EditLaporanEksternal';
 import BankData from 'pages/BankData';
 import Lossing from 'pages/Lossing';
+import LossingSummary from 'pages/Lossing/Summary';
 import InputBankData from 'pages/BankData/InputBankData';
-import DataReport from './pages/BankData/components/DataReport';
+import DataReport from './pages/BankData/DataReport';
 import MiningTool from 'pages/MiningTool';
 import FormMiningTool from 'pages/MiningTool/MiningToolSection/FormMiningTool';
 import { MiningToolGrouped } from 'pages/MiningTool/MiningToolSection';
@@ -52,6 +53,10 @@ export default function Routes() {
         {
           path: 'modul-lossing',
           element: <Lossing />
+        },
+        {
+          path: 'modul-lossing/summary',
+          element: <LossingSummary />
         },
         {
           path: 'user-management',

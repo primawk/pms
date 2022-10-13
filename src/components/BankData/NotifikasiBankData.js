@@ -1,6 +1,6 @@
 import React from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import noti from '../../../assets/Images/noti.png';
+import noti from '../../assets/Images/noti.png';
 import { Grid, Popover, Button, Stack, IconButton, Avatar, Typography, Badge } from '@mui/material';
 
 const NotifikasiBankData = ({ anchor, open2, handleClose }) => {

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
 import { Icon } from '@iconify/react';
+import { useNavigate } from 'react-router-dom';
 import avatarLogo from 'assets/Images/avatar.png';
 
 const ListBankData = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Grid
@@ -22,7 +24,7 @@ const ListBankData = () => {
           cursor: 'pointer'
         }}
         spacing={3}
-        //   onClick={() => navigate(`/lab-report/detail/eksternal/${id}`, { state: data })}
+        onClick={() => navigate(`/bank-data/input`)}
       >
         <Grid item>
           {/* <Grid

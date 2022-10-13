@@ -1,15 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
 import useAuth from 'hooks/useAuth';
+import { styled } from '@mui/material/styles';
+import { Icon } from '@iconify/react';
+import ArrowIcon from '@iconify/icons-bi/caret-down-fill';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import Header from 'components/Header';
+import FilterDate from 'components/Modal/LaporanLab/FilterDate';
 
-const Katalog = () => {
+// custom hook
+import useModal from 'hooks/useModal';
+
+// custom button
+const WhiteButton = styled(Button)(({ theme }) => ({
+  backgroundColor: 'white',
+  color: 'black',
+  '&:hover': {
+    backgroundColor: '#E5E5FE'
+  }
+}));
+
+const Katalog = ({ setDetail, setSummary }) => {
   useAuth();
+  const { isShowing, toggle } = useModal();
+
+  const navigate = useNavigate();
+
+  const [filter, setFilter] = useState([
+    {
+      startDate: dayjs(new Date()).subtract(7, 'day').toDate(),
+      endDate: dayjs(new Date()).toDate(),
+      key: 'selection'
+    }
+  ]);
+
+  // const dateDifference = `${dayjs(selectedDate?.startDate).format('DD/MM/YYYY')}-${dayjs(
+  //   selectedDate?.endDate
+  // ).format('DD/MM/YYYY')}`;
+  const [selectedDate, setSelectedDate] = useState({
+    startDate: dayjs(new Date()).subtract(7, 'day').format('YYYY-MM-DD'),
+    endDate: dayjs(new Date()).format('YYYY-MM-DD')
+  });
   return (
     <>
-      <Header title="MODUL LOSSING" background="dashboard.png" />
+      <Header title="MODUL LOSSING" background="dashboard.png">
+        <WhiteButton
+          variant="contained"
+          size="medium"
+          sx={{ background: 'white', fontColor: 'black' }}
+          onClick={toggle}
+          endIcon={<Icon width={10} height={10} icon={ArrowIcon} color="#gray" />}
+        >
+          {/* {`Periode | ${dateDifference}`} */}
+          {`Periode | 1 Bulan`}
+        </WhiteButton>
+      </Header>
+      <FilterDate
+        toggle={toggle}
+        isShowing={isShowing}
+        state={filter}
+        setState={setFilter}
+        setSelectedDates={setSelectedDate}
+      />
       <div className="app-content">
         <Grid
           container
@@ -97,7 +152,11 @@ const Katalog = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item sx={{ color: '#3F48C0', cursor: 'pointer', padding: '0 16px 16px 16px' }}>
+              <Grid
+                item
+                sx={{ color: '#3F48C0', cursor: 'pointer', padding: '0 16px 16px 16px' }}
+                onClick={() => navigate('/modul-lossing/summary')}
+              >
                 Lihat Selengkapnya {'>'}
               </Grid>
             </Grid>
