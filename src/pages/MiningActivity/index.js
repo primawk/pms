@@ -26,7 +26,7 @@ const menuList = [
   { value: 'all-activity', label: 'Semua' },
   { value: 'ore-getting', label: 'Ore Getting' },
   { value: 'hauling', label: 'Hauling' },
-  { value: 'shipment', label: 'Shipments' }
+  { value: 'efo-to-shipment', label: 'Shipments' }
 ];
 
 export default function MiningActivity() {
@@ -64,8 +64,8 @@ export default function MiningActivity() {
       case 'hauling':
         navigate('/mining-activity/hauling/ore-hauling-to-eto');
         break;
-      case 'shipment':
-        navigate('/mining-activity/shipment');
+      case 'efo-to-shipment':
+        navigate('/mining-activity/efo-to-shipment');
         break;
       default:
         navigate('/mining-activity/all-activity');

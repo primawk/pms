@@ -107,7 +107,7 @@ export default function FormUser({ isShowing, toggle, id, resetPage, search, pag
             resetPage();
             toggle();
             toggleLoading(false);
-            queryClient.invalidateQueries(['users', 1, false]);
+            queryClient.invalidateQueries(['users', 1, search]);
           })
           .catch((err) => {
             toggleLoading(false);

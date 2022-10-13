@@ -56,7 +56,7 @@ export default function ReportSection({ selectedDate, filterDate }) {
             sx={{ p: 3, mb: 0 }}
           >
             <Stack direction="row" spacing={3} alignItems="center">
-              {activityType !== 'all-activity' && activityType !== 'shipment' && (
+              {activityType !== 'all-activity' && activityType !== 'efo-to-shipment' && (
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -71,10 +71,10 @@ export default function ReportSection({ selectedDate, filterDate }) {
                 </Stack>
               )}
               <Typography variant="h5">
-                Laporan Kegiatan {activityType === 'shipment' && 'Pemasaran'} Tambang
+                Laporan Kegiatan {activityType === 'efo-to-shipment' && 'Pemasaran'} Tambang
               </Typography>
             </Stack>
-            {activityType === 'shipment' && (
+            {activityType === 'efo-to-shipment' && (
               <Stack direction="row" spacing={3} alignItems="center" sx={{ pr: 5 }}>
                 <TextField
                   placeholder="Cari Laporan"
@@ -112,7 +112,7 @@ export default function ReportSection({ selectedDate, filterDate }) {
             )}
             {isGranted && (
               <Button variant="contained" onClick={toggle}>
-                Input Kegiatan {activityType === 'shipment' ? 'Pemasaran' : 'Tambang'}
+                Input Kegiatan {activityType === 'efo-to-shipment' ? 'Pemasaran' : 'Tambang'}
               </Button>
             )}
           </Stack>
