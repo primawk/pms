@@ -27,7 +27,7 @@ const InfoSection = ({ selectedYear, data, isFetching, isLoading, years }) => {
             <InfoCard value={parseInt(data?.tonnage_total)} image={Tonase} name="Jumlah Tonase" />
           )}
         </Grid>
-        <Grid item md={2} xs={5}>
+        {/* <Grid item md={2} xs={5}>
           {typeof data === 'undefined' ? (
             <InfoCard value={0} image={JumlahLot} name="Jumlah Lot" />
           ) : (
@@ -55,7 +55,7 @@ const InfoSection = ({ selectedYear, data, isFetching, isLoading, years }) => {
               name="Rata-Rata Kadar SiMgO"
             />
           )}
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

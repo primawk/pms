@@ -8,6 +8,7 @@ import FilterSection from './FilterSection';
 import InfoSection from './InfoSection';
 import ChartSection from './ChartSection';
 import InventorySection from './InventorySection';
+import MarketingSection from './MarketingSection';
 import TargetDataTable from './TargetDataTable';
 import TargetDataInformation from './TargetDataInformation';
 import CustomPagination from 'components/Pagination';
@@ -25,8 +26,8 @@ import useAuth from 'hooks/useAuth';
 import { ceilTotalData } from 'utils/helper';
 
 const menuList = [
-  { value: 0, label: 'Produksi' }
-  // { value: 1, label: 'Penjualan' }
+  { value: 0, label: 'Produksi' },
+  { value: 1, label: 'Penjualan' }
 ];
 
 const data = [
@@ -415,7 +416,7 @@ export default function Dashboard() {
         )}
       </div>
 
-      {subMenu === 0 && (
+      {menuTab === 0 ? (
         <>
           {!isLoadingOreGetting &&
             !isLoadingOreGettingSummary &&
@@ -451,6 +452,8 @@ export default function Dashboard() {
               />
             )}
         </>
+      ) : (
+        <MarketingSection title="Laporan Kegiatan Pemasaran Tambang" />
       )}
     </>
   );

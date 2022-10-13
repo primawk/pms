@@ -112,7 +112,9 @@ const ChartSection = ({
                     marginRight: '0.5rem'
                   }}
                 ></Grid>
-                <Grid item>Target Produksi</Grid>
+                <Grid item >
+                  Target Produksi
+                </Grid>
               </Grid>
             </TableCell>
             {target?.map((item) => (
