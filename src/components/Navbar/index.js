@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import DropIcon from '@iconify/icons-bi/caret-down-fill';
 import NotificationIcon from '@iconify/icons-carbon/notification-filled';
 import { toast } from 'react-toastify';
-import Notification from '../../pages/BankData/components/NotifikasiBankData';
+import Notification from '../BankData/NotifikasiBankData';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 

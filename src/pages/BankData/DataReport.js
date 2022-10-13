@@ -1,13 +1,13 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import Header from '../../../components/Header';
-import SearchBar from '../components/SearchBar';
-import ListBankData from './ListBankData';
+import Header from '../../components/Header';
+import SearchBar from '../../components/BankData/SearchBar';
+import ListBankData from '../../components/BankData/ListBankData';
 import CustomPagination from 'components/Pagination';
-import InputBankData from '../../../components/Modal/BankData/InputBankData';
+import InputBankData from '../../components/Modal/BankData/InputBankData';
 
 // custom hooks
-import useModal from '../../../hooks/useModal';
+import useModal from '../../hooks/useModal';
 
 const DataReport = () => {
   const { isShowing, toggle } = useModal();
