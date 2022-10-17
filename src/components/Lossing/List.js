@@ -18,7 +18,8 @@ const List = ({ setDetail }) => {
           // height: '6.125rem',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          justifyContent: 'space-between'
         }}
         spacing={3}
         onClick={() => setDetail(true)}
@@ -49,40 +50,6 @@ const List = ({ setDetail }) => {
           >
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>Tanggal</Box>
             <Box sx={{ fontSize: '12px' }}>12 Januari 2022</Box>
-          </Grid>
-        </Grid>
-
-        {/* Column 2 */}
-        <Grid item xs={1.2}>
-          <Grid
-            container
-            sx={{
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>
-              Jenis Produk
-            </Box>
-            <Box>
-              <Box sx={{ fontSize: '12px' }}>Biji Nikel</Box>
-            </Box>
-          </Grid>
-        </Grid>
-
-        {/* Column 3 */}
-        <Grid item xs={0.9}>
-          <Grid
-            container
-            sx={{
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>Block</Box>
-            <Box>
-              <Box sx={{ fontSize: '12px' }}>Utara</Box>
-            </Box>
           </Grid>
         </Grid>
 
@@ -130,6 +97,29 @@ const List = ({ setDetail }) => {
             >
               230 Ton
             </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Column 5 */}
+        <Grid item xs={1.2}>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>
+              Lossing Estimasi to Front
+            </Box>
+            <Box>
+              <Grid container sx={{ fontSize: '14px', color: '#DA4540', alignItems: 'center' }}>
+                <Box>
+                  <img src="/img/down.png" alt=""></img>
+                </Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>15 Ton</Box>
+              </Grid>
+            </Box>
           </Grid>
         </Grid>
 

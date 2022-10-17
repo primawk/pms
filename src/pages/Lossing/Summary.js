@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CustomPagination from 'components/Pagination';
+import { Icon } from '@iconify/react';
 
 // components
 import Header from 'components/Header';
@@ -58,8 +59,41 @@ const Summary = () => {
                 >
                   Summary Bukit VIII
                 </Grid>
-                <Grid item sx={{ padding: '24px 0 24px 24px', marginRight: '24px' }}>
-                  <Grid container sx={{}}>
+                <Grid
+                  item
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                    // padding: '24px 0 24px 24px',
+                    // marginLeft: '1rem'
+                  }}
+                >
+                  <Grid
+                    item
+                    sx={{
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Grid item>
+                      <Icon icon="akar-icons:arrow-left" color="#3f48c0" />
+                    </Grid>
+                    <Grid item onClick={() => setDetail(false)}>
+                      <h2
+                        style={{
+                          marginLeft: '12px',
+                          fontWeight: '500',
+                          fontSize: '14px'
+                        }}
+                      >
+                        Back
+                      </h2>
+                    </Grid>
+                  </Grid>
+                  <Grid item sx={{ padding: '24px 0 24px 24px', marginRight: '24px' }} xs={9}>
                     <Button sx={{ backgroundColor: '#E5E5FE' }}>
                       <img src="/img/download-loss.png" alt=""></img>
                       <Box sx={{ marginLeft: '1rem' }}>Download Laporan </Box>

@@ -8,6 +8,7 @@ import FilterSection from './FilterSection';
 import InfoSection from './InfoSection';
 import ChartSection from './ChartSection';
 import InventorySection from './InventorySection';
+import MarketingSection from './MarketingSection';
 import TargetDataTable from './TargetDataTable';
 import TargetDataInformation from './TargetDataInformation';
 import CustomPagination from 'components/Pagination';
@@ -25,8 +26,8 @@ import useAuth from 'hooks/useAuth';
 import { ceilTotalData } from 'utils/helper';
 
 const menuList = [
-  { value: 0, label: 'Produksi' }
-  // { value: 1, label: 'Penjualan' }
+  { value: 0, label: 'Produksi' },
+  { value: 1, label: 'Penjualan' }
 ];
 
 const data = [
@@ -171,7 +172,9 @@ export default function Dashboard() {
   } = useQuery(['years'], () => ProductionService.getTarget({}));
 
   const years =
-    typeof dataYears === 'undefined' ? null : dataYears?.data?.data.map((item) => item.year);
+    typeof dataYears?.data?.data === 'undefined'
+      ? null
+      : dataYears?.data?.data.map((item) => item.year);
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [filterYear, setFilterYear] = useState(0);
@@ -229,17 +232,17 @@ export default function Dashboard() {
   );
 
   const targetRealization =
-    typeof dataRealization === 'undefined'
+    typeof dataRealization?.data?.data === 'undefined'
       ? null
       : dataRealization?.data?.data.map((item) => item.realization).reverse();
 
   const targetPercentage =
-    typeof dataRealization === 'undefined'
+    typeof dataRealization?.data?.data === 'undefined'
       ? null
       : dataRealization?.data?.data.map((item) => parseInt(item.presentase)).reverse();
 
   const target =
-    typeof dataProduction === 'undefined'
+    typeof dataProduction?.data?.data === 'undefined'
       ? null
       : dataProduction?.data?.data.map((item) => item.target_list);
 
@@ -415,7 +418,7 @@ export default function Dashboard() {
         )}
       </div>
 
-      {subMenu === 0 && (
+      {menuTab === 0 ? (
         <>
           {!isLoadingOreGetting &&
             !isLoadingOreGettingSummary &&
@@ -451,6 +454,8 @@ export default function Dashboard() {
               />
             )}
         </>
+      ) : (
+        <MarketingSection title="Laporan Kegiatan Pemasaran Tambang" />
       )}
     </>
   );
