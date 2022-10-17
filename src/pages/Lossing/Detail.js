@@ -16,7 +16,7 @@ import { Icon } from '@iconify/react';
 import Header from 'components/Header';
 
 const Detail = ({ setDetail }) => {
-  const targetTableHead = ['TANGGAL', 'FRONT TO ETO', 'LOSSING', 'TOTAL LOSSING'];
+  const targetTableHead = ['TANGGAL', 'ESTIMASI TO FRONT', 'LOSSING', 'TOTAL LOSSING'];
   return (
     <>
       <Header title="Detail Modul Lossing" background="dashboard.png" />
@@ -62,6 +62,63 @@ const Detail = ({ setDetail }) => {
               </Grid>
             </Grid>
           </Grid>
+          <Grid
+            item
+            container
+            sx={{
+              background: 'white',
+              display: 'flex',
+              // justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Grid
+              item
+              sx={{
+                backgroundColor: '#E5E5FE',
+                // width: '58px',
+                borderRadius: '4px',
+                textAlign: 'center',
+                padding: '0.2rem',
+                marginLeft: '24px'
+              }}
+            >
+              Jenis Produk
+            </Grid>
+            <Grid
+              item
+              sx={{
+                textAlign: 'center',
+                padding: '0.2rem'
+                // marginLeft: '24px'
+              }}
+            >
+              : Nikel
+            </Grid>
+            <Grid
+              item
+              sx={{
+                backgroundColor: '#E5E5FE',
+                // width: '58px',
+                borderRadius: '4px',
+                textAlign: 'center',
+                padding: '0.2rem',
+                marginLeft: '24px'
+              }}
+            >
+              Blok
+            </Grid>
+            <Grid
+              item
+              sx={{
+                textAlign: 'center',
+                padding: '0.2rem'
+                // marginLeft: '24px'
+              }}
+            >
+              : Utara
+            </Grid>
+          </Grid>
           <Grid item>
             <TableContainer sx={{ padding: 3, width: '100%' }}>
               <Table>
@@ -83,9 +140,120 @@ const Detail = ({ setDetail }) => {
                     <TableCell
                       align="center"
                       sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
-                      rowspan={6}
+                      rowspan={8}
                     >
                       31 Januari 2022
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell
+                      align="center"
+                      sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
+                    >
+                      <Grid
+                        container
+                        sx={{ justifyContent: 'center', alignItems: 'center' }}
+                        gap={1}
+                      >
+                        <Grid
+                          item
+                          sx={{
+                            backgroundColor: '#6FCF97',
+                            // width: '58px',
+                            borderRadius: '4px',
+                            textAlign: 'center',
+                            padding: '0.2rem'
+                          }}
+                        >
+                          Estimasi
+                        </Grid>
+                        <Grid item>= 215 Ton</Grid>
+                        <Grid
+                          item
+                          sx={{
+                            backgroundColor: '#E5E5FE',
+                            // width: '58px',
+                            borderRadius: '4px',
+                            textAlign: 'center',
+                            padding: '0.2rem'
+                          }}
+                        >
+                          Tongkang
+                        </Grid>
+                        <Grid item>= 195 Ton</Grid>
+                      </Grid>
+                    </TableCell>
+
+                    <TableCell
+                      align="center"
+                      sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
+                    >
+                      <Grid
+                        container
+                        sx={{
+                          fontSize: '14px',
+                          color: '#DA4540',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                          // width: '76px',
+                        }}
+                        gap={1}
+                      >
+                        <Box>
+                          <img src="/img/down.png" alt=""></img>
+                        </Box>
+                        <Box sx={{}}>155 Ton</Box>
+                      </Grid>
+                    </TableCell>
+
+                    {/* TOTAL LOSSING */}
+                    <TableCell
+                      align="center"
+                      sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
+                      rowspan={7}
+                    >
+                      <Grid
+                        container
+                        sx={{
+                          fontSize: '14px',
+                          color: '#DA4540',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                          // width: '76px',
+                        }}
+                        gap={1}
+                      >
+                        <Box>
+                          <img src="/img/down.png" alt=""></img>
+                        </Box>
+                        <Box sx={{}}>155 Ton</Box>
+                      </Grid>
+                    </TableCell>
+                  </TableRow>
+
+                  {/* FRONT TO ETO */}
+                  <TableRow>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        border: '1px solid #E0E0E0',
+                        minWidth: '10vw',
+                        background: '#F2F2F2',
+                        fontWeight: '700'
+                      }}
+                    >
+                      FRONT TO ETO
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        border: '1px solid #E0E0E0',
+                        minWidth: '10vw',
+                        background: '#F2F2F2',
+                        fontWeight: '700'
+                      }}
+                    >
+                      LOSSING
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -147,31 +315,9 @@ const Detail = ({ setDetail }) => {
                         <Box sx={{}}>155 Ton</Box>
                       </Grid>
                     </TableCell>
-
-                    {/* TOTAL LOSSING */}
-                    <TableCell
-                      align="center"
-                      sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
-                      rowspan={5}
-                    >
-                      <Grid
-                        container
-                        sx={{
-                          fontSize: '14px',
-                          color: '#DA4540',
-                          justifyContent: 'center',
-                          alignItems: 'center'
-                          // width: '76px',
-                        }}
-                        gap={1}
-                      >
-                        <Box>
-                          <img src="/img/down.png" alt=""></img>
-                        </Box>
-                        <Box sx={{}}>155 Ton</Box>
-                      </Grid>
-                    </TableCell>
                   </TableRow>
+
+                  {/* ETO TO EFO */}
                   <TableRow>
                     <TableCell
                       align="center"

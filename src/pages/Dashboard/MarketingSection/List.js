@@ -14,14 +14,14 @@ const List = ({ setDetail }) => {
           flexDirection: 'row',
           alignItems: 'center',
           paddingBottom: 3,
-          margin: '0 0 0 0', // ???
+          padding: '1rem 1rem 1rem 1rem', // ???
           // height: '6.125rem',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          justifyContent: 'space-between'
         }}
-        spacing={3}
-        onClick={() => setDetail(true)}
+        gap={2}
       >
         <Grid item>
           {/* <Grid
@@ -44,7 +44,7 @@ const List = ({ setDetail }) => {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              marginLeft: '1rem'
+              marginLeft: ''
             }}
           >
             <Box sx={{ marginBottom: '0.5rem', fontSize: '14px', fontWeight: '700' }}>
@@ -100,9 +100,22 @@ const List = ({ setDetail }) => {
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>
               Asal Tumpukan
             </Box>
-            <Box>
-              <Box sx={{ fontSize: '12px' }}>Bukit VIII (SM C)</Box>
-            </Box>
+            <Grid item container sx={{ alignItems: 'center' }}>
+              <Grid item sx={{ width: '5%', marginRight: '0.5rem' }}>
+                <img src="/img/eksternal.png" alt=""></img>
+              </Grid>
+              <Grid item sx={{ fontSize: '12px' }}>
+                Bukit VIII (SM C)
+              </Grid>
+            </Grid>
+            <Grid item container sx={{ alignItems: 'center' }}>
+              <Grid item sx={{ width: '5%', marginRight: '0.5rem' }}>
+                <img src="/img/eksternal.png" alt=""></img>
+              </Grid>
+              <Grid item sx={{ fontSize: '12px' }}>
+                Bukit VIII (SM C)
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -118,19 +131,14 @@ const List = ({ setDetail }) => {
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>
               Dibuat Oleh
             </Box>
-            <Grid
-              item
-              sx={{
-                fontSize: '12px',
-                backgroundColor: '#E5E5FE',
-                color: '#3F48C0',
-                // width: '58px',
-                borderRadius: '4px',
-                textAlign: 'center'
-              }}
-              xs={8}
-            >
-              Putri Devina
+            <Grid item container sx={{ alignItems: 'center' }}>
+              <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                <img src={avatarLogo} alt=""></img>
+              </Box>
+              <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
+                {/* <h5>{data?.account_name}</h5> */}
+                <h5>Putri Devina</h5>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
