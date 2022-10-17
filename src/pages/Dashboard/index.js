@@ -172,7 +172,9 @@ export default function Dashboard() {
   } = useQuery(['years'], () => ProductionService.getTarget({}));
 
   const years =
-    typeof dataYears === 'undefined' ? null : dataYears?.data?.data.map((item) => item.year);
+    typeof dataYears?.data?.data === 'undefined'
+      ? null
+      : dataYears?.data?.data.map((item) => item.year);
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [filterYear, setFilterYear] = useState(0);
@@ -230,17 +232,17 @@ export default function Dashboard() {
   );
 
   const targetRealization =
-    typeof dataRealization === 'undefined'
+    typeof dataRealization?.data?.data === 'undefined'
       ? null
       : dataRealization?.data?.data.map((item) => item.realization).reverse();
 
   const targetPercentage =
-    typeof dataRealization === 'undefined'
+    typeof dataRealization?.data?.data === 'undefined'
       ? null
       : dataRealization?.data?.data.map((item) => parseInt(item.presentase)).reverse();
 
   const target =
-    typeof dataProduction === 'undefined'
+    typeof dataProduction?.data?.data === 'undefined'
       ? null
       : dataProduction?.data?.data.map((item) => item.target_list);
 
