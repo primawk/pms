@@ -175,7 +175,7 @@ const List = ({ setDetail }) => {
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>Status</Box>
             <Box>
               <Grid container sx={{ fontSize: '14px', alignItems: 'center' }}>
-                <Box>Provisi</Box>
+                <Box>Aktif</Box>
               </Grid>
             </Box>
           </Grid>

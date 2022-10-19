@@ -15,7 +15,7 @@ import { Icon } from '@iconify/react';
 // components
 import Header from 'components/Header';
 
-const Detail = ({ setDetail }) => {
+const Detail = ({ setPage }) => {
   const targetTableHead = ['TANGGAL', 'ESTIMASI TO FRONT', 'LOSSING', 'TOTAL LOSSING'];
   return (
     <>
@@ -44,11 +44,11 @@ const Detail = ({ setDetail }) => {
               Tabel Modul Lossing
             </Grid>
             <Grid item sx={{ padding: '24px 0 24px 24px', marginRight: '24px' }}>
-              <Grid container sx={{ cursor: 'pointer' }}>
+              <Grid container sx={{ cursor: 'pointer' }} onClick={() => setPage('summary')}>
                 <Grid item>
                   <Icon icon="akar-icons:arrow-left" color="#3f48c0" />
                 </Grid>
-                <Grid item onClick={() => setDetail(false)}>
+                <Grid item>
                   <h2
                     style={{
                       marginLeft: '12px',

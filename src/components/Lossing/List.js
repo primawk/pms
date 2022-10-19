@@ -3,7 +3,7 @@ import { Grid, Box } from '@mui/material';
 import { Icon } from '@iconify/react';
 import avatarLogo from 'assets/Images/avatar.png';
 
-const List = ({ setDetail }) => {
+const List = ({ setPage }) => {
   return (
     <>
       <Grid
@@ -22,7 +22,7 @@ const List = ({ setDetail }) => {
           justifyContent: 'space-between'
         }}
         spacing={3}
-        onClick={() => setDetail(true)}
+        onClick={() => setPage('detail')}
       >
         <Grid item>
           {/* <Grid
