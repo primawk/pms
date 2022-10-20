@@ -11,20 +11,22 @@ const ListBankData = () => {
       <Grid
         container
         sx={{
+
           display: 'flex',
+          flexWrap: 'nowrap',
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
           paddingBottom: 3,
           margin: '0 1rem 0 0',
-          width: '100%',
-          // height: '6.125rem',
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          overflow: 'auto'
         }}
         spacing={3}
         onClick={() => navigate(`/bank-data/input`)}
+        xs={12}
       >
         <Grid item>
           {/* <Grid
@@ -36,13 +38,13 @@ const ListBankData = () => {
           gap: '1rem'
         }}
       > */}
-          <Grid item md={2} xs={2}>
+          <Grid item>
             {/* <h4> {i + 1}</h4> */}
             <h4>1</h4>
           </Grid>
           {/* </Grid> */}
         </Grid>
-        <Grid item md={2} xs={2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -59,7 +61,7 @@ const ListBankData = () => {
         </Grid>
 
         {/* Column 2 */}
-        <Grid item md={1.5} xs={1.5}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -81,7 +83,7 @@ const ListBankData = () => {
         </Grid>
 
         {/* Column 3 */}
-        <Grid item md={2} xs={2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -147,7 +149,7 @@ const ListBankData = () => {
         </Grid>
 
         {/* Column 5 */}
-        <Grid item md={2} xs={2}>
+        <Grid item>
           <Grid
             container
             sx={{

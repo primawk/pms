@@ -10,6 +10,7 @@ const List = ({ setPage }) => {
         container
         sx={{
           display: 'flex',
+          flexWrap: 'nowrap',
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
@@ -19,10 +20,11 @@ const List = ({ setPage }) => {
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
           cursor: 'pointer',
-          justifyContent: 'space-between'
+          overflow: 'auto'
         }}
-        spacing={3}
+        spacing={2}
         onClick={() => setPage('detail')}
+        xs={12}
       >
         <Grid item>
           {/* <Grid
@@ -39,7 +41,7 @@ const List = ({ setPage }) => {
           </Grid>
           {/* </Grid> */}
         </Grid>
-        <Grid item xs={1.2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -54,7 +56,7 @@ const List = ({ setPage }) => {
         </Grid>
 
         {/* Column 4 */}
-        <Grid item xs={1.2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -72,7 +74,7 @@ const List = ({ setPage }) => {
         </Grid>
 
         {/* Column Account*/}
-        <Grid item xs={1.2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -101,7 +103,7 @@ const List = ({ setPage }) => {
         </Grid>
 
         {/* Column 5 */}
-        <Grid item xs={1.2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -124,7 +126,7 @@ const List = ({ setPage }) => {
         </Grid>
 
         {/* Column 5 */}
-        <Grid item xs={1.2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -147,7 +149,7 @@ const List = ({ setPage }) => {
         </Grid>
 
         {/* Column 6 */}
-        <Grid item xs={1.2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -169,7 +171,7 @@ const List = ({ setPage }) => {
           </Grid>
         </Grid>
         {/* Column 7 */}
-        <Grid item xs={1.2}>
+        <Grid item>
           <Grid
             container
             sx={{
@@ -191,7 +193,7 @@ const List = ({ setPage }) => {
           </Grid>
         </Grid>
         {/* Column 8 */}
-        <Grid item xs={1.4}>
+        <Grid item>
           <Grid
             container
             sx={{

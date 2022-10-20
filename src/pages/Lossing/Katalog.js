@@ -82,13 +82,15 @@ const Katalog = ({ setPage }) => {
               fontWeight: '700',
               fontSize: '24px',
               padding: '0 0 0 24px',
-              alignContent: 'center'
+              alignContent: 'center',
+              marginTop: { xs: '1.5rem', sm: '0' }
             }}
-            xs={8}
+            xs={12}
+            sm={8}
           >
             Katalog Modul Lossing
           </Grid>
-          <Grid item sx={{ padding: '24px 24px 24px 24px' }} xs={4}>
+          <Grid item sx={{ padding: '24px 24px 24px 24px' }} xs={12} sm={4}>
             <Grid
               container
               sx={{

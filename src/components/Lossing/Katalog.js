@@ -4,7 +4,7 @@ import { Grid, Button } from '@mui/material';
 const Katalog = ({ setPage, name, loss }) => {
   return (
     <>
-      <Grid item xs={3.8} sx={{ background: 'white' }}>
+      <Grid item xs={12} sm={3.8} sx={{ background: 'white' }}>
         <Grid item container sx={{ display: 'flex', flexDirection: 'column' }}>
           <Grid item sx={{ fontWeight: 600, padding: '16px' }}>
             {name}

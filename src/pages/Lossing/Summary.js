@@ -14,6 +14,7 @@ import Information from '../../components/Lossing/LossingInformation';
 import List from '../../components/Lossing/List';
 import InputLossing from 'components/Modal/Lossing/InputLossing';
 import Detail from './Detail';
+import InformationBox from '../../components/Lossing/InformasiBox';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
@@ -51,7 +52,8 @@ const Summary = ({ setPage }) => {
                 fontSize: '24px',
                 marginLeft: '24px'
               }}
-              xs={6}
+              xs={12}
+              sm={6}
             >
               Summary Bukit VIII
             </Grid>
@@ -98,182 +100,12 @@ const Summary = ({ setPage }) => {
             </Grid>
           </Grid>
           <Grid item container sx={{ justifyContent: 'space-around' }}>
-            <Grid
-              item
-              container
-              sx={{
-                justifyContent: 'space-between',
-                border: 1,
-                borderColor: 'lightGray',
-                borderRadius: '4px'
-              }}
-              xs={2.5}
-            >
-              <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
-                }}
-                xs={10}
-              >
-                <Grid item sx={{ margin: '16px 0 16px 16px', fontWeight: '400' }}>
-                  Total Semua Lossing
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    margin: '0 0 16px 16px',
-                    fontWeight: '700',
-                    fontSize: '28px',
-                    color: '#DA4540'
-                  }}
-                >
-                  <Grid container>
-                    <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                      <img src="/img/down.png" alt=""></img>
-                    </Grid>
-                    <Grid item>370 Ton</Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                <img src="/img/katalog-lossing.png" alt=""></img>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              container
-              sx={{
-                justifyContent: 'space-between',
-                border: 1,
-                borderColor: 'lightGray',
-                borderRadius: '4px'
-              }}
-              xs={2.5}
-            >
-              <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
-                }}
-                xs={10}
-              >
-                <Grid item sx={{ margin: '16px 0 16px 16px', fontWeight: '400' }}>
-                  Total Lossing Front to ETO
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    margin: '0 0 16px 16px',
-                    fontWeight: '700',
-                    fontSize: '28px',
-                    color: '#DA4540'
-                  }}
-                >
-                  <Grid container>
-                    <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                      <img src="/img/down.png" alt=""></img>
-                    </Grid>
-                    370 Ton
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                <img src="/img/katalog-lossing.png" alt=""></img>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              container
-              sx={{
-                justifyContent: 'space-between',
-                border: 1,
-                borderColor: 'lightGray',
-                borderRadius: '4px'
-              }}
-              xs={2.5}
-            >
-              <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
-                }}
-                xs={10}
-              >
-                <Grid item sx={{ margin: '16px 0 16px 16px', fontWeight: '400' }}>
-                  Total Lossing ETO to EFO
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    margin: '0 0 16px 16px',
-                    fontWeight: '700',
-                    fontSize: '28px',
-                    color: '#DA4540'
-                  }}
-                >
-                  <Grid container>
-                    <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                      <img src="/img/down.png" alt=""></img>
-                    </Grid>
-                    370 Ton
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                <img src="/img/katalog-lossing.png" alt=""></img>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              container
-              sx={{
-                justifyContent: 'space-between',
-                border: 1,
-                borderColor: 'lightGray',
-                borderRadius: '4px'
-              }}
-              xs={2.5}
-            >
-              <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
-                }}
-                xs={10}
-              >
-                <Grid item sx={{ margin: '16px 0 16px 16px', fontWeight: '400' }}>
-                  Total Lossing EFO to Barging
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    margin: '0 0 16px 16px',
-                    fontWeight: '700',
-                    fontSize: '28px',
-                    color: '#DA4540'
-                  }}
-                >
-                  <Grid container>
-                    <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                      <img src="/img/down.png" alt=""></img>
-                    </Grid>
-                    370 Ton
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
-                <img src="/img/katalog-lossing.png" alt=""></img>
-              </Grid>
-            </Grid>
+            <InformationBox title="Total Semua Lossing" quantity="490 Ton" />
+            <InformationBox title="Total Lossing Estimasi to Front" quantity="490 Ton" />
+            <InformationBox title="Total Lossing Front to ETO" quantity="490 Ton" />
+            <InformationBox title="Total Lossing ETO to EFO" quantity="490 Ton" />
+            <InformationBox title="Total Lossing EFO to Barging" quantity="490 Ton" />
+          
             <Information toggle={toggle} />
             <Grid
               item
@@ -294,11 +126,12 @@ const Summary = ({ setPage }) => {
                   fontSize: '24px',
                   marginLeft: '24px'
                 }}
-                xs={6}
+                xs={12}
+                sm={6}
               >
                 List Modul Lossing Bukit VIII
               </Grid>
-              <Grid item sx={{ padding: '24px 0 24px 24px', marginRight: '24px' }} xs={2.5}>
+              <Grid item sx={{ padding: '24px 0 24px 24px', marginRight: '24px' }} xs={12} sm={2.5}>
                 <Grid container sx={{}}>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-autowidth-label">

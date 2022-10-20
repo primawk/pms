@@ -10,6 +10,7 @@ const List = ({ setDetail }) => {
         container
         sx={{
           display: 'flex',
+          flexWrap: 'nowrap',
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
@@ -19,9 +20,9 @@ const List = ({ setDetail }) => {
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
           cursor: 'pointer',
-          justifyContent: 'space-between'
+          overflow: 'auto'
         }}
-        gap={2}
+        gap={5}
       >
         <Grid item>
           {/* <Grid

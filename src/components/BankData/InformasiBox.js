@@ -6,7 +6,7 @@ const InformasiBox = ({ title, quantity, image }) => {
     <>
       {/* <Grid item sx={{ margin: '0 16px 0 16px', backgroundColor: 'green' }}> */}
       {/* use grid item container instead container inside item, case where we using padding instead margin */}
-      <Grid item xs={3}>
+      <Grid item xs={12} sm={6} md={3}>
         <Grid sx={{ border: 1, borderColor: 'lightGray', borderRadius: '4px' }}>
           <Grid container sx={{ justifyContent: 'space-between' }}>
             <Grid item xs={10}>
