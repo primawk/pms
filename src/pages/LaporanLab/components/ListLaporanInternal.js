@@ -12,24 +12,27 @@ const ListLaporanInternal = ({ data }) => {
       container
       sx={{
         display: 'flex',
+        flexWrap: 'nowrap',
         backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
-        margin: '0 1.5rem 0 1.5rem',
-        width: '96.5%',
-        height: '6.125rem',
+        margin: '0 0 0 0',
+        paddingBottom: 3,
         borderBottom: 1,
         borderBottomColor: '#E0E0E0',
-        gap: '2rem',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        overflow: 'auto'
       }}
+      gap={4}
       onClick={() => navigate(`/lab-report/detail/internal/${data.id}`)}
+      xs={12}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem', width: '25%' }}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem' }}>
         <Grid
           container
           sx={{
             display: 'flex',
+            flexWrap: 'nowrap',
             flexDirection: 'row',
             alignItems: 'center',
             gap: '1rem'
@@ -58,7 +61,7 @@ const ListLaporanInternal = ({ data }) => {
         </Grid>
       </Grid>
       {/* Column 2 */}
-      <Grid item sx={{ width: '11%' }}>
+      <Grid item sx={{}}>
         <Grid
           container
           sx={{
@@ -76,7 +79,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item sx={{ width: '11%' }}>
+      <Grid item sx={{}}>
         <Grid
           container
           sx={{
@@ -96,7 +99,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 4 */}
-      <Grid item sx={{ width: '14%' }}>
+      <Grid item sx={{}}>
         <Grid
           container
           sx={{
@@ -121,7 +124,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 5 */}
-      <Grid item sx={{ width: '17%' }}>
+      <Grid item sx={{}}>
         <Grid
           container
           sx={{

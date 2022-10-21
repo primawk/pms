@@ -348,7 +348,11 @@ export default function Dashboard() {
 
         {subMenu === 0 ? (
           <Grid sx={{ background: 'white', padding: '1em 1.5em' }}>
-            <Typography variant="h5">Realisasi Produksi Tambang</Typography>
+            {menuTab === 0 ? (
+              <Typography variant="h5">Realisasi Produksi Tambang</Typography>
+            ) : (
+              <Typography variant="h5">Realisasi Penjualan Tambang</Typography>
+            )}
 
             <FilterSection
               subMenu={subMenu}

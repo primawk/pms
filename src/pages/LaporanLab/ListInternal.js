@@ -66,7 +66,6 @@ export default function ListInternal({
             backgroundColor: 'white',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            height: 'auto',
             marginTop: '1.125rem'
           }}
         >

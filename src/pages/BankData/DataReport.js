@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import Header from '../../components/Header';
+import { useLocation } from 'react-router-dom';
+import Header from '../../components/BankData/Header';
 import SearchBar from '../../components/BankData/SearchBar';
 import ListBankData from '../../components/BankData/ListBankData';
 import CustomPagination from 'components/Pagination';
@@ -11,11 +12,14 @@ import useModal from '../../hooks/useModal';
 
 const DataReport = () => {
   const { isShowing, toggle } = useModal();
+  const location = useLocation();
+  const title = location.state.title.toUpperCase();
+
   return (
     <>
       <InputBankData toggle={toggle} isShowing={isShowing} />
       {/* {isFetching && isLoading && <LoadingModal />} */}
-      <Header title="KONTRAK" background="dashboard.png" />
+      <Header title={title} background="dashboard.png" />
 
       <div className="app-content">
         {/*  */}

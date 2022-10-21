@@ -10,6 +10,7 @@ const List = ({ setDetail }) => {
         container
         sx={{
           display: 'flex',
+          flexWrap: 'nowrap',
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
@@ -19,9 +20,9 @@ const List = ({ setDetail }) => {
           borderBottom: 1,
           borderBottomColor: '#E0E0E0',
           cursor: 'pointer',
-          justifyContent: 'space-between'
+          overflow: 'auto'
         }}
-        gap={2}
+        gap={5}
       >
         <Grid item>
           {/* <Grid
@@ -175,7 +176,7 @@ const List = ({ setDetail }) => {
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>Status</Box>
             <Box>
               <Grid container sx={{ fontSize: '14px', alignItems: 'center' }}>
-                <Box>Provisi</Box>
+                <Box>Aktif</Box>
               </Grid>
             </Box>
           </Grid>

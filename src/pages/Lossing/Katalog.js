@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 // components
 import Header from 'components/Header';
 import FilterDate from 'components/Modal/LaporanLab/FilterDate';
+import KatalogBox from 'components/Lossing/Katalog';
 
 // custom hook
 import useModal from 'hooks/useModal';
@@ -23,7 +24,7 @@ const WhiteButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const Katalog = ({ setDetail, setSummary }) => {
+const Katalog = ({ setPage }) => {
   useAuth();
   const { isShowing, toggle } = useModal();
 
@@ -81,13 +82,15 @@ const Katalog = ({ setDetail, setSummary }) => {
               fontWeight: '700',
               fontSize: '24px',
               padding: '0 0 0 24px',
-              alignContent: 'center'
+              alignContent: 'center',
+              marginTop: { xs: '1.5rem', sm: '0' }
             }}
-            xs={8}
+            xs={12}
+            sm={8}
           >
             Katalog Modul Lossing
           </Grid>
-          <Grid item sx={{ padding: '24px 24px 24px 24px' }} xs={4}>
+          <Grid item sx={{ padding: '24px 24px 24px 24px' }} xs={12} sm={4}>
             <Grid
               container
               sx={{
@@ -133,94 +136,13 @@ const Katalog = ({ setDetail, setSummary }) => {
             display: 'flex',
             flexDirection: 'row',
             marginTop: '24px',
-            justifyContent: 'space-between'
+            justifyContent: ''
           }}
-          gap={1}
+          gap={3}
         >
-          <Grid item xs={3.8} sx={{ background: 'white' }}>
-            <Grid item container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Grid item sx={{ fontWeight: 600, padding: '16px' }}>
-                Bukit IV
-              </Grid>
-              <Grid item sx={{ fontWeight: 400, margin: '0 16px 16px 16px' }}>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Grid item sx={{ marginRight: '1rem' }}>
-                    <img src="/img/down.png" alt=""></img>
-                  </Grid>
-                  <Grid item sx={{ alignItems: 'center', color: '#DA4540' }}>
-                    370 Ton
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid
-                item
-                sx={{ color: '#3F48C0', cursor: 'pointer', padding: '0 16px 16px 16px' }}
-                onClick={() => navigate('/modul-lossing/summary')}
-              >
-                Lihat Selengkapnya {'>'}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={3.8} sx={{ background: 'white' }}>
-            <Grid item container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Grid item sx={{ fontWeight: 600, padding: '16px' }}>
-                Bukit IV
-              </Grid>
-              <Grid item sx={{ fontWeight: 400, margin: '0 16px 16px 16px' }}>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Grid item sx={{ marginRight: '1rem' }}>
-                    <img src="/img/down.png" alt=""></img>
-                  </Grid>
-                  <Grid item sx={{ alignItems: 'center', color: '#DA4540' }}>
-                    370 Ton
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ color: '#3F48C0', cursor: 'pointer', padding: '0 16px 16px 16px' }}>
-                Lihat Selengkapnya {'>'}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={3.8} sx={{ background: 'white' }}>
-            <Grid item container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Grid item sx={{ fontWeight: 600, padding: '16px' }}>
-                Bukit IV
-              </Grid>
-              <Grid item sx={{ fontWeight: 400, margin: '0 16px 16px 16px' }}>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Grid item sx={{ marginRight: '1rem' }}>
-                    <img src="/img/down.png" alt=""></img>
-                  </Grid>
-                  <Grid item sx={{ alignItems: 'center', color: '#DA4540' }}>
-                    370 Ton
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ color: '#3F48C0', cursor: 'pointer', padding: '0 16px 16px 16px' }}>
-                Lihat Selengkapnya {'>'}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={3.8} sx={{ background: 'white' }}>
-            <Grid item container sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Grid item sx={{ fontWeight: 600, padding: '16px' }}>
-                Bukit IV
-              </Grid>
-              <Grid item sx={{ fontWeight: 400, margin: '0 16px 16px 16px' }}>
-                <Grid container sx={{ alignItems: 'center' }}>
-                  <Grid item sx={{ marginRight: '1rem' }}>
-                    <img src="/img/down.png" alt=""></img>
-                  </Grid>
-                  <Grid item sx={{ alignItems: 'center', color: '#DA4540' }}>
-                    370 Ton
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item sx={{ color: '#3F48C0', cursor: 'pointer', padding: '0 16px 16px 16px' }}>
-                Lihat Selengkapnya {'>'}
-              </Grid>
-            </Grid>
-          </Grid>
+          <KatalogBox setPage={setPage} name="Bukit II" loss="230 Ton" />
+          <KatalogBox setPage={setPage} name="Bukit III" loss="230 Ton" />
+          <KatalogBox setPage={setPage} name="Bukit IV" loss="230 Ton" />
         </Grid>
       </div>
     </>

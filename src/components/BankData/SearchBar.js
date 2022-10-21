@@ -29,18 +29,20 @@ const SearchBar = ({ toggle }) => {
         }}
         spacing={0}
       >
-        <Grid item sx={{ margin: '1.5rem 0 1.5rem 1.5rem ' }} xs={2.3}>
+        <Grid item sx={{ margin: '1.5rem 0 1.5rem 1.5rem ' }} xs={12} sm={2.3}>
           <h2>List Bank Data</h2>
         </Grid>
         <Grid
           item
           sx={{
             backgroundColor: 'white',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            marginBottom: { xs: '0.5rem', sm: '0', md: '0' }
             // marginLeft: '1.5rem'
             // width: '45%'
           }}
-          xs={4.5}
+          xs={12}
+          sm={4.5}
         >
           <TextField
             id="search"
@@ -78,7 +80,7 @@ const SearchBar = ({ toggle }) => {
         : 'Filter Tanggal | Hari ini'}
       <Icon icon="fe:drop-down" color="#828282" />
     </Button> */}
-        <Grid item xs={2}>
+        <Grid item xs={12} sm={2} sx={{ marginBottom: { xs: '0.5rem', sm: '0', md: '0' } }}>
           {/* <Button
             sx={{
               border: 1,
@@ -116,7 +118,7 @@ const SearchBar = ({ toggle }) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={2} sx={{ marginRight: '1rem' }}>
+        <Grid item xs={12} sm={2} sx={{ marginRight: '1rem' }}>
           <Button
             // onClick={handleSubmit}
             variant="contained"
