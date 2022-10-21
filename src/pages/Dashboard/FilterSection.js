@@ -63,12 +63,13 @@ const FilterSection = ({
               direction="row"
               alignItems="center"
               justifyContent="flex-start"
-              width="25%"
+              // width="25%"
               // xs={12}
               // lg={3}
               item
               sx={{
-                padding: '24px 0'
+                padding: '24px 0',
+                width: { xs: '100%', sm: '25%' }
               }}
             >
               <Grid item md={5} mr={3}>
@@ -99,13 +100,14 @@ const FilterSection = ({
               alignItems="center"
               justifyContent="space-between"
               item
-              width="55%"
+              // width="55%"
               // xs={12}
               // lg={9}
               sx={{
                 border: '1px solid #E0E0E0',
                 borderRadius: '8px',
-                padding: '12px 24px'
+                padding: '12px 24px',
+                width: { xs: '100%', sm: '55%' }
               }}
             >
               <Grid item md={4} xs={12} sx={{ padding: '0.5em 0' }}>
