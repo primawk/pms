@@ -1,31 +1,38 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import { Grid, Box, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import add from 'assets/Images/ant-design_plus-circle-outlined.png';
 import LoadingButton from '@mui/lab/LoadingButton';
 import BankDataReport from '../../components/BankData/BankDataReport';
 import alert from '../../assets/Images/clock-history.png';
 import { toast } from 'react-toastify';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
-import { LoadingModal } from 'components/Modal';
+// import { LoadingModal } from 'components/Modal';
 
 const InputBankData = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [attachment, setAttachment] = useState([]);
   const [date, setDate] = useState([]);
   const [allEvent, setAllEvent] = useState([]);
+  // const [disabled, setDisabled] = useState('true');
+
+  // console.log(location.state.keteranganLaporan);
 
   const [inputList, setInputList] = useState([
     <BankDataReport
       date={date}
       setDate={setDate}
+      jenisLaporan={location.state.jenisLaporan}
+      keteranganLaporan={location.state.keteranganLaporan}
       attachment={attachment}
       allEvent={allEvent}
       setAllEvent={setAllEvent}
       setAttachment={setAttachment}
+      // setDisabled={setDisabled}
     />
   ]);
 
@@ -43,6 +50,7 @@ const InputBankData = () => {
           allEvent={allEvent}
           setAllEvent={setAllEvent}
           setAttachment={setAttachment}
+          // setDisabled={setDisabled}
         />
       )
     );
@@ -201,6 +209,7 @@ const InputBankData = () => {
               <Grid item>
                 <LoadingButton
                   // loading={loading}
+                  // disabled={disabled}
                   type="submit"
                   variant="contained"
                   sx={{ width: '130%', boxShadow: '0' }}

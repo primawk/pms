@@ -71,6 +71,7 @@ const SearchBar = ({
         setSelectedDates={setSelectedDates}
         resetPage={resetPage}
       />
+            {/* Box for justifyConten Grid item for xs sm md */}
       <Grid
         container
         sx={{
@@ -83,7 +84,7 @@ const SearchBar = ({
           borderRadius: '8px 8px 0 0'
         }}
       >
-        <Grid item xs={12} sm={10} md={7}>
+        <Grid item xs={12} sm={10} md={6.8}>
           <Box
             sx={{
               backgroundColor: 'white',

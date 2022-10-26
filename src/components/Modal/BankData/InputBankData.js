@@ -9,12 +9,17 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 const InputBankData = ({ isShowing, toggle, targetDate }) => {
-  const [age, setAge] = useState('');
+  const [jenisLaporan, setJenisLaporan] = useState('');
+  const [keteranganLaporan, setKeteranganLaporan] = useState('');
 
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setJenisLaporan(event.target.value);
+  };
+
+  const handleKeterangan = (event) => {
+    setKeteranganLaporan(event.target.value);
   };
 
   return (
@@ -44,16 +49,14 @@ const InputBankData = ({ isShowing, toggle, targetDate }) => {
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-autowidth-label">Pilih Jenis Dokumen</InputLabel>
               <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                value={age}
+                value={jenisLaporan}
                 onChange={handleChange}
                 fullWidth
                 label="Pilih Jenis Dokumen"
               >
-                <MenuItem value={10}>Legal</MenuItem>
-                <MenuItem value={21}>Kontrak</MenuItem>
-                <MenuItem value={22}>Surat Menyurat</MenuItem>
+                <MenuItem value={'Legal'}>Legal</MenuItem>
+                <MenuItem value={'Kontrak'}>Kontrak</MenuItem>
+                <MenuItem value={'Surat Menyurat'}>Surat Menyurat</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -62,8 +65,8 @@ const InputBankData = ({ isShowing, toggle, targetDate }) => {
           </Grid>
           <Grid item sx={{ margin: '0 24px 24px 24px' }}>
             <TextField
-              id="outlined-multiline-static"
-              // label="Keterangan"
+              value={keteranganLaporan}
+              onChange={handleKeterangan}
               multiline
               fullWidth
               rows={7}
@@ -76,7 +79,9 @@ const InputBankData = ({ isShowing, toggle, targetDate }) => {
                 <Button
                   variant="contained"
                   sx={{ boxShadow: 0 }}
-                  onClick={() => navigate(`/bank-data/input`)}
+                  onClick={() =>
+                    navigate(`/bank-data/input`, { state: { jenisLaporan, keteranganLaporan } })
+                  }
                 >
                   Submit
                 </Button>

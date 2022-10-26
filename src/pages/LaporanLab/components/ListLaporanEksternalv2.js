@@ -2,10 +2,6 @@ import React from 'react';
 import { Grid, Box } from '@mui/material';
 import dayjs from 'dayjs';
 
-// services
-// import { fetchExternalCompany } from 'services/LabService';
-// import LabService from 'services/LabService';
-
 const ListLaporanEksternal = ({ data, index, lastUpdate, setCompanyReport, setCompanyName }) => {
   const lastUpdatev2 = Object.values(lastUpdate);
 

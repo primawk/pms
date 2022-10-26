@@ -97,102 +97,76 @@ const SummaryLaporan = ({ totalPrep, totalPrepEks, totalAnalysisEks, menuTab, ca
       ) : calendar ? (
         <Grid container sx={{ margin: '0 0 0 0.5rem' }} spacing={2}>
           {/* Semua Laporan */}
-          <Grid item xs={2.5}>
+          <Grid item>
             <Grid
               container
               sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                border: '1px solid #E0E0E0',
-                borderRadius: '0.25rem',
-                alignItems: 'center'
-                //   // marginRight: '1rem'
+                display: 'flex'
               }}
-              spacing={0}
             >
-              <Grid
-                item
+              <Box
                 sx={{
                   fontSize: '12px',
                   fontWeight: '500',
-                  padding: '0.5rem 0 0.5rem 0.5rem',
-                  borderRight: 1,
+                  borderRadius: '0.25rem 0 0 0.25rem',
+                  padding: '0.5rem',
+                  border: 1,
+                  borderRight: 0,
                   borderColor: '#E0E0E0'
                 }}
-                xs={2}
               >
                 {summaryTotal}
-              </Grid>
-              <Grid
-                item
+              </Box>
+              <Box
                 sx={{
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontWeight: '500',
-                  padding: '0.5rem 0 0.5rem 0'
+                  padding: '0.5rem 1rem 0.5rem 1rem',
+                  border: 1,
+                  borderRadius: ' 0 0.25rem 0.25rem 0',
+                  borderColor: '#E0E0E0'
                 }}
-                xs={9}
               >
-                <Box
-                  container
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: '500'
-                  }}
-                  textAlign="center"
-                >
-                  Semua Laporan
-                </Box>
-              </Grid>
+                Semua Laporan
+              </Box>
             </Grid>
           </Grid>
 
           {/* Laporan Eksternal */}
-          <Grid item xs={2.5}>
+          {/* prioritize using box first it makes the flexbox responsive then grid item */}
+          <Grid item>
             <Grid
               container
               sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                border: '1px solid #E0E0E0',
-                borderRadius: '0.25rem',
-                alignItems: 'center',
-                justifyContent: 'center'
+                display: 'flex'
               }}
-              spacing={0}
             >
-              <Grid
-                item
+              <Box
                 sx={{
                   fontSize: '12px',
                   fontWeight: '500',
-                  padding: '0.5rem 0 0.5rem 0.5rem',
-                  borderRight: 1,
+                  borderRadius: '0.25rem 0 0 0.25rem',
+                  padding: '0.5rem',
+                  border: 1,
+                  borderRight: 0,
                   borderColor: '#E0E0E0'
                 }}
-                xs={2}
               >
                 {summaryEksternal}
-              </Grid>
-              <Grid
-                item
+              </Box>
+              <Box
                 sx={{
                   fontSize: '12px',
                   fontWeight: '500',
-                  padding: '0.5rem 0 0.5rem 0'
+                  padding: '0.5rem',
+                  border: 1,
+                  padding: '0.5rem 1rem 0.5rem 1rem',
+                  borderRadius: ' 0 0.25rem 0.25rem 0',
+                  borderColor: '#E0E0E0'
                 }}
-                xs={9}
               >
-                <Box
-                  container
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: '500'
-                  }}
-                  textAlign="center"
-                >
-                  Laporan Eksternal
-                </Box>
-              </Grid>
+                Laporan Eksternal
+              </Box>
             </Grid>
           </Grid>
         </Grid>

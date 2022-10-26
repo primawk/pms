@@ -19,9 +19,7 @@ import LabService from 'services/LabService';
 import usePagination from 'hooks/usePagination';
 
 export default function LaporanLab() {
-  // const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
-
   const currentYear = new Date().getFullYear();
   const firstDay = new Date(currentYear, 0, 1);
   const lastDay = new Date(currentYear, 11, 31);
@@ -218,72 +216,57 @@ export default function LaporanLab() {
                 </Box>
               )}
             </Grid>
-            {
-              menuTab === 'internal' ? (
-                <ListInternal
-                  dataInternal={data}
-                  isFetchingActivity={isFetchingActivityInternal}
-                  isLoadingActivity={isLoadingInternal}
-                  totalPrepEks={totalPrepEks}
-                  totalPrep={totalPrep}
-                  totalAnalysisEks={totalAnalysisEks}
-                  menuTab={menuTab}
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                  page={page}
-                  handleChangePage={handleChangePage}
-                  resetPage={resetPage}
-                  setSelectedDates={setSelectedDates}
-                  selectedDates={selectedDates}
-                />
-              ) : (
-                <ListEksternalv2
-                  data={dataCalendar?.data?.data}
-                  dataEksternal={dataEksternal?.data?.data}
-                  isFetchingActivity={isFetchingCalendar}
-                  isLoadingActivity={isLoadingCalendar}
-                  isFetchingExternal={isFetchingActivityExternal}
-                  isLoadingExternal={isLoadingExternal}
-                  totalPrepEks={totalPrepEks}
-                  totalPrep={totalPrep}
-                  totalAnalysisEks={totalAnalysisEks}
-                  menuTab={menuTab}
-                  resetPage={resetPage}
-                  setMenuTab={setMenuTab}
-                  targetDate={targetDate}
-                  setDate={setDate}
-                  calendar={calendar}
-                  setCalendar={setCalendar}
-                  setCompanyReport={setCompanyReport}
-                  companyName={companyName}
-                  setCompanyName={setCompanyName}
-                  setStartDate={setStartDate}
-                  setEndDate={setEndDate}
-                  search={search}
-                  searchResultsEksternal={searchResultsEksternal}
-                  setSearchResultsEksternal={setSearchResultsEksternal}
-                  setSearch={setSearch}
-                  startDate={startDate}
-                  firstDate={firstDate}
-                  lastDate={lastDate}
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                />
-              )
-              // ) : (
-              //   <ListEksternal
-              //     dataEksternal={dataEksternal?.data?.data}
-              //     isFetchingActivity={isFetchingActivityExternal}
-              //     isLoadingActivity={isLoadingExternal}
-              //     totalPrepEks={totalPrepEks}
-              //     totalPrep={totalPrep}
-              //     totalAnalysisEks={totalAnalysisEks}
-              //     menuTab={menuTab}
-              //     resetPage={resetPage}
-              //     targetDate={targetDate}
-              //   />
-              // )}
-            }
+            {menuTab === 'internal' ? (
+              <ListInternal
+                dataInternal={data}
+                isFetchingActivity={isFetchingActivityInternal}
+                isLoadingActivity={isLoadingInternal}
+                totalPrepEks={totalPrepEks}
+                totalPrep={totalPrep}
+                totalAnalysisEks={totalAnalysisEks}
+                menuTab={menuTab}
+                keyword={keyword}
+                setKeyword={setKeyword}
+                page={page}
+                handleChangePage={handleChangePage}
+                resetPage={resetPage}
+                setSelectedDates={setSelectedDates}
+                selectedDates={selectedDates}
+              />
+            ) : (
+              <ListEksternalv2
+                data={dataCalendar?.data?.data}
+                dataEksternal={dataEksternal?.data?.data}
+                isFetchingActivity={isFetchingCalendar}
+                isLoadingActivity={isLoadingCalendar}
+                isFetchingExternal={isFetchingActivityExternal}
+                isLoadingExternal={isLoadingExternal}
+                totalPrepEks={totalPrepEks}
+                totalPrep={totalPrep}
+                totalAnalysisEks={totalAnalysisEks}
+                menuTab={menuTab}
+                resetPage={resetPage}
+                setMenuTab={setMenuTab}
+                targetDate={targetDate}
+                setDate={setDate}
+                calendar={calendar}
+                setCalendar={setCalendar}
+                setCompanyReport={setCompanyReport}
+                companyName={companyName}
+                setCompanyName={setCompanyName}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+                search={search}
+                searchResultsEksternal={searchResultsEksternal}
+                setSearchResultsEksternal={setSearchResultsEksternal}
+                setSearch={setSearch}
+                startDate={startDate}
+                firstDate={firstDate}
+                lastDate={lastDate}
+                keyword={keyword}
+                setKeyword={setKeyword}
+              />
+            )}
           </div>
         </>
       )}
