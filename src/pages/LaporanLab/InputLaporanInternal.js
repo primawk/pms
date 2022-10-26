@@ -77,7 +77,8 @@ const InputLaporanInternal = () => {
     })
   );
 
-  const domeEto = dataDomeEto?.data?.data.map((item) => item.dome_list);
+  const domeEto =
+    typeof dataYears === 'undefined' ? null : dataDomeEto?.data?.data.map((item) => item.dome_list);
   const domeEtov2 = domeEto ? [].concat.apply([], domeEto) : null;
 
   const [addFormData, setAddFormData] = useState({

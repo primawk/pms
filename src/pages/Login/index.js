@@ -73,37 +73,50 @@ const Login = () => {
           container
           justifyContent="flex-end"
           alignItems="center"
-          className="navbar-brand"
-          sx={{ display: 'inline-flex', height: '10%', paddingRight: '30px' }}
+          sx={{ display: 'inline-flex', height: '10%', marginRight: '1rem' }}
         >
-          <img src="/PMSLogo.png" alt="logo" style={{ marginLeft: '7rem', marginRight: '10px' }} />
-          <h4>PMS Smart Dashboard</h4>
+          <Box>
+            <img
+              src="/PMSLogo.png"
+              alt="logo"
+              style={{ marginLeft: '7rem', marginRight: '10px' }}
+            />
+          </Box>
+          <Box>
+            <h4>PMS Smart Dashboard</h4>
+          </Box>
         </Grid>
-        <Grid container alignItems="center" justifyContent="center">
-          <Box
+        <Box sx={{ margin: '0 auto 0 auto' }}>
+          <Grid
+            container
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
               justifyContent: 'center',
-              width: '60%',
-              height: '80%',
-              marginBottom: '30rem'
+              padding: '0 2rem 0 2rem'
             }}
           >
-            <Typography variant="body2" alignSelf="flex-start" mb={1} sx={{ fontWeight: '700' }}>
-              Selamat Datang di
-            </Typography>
-            <Typography variant="h6" alignSelf="flex-start" mb={3}>
-              PMS Smart Dashboard,
-            </Typography>
-            <Typography variant="h6" alignSelf="flex-start" mb={3}>
-              Login
-            </Typography>
-            <Typography variant="body2" alignSelf="flex-start">
-              Silakan login untuk melanjutkan,
-            </Typography>
-            <Box sx={{ mt: 1 }}>
+            <Box>
+              <Typography variant="body2" alignSelf="flex-start" mb={1} sx={{ fontWeight: '700' }}>
+                Selamat Datang di
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="h6" alignSelf="flex-start" mb={3}>
+                PMS Smart Dashboard,
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="h6" alignSelf="flex-start" mb={3}>
+                Login
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="body2" alignSelf="flex-start">
+                Silakan login untuk melanjutkan,
+              </Typography>
+            </Box>
+            <Box>
               <FormikProvider value={formik}>
                 <Form autoComplete="off" onSubmit={handleSubmit}>
                   <TextField
@@ -140,15 +153,15 @@ const Login = () => {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 8, mb: 2, height: '3em' }}
+                    sx={{ mt: 8, mb: 2, height: '3em', boxShadow: '0' }}
                   >
                     LOGIN
                   </Button>
                 </Form>
               </FormikProvider>
             </Box>
-          </Box>
-        </Grid>
+          </Grid>
+        </Box>
       </Grid>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { addDays } from 'date-fns';
 
 // components
 import { Grid, Button, Box } from '@mui/material';
@@ -14,11 +13,7 @@ import Lists from './Lists';
 import { ceilTotalData } from 'utils/helper';
 
 // custom hooks
-// import usePagination from 'hooks/usePagination';
 import useAuth from 'hooks/useAuth';
-
-// services
-// import { fetchInternal } from 'services/LabService';
 
 export default function ListInternal({
   dataInternal,
@@ -38,9 +33,6 @@ export default function ListInternal({
 }) {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
-  // const [posts, setPosts] = useState([]);
-
-  // const { page, handleChangePage, resetPage } = usePagination(1);
   const { isGranted } = useAuth();
 
   useEffect(() => {

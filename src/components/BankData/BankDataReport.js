@@ -11,11 +11,12 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import pdf from '../../assets/Images/pdf.png';
 import dayjs from 'dayjs';
-import { dateToStringPPOBFormatterv2 } from '../../utils/helper';
 
 const BankDataReport = ({
   // i need to put {} when pass function as a prop to child component
   // onBtnAddFile,
+  keteranganLaporan,
+  jenisLaporan,
   date,
   attachment,
   setDate,
@@ -23,11 +24,12 @@ const BankDataReport = ({
   // fileName,
   setAllEvent,
   allEvent,
-  setAttachment
+  setAttachment,
+  setDisabled
 }) => {
   const [file, setFile] = useState([]);
   const [expDate, setExpDate] = useState([]);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState([]);
   const [filePreview, setFilePreview] = useState(null);
 
   const [value, setValue] = useState(new Date());
@@ -36,9 +38,19 @@ const BankDataReport = ({
     setValue(dayjs(newValue).format('YYYY-MM-DD'));
   };
 
+  // const protection = () => {
+  //   for (let i = 0; i < file.length; i++) {
+  //     if (file[i].length === 0) {
+  //       setDisabled(true);
+  //     } else {
+  //       setDisabled(false);
+  //     }
+  //   }
+  // };
+
   const [addFormData, setAddFormData] = useState({
-    description: '',
-    report_type: ''
+    description: jenisLaporan ? jenisLaporan : '',
+    report_type: keteranganLaporan ? keteranganLaporan : ''
   });
 
   const handleAddFormChange = (event) => {
@@ -53,9 +65,15 @@ const BankDataReport = ({
     setAddFormData(newFormData);
   };
 
+  // const handleDelete = (index) => {
+  //   const value = Object.values(file[file.length - 1]);
+  //   value.splice(index, 1);
+  //   setFile([...attachment, [...value]]); // to update the file array
+  // };
+
   const onBtnAddFile = (e) => {
     setFile([...attachment, e.target.files]);
-    setFileName(e.target.files[0].name);
+    setFileName([...fileName, e.target.files[0].name]);
     setFilePreview(URL.createObjectURL(e.target.files[0]));
   };
 
@@ -63,7 +81,26 @@ const BankDataReport = ({
     setAllEvent([...allEvent, addFormData]);
     setDate([...date, dayjs(value).format('YYYY-MM-DD')]);
     setAttachment(file);
-  }, [addFormData, allEvent, setAllEvent, file, setAttachment, handleChange, value, setDate]);
+  }, [
+    addFormData,
+    allEvent,
+    setAllEvent,
+    file,
+    setAttachment,
+    handleChange,
+    value,
+    setDate,
+    onBtnAddFile
+  ]);
+
+  // attachment array i have to map this !!!
+  const filev2 =
+    file.length > 0 ? Object.values(file[file.length - 1]).map((item, i) => item.name) : null;
+  // const keys = file.length > 0 ? Object.keys(file) : null;
+
+  // const filev3 = filev2?.map((item) => item.name);
+  // console.log(filev2);
+  // console.log(file);
 
   return (
     <>
@@ -93,9 +130,8 @@ const BankDataReport = ({
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-autowidth-label">Pilih Jenis Laporan</InputLabel>
                 <Select
-                  labelId="demo-simple-select-autowidth-label"
-                  id="demo-simple-select-autowidth"
-                  // value={jenisLaporan}
+                  required
+                  defaultValue={jenisLaporan}
                   name="report_type"
                   onChange={handleAddFormChange}
                   fullWidth
@@ -119,9 +155,9 @@ const BankDataReport = ({
             <Box sx={{ paddingBottom: '1rem', fontWeight: 600 }}>Keterangan</Box>
             <Box sx={{ paddingBottom: '1rem', fontWeight: 400 }}>
               <TextField
-                id="outlined-multiline-static"
+                required
                 name="description"
-                // label="Keterangan"
+                defaultValue={keteranganLaporan}
                 onChange={handleAddFormChange}
                 fullWidth
                 placeholder="Tuliskan Keterangan Tambahan"
@@ -206,122 +242,60 @@ const BankDataReport = ({
                         required
                         multiple
                         type="file"
+                        // hidden
                         style={{ marginLeft: '4rem', cursor: 'pointer' }}
                       />
+                      {/* Upload File */}
                     </Button>
                   </Grid>
                 </Grid>
                 <Box sx={{ fontSize: '14px' }}>*Format file: .pdf, .jpg | Ukuran file max 5Mb</Box>
               </Grid>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid
-                  sx={{
-                    backgroundColor: 'white',
-                    width: '7.438rem',
-                    height: '9.063rem',
-                    border: '1px solid #3F48C0',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  // onClick={onButtonPreview}
-                >
-                  <Grid
-                    container // container to make the justify content works
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignContent: 'center',
-                      marginTop: '0.5rem'
-                    }}
-                  >
-                    <Grid item sx={{ marginLeft: '5rem' }}>
-                      <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-                    </Grid>
-                    <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
-                      <img src={pdf} alt=""></img>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Box fontSize={'0.875rem'}>KontrakPerusahaan.pdf</Box>
-              </Grid>
-              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Grid
-                  sx={{
-                    backgroundColor: 'white',
-                    width: '7.438rem',
-                    height: '9.063rem',
-                    border: '1px solid #3F48C0',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  // onClick={onButtonPreview}
-                >
-                  <Grid
-                    container // container to make the justify content works
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignContent: 'center',
-                      marginTop: '0.5rem'
-                    }}
-                  >
-                    <Grid item sx={{ marginLeft: '5rem' }}>
-                      <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-                    </Grid>
-                    <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
-                      <img src={pdf} alt=""></img>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Box fontSize={'0.875rem'}>KontrakPerusahaan.pdf</Box>
-              </Grid>
+
+              {/* attachment */}
+              {/* map uses return to iterate */}
+              {filev2?.length > 0
+                ? filev2.map((item, i) => {
+                    return (
+                      <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Grid
+                          sx={{
+                            backgroundColor: 'white',
+                            width: '7.438rem',
+                            height: '9.063rem',
+                            border: '1px solid #3F48C0',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                          }}
+                          // onClick={onButtonPreview}
+                        >
+                          <Grid
+                            container // container to make the justify content works
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              alignContent: 'center',
+                              marginTop: '0.5rem'
+                            }}
+                          >
+                            <Grid item sx={{ marginLeft: '5rem' }}>
+                              <Icon icon="ion:close-circle-sharp" color="white" fontSize={24} />
+                            </Grid>
+                            <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
+                              <img src={pdf} alt=""></img>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Box fontSize={'0.875rem'}>{item}</Box>
+                      </Grid>
+                    );
+                  })
+                : null}
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-
-      {/* PDF */}
-      {/* {file.length ? (
-              <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Box sx={{ marginBottom: '1rem' }}>
-                  <h3>File Laporan</h3>
-                </Box>
-                <Grid
-                  item
-                  sx={{
-                    backgroundColor: 'white',
-                    width: '7.438rem',
-                    height: '9.063rem',
-                    border: '1px solid #3F48C0',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  onClick={onButtonPreview}
-                >
-                  <Grid
-                    container // container to make the justify content works
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignContent: 'center',
-                      marginTop: '0.5rem'
-                    }}
-                  > */}
-      {/* <Grid item sx={{ marginLeft: '5rem' }}>
-        <Icon icon="ion:close-circle-sharp" color="#e0e0e0" fontSize={24} />
-      </Grid> */}
-
-      {/* <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
-                      <Icon icon="ph:file-pdf-duotone" color="#3f48c0" />
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Box fontSize={'0.875rem'}>{fileName}</Box>
-              </Grid>
-            ) : null} */}
     </>
   );
 };
