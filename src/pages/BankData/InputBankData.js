@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import { Grid, Box, Button } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -7,6 +7,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import BankDataReport from '../../components/BankData/BankDataReport';
 import alert from '../../assets/Images/clock-history.png';
 import { toast } from 'react-toastify';
+import Lists from '../../components/BankData/Lists';
 // import dayjs from 'dayjs';
 
 // import { LoadingModal } from 'components/Modal';
@@ -18,9 +19,8 @@ const InputBankData = () => {
   const [attachment, setAttachment] = useState([]);
   const [date, setDate] = useState([]);
   const [allEvent, setAllEvent] = useState([]);
-  // const [disabled, setDisabled] = useState('true');
-
-  // console.log(location.state.keteranganLaporan);
+  const [disabled, setDisabled] = useState(true);
+  const [protection, setProtection] = useState(true);
 
   const [inputList, setInputList] = useState([
     <BankDataReport
@@ -32,7 +32,8 @@ const InputBankData = () => {
       allEvent={allEvent}
       setAllEvent={setAllEvent}
       setAttachment={setAttachment}
-      // setDisabled={setDisabled}
+      setDisabled={setDisabled}
+      // protection={protection}
     />
   ]);
 
@@ -50,7 +51,11 @@ const InputBankData = () => {
           allEvent={allEvent}
           setAllEvent={setAllEvent}
           setAttachment={setAttachment}
-          // setDisabled={setDisabled}
+          setDisabled={setDisabled}
+          // inputLength={inputList.length}
+          inputKeys={Object.keys(inputList)}
+          protection={protection}
+          setProtection={setProtection}
         />
       )
     );
@@ -78,8 +83,6 @@ const InputBankData = () => {
       setLoading(false);
     }
   };
-
-  // console.log(allEvent);
 
   return (
     <>
@@ -166,6 +169,7 @@ const InputBankData = () => {
             </Grid>
 
             {/* input laporan */}
+            {/* <Lists searchResults={location.state} /> */}
             {inputList}
 
             <Grid
@@ -178,7 +182,12 @@ const InputBankData = () => {
               }}
             >
               <Box container textAlign="center">
-                <Button variant="contained" sx={{ boxShadow: '0' }} onClick={onAddBtnClick}>
+                <Button
+                  disabled={disabled}
+                  variant="contained"
+                  sx={{ boxShadow: '0' }}
+                  onClick={onAddBtnClick}
+                >
                   <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
                     <img src={add} alt=""></img>
                   </Box>
@@ -209,7 +218,7 @@ const InputBankData = () => {
               <Grid item>
                 <LoadingButton
                   // loading={loading}
-                  // disabled={disabled}
+                  disabled={disabled}
                   type="submit"
                   variant="contained"
                   sx={{ width: '130%', boxShadow: '0' }}

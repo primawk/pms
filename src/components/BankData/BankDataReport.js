@@ -14,43 +14,30 @@ import dayjs from 'dayjs';
 
 const BankDataReport = ({
   // i need to put {} when pass function as a prop to child component
-  // onBtnAddFile,
+  data,
   keteranganLaporan,
   jenisLaporan,
   date,
   attachment,
   setDate,
-  // onButtonPreview,
-  // fileName,
   setAllEvent,
   allEvent,
   setAttachment,
-  setDisabled
+  setDisabled,
+  inputKeys
 }) => {
   const [file, setFile] = useState([]);
-  const [expDate, setExpDate] = useState([]);
   const [fileName, setFileName] = useState([]);
   const [filePreview, setFilePreview] = useState(null);
-
   const [value, setValue] = useState(new Date());
 
   const handleChange = (newValue) => {
     setValue(dayjs(newValue).format('YYYY-MM-DD'));
   };
 
-  // const protection = () => {
-  //   for (let i = 0; i < file.length; i++) {
-  //     if (file[i].length === 0) {
-  //       setDisabled(true);
-  //     } else {
-  //       setDisabled(false);
-  //     }
-  //   }
-  // };
-
   const [addFormData, setAddFormData] = useState({
-    description: jenisLaporan ? jenisLaporan : '',
-    report_type: keteranganLaporan ? keteranganLaporan : ''
+    description: keteranganLaporan ? keteranganLaporan : '',
+    report_type: jenisLaporan ? jenisLaporan : ''
   });
 
   const handleAddFormChange = (event) => {
@@ -81,7 +68,13 @@ const BankDataReport = ({
     setAllEvent([...allEvent, addFormData]);
     setDate([...date, dayjs(value).format('YYYY-MM-DD')]);
     setAttachment(file);
+    if (filev2?.length > 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   }, [
+    inputKeys,
     addFormData,
     allEvent,
     setAllEvent,
@@ -93,14 +86,14 @@ const BankDataReport = ({
     onBtnAddFile
   ]);
 
+  // const onButtonPreview = () => {
+  //   window.open(filePreview, '_blank');
+  // };
+
+  // attachment preview
   // attachment array i have to map this !!!
   const filev2 =
     file.length > 0 ? Object.values(file[file.length - 1]).map((item, i) => item.name) : null;
-  // const keys = file.length > 0 ? Object.keys(file) : null;
-
-  // const filev3 = filev2?.map((item) => item.name);
-  // console.log(filev2);
-  // console.log(file);
 
   return (
     <>
@@ -155,6 +148,7 @@ const BankDataReport = ({
             <Box sx={{ paddingBottom: '1rem', fontWeight: 600 }}>Keterangan</Box>
             <Box sx={{ paddingBottom: '1rem', fontWeight: 400 }}>
               <TextField
+                // disabled={keteranganLaporan || protection}
                 required
                 name="description"
                 defaultValue={keteranganLaporan}
@@ -265,7 +259,7 @@ const BankDataReport = ({
                             height: '9.063rem',
                             border: '1px solid #3F48C0',
                             borderRadius: '4px',
-                            cursor: 'pointer'
+                            // cursor: 'pointer'
                           }}
                           // onClick={onButtonPreview}
                         >
@@ -280,7 +274,12 @@ const BankDataReport = ({
                             }}
                           >
                             <Grid item sx={{ marginLeft: '5rem' }}>
-                              <Icon icon="ion:close-circle-sharp" color="white" fontSize={24} />
+                              <Icon
+                                icon="ion:close-circle-sharp"
+                                color="white"
+                                fontSize={24}
+                                // onClick={() => handleDelete(i)}
+                              />
                             </Grid>
                             <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
                               <img src={pdf} alt=""></img>
