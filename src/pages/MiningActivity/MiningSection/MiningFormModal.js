@@ -36,7 +36,7 @@ const miningActivityList = [
   }
 ];
 
-const productList = ['Biji Nikel', 'Limonite'];
+const productList = ['Bijih Nikel', 'Limonite'];
 
 const blockList = ['Utara', 'Selatan'];
 

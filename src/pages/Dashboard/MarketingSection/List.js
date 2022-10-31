@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
-import { Icon } from '@iconify/react';
 import avatarLogo from 'assets/Images/avatar.png';
 
 const List = ({ setDetail }) => {
@@ -68,7 +67,7 @@ const List = ({ setDetail }) => {
               Jenis Produk
             </Box>
             <Box>
-              <Box sx={{ fontSize: '12px' }}>Biji Nikel</Box>
+              <Box sx={{ fontSize: '12px' }}>Bijih Nikel</Box>
             </Box>
           </Grid>
         </Grid>
