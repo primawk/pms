@@ -9,11 +9,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const SearchBar = ({ toggle }) => {
-  const [age, setAge] = useState('');
-
+const SearchBar = ({ toggle, sort, setSort }) => {
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setSort(event.target.value);
   };
   return (
     <>
@@ -106,15 +104,15 @@ const SearchBar = ({ toggle }) => {
             <Select
               labelId="demo-simple-select-autowidth-label"
               id="demo-simple-select-autowidth"
-              value={age}
+              value={sort}
               onChange={handleChange}
               fullWidth
               label="Urutan | Terbaru"
             >
-              <MenuItem value="">Jenis Dokumen | Semua</MenuItem>
-              <MenuItem value={10}>Jenis Dokumen | Legal</MenuItem>
-              <MenuItem value={21}>Jenis Dokumen | Kontrak</MenuItem>
-              <MenuItem value={22}>Jenis Dokumen | Surat Menyurat</MenuItem>
+              {/* <MenuItem value="">Jenis Dokumen | Semua</MenuItem> */}
+              <MenuItem value="desc">Urutan | Terbaru</MenuItem>
+              <MenuItem value="asc">Urutan | Terlama</MenuItem>
+              {/* <MenuItem value={22}>Jenis Dokumen | Surat Menyurat</MenuItem> */}
             </Select>
           </FormControl>
         </Grid>

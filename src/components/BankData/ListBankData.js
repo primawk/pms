@@ -3,15 +3,16 @@ import { Grid, Box } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import avatarLogo from 'assets/Images/avatar.png';
+import dayjs from 'dayjs';
 
-const ListBankData = () => {
+const ListBankData = ({ data, i, pagination }) => {
+  console.log(pagination);
   const navigate = useNavigate();
   return (
     <>
       <Grid
         container
         sx={{
-
           display: 'flex',
           flexWrap: 'nowrap',
           backgroundColor: 'white',
@@ -29,18 +30,9 @@ const ListBankData = () => {
         xs={12}
       >
         <Grid item>
-          {/* <Grid
-        container
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '1rem'
-        }}
-      > */}
           <Grid item>
-            {/* <h4> {i + 1}</h4> */}
-            <h4>1</h4>
+            <h4> {(pagination?.current_page - 1) * 5 + i + 1}</h4>
+            {/* 5 is the limit */}
           </Grid>
           {/* </Grid> */}
         </Grid>
@@ -56,7 +48,7 @@ const ListBankData = () => {
             <Box sx={{ marginBottom: '0.5rem' }}>
               <h5 style={{ color: '#828282' }}>Masa Berlaku Dokumen</h5>
             </Box>
-            <Box sx={{}}>12/04/2022</Box>
+            <Box sx={{}}>{dayjs(data?.date).format('DD/MM/YYYY')}</Box>
           </Grid>
         </Grid>
 
@@ -75,7 +67,7 @@ const ListBankData = () => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>Kontrak</h5>
+                  <h5>{data?.report_type}</h5>
                 </Box>
               </Grid>
             </Box>
@@ -97,7 +89,7 @@ const ListBankData = () => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box sx={{}}>
-                  <h5>Kontrak Pembayaran</h5>
+                  <h5>{data?.description}</h5>
                 </Box>
               </Grid>
             </Box>
@@ -118,7 +110,7 @@ const ListBankData = () => {
             </Box>
             <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <Icon icon="ph:file-pdf-duotone" color="#3f48c0" fontSize={24} />
-              <Box sx={{ marginLeft: '0.5rem', fontSize: '0.5rem' }}>Kontrak__mitra.pdf</Box>
+              <Box sx={{ marginLeft: '0.5rem', fontSize: '0.5rem' }}>{data?.attachment}</Box>
             </Grid>
           </Grid>
         </Grid>
@@ -141,7 +133,7 @@ const ListBankData = () => {
                   <img src={avatarLogo} alt=""></img>
                 </Box>
                 <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
-                  <h5>Putri Devina</h5>
+                  <h5>{data?.account_name}</h5>
                 </Box>
               </Grid>
             </Box>
@@ -162,10 +154,7 @@ const ListBankData = () => {
             </Box>
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
-                <Box>
-                  {/* <h5>{dayjs(data?.date).format('DD/MM/YYYY')}</h5> */}
-                  12/04/2022
-                </Box>
+                <Box>{dayjs(data?.created_at).format('DD/MM/YYYY')}</Box>
               </Grid>
             </Box>
           </Grid>
