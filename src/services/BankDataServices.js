@@ -37,16 +37,41 @@ const getBankData = ({ startDate, endDate, orderBy, sort, page, limit, id, repor
   });
 };
 
-const getSummary = () => { // cannot empty object
+const getSummary = () => {
+  // cannot empty object
   return request(`${MINING_ACTIVITY_MODEL}/bank/summary`, {
     method: 'GET',
     headers: authHeader()
   });
 };
 
+const inputBankData = (data, attachment) => {
+  var formData = new FormData();
+
+  for (var key in data) {
+    formData.append(key, JSON.stringify(data[key]));
+  }
+  for (var pdf in attachment) {
+    formData.append(pdf, attachment[pdf]);
+  }
+
+  // form_data.append('attachment', attachment);
+  // console.log FORMDATA
+  // for (var pair of formData.entries()) {
+  //   console.log(pair[0] + ', ' + pair[1]);
+  // }
+
+  return request(`${MINING_ACTIVITY_MODEL}/bank`, {
+    method: 'POST',
+    headers: authHeader(),
+    data: formData
+  });
+};
+
 const BankDataService = {
   getSummary,
-  getBankData
+  getBankData,
+  inputBankData
 };
 
 export default BankDataService;

@@ -7,10 +7,15 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import BankDataReport from '../../components/BankData/BankDataReport';
 import alert from '../../assets/Images/clock-history.png';
 import { toast } from 'react-toastify';
+import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import Lists from '../../components/BankData/Lists';
 // import dayjs from 'dayjs';
 
-// import { LoadingModal } from 'components/Modal';
+// custom hooks
+import useModal from '../../hooks/useModal';
+
+// services
+import BankDataService from '../../services/BankDataServices';
 
 const InputBankData = () => {
   const navigate = useNavigate();
@@ -21,6 +26,7 @@ const InputBankData = () => {
   const [allEvent, setAllEvent] = useState([]);
   const [disabled, setDisabled] = useState(true);
   const [protection, setProtection] = useState(true);
+  const { isShowing, toggle } = useModal();
 
   const [inputList, setInputList] = useState([
     <BankDataReport
@@ -72,12 +78,10 @@ const InputBankData = () => {
     const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
 
     try {
-      // await LabService.inputReportExternalMany(allEvent, attachment, date);
-      // setLoading(false);
-      // navigate(-1);
-      // toggle();
-      console.log(merged);
-      console.log(attachment);
+      await BankDataService.inputBankData(merged, attachment);
+      setLoading(false);
+      navigate(-1);
+      toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);
       setLoading(false);
@@ -86,6 +90,7 @@ const InputBankData = () => {
 
   return (
     <>
+      <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
       <div
         style={{
           backgroundColor: '#F5F5F5',
