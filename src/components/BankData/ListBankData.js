@@ -6,7 +6,6 @@ import avatarLogo from 'assets/Images/avatar.png';
 import dayjs from 'dayjs';
 
 const ListBankData = ({ data, i, pagination }) => {
-  console.log(pagination);
   const navigate = useNavigate();
   return (
     <>
@@ -26,7 +25,7 @@ const ListBankData = ({ data, i, pagination }) => {
           overflow: 'auto'
         }}
         spacing={3}
-        onClick={() => navigate(`/bank-data/input`)}
+        onClick={() => navigate(`/bank-data/edit/${data?.id}`)}
         xs={12}
       >
         <Grid item>

@@ -11,10 +11,16 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import pdf from '../../assets/Images/pdf.png';
 import dayjs from 'dayjs';
+import { LoadingModal } from 'components/Modal';
+import { useQuery } from 'react-query';
+
+// service
+import BankDataService from '../../services/BankDataServices';
 
 const BankDataReport = ({
   // i need to put {} when pass function as a prop to child component
-  data,
+  id,
+  dateEdit,
   keteranganLaporan,
   jenisLaporan,
   date,
@@ -25,11 +31,26 @@ const BankDataReport = ({
   setAttachment,
   setDisabled,
   inputKeys
+  // isLoading,
+  // isFetching
 }) => {
+  const { data, isLoading, isFetching } = useQuery(['data', id], () =>
+    BankDataService.getBankData({
+      page: 1,
+      id: `${id}`
+    })
+  );
+  const [jenisLaporanEdit, setJenisLaporanEdit] = useState('');
   const [file, setFile] = useState([]);
   const [fileName, setFileName] = useState([]);
   const [filePreview, setFilePreview] = useState(null);
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState(data ? data?.data?.data[0].date : new Date());
+
+  useEffect(() => {
+    setJenisLaporanEdit(data?.data?.data[0].report_type);
+  }, [data]);
+
+  console.log(jenisLaporanEdit);
 
   const handleChange = (newValue) => {
     setValue(dayjs(newValue).format('YYYY-MM-DD'));
@@ -37,7 +58,8 @@ const BankDataReport = ({
 
   const [addFormData, setAddFormData] = useState({
     description: keteranganLaporan ? keteranganLaporan : '',
-    report_type: jenisLaporan ? jenisLaporan : ''
+    report_type: jenisLaporan ? jenisLaporan : jenisLaporanEdit ? jenisLaporanEdit : '',
+    date: dateEdit ? dateEdit : ''
   });
 
   const handleAddFormChange = (event) => {
@@ -97,6 +119,7 @@ const BankDataReport = ({
 
   return (
     <>
+      {isLoading && <LoadingModal />}
       <Grid
         container
         sx={{
@@ -124,7 +147,7 @@ const BankDataReport = ({
                 <InputLabel id="demo-simple-select-autowidth-label">Pilih Jenis Laporan</InputLabel>
                 <Select
                   required
-                  defaultValue={jenisLaporan}
+                  defaultValue={jenisLaporan ? jenisLaporan : data?.data?.data[0].report_type}
                   name="report_type"
                   onChange={handleAddFormChange}
                   fullWidth
@@ -151,7 +174,9 @@ const BankDataReport = ({
                 // disabled={keteranganLaporan || protection}
                 required
                 name="description"
-                defaultValue={keteranganLaporan}
+                defaultValue={
+                  keteranganLaporan ? keteranganLaporan : data?.data?.data[0].description
+                }
                 onChange={handleAddFormChange}
                 fullWidth
                 placeholder="Tuliskan Keterangan Tambahan"
@@ -258,7 +283,7 @@ const BankDataReport = ({
                             width: '7.438rem',
                             height: '9.063rem',
                             border: '1px solid #3F48C0',
-                            borderRadius: '4px',
+                            borderRadius: '4px'
                             // cursor: 'pointer'
                           }}
                           // onClick={onButtonPreview}
