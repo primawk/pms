@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import Lists from '../../components/BankData/Lists';
 
-
 import { LoadingModal } from 'components/Modal';
 // import dayjs from 'dayjs';
 
@@ -31,10 +30,6 @@ const InputBankData = () => {
   const [protection, setProtection] = useState(true);
   const { isShowing, toggle } = useModal();
   const { id } = useParams();
-
-
-  
-
 
   const [inputList, setInputList] = useState([
     <BankDataReport
@@ -101,6 +96,28 @@ const InputBankData = () => {
     }
   };
 
+  const handleEditFormSubmit = async (event) => {
+    setLoading(true);
+    event.preventDefault();
+
+    // TRANFORM ARRAY OF DATES INTO OBJECT
+    const data = date.map((item, i) => Object.assign({}, { date: date[i] }));
+
+    // MERGE BETWEEN TWO OBJECTS
+    const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
+    const existing = ['existing.jpg'];
+
+    try {
+      await BankDataService.editBankData(merged, attachment, existing, id);
+      setLoading(false);
+      navigate(-1);
+      toggle();
+    } catch (error) {
+      toast.error(error.response.data.detail_message);
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
@@ -113,7 +130,7 @@ const InputBankData = () => {
         }}
       >
         <Navbar />
-        <form onSubmit={handleAddFormSubmit}>
+        <form onSubmit={id ? handleEditFormSubmit : handleAddFormSubmit}>
           <Grid
             container
             sx={{

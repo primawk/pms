@@ -68,10 +68,37 @@ const inputBankData = (data, attachment) => {
   });
 };
 
+const editBankData = (data, attachment, existing, id) => {
+  var formData = new FormData();
+
+  for (var key in data) {
+    formData.append(key, JSON.stringify(data[key]));
+  }
+  for (var pdf in attachment) {
+    formData.append(pdf, attachment[pdf]);
+  }
+  for (var row in existing) {
+    formData.append(row, existing[row]);
+  }
+
+  // form_data.append('attachment', attachment);
+  // console.log FORMDATA
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
+
+  return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
+    method: 'PUT',
+    headers: authHeader(),
+    data: formData
+  });
+};
+
 const BankDataService = {
   getSummary,
   getBankData,
-  inputBankData
+  inputBankData,
+  editBankData
 };
 
 export default BankDataService;

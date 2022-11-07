@@ -58,7 +58,7 @@ const BankDataReport = ({
 
   const [addFormData, setAddFormData] = useState({
     description: keteranganLaporan ? keteranganLaporan : '',
-    report_type: jenisLaporan ? jenisLaporan : jenisLaporanEdit ? jenisLaporanEdit : '',
+    report_type: jenisLaporan ? jenisLaporan : '',
     date: dateEdit ? dateEdit : ''
   });
 
