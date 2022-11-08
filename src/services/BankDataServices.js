@@ -68,24 +68,29 @@ const inputBankData = (data, attachment) => {
   });
 };
 
-const editBankData = (data, attachment, existing, id) => {
+const editBankData = (data, attachment, existings, id) => {
   var formData = new FormData();
+  console.log(existings);
 
-  for (var key in data) {
-    formData.append(key, JSON.stringify(data[key]));
+  for (var body in data) {
+    formData.append('body', JSON.stringify(data[body])); // naming the keys 'body
   }
-  for (var pdf in attachment) {
-    formData.append(pdf, attachment[pdf]);
+  for (var files in attachment) {
+    formData.append('files', attachment[files]);
   }
-  for (var row in existing) {
-    formData.append(row, existing[row]);
+  for (var existing in existings) {
+    formData.append('existing', existings[existing]);
   }
 
   // form_data.append('attachment', attachment);
   // console.log FORMDATA
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
+  // for (var pair of formData.entries()) {
+  //   console.log(pair[0] + ', ' + pair[1]);
+  // }
+  // Display the keys
+  // for (const key of formData.keys()) {
+  //   console.log(key);
+  // }
 
   return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
     method: 'PUT',

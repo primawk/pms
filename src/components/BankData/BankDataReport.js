@@ -40,20 +40,17 @@ const BankDataReport = ({
       id: `${id}`
     })
   );
-  const [jenisLaporanEdit, setJenisLaporanEdit] = useState('');
   const [file, setFile] = useState([]);
   const [fileName, setFileName] = useState([]);
   const [filePreview, setFilePreview] = useState(null);
-  const [value, setValue] = useState(data ? data?.data?.data[0].date : new Date());
-
-  useEffect(() => {
-    setJenisLaporanEdit(data?.data?.data[0].report_type);
-  }, [data]);
-
-  console.log(jenisLaporanEdit);
+  const [value, setValue] = useState(new Date());
+  const [valueEdit, setValueEdit] = useState(new Date(data?.data?.data[0].date));
 
   const handleChange = (newValue) => {
     setValue(dayjs(newValue).format('YYYY-MM-DD'));
+  };
+  const handleChangeEdit = (newValue) => {
+    setValueEdit(dayjs(newValue).format('YYYY-MM-DD'));
   };
 
   const [addFormData, setAddFormData] = useState({
@@ -119,7 +116,7 @@ const BankDataReport = ({
 
   return (
     <>
-      {isLoading && <LoadingModal />}
+      {isLoading && isFetching && <LoadingModal />}
       <Grid
         container
         sx={{
@@ -147,7 +144,14 @@ const BankDataReport = ({
                 <InputLabel id="demo-simple-select-autowidth-label">Pilih Jenis Laporan</InputLabel>
                 <Select
                   required
-                  defaultValue={jenisLaporan ? jenisLaporan : data?.data?.data[0].report_type}
+                  key={data} // key to solve the real time update on defaultValue
+                  defaultValue={
+                    jenisLaporan
+                      ? jenisLaporan
+                      : data?.data?.data[0].report_type
+                      ? data?.data?.data[0].report_type
+                      : ''
+                  }
                   name="report_type"
                   onChange={handleAddFormChange}
                   fullWidth
@@ -173,9 +177,14 @@ const BankDataReport = ({
               <TextField
                 // disabled={keteranganLaporan || protection}
                 required
+                key={data}
                 name="description"
                 defaultValue={
-                  keteranganLaporan ? keteranganLaporan : data?.data?.data[0].description
+                  keteranganLaporan
+                    ? keteranganLaporan
+                    : data?.data?.data[0].description
+                    ? data?.data?.data[0].description
+                    : ''
                 }
                 onChange={handleAddFormChange}
                 fullWidth
@@ -194,12 +203,14 @@ const BankDataReport = ({
           >
             <Box sx={{ paddingBottom: '1rem', fontWeight: 700 }}>Masa Berlaku Dokumen</Box>
             <Box sx={{ paddingBottom: '1rem', fontWeight: 400 }}>Tanggal</Box>
-            <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
+            <LocalizationProvider key={data} dateAdapter={AdapterDateFns} fullWidth>
               <DesktopDatePicker
                 required
                 inputFormat="dd/MM/yyyy"
+                key={data}
+                disabled={!data?.data?.data[0].date}
                 name="date"
-                value={value}
+                value={data?.data?.data[0].date ? data?.data?.data[0].date : value}
                 onChange={handleChange}
                 renderInput={(params) => <TextField {...params} />}
               />
