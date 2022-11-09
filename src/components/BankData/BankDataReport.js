@@ -43,15 +43,16 @@ const BankDataReport = ({
   const [file, setFile] = useState([]);
   const [fileName, setFileName] = useState([]);
   const [filePreview, setFilePreview] = useState(null);
-  const [value, setValue] = useState(new Date());
-  const [valueEdit, setValueEdit] = useState(new Date(data?.data?.data[0].date));
+  const [value, setValue] = useState(
+    data?.data?.data[0] ? new Date(data?.data?.data[0].date) : new Date()
+  );
 
   const handleChange = (newValue) => {
     setValue(dayjs(newValue).format('YYYY-MM-DD'));
   };
-  const handleChangeEdit = (newValue) => {
-    setValueEdit(dayjs(newValue).format('YYYY-MM-DD'));
-  };
+  // const handleChangeEdit = (newValue) => {
+  //   setValueEdit(dayjs(newValue).format('YYYY-MM-DD'));
+  // };
 
   const [addFormData, setAddFormData] = useState({
     description: keteranganLaporan ? keteranganLaporan : '',
@@ -207,10 +208,9 @@ const BankDataReport = ({
               <DesktopDatePicker
                 required
                 inputFormat="dd/MM/yyyy"
-                key={data}
-                disabled={!data?.data?.data[0].date}
+                key={data?.data?.data[0].date}
                 name="date"
-                value={data?.data?.data[0].date ? data?.data?.data[0].date : value}
+                value={value}
                 onChange={handleChange}
                 renderInput={(params) => <TextField {...params} />}
               />

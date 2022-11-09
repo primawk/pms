@@ -19,7 +19,7 @@ import InformationBox from '../../components/Lossing/InformasiBox';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const Summary = ({ setPage }) => {
+const Summary = ({ setPage, data }) => {
   useAuth();
   const [detail, setDetail] = useState(false);
   const [age, setAge] = useState('');
@@ -55,7 +55,7 @@ const Summary = ({ setPage }) => {
               xs={12}
               sm={6}
             >
-              Summary Bukit VIII
+              Summary {data?.hill_name}
             </Grid>
             <Grid
               item
@@ -100,12 +100,18 @@ const Summary = ({ setPage }) => {
             </Grid>
           </Grid>
           <Grid item container sx={{ justifyContent: 'space-around' }}>
-            <InformationBox title="Total Semua Lossing" quantity="490 Ton" />
-            <InformationBox title="Total Lossing Estimasi to Front" quantity="490 Ton" />
-            <InformationBox title="Total Lossing Front to ETO" quantity="490 Ton" />
-            <InformationBox title="Total Lossing ETO to EFO" quantity="490 Ton" />
-            <InformationBox title="Total Lossing EFO to Barging" quantity="490 Ton" />
-          
+            <InformationBox title="Total Semua Lossing" quantity={data?.loss_total} />
+            <InformationBox
+              title="Total Lossing Estimasi to Front"
+              quantity={data?.loss_est_to_ore}
+            />
+            <InformationBox title="Total Lossing Front to ETO" quantity={data?.loss_front_to_eto} />
+            <InformationBox title="Total Lossing ETO to EFO" quantity={data?.loss_eto_to_efo} />
+            <InformationBox
+              title="Total Lossing EFO to Barging"
+              quantity={data?.loss_efo_to_ship}
+            />
+
             <Information toggle={toggle} />
             <Grid
               item
@@ -129,7 +135,7 @@ const Summary = ({ setPage }) => {
                 xs={12}
                 sm={6}
               >
-                List Modul Lossing Bukit VIII
+                List Modul Lossing {data?.hill_name}
               </Grid>
               <Grid item sx={{ padding: '24px 0 24px 24px', marginRight: '24px' }} xs={12} sm={2.5}>
                 <Grid container sx={{}}>
@@ -153,9 +159,11 @@ const Summary = ({ setPage }) => {
                 </Grid>
               </Grid>
             </Grid>
-            <List setPage={setPage} />
-            <List />
-            <List />
+
+            {/* list Bukit */}
+            {data?.detail?.map((item) => (
+              <List data={item} setPage={setPage} />
+            ))}
           </Grid>
           {/* Pagination */}
           <Grid

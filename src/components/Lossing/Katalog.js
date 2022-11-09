@@ -1,7 +1,11 @@
 import React from 'react';
 import { Grid, Button } from '@mui/material';
 
-const Katalog = ({ setPage, name, loss }) => {
+const Katalog = ({ setPage, name, loss, setId, id }) => {
+  const onBtnClick = () => {
+    setPage('summary');
+    setId(id);
+  };
   return (
     <>
       <Grid item xs={12} sm={3.8} sx={{ background: 'white' }}>
@@ -15,14 +19,14 @@ const Katalog = ({ setPage, name, loss }) => {
                 <img src="/img/down.png" alt=""></img>
               </Grid>
               <Grid item sx={{ alignItems: 'center', color: '#DA4540' }}>
-                {loss}
+                {loss} Ton
               </Grid>
             </Grid>
           </Grid>
           <Grid
             item
             sx={{ color: '#3F48C0', cursor: 'pointer', padding: '0 16px 16px 16px' }}
-            onClick={() => setPage('summary')}
+            onClick={onBtnClick}
           >
             Lihat Selengkapnya {'>'}
           </Grid>

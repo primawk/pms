@@ -24,7 +24,7 @@ const WhiteButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const Katalog = ({ setPage }) => {
+const Katalog = ({ setPage, data, setId }) => {
   useAuth();
   const { isShowing, toggle } = useModal();
 
@@ -119,7 +119,7 @@ const Katalog = ({ setPage }) => {
                       <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
                         <img src="/img/down.png" alt=""></img>
                       </Grid>
-                      370 Ton
+                      {data?.loss_total} Ton
                     </Grid>
                   </Grid>
                 </Grid>
@@ -140,9 +140,15 @@ const Katalog = ({ setPage }) => {
           }}
           gap={3}
         >
-          <KatalogBox setPage={setPage} name="Bukit II" loss="230 Ton" />
-          <KatalogBox setPage={setPage} name="Bukit III" loss="230 Ton" />
-          <KatalogBox setPage={setPage} name="Bukit IV" loss="230 Ton" />
+          {data?.detail?.map((_data) => (
+            <KatalogBox
+              name={_data.hill_name}
+              loss={_data.loss}
+              setPage={setPage}
+              setId={setId}
+              id={_data?.hill_id}
+            />
+          ))}
         </Grid>
       </div>
     </>
