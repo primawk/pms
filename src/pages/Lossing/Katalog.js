@@ -6,6 +6,8 @@ import { Icon } from '@iconify/react';
 import ArrowIcon from '@iconify/icons-bi/caret-down-fill';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { LoadingModal } from 'components/Modal';
+import { addDays } from 'date-fns';
 
 // components
 import Header from 'components/Header';
@@ -24,47 +26,57 @@ const WhiteButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const Katalog = ({ setPage, data, setId }) => {
+const Katalog = ({
+  setPage,
+  data,
+  setId,
+  isLoading,
+  isFetching,
+  setSelectedDates,
+  selectedDates
+}) => {
   useAuth();
-  const { isShowing, toggle } = useModal();
+  const { isShowing: isShowingDate, toggle: toggleDate } = useModal();
 
   const navigate = useNavigate();
 
-  const [filter, setFilter] = useState([
+  const lossing = true;
+
+  const [state, setState] = useState([
     {
-      startDate: dayjs(new Date()).subtract(7, 'day').toDate(),
-      endDate: dayjs(new Date()).toDate(),
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
       key: 'selection'
     }
   ]);
 
-  // const dateDifference = `${dayjs(selectedDate?.startDate).format('DD/MM/YYYY')}-${dayjs(
-  //   selectedDate?.endDate
-  // ).format('DD/MM/YYYY')}`;
-  const [selectedDate, setSelectedDate] = useState({
-    startDate: dayjs(new Date()).subtract(7, 'day').format('YYYY-MM-DD'),
-    endDate: dayjs(new Date()).format('YYYY-MM-DD')
-  });
   return (
     <>
+      {isFetching && <LoadingModal />}
       <Header title="MODUL LOSSING" background="dashboard.png">
         <WhiteButton
           variant="contained"
           size="medium"
           sx={{ background: 'white', fontColor: 'black' }}
-          onClick={toggle}
+          onClick={toggleDate}
           endIcon={<Icon width={10} height={10} icon={ArrowIcon} color="#gray" />}
         >
           {/* {`Periode | ${dateDifference}`} */}
-          {`Periode | 1 Bulan`}
+          {/* {`Periode | 1 Bulan`} */}
+          {selectedDates.startDate !== undefined
+            ? `Filter Tanggal | ${dayjs(selectedDates.startDate).format('DD/MM/YYYY')} - ${dayjs(
+                selectedDates.endDate
+              ).format('DD/MM/YYYY')} `
+            : 'Filter Tanggal'}
         </WhiteButton>
       </Header>
       <FilterDate
-        toggle={toggle}
-        isShowing={isShowing}
-        state={filter}
-        setState={setFilter}
-        setSelectedDates={setSelectedDate}
+        toggle={toggleDate}
+        isShowing={isShowingDate}
+        state={state}
+        setState={setState}
+        setSelectedDates={setSelectedDates}
+        lossing={lossing}
       />
       <div className="app-content">
         <Grid

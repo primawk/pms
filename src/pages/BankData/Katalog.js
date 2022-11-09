@@ -18,7 +18,7 @@ const Katalog = ({ dataSummary, isLoading, isFetching }) => {
   return (
     <>
       <InputBankDataModal toggle={toggle} isShowing={isShowing} />
-      {isFetching && <LoadingModal />}
+      {isFetching && isLoading && <LoadingModal />}
       <Header title="BANK DATA" background="dashboard.png" />
       <div className="app-content">
         <Grid container sx={{ background: 'white', display: 'flex', flexDirection: 'column' }}>

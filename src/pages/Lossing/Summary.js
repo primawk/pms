@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CustomPagination from 'components/Pagination';
 import { Icon } from '@iconify/react';
+import { LoadingModal } from 'components/Modal';
 
 // components
 import Header from 'components/Header';
@@ -19,7 +20,7 @@ import InformationBox from '../../components/Lossing/InformasiBox';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const Summary = ({ setPage, data }) => {
+const Summary = ({ setPage, data, isFetching, setI }) => {
   useAuth();
   const [detail, setDetail] = useState(false);
   const [age, setAge] = useState('');
@@ -27,10 +28,12 @@ const Summary = ({ setPage, data }) => {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+  console.log(data);
 
   const { isShowing, toggle } = useModal();
   return (
     <>
+      {isFetching && <LoadingModal />}
       <InputLossing toggle={toggle} isShowing={isShowing} />
       <Header title="MODUL LOSSING" background="dashboard.png" />
       <div className="app-content">
@@ -161,8 +164,8 @@ const Summary = ({ setPage, data }) => {
             </Grid>
 
             {/* list Bukit */}
-            {data?.detail?.map((item) => (
-              <List data={item} setPage={setPage} />
+            {data?.detail?.map((item, index) => (
+              <List data={item} setPage={setPage} index={index} setI={setI} />
             ))}
           </Grid>
           {/* Pagination */}

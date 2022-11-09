@@ -32,10 +32,19 @@ const getHill = ({ startDate, endDate, sort, page, limit, id }) => {
   });
 };
 
-const getSummary = () => {
+const getSummary = ({ startDate, endDate }) => {
   // cannot empty object
+  const params = [];
+
+  if (startDate) {
+    params.push(['start_date', startDate]);
+  }
+  if (endDate) {
+    params.push(['end_date', endDate]);
+  }
   return request(`${MINING_ACTIVITY_MODEL}/lossing/summary`, {
     method: 'GET',
+    params: new URLSearchParams(params),
     headers: authHeader()
   });
 };

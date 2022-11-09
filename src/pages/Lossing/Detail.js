@@ -11,11 +11,13 @@ import {
   TableRow
 } from '@mui/material';
 import { Icon } from '@iconify/react';
+import dayjs from 'dayjs';
 
 // components
 import Header from 'components/Header';
 
-const Detail = ({ setPage }) => {
+const Detail = ({ setPage, data, index }) => {
+  console.log(data[index]);
   const targetTableHead = ['TANGGAL', 'ESTIMASI TO FRONT', 'LOSSING', 'TOTAL LOSSING'];
   return (
     <>
@@ -93,7 +95,7 @@ const Detail = ({ setPage }) => {
                 // marginLeft: '24px'
               }}
             >
-              : Nikel
+              : {data[index].product_type}
             </Grid>
             <Grid
               item
@@ -116,7 +118,7 @@ const Detail = ({ setPage }) => {
                 // marginLeft: '24px'
               }}
             >
-              : Utara
+              : {data[index].block}
             </Grid>
           </Grid>
           <Grid item>
@@ -142,7 +144,7 @@ const Detail = ({ setPage }) => {
                       sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
                       rowspan={8}
                     >
-                      31 Januari 2022
+                      {dayjs(data[index].date).format('DD MMMM YYYY')}
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -226,7 +228,7 @@ const Detail = ({ setPage }) => {
                         <Box>
                           <img src="/img/down.png" alt=""></img>
                         </Box>
-                        <Box sx={{}}>155 Ton</Box>
+                        <Box sx={{}}>{data[index].total} Ton</Box>
                       </Grid>
                     </TableCell>
                   </TableRow>

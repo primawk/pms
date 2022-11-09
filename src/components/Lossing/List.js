@@ -4,7 +4,11 @@ import { Icon } from '@iconify/react';
 import avatarLogo from 'assets/Images/avatar.png';
 import dayjs from 'dayjs';
 
-const List = ({ setPage, data }) => {
+const List = ({ setPage, data, index, setI }) => {
+  const onBtnClick = () => {
+    setI(index);
+    setPage('detail');
+  };
   console.log(data);
   return (
     <>
@@ -25,7 +29,7 @@ const List = ({ setPage, data }) => {
           overflow: 'auto'
         }}
         spacing={2}
-        onClick={() => setPage('detail')}
+        onClick={onBtnClick}
         xs={12}
       >
         <Grid item>
