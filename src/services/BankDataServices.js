@@ -99,11 +99,20 @@ const editBankData = (data, attachment, existings, id) => {
   });
 };
 
+const deleteData = ({ id }) => {
+  console.log(id);
+  return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const BankDataService = {
   getSummary,
   getBankData,
   inputBankData,
-  editBankData
+  editBankData,
+  deleteData
 };
 
 export default BankDataService;

@@ -20,7 +20,7 @@ import InformationBox from '../../components/Lossing/InformasiBox';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const Summary = ({ setPage, data, isFetching, setI }) => {
+const Summary = ({ setPage, data, isFetching, setI, handleDownload, loading }) => {
   useAuth();
   const [detail, setDetail] = useState(false);
   const [age, setAge] = useState('');
@@ -28,12 +28,12 @@ const Summary = ({ setPage, data, isFetching, setI }) => {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  console.log(data);
 
   const { isShowing, toggle } = useModal();
   return (
     <>
       {isFetching && <LoadingModal />}
+      {loading && <LoadingModal />}
       <InputLossing toggle={toggle} isShowing={isShowing} />
       <Header title="MODUL LOSSING" background="dashboard.png" />
       <div className="app-content">
@@ -95,7 +95,7 @@ const Summary = ({ setPage, data, isFetching, setI }) => {
                 </Grid>
               </Grid>
               <Grid item sx={{ padding: '24px 0 24px 24px', marginRight: '24px' }} xs={9}>
-                <Button sx={{ backgroundColor: '#E5E5FE' }}>
+                <Button sx={{ backgroundColor: '#E5E5FE' }} onClick={handleDownload}>
                   <img src="/img/download-loss.png" alt=""></img>
                   <Box sx={{ marginLeft: '1rem' }}>Download Laporan </Box>
                 </Button>

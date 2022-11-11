@@ -27,6 +27,7 @@ const Lossing = () => {
   const [selectedDates, setSelectedDates] = useState({});
   const [startDate, setStartDate] = useState(firstDate);
   const [endDate, setEndDate] = useState(lastDate);
+  const [loading, setLoading] = useState(false);
 
   const {
     data: dataSummary,
@@ -45,6 +46,27 @@ const Lossing = () => {
     })
   );
 
+  const handleDownload = async () => {
+    // i take the id value from state so it is empty
+    setLoading(true);
+    await ModulLossingService.downloadEstimation({ id }) // i have to put curly bracket
+      .then((res) => {
+        const file = new Blob([res], { type: 'application/csv' });
+        const fileURL = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.setAttribute('download', `estimasi.csv`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
   return (
     <>
       {page === 'detail' ? (
@@ -55,6 +77,8 @@ const Lossing = () => {
           data={dataHill?.data?.data}
           isFetching={isFetchingHill}
           setI={setI}
+          handleDownload={handleDownload}
+          loading={loading}
         />
       ) : (
         <Katalog

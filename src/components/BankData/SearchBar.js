@@ -110,8 +110,8 @@ const SearchBar = ({ toggle, sort, setSort }) => {
               label="Urutan | Terbaru"
             >
               {/* <MenuItem value="">Jenis Dokumen | Semua</MenuItem> */}
-              <MenuItem value="desc">Urutan | Terbaru</MenuItem>
-              <MenuItem value="asc">Urutan | Terlama</MenuItem>
+              <MenuItem value="asc">Urutan | Terbaru</MenuItem>
+              <MenuItem value="desc">Urutan | Terlama</MenuItem>
               {/* <MenuItem value={22}>Jenis Dokumen | Surat Menyurat</MenuItem> */}
             </Select>
           </FormControl>
