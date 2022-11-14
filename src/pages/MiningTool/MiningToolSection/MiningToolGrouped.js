@@ -1,4 +1,4 @@
-import { Grid, Typography, Stack } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 // components
 import Header from 'components/Header';

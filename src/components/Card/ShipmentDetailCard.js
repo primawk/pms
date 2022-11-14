@@ -2,6 +2,7 @@ import { Typography, Grid, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Icon } from '@iconify/react';
+import dayjs from 'dayjs';
 
 // components
 import { LoadingModal } from 'components/Modal';
@@ -10,12 +11,12 @@ import { LoadingModal } from 'components/Modal';
 import MiningActivityService from 'services/MiningActivityService';
 
 export default function ShipmentDetailCard() {
-  const { activityType, id } = useParams();
+  const { id } = useParams();
 
   const { data, isFetching } = useQuery(
     ['mining-activity', 'detail-activity', id],
     () => MiningActivityService.getActivityById({ id }),
-    { keepPreviousData: true, enabled: !!id && activityType === 'shipment' }
+    { keepPreviousData: true, enabled: !!id }
   );
 
   const detailActivity = data?.data?.data;
@@ -45,6 +46,7 @@ export default function ShipmentDetailCard() {
                 <Icon icon="bi:file-earmark-pdf" color="red" fontSize={50} />
                 {/* ) : ( */}
                 {/* <Icon icon="bi:file-earmark-image" color="red" fontSize={50} /> */}
+                {/* <Icon icon="fluent:document-dismiss-20-regular" color="red" fontSize={50} /> */}
                 {/* )} */}
               </Box>
             </center>
@@ -94,10 +96,9 @@ export default function ShipmentDetailCard() {
                     Jadwal Kegiatan
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    09 Mei 2023
-                    {/* {`${detailActivity && dayjs(detailActivity?.date).format('DD MMMM YYYY')}, ${
+                    {`${detailActivity && dayjs(detailActivity?.date).format('DD MMMM YYYY')}, ${
                       detailActivity && detailActivity?.time
-                    }`} */}
+                    }`}
                   </Typography>
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
@@ -105,8 +106,7 @@ export default function ShipmentDetailCard() {
                     Jenis Produk
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    Biji Nikel
-                    {/* {detailActivity?.product_type} */}
+                    {detailActivity?.product_type || '-'}
                   </Typography>
                 </Grid>
                 <Grid item container lg={12} xs={12} direction="column">
@@ -114,7 +114,7 @@ export default function ShipmentDetailCard() {
                     Nomor Urut Pengapalan
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    TK 1
+                    {detailActivity?.shipment_number || '-'}
                   </Typography>
                 </Grid>
                 <Grid item container lg={12} xs={12} direction="column">
@@ -122,7 +122,7 @@ export default function ShipmentDetailCard() {
                     Jenis Pemasaran
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    Domestik
+                    {detailActivity?.shipment_type || '-'}
                   </Typography>
                 </Grid>
                 <Grid item container lg={12} xs={12} direction="column">
@@ -130,7 +130,7 @@ export default function ShipmentDetailCard() {
                     Jenis Penjualan
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    Cost Insurance Freight Barge
+                    {detailActivity?.sales_type || '-'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -143,7 +143,7 @@ export default function ShipmentDetailCard() {
                 Nama PBM
               </Typography>
               <Typography variant="body1" sx={{ mb: 3 }}>
-                PT Nama PBM
+                {detailActivity?.pbm_name || '-'}
               </Typography>
               <Grid
                 container
@@ -157,7 +157,7 @@ export default function ShipmentDetailCard() {
                     Nama Pembeli
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    PT Nama Pembeli
+                    {detailActivity?.buyer_name || '-'}
                   </Typography>
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
@@ -165,7 +165,7 @@ export default function ShipmentDetailCard() {
                     Lokasi Tujuan
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    Lokasi Tujuan
+                    {detailActivity?.dest_loc || '-'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -181,7 +181,7 @@ export default function ShipmentDetailCard() {
                     Lokasi Titik Serah ( Provinsi )
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    Sulawesi Selatan
+                    {detailActivity?.dest_loc_prov || '-'}
                   </Typography>
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
@@ -189,7 +189,7 @@ export default function ShipmentDetailCard() {
                     Lokasi Titik Serah ( Kabupaten / Kota )
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    Makassar
+                    {detailActivity?.dest_loc_city || '-'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -205,7 +205,7 @@ export default function ShipmentDetailCard() {
                     Nama Jenis Pengiriman
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    Tongkang
+                    {detailActivity?.shipping_type || '-'}
                   </Typography>
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
@@ -213,7 +213,7 @@ export default function ShipmentDetailCard() {
                     Nama Alat Pengiriman
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    TB. DAYA BG 0000
+                    {detailActivity?.shipping_name || '-'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -232,7 +232,7 @@ export default function ShipmentDetailCard() {
                     Volume Pengiriman
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.sublot_total || '0'} Lot`}
+                    {`${detailActivity?.tonnage_total || '0'} Ton`}
                   </Typography>
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
@@ -240,7 +240,7 @@ export default function ShipmentDetailCard() {
                     Asal Tumpukan EFO
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    DOME A
+                    {detailActivity?.dome_name || '-'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -322,33 +322,6 @@ export default function ShipmentDetailCard() {
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
                     {`${detailActivity?.co_metal_equivalent || '0'} Ton`}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Typography variant="h5" sx={{ mb: 3 }}>
-                Kadar SiMgO
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={10}
-              >
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Nilai Kadar
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.simgo_level || '0'} %`}
-                  </Typography>
-                </Grid>
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Ekuivalen Logam
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.simgo_metal_equivalent || '0'} Ton`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -433,119 +406,83 @@ export default function ShipmentDetailCard() {
                     COA MUAT
                   </Typography>
                   <ShowFile />
+                  <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                    Jumlah Tonase
+                  </Typography>
+                  <Typography variant="h6" sx={{ mb: 3 }}>
+                    Realisasi Tonase
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 3 }}>
+                    {`${detailActivity?.muat_tonnage_total || '0'} Ton`}
+                  </Typography>
+                  <Typography variant="h5" sx={{ mb: 3 }}>
+                    Kadar Ni
+                  </Typography>
+                  <Typography variant="h6" sx={{ mb: 3 }}>
+                    Nilai Kadar
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 3 }}>
+                    {`${detailActivity?.muat_ni_level || '0'} %`}
+                  </Typography>
+                  <Typography variant="h5" sx={{ mb: 3 }}>
+                    Kadar Fe
+                  </Typography>
+                  <Typography variant="h6" sx={{ mb: 3 }}>
+                    Nilai Kadar
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 3 }}>
+                    {`${detailActivity?.muat_fe_level || '0'} %`}
+                  </Typography>
+                  <Typography variant="h5" sx={{ mb: 3 }}>
+                    Kadar CO
+                  </Typography>
+                  <Typography variant="h6" sx={{ mb: 3 }}>
+                    Nilai Kadar
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 3 }}>
+                    {`${detailActivity?.muat_co_level || '0'} %`}
+                  </Typography>
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     COA BONGKAR
                   </Typography>
                   <ShowFile />
-                </Grid>
-              </Grid>
-              <Typography variant="h5" sx={{ mb: 3 }}>
-                Jumlah Tonase
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={10}
-              >
-                <Grid item container lg={6} xs={6} direction="column">
+                  <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                    Jumlah Tonase
+                  </Typography>
                   <Typography variant="h6" sx={{ mb: 3 }}>
                     Realisasi Tonase
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.ni_level || '0'} %`}
+                    {`${detailActivity?.bongkar_tonnage_total || '0'} %`}
                   </Typography>
-                </Grid>
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Realisasi Tonase
+                  <Typography variant="h5" sx={{ mb: 3 }}>
+                    Kadar Ni
                   </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.ni_metal_equivalent || '0'} Ton`}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Typography variant="h5" sx={{ mb: 3 }}>
-                Kadar Ni
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={10}
-              >
-                <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 3 }}>
                     Nilai Kadar
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.ni_level || '0'} %`}
+                    {`${detailActivity?.bongkar_ni_level || '0'} %`}
                   </Typography>
-                </Grid>
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Ekuivalen Logam
+                  <Typography variant="h5" sx={{ mb: 3 }}>
+                    Kadar Fe
                   </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.ni_metal_equivalent || '0'} Ton`}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Typography variant="h5" sx={{ mb: 3 }}>
-                Kadar Fe
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={10}
-              >
-                <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 3 }}>
                     Nilai Kadar
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.fe_level || '0'} %`}
+                    {`${detailActivity?.bongkar_fe_level || '0'} %`}
                   </Typography>
-                </Grid>
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Ekuivalen Logam
+                  <Typography variant="h5" sx={{ mb: 3 }}>
+                    Kadar CO
                   </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.fe_metal_equivalent || '0'} Ton`}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Typography variant="h5" sx={{ mb: 3 }}>
-                Kadar CO
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={10}
-              >
-                <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 3 }}>
                     Nilai Kadar
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.co_level || '0'} %`}
-                  </Typography>
-                </Grid>
-                <Grid item container lg={6} xs={6} direction="column">
-                  <Typography variant="h6" sx={{ mb: 3 }}>
-                    Ekuivalen Logam
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.co_metal_equivalent || '0'} Ton`}
+                    {`${detailActivity?.bongkar_co_level || '0'} %`}
                   </Typography>
                 </Grid>
               </Grid>
