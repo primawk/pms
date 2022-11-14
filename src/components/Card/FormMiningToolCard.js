@@ -45,8 +45,8 @@ export default function FormMiningToolCard() {
   );
 
   const { data: dataMiningTool, isLoading: isLoadingMiningTool } = useQuery(
-    ['mining-tool', 'hill-data'],
-    () => MiningToolService.getHill({ id }),
+    ['mining-tool', id],
+    () => MiningToolService.getMiningTool({ id }),
     {
       keepPreviousData: true
     }
@@ -104,7 +104,7 @@ export default function FormMiningToolCard() {
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: id ? { datas: [dataMiningTool?.data?.data] } : { datas: [initialValues] },
+    initialValues: id ? { datas: [dataMiningTool?.data?.data?.[0]] } : { datas: [initialValues] },
     validationSchema: MiningToolSchema,
     onSubmit: (values) => {
       setSubmitType('submit');
@@ -145,8 +145,9 @@ export default function FormMiningToolCard() {
   const { errors, touched, getFieldProps, handleSubmit, setFieldValue, values, validateForm } =
     formik;
 
-  const handleAdd = (values) => {
-    // setFieldValue('datas', [values?.datas, initialValues]);
+  const handleCancel = () => {
+    const _oldData = [...values?.datas];
+    setFieldValue('datas', [_oldData.splice(-1)]);
   };
 
   useEffect(() => {
@@ -748,10 +749,20 @@ export default function FormMiningToolCard() {
                       </>
                     ))}
                   <center>
+                    {values?.datas?.length > 1 && (
+                      <Button
+                        sx={{ mt: 2, mr: 3, background: 'rgba(63, 72, 192, 0.1)' }}
+                        variant="text"
+                        startIcon={<Icon icon="ant-design:close-circle-outlined" />}
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </Button>
+                    )}
                     <Button
                       sx={{ mt: 2 }}
                       variant="contained"
-                      startIcon={<Icon icon="ant-design:plus-outlined" color="white" />}
+                      startIcon={<Icon icon="ant-design:plus-circle-outlined" color="white" />}
                       type="submit"
                       onClick={() => setSubmitType('add')}
                     >
