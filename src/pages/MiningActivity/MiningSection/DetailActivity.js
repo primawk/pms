@@ -90,7 +90,7 @@ export default function DetailActivity() {
         </Grid>
       </div>
       <hr />
-      {activityType === 'shipment' ? <ShipmentDetailCard /> : <ReportDetailCard />}
+      {activityType === 'efo-to-shipment' ? <ShipmentDetailCard /> : <ReportDetailCard />}
     </div>
   );
 }

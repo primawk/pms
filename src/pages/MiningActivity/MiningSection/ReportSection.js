@@ -94,7 +94,7 @@ export default function ReportSection({ selectedDate, filterDate }) {
                   fullWidth
                   size="small"
                   InputProps={{
-                    startAdornment: <Typography>Urutan |</Typography>
+                    startAdornment: <Typography sx={{ minWidth: '40%' }}>Urutan |</Typography>
                   }}
                 >
                   <MenuItem value="newest">

@@ -2,7 +2,7 @@ import { request } from 'utils/request';
 import { INVENTORY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 
-const getHill = ({ inventory_type }) => {
+const getHill = ({ inventory_type } = { inventory_type: '' }) => {
   return request(`${INVENTORY_MODEL}/hill`, {
     method: 'GET',
     params: {
