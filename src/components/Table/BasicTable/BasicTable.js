@@ -155,6 +155,8 @@ export default function BasicTable({
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
+  const handleResetSelected = () => setSelected([]);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -168,7 +170,10 @@ export default function BasicTable({
             edit={edit}
             remove={remove}
             onEdit={(event) => onEdit(event, selected)}
-            onDelete={(event) => onDelete(event, selected)}
+            onDelete={(event) => {
+              onDelete(event, selected);
+              handleResetSelected();
+            }}
           />
         )}
         <TableContainer classes={{ root: classes.customTableContainer }}>

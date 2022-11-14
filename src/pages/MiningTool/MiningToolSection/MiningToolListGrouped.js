@@ -60,7 +60,7 @@ export default function MiningToolListGrouped() {
       </Grid>
 
       <Link to="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <MiningToolGroupedList listData={[]} />
+        <MiningToolGroupedList />
       </Link>
 
       <CustomPagination

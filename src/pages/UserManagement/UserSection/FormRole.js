@@ -124,215 +124,214 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
   return (
     <CustomModal isShowing={isShowing} toggle={toggle} width="80%">
       {isFetching && <LoadingModal />}
-      {data && (
-        <>
-          <center>
-            <h2 style={{ marginBottom: '20px' }}>Role & Hak Akses</h2>
-          </center>
-          <FormikProvider value={formik}>
-            <Form autoComplete="off" onSubmit={handleSubmit}>
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="flex-start"
-                spacing={5}
-              >
-                <Grid item lg={5} md={12} sm={12} xs={12}>
-                  <Stack spacing={2}>
-                    <FormControl>
-                      <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Role</h4>
-                      <TextField
-                        placeholder="Role"
-                        fullWidth
-                        size="small"
-                        name="name"
-                        {...getFieldProps('name')}
-                        error={Boolean(touched.name && errors.name)}
-                        helperText={touched.name && errors.name}
-                      />
-                    </FormControl>
-                  </Stack>
-                </Grid>
 
-                <Grid item lg={7} md={12} sm={12} xs={12}>
-                  <Stack spacing={2}>
-                    <h4>Hak Akses</h4>
-                    <Grid container direction="row" justifyContent="center" alignItems="flex-start">
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <h4>Dashboard</h4>
-                      </Grid>
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <center>
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              name="action.dashboard"
-                              {...getFieldProps('action.dashboard')}
-                              style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
-                            >
-                              <FormControlLabel
-                                value="View Only"
-                                control={<Radio />}
-                                label="View Only"
-                              />
-                              <FormControlLabel
-                                value="Edit and Delete"
-                                control={<Radio />}
-                                label="Edit & Delete"
-                                style={{ marginRight: '0' }}
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </center>
-                      </Grid>
-                    </Grid>
-                    <Grid container direction="row" justifyContent="center" alignItems="flex-start">
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <h4>Manajemen Pengguna</h4>
-                      </Grid>
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <center>
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              name="action.user-management"
-                              {...getFieldProps('action.user-management')}
-                              style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
-                            >
-                              <FormControlLabel
-                                value="View Only"
-                                control={<Radio />}
-                                label="View Only"
-                              />
-                              <FormControlLabel
-                                value="Edit and Delete"
-                                control={<Radio />}
-                                label="Edit & Delete"
-                                style={{ marginRight: '0' }}
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </center>
-                      </Grid>
-                    </Grid>
-                    <Grid container direction="row" justifyContent="center" alignItems="flex-start">
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <h4>Kegiatan Tambang</h4>
-                      </Grid>
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <center>
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              name="action.mining_activity"
-                              {...getFieldProps('action.mining-activity')}
-                              style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
-                            >
-                              <FormControlLabel
-                                value="View Only"
-                                control={<Radio />}
-                                label="View Only"
-                              />
-                              <FormControlLabel
-                                value="Edit and Delete"
-                                control={<Radio />}
-                                label="Edit & Delete"
-                                style={{ marginRight: '0' }}
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </center>
-                      </Grid>
-                    </Grid>
-                    <Grid container direction="row" justifyContent="center" alignItems="flex-start">
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <h4>Inventory</h4>
-                      </Grid>
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <center>
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              name="action.inventory"
-                              {...getFieldProps('action.inventory')}
-                              style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
-                            >
-                              <FormControlLabel
-                                value="View Only"
-                                control={<Radio />}
-                                label="View Only"
-                              />
-                              <FormControlLabel
-                                value="Edit and Delete"
-                                control={<Radio />}
-                                label="Edit & Delete"
-                                style={{ marginRight: '0' }}
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </center>
-                      </Grid>
-                    </Grid>
-                    <Grid container direction="row" justifyContent="center" alignItems="flex-start">
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <h4>Laporan Lab</h4>
-                      </Grid>
-                      <Grid item lg={6} xs={12} sm={12}>
-                        <center>
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              name="action.lab_report"
-                              {...getFieldProps('action.lab-report')}
-                              style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
-                            >
-                              <FormControlLabel
-                                value="View Only"
-                                control={<Radio />}
-                                label="View Only"
-                              />
-                              <FormControlLabel
-                                value="Edit and Delete"
-                                control={<Radio />}
-                                label="Edit & Delete"
-                                style={{ marginRight: '0' }}
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </center>
-                      </Grid>
-                    </Grid>
-                  </Stack>
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="center"
-                spacing={5}
-              >
-                <Grid item lg={6} md={12} sm={12} xs={12} sx={{ marginTop: '25px' }}>
-                  <Stack spacing={2} direction="row">
-                    <Button variant="outlined" fullWidth onClick={toggle}>
-                      Cancel
-                    </Button>
-                    <LoadingButton
-                      variant="contained"
-                      type="submit"
-                      loading={isLoadingAction}
+      <>
+        <center>
+          <h2 style={{ marginBottom: '20px' }}>Role & Hak Akses</h2>
+        </center>
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" onSubmit={handleSubmit}>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={5}
+            >
+              <Grid item lg={5} md={12} sm={12} xs={12}>
+                <Stack spacing={2}>
+                  <FormControl>
+                    <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Role</h4>
+                    <TextField
+                      placeholder="Role"
                       fullWidth
-                    >
-                      Save
-                    </LoadingButton>
-                  </Stack>
-                </Grid>
+                      size="small"
+                      name="name"
+                      {...getFieldProps('name')}
+                      error={Boolean(touched.name && errors.name)}
+                      helperText={touched.name && errors.name}
+                    />
+                  </FormControl>
+                </Stack>
               </Grid>
-            </Form>
-          </FormikProvider>
-        </>
-      )}
+
+              <Grid item lg={7} md={12} sm={12} xs={12}>
+                <Stack spacing={2}>
+                  <h4>Hak Akses</h4>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Dashboard</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.dashboard"
+                            {...getFieldProps('action.dashboard')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Manajemen Pengguna</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.user-management"
+                            {...getFieldProps('action.user-management')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Kegiatan Tambang</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.mining_activity"
+                            {...getFieldProps('action.mining-activity')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Inventory</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.inventory"
+                            {...getFieldProps('action.inventory')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Laporan Lab</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.lab_report"
+                            {...getFieldProps('action.lab-report')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={5}
+            >
+              <Grid item lg={6} md={12} sm={12} xs={12} sx={{ marginTop: '25px' }}>
+                <Stack spacing={2} direction="row">
+                  <Button variant="outlined" fullWidth onClick={toggle}>
+                    Cancel
+                  </Button>
+                  <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    loading={isLoadingAction}
+                    fullWidth
+                  >
+                    Save
+                  </LoadingButton>
+                </Stack>
+              </Grid>
+            </Grid>
+          </Form>
+        </FormikProvider>
+      </>
     </CustomModal>
   );
 }

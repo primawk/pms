@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import {
   Typography,
@@ -11,6 +11,8 @@ import {
   InputAdornment,
   Button
 } from '@mui/material';
+import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 import { Icon } from '@iconify/react';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
@@ -21,39 +23,123 @@ import useLoading from 'hooks/useLoading';
 
 // components
 import Footer from 'components/Footer';
+import { LoadingModal } from 'components/Modal';
 
 // services
+import InventoryService from 'services/InventoryService';
+import MiningToolService from 'services/MiningToolService';
 
 export default function FormMiningToolCard() {
   const { id } = useParams();
   const navigate = useNavigate();
   const prevState = useLocation().state;
 
+  const [submitType, setSubmitType] = useState('submit');
+
+  const { data: dataHill, isLoading: isLoadingHill } = useQuery(
+    ['mining-tool', 'hill-data'],
+    () => InventoryService.getHill(),
+    {
+      keepPreviousData: true
+    }
+  );
+
   const { isLoadingAction, toggleLoading } = useLoading();
 
   const MiningToolSchema = Yup.object().shape({
-    datas: Yup.array().of(Yup.object().shape({}))
+    datas: Yup.array().of(
+      Yup.object().shape({
+        hill_id: Yup.number().required('Hill is required'),
+        activity_type: Yup.string().required('Activity type is required'),
+        activity_item: Yup.string().required('Activity item is required'),
+        company_name: Yup.string().required('Company name is required'),
+        tool_kind: Yup.string().required('Tool kind is required'),
+        tool_type: Yup.string().required('Tool type is required'),
+        capacity: Yup.number().required('Capacity is required'),
+        physical_availability: Yup.number().required('Physical availability is required'),
+        mechanical_availability: Yup.number().required('Mechanical availability is required'),
+        use_availability: Yup.number().required('Use availability is required'),
+        effective_utilization: Yup.number().required('Effective utilization is required'),
+        tool_total: Yup.number().required('Total tool is required'),
+        productivity: Yup.number().required('Productivity is required'),
+        fuel_ratio: Yup.number().required('Fuel ratio is required'),
+        issue_safety: Yup.string(),
+        problem: Yup.string(),
+        recommendation: Yup.string()
+      })
+    )
   });
 
   const initialValues = {
-    activity_type: id ? '' : prevState?.activity_type,
-    activity_code: id ? '' : null,
+    activity_type: '',
     date: id ? '' : prevState?.date,
     time: id ? '' : prevState?.time,
     product_type: id ? '' : prevState?.product_type,
-    block: id ? '' : prevState?.block
+    block: id ? '' : prevState?.block,
+    hill_id: '',
+    activity_item: '',
+    company_name: '',
+    tool_kind: '',
+    tool_type: '',
+    capacity: '',
+    physical_availability: '',
+    mechanical_availability: '',
+    use_availability: '',
+    effective_utilization: '',
+    tool_total: '',
+    productivity: '',
+    fuel_ratio: '',
+    issue_safety: '',
+    problem: '',
+    recommendation: ''
   };
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: { datas: [{ ...initialValues, test: '' }] },
+    initialValues: id ? { datas: [initialValues] } : { datas: [initialValues] },
     validationSchema: MiningToolSchema,
     onSubmit: (values) => {
-      toggleLoading(true);
+      setSubmitType('submit');
+      if (submitType === 'add') {
+        setFieldValue('datas', [...values?.datas, initialValues]);
+      } else {
+        if (id) {
+          MiningToolService.editMiningTool({ ...values?.datas?.[0], id })
+            .then(() => {
+              toast.success('Rekapitulasi berhasil ditambahkan');
+              toast.clearWaitingQueue();
+              toggleLoading(false);
+              navigate('/mining-tool');
+            })
+            .catch((err) => {
+              toast.error(err.response.data.detail_message);
+              toast.clearWaitingQueue();
+              toggleLoading(false);
+            });
+        } else {
+          MiningToolService.createMiningTool([...values?.datas])
+            .then(() => {
+              toast.success('Rekapitulasi berhasil ditambahkan');
+              toast.clearWaitingQueue();
+              toggleLoading(false);
+              navigate('/mining-tool');
+            })
+            .catch((err) => {
+              toast.error(err.response.data.detail_message);
+              toast.clearWaitingQueue();
+              toggleLoading(false);
+            });
+        }
+      }
     }
   });
 
-  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values } = formik;
+  const { errors, touched, getFieldProps, handleSubmit, setFieldValue, values, validateForm } =
+    formik;
+
+  const handleAdd = (values) => {
+    // setFieldValue('datas', [values?.datas, initialValues]);
+  };
 
   useEffect(() => {
     if (id === undefined && !values?.datas?.[0]?.activity_type && !values?.datas?.[0]?.date) {
@@ -61,8 +147,6 @@ export default function FormMiningToolCard() {
       navigate(0);
     }
   }, []);
-
-  console.log(values);
 
   return (
     <div
@@ -75,14 +159,22 @@ export default function FormMiningToolCard() {
       }}
       className="bg-white"
     >
+      {isLoadingHill && <LoadingModal />}
       <>
         <FormikProvider value={formik}>
-          <Form autoComplete="off" onSubmit={handleSubmit}>
+          <Form
+            autoComplete="off"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
             <FieldArray
               name="datas"
               render={(arrayHelpers) => (
                 <>
-                  {values.datas && values.datas.length > 0 ? (
+                  {values.datas &&
+                    values.datas.length > 0 &&
                     values.datas.map((_datas, index) => (
                       <>
                         <Grid
@@ -133,7 +225,7 @@ export default function FormMiningToolCard() {
                                 </Typography>
                               </Grid>
                             </Grid>
-                            <Stack direction="column" spacing={3}>
+                            <Stack direction="column" spaciselectng={3}>
                               <Typography variant="h6">Bukit</Typography>
                               <FormControl>
                                 <TextField
@@ -143,37 +235,59 @@ export default function FormMiningToolCard() {
                                   SelectProps={{
                                     displayEmpty: true
                                   }}
-                                  name=""
-                                  // {...getFieldProps('measurement_type')}
-                                  // error={Boolean(touched.measurement_type && errors.measurement_type)}
-                                  // helperText={touched.measurement_type && errors.measurement_type}
+                                  name={`datas.${index}.hill_id`}
+                                  {...getFieldProps(`datas.${index}.hill_id`)}
+                                  error={Boolean(
+                                    touched.datas?.[index]?.hill_id &&
+                                      errors.datas?.[index]?.hill_id
+                                  )}
+                                  helperText={
+                                    touched.datas?.[index]?.hill_id &&
+                                    errors.datas?.[index]?.hill_id
+                                  }
                                 >
                                   <MenuItem value="">Pilih Bukit</MenuItem>
+                                  {dataHill &&
+                                    dataHill?.data?.data?.map((item) => (
+                                      <MenuItem value={item?.id} key={item?.id}>
+                                        {item?.name}
+                                      </MenuItem>
+                                    ))}
                                 </TextField>
                               </FormControl>
                               <Typography variant="h6">Jenis Kegiatan</Typography>
                               <FormControl>
                                 <TextField
-                                  select
                                   fullWidth
                                   size="small"
-                                  SelectProps={{
-                                    displayEmpty: true
-                                  }}
-                                  name=""
-                                  // {...getFieldProps('measurement_type')}
-                                  // error={Boolean(touched.measurement_type && errors.measurement_type)}
-                                  // helperText={touched.measurement_type && errors.measurement_type}
-                                >
-                                  <MenuItem value="">Pilih Jenis Kegiatan</MenuItem>
-                                </TextField>
+                                  name={`datas.${index}.activity_type`}
+                                  {...getFieldProps(`datas.${index}.activity_type`)}
+                                  error={Boolean(
+                                    touched.datas?.[index]?.activity_type &&
+                                      errors.datas?.[index]?.activity_type
+                                  )}
+                                  helperText={
+                                    touched.datas?.[index]?.activity_type &&
+                                    errors.datas?.[index]?.activity_type
+                                  }
+                                />
                               </FormControl>
                               <Typography variant="h6">Item Kegiatan</Typography>
                               <TextField
                                 placeholder="Tuliskan item kegiatan"
                                 multiline
-                                rows={4}
+                                minRows={4}
                                 maxRows={8}
+                                name={`datas.${index}.activity_item`}
+                                {...getFieldProps(`datas.${index}.activity_item`)}
+                                error={Boolean(
+                                  touched.datas?.[index]?.activity_item &&
+                                    errors.datas?.[index]?.activity_item
+                                )}
+                                helperText={
+                                  touched.datas?.[index]?.activity_item &&
+                                  errors.datas?.[index]?.activity_item
+                                }
                               />
                               <p>
                                 *Field Item Kegiatan muncul ketika admin meilih jenis kegiatan K3
@@ -197,36 +311,36 @@ export default function FormMiningToolCard() {
                                   <Typography variant="h6">Nama Perusahaan</Typography>
                                   <FormControl>
                                     <TextField
-                                      select
                                       fullWidth
                                       size="small"
-                                      SelectProps={{
-                                        displayEmpty: true
-                                      }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
-                                      // error={Boolean(touched.measurement_type && errors.measurement_type)}
-                                      // helperText={touched.measurement_type && errors.measurement_type}
-                                    >
-                                      <MenuItem value="">Tuliskan Nama Perusahaan</MenuItem>
-                                    </TextField>
+                                      name={`datas.${index}.company_name`}
+                                      {...getFieldProps(`datas.${index}.company_name`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.company_name &&
+                                          errors.datas?.[index]?.company_name
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.company_name &&
+                                        errors.datas?.[index]?.company_name
+                                      }
+                                    />
                                   </FormControl>
                                   <Typography variant="h6">Tipe Peralatan</Typography>
                                   <FormControl>
                                     <TextField
-                                      select
                                       fullWidth
                                       size="small"
-                                      SelectProps={{
-                                        displayEmpty: true
-                                      }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
-                                      // error={Boolean(touched.measurement_type && errors.measurement_type)}
-                                      // helperText={touched.measurement_type && errors.measurement_type}
-                                    >
-                                      <MenuItem value="">Tuliskan Tipe Peralatan</MenuItem>
-                                    </TextField>
+                                      name={`datas.${index}.tool_type`}
+                                      {...getFieldProps(`datas.${index}.tool_type`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.tool_type &&
+                                          errors.datas?.[index]?.tool_type
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.tool_type &&
+                                        errors.datas?.[index]?.tool_type
+                                      }
+                                    />
                                   </FormControl>
                                   <Typography variant="h6">PA ( Physical Availability )</Typography>
                                   <FormControl>
@@ -238,11 +352,18 @@ export default function FormMiningToolCard() {
                                           paddingRight: 0
                                         }
                                       }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
+                                      name={`datas.${index}.physical_availability`}
+                                      {...getFieldProps(`datas.${index}.physical_availability`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.physical_availability &&
+                                          errors.datas?.[index]?.physical_availability
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.physical_availability &&
+                                        errors.datas?.[index]?.physical_availability
+                                      }
                                       size="small"
                                       InputProps={{
-                                        readOnly: true,
                                         endAdornment: (
                                           <InputAdornment
                                             position="end"
@@ -271,11 +392,18 @@ export default function FormMiningToolCard() {
                                           paddingRight: 0
                                         }
                                       }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
+                                      name={`datas.${index}.use_availability`}
+                                      {...getFieldProps(`datas.${index}.use_availability`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.use_availability &&
+                                          errors.datas?.[index]?.use_availability
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.use_availability &&
+                                        errors.datas?.[index]?.use_availability
+                                      }
                                       size="small"
                                       InputProps={{
-                                        readOnly: true,
                                         endAdornment: (
                                           <InputAdornment
                                             position="end"
@@ -299,8 +427,16 @@ export default function FormMiningToolCard() {
                                     <TextField
                                       placeholder="Tuliskan Jumlah Peralatan"
                                       fullWidth
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
+                                      name={`datas.${index}.tool_total`}
+                                      {...getFieldProps(`datas.${index}.tool_total`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.tool_total &&
+                                          errors.datas?.[index]?.tool_total
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.tool_total &&
+                                        errors.datas?.[index]?.tool_total
+                                      }
                                       size="small"
                                     />
                                   </FormControl>
@@ -314,11 +450,18 @@ export default function FormMiningToolCard() {
                                           paddingRight: 0
                                         }
                                       }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
+                                      name={`datas.${index}.fuel_ratio`}
+                                      {...getFieldProps(`datas.${index}.fuel_ratio`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.fuel_ratio &&
+                                          errors.datas?.[index]?.fuel_ratio
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.fuel_ratio &&
+                                        errors.datas?.[index]?.fuel_ratio
+                                      }
                                       size="small"
                                       InputProps={{
-                                        readOnly: true,
                                         endAdornment: (
                                           <InputAdornment
                                             position="end"
@@ -344,35 +487,43 @@ export default function FormMiningToolCard() {
                                   <Typography variant="h6">Jenis Peralatan</Typography>
                                   <FormControl>
                                     <TextField
-                                      select
                                       fullWidth
                                       size="small"
-                                      SelectProps={{
-                                        displayEmpty: true
-                                      }}
-                                      name=""
-                                      // {...getFieldProps('measurement_type')}
-                                      // error={Boolean(touched.measurement_type && errors.measurement_type)}
-                                      // helperText={touched.measurement_type && errors.measurement_type}
-                                    >
-                                      <MenuItem value="">Pilih Jenis Peralatan</MenuItem>
-                                    </TextField>
+                                      name={`datas.${index}.tool_kind`}
+                                      {...getFieldProps(`datas.${index}.tool_kind`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.tool_kind &&
+                                          errors.datas?.[index]?.tool_kind
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.tool_kind &&
+                                        errors.datas?.[index]?.tool_kind
+                                      }
+                                    />
                                   </FormControl>
-                                  <Typography variant="h6">Jenis Peralatan</Typography>
+                                  <Typography variant="h6">Kapasitas</Typography>
                                   <Stack direction="row" justifyContent="space-between">
                                     <FormControl sx={{ width: '100%' }}>
                                       <TextField
                                         placeholder="Tuliskan Jumlah Peralatan"
                                         fullWidth
+                                        size="small"
                                         sx={{
                                           '& .MuiOutlinedInput-root': {
                                             borderTopRightRadius: 0,
                                             borderBottomRightRadius: 0
                                           }
                                         }}
-                                        // name={`datas.${index}.test`}
-                                        // {...getFieldProps(`datas.${index}.test`)}
-                                        size="small"
+                                        name={`datas.${index}.capacity`}
+                                        {...getFieldProps(`datas.${index}.capacity`)}
+                                        error={Boolean(
+                                          touched.datas?.[index]?.capacity &&
+                                            errors.datas?.[index]?.capacity
+                                        )}
+                                        helperText={
+                                          touched.datas?.[index]?.capacity &&
+                                          errors.datas?.[index]?.capacity
+                                        }
                                       />
                                     </FormControl>
                                     <FormControl>
@@ -411,11 +562,18 @@ export default function FormMiningToolCard() {
                                           paddingRight: 0
                                         }
                                       }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
+                                      name={`datas.${index}.mechanical_availability`}
+                                      {...getFieldProps(`datas.${index}.mechanical_availability`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.mechanical_availability &&
+                                          errors.datas?.[index]?.mechanical_availability
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.mechanical_availability &&
+                                        errors.datas?.[index]?.mechanical_availability
+                                      }
                                       size="small"
                                       InputProps={{
-                                        readOnly: true,
                                         endAdornment: (
                                           <InputAdornment
                                             position="end"
@@ -444,11 +602,18 @@ export default function FormMiningToolCard() {
                                           paddingRight: 0
                                         }
                                       }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
+                                      name={`datas.${index}.effective_utilization`}
+                                      {...getFieldProps(`datas.${index}.effective_utilization`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.effective_utilization &&
+                                          errors.datas?.[index]?.effective_utilization
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.effective_utilization &&
+                                        errors.datas?.[index]?.effective_utilization
+                                      }
                                       size="small"
                                       InputProps={{
-                                        readOnly: true,
                                         endAdornment: (
                                           <InputAdornment
                                             position="end"
@@ -477,11 +642,18 @@ export default function FormMiningToolCard() {
                                           paddingRight: 0
                                         }
                                       }}
-                                      // name={`datas.${index}.test`}
-                                      // {...getFieldProps(`datas.${index}.test`)}
+                                      name={`datas.${index}.productivity`}
+                                      {...getFieldProps(`datas.${index}.productivity`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.productivity &&
+                                          errors.datas?.[index]?.productivity
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.productivity &&
+                                        errors.datas?.[index]?.productivity
+                                      }
                                       size="small"
                                       InputProps={{
-                                        readOnly: true,
                                         endAdornment: (
                                           <InputAdornment
                                             position="end"
@@ -502,29 +674,62 @@ export default function FormMiningToolCard() {
                                   </FormControl>
                                 </Stack>
                               </Grid>
-                              <Grid item md={12}>
+                              <Grid item md={12} sm={12}>
                                 <Stack direction="column" spacing={3}>
                                   <Typography variant="h5">Informasi Umum Kegiatan</Typography>
                                   <Typography variant="h6">Issue Safety</Typography>
                                   <TextField
                                     placeholder="Tuliskan Issue Safety"
                                     multiline
-                                    rows={4}
+                                    fullWidth
+                                    minRows={4}
                                     maxRows={8}
+                                    name={`datas.${index}.issue_safety`}
+                                    {...getFieldProps(`datas.${index}.issue_safety`)}
+                                    error={Boolean(
+                                      touched.datas?.[index]?.issue_safety &&
+                                        errors.datas?.[index]?.issue_safety
+                                    )}
+                                    helperText={
+                                      touched.datas?.[index]?.issue_safety &&
+                                      errors.datas?.[index]?.issue_safety
+                                    }
                                   />
                                   <Typography variant="h6">Kendalat-kendala</Typography>
                                   <TextField
                                     placeholder="Tuliskan kendala kendala"
+                                    fullWidth
                                     multiline
-                                    rows={4}
+                                    minRows={4}
                                     maxRows={8}
+                                    name={`datas.${index}.problem`}
+                                    {...getFieldProps(`datas.${index}.problem`)}
+                                    error={Boolean(
+                                      touched.datas?.[index]?.problem &&
+                                        errors.datas?.[index]?.problem
+                                    )}
+                                    helperText={
+                                      touched.datas?.[index]?.problem &&
+                                      errors.datas?.[index]?.problem
+                                    }
                                   />
                                   <Typography variant="h6">Rekomendasi</Typography>
                                   <TextField
                                     placeholder="Tuliskan Rekomendasi"
+                                    fullWidth
                                     multiline
-                                    rows={4}
+                                    minRows={4}
                                     maxRows={8}
+                                    name={`datas.${index}.recommendation`}
+                                    {...getFieldProps(`datas.${index}.recommendation`)}
+                                    error={Boolean(
+                                      touched.datas?.[index]?.recommendation &&
+                                        errors.datas?.[index]?.recommendation
+                                    )}
+                                    helperText={
+                                      touched.datas?.[index]?.recommendation &&
+                                      errors.datas?.[index]?.recommendation
+                                    }
                                   />
                                 </Stack>
                               </Grid>
@@ -533,18 +738,14 @@ export default function FormMiningToolCard() {
                         </Grid>
                         <hr />
                       </>
-                    ))
-                  ) : (
-                    <button type="button" onClick={() => arrayHelpers.push('')}>
-                      {/* show this when user has removed all friends from the list */}
-                      Add a friend
-                    </button>
-                  )}
+                    ))}
                   <center>
                     <Button
                       sx={{ mt: 2 }}
                       variant="contained"
                       startIcon={<Icon icon="ant-design:plus-outlined" color="white" />}
+                      type="submit"
+                      onClick={() => setSubmitType('add')}
                     >
                       Tambah
                     </Button>
