@@ -1,17 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import avatarLogo from 'assets/Images/avatar.png';
+import dayjs from 'dayjs';
+import LoadingButton from '@mui/lab/LoadingButton';
+import DeleteIcon from '@iconify/icons-ant-design/delete-filled';
+import { toast } from 'react-toastify';
+import { DeleteModal } from 'components/Modal';
+import { useQueryClient } from 'react-query';
 
-const ListBankData = () => {
+// custom hooks
+import useModal from '../../hooks/useModal';
+
+// service
+import BankDataService from '../../services/BankDataServices';
+
+const ListBankData = ({ data, i, pagination }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
+  const queryClient = useQueryClient();
+
+  const handleDeleteClick = async (id) => { // there is no state value so i have to pass value id
+    setLoading(true);
+    try {
+      await BankDataService.deleteData({ id });
+      setLoading(false);
+      toggleDelete();
+      queryClient.invalidateQueries(['data']); // to refresh after successfully delete a data
+    } catch (err) {
+      toast.error(err.response.data.detail_message);
+      setLoading(false);
+      toggleDelete();
+    }
+  };
+
   return (
     <>
+      <DeleteModal
+        toggle={toggleDelete}
+        isShowing={isShowingDelete}
+        title="Data"
+        action={() => handleDeleteClick(data?.id)}
+      />
       <Grid
         container
         sx={{
-
           display: 'flex',
           flexWrap: 'nowrap',
           backgroundColor: 'white',
@@ -25,26 +60,16 @@ const ListBankData = () => {
           overflow: 'auto'
         }}
         spacing={3}
-        onClick={() => navigate(`/bank-data/input`)}
         xs={12}
       >
-        <Grid item>
-          {/* <Grid
-        container
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '1rem'
-        }}
-      > */}
+        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
           <Grid item>
-            {/* <h4> {i + 1}</h4> */}
-            <h4>1</h4>
+            <h4> {(pagination?.current_page - 1) * 5 + i + 1}</h4>
+            {/* 5 is the limit */}
           </Grid>
           {/* </Grid> */}
         </Grid>
-        <Grid item>
+        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -56,12 +81,12 @@ const ListBankData = () => {
             <Box sx={{ marginBottom: '0.5rem' }}>
               <h5 style={{ color: '#828282' }}>Masa Berlaku Dokumen</h5>
             </Box>
-            <Box sx={{}}>12/04/2022</Box>
+            <Box sx={{}}>{dayjs(data?.date).format('DD/MM/YYYY')}</Box>
           </Grid>
         </Grid>
 
         {/* Column 2 */}
-        <Grid item>
+        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -75,7 +100,7 @@ const ListBankData = () => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box>
-                  <h5>Kontrak</h5>
+                  <h5>{data?.report_type}</h5>
                 </Box>
               </Grid>
             </Box>
@@ -83,7 +108,7 @@ const ListBankData = () => {
         </Grid>
 
         {/* Column 3 */}
-        <Grid item>
+        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -97,7 +122,7 @@ const ListBankData = () => {
             <Box>
               <Grid container sx={{ alignItems: 'center' }}>
                 <Box sx={{}}>
-                  <h5>Kontrak Pembayaran</h5>
+                  <h5>{data?.description}</h5>
                 </Box>
               </Grid>
             </Box>
@@ -105,7 +130,7 @@ const ListBankData = () => {
         </Grid>
 
         {/* Column 4 */}
-        <Grid item>
+        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -118,13 +143,13 @@ const ListBankData = () => {
             </Box>
             <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <Icon icon="ph:file-pdf-duotone" color="#3f48c0" fontSize={24} />
-              <Box sx={{ marginLeft: '0.5rem', fontSize: '0.5rem' }}>Kontrak__mitra.pdf</Box>
+              <Box sx={{ marginLeft: '0.5rem', fontSize: '0.5rem' }}>{data?.attachment}</Box>
             </Grid>
           </Grid>
         </Grid>
 
         {/* Column Account*/}
-        <Grid item>
+        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -141,8 +166,28 @@ const ListBankData = () => {
                   <img src={avatarLogo} alt=""></img>
                 </Box>
                 <Box sx={{ margin: '0 0.5rem 0 0.5rem' }}>
-                  <h5>Putri Devina</h5>
+                  <h5>{data?.account_name}</h5>
                 </Box>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Column 5 */}
+        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Box sx={{ marginBottom: '0.5rem' }}>
+              <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
+            </Box>
+            <Box>
+              <Grid container sx={{ alignItems: 'center' }}>
+                <Box>{dayjs(data?.created_at).format('DD/MM/YYYY')}</Box>
               </Grid>
             </Box>
           </Grid>
@@ -157,17 +202,16 @@ const ListBankData = () => {
               flexDirection: 'column'
             }}
           >
-            <Box sx={{ marginBottom: '0.5rem' }}>
-              <h5 style={{ color: '#828282' }}>Tanggal Laporan Dibuat</h5>
-            </Box>
-            <Box>
-              <Grid container sx={{ alignItems: 'center' }}>
-                <Box>
-                  {/* <h5>{dayjs(data?.date).format('DD/MM/YYYY')}</h5> */}
-                  12/04/2022
-                </Box>
-              </Grid>
-            </Box>
+            <LoadingButton
+              loading={loading}
+              sx={{ background: '#E5E5FE', boxShadow: '0', color: '#3F48C0' }}
+              fullWidth
+              variant="contained"
+              onClick={toggleDelete}
+            >
+              <Icon style={{ fontSize: '17px', marginRight: '0.5rem' }} icon={DeleteIcon} />
+              Delete Data
+            </LoadingButton>
           </Grid>
         </Grid>
       </Grid>

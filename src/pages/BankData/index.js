@@ -3,21 +3,32 @@ import { Grid, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import InputBankDataModal from '../../components/Modal/BankData/InputBankData';
 import useAuth from 'hooks/useAuth';
+import { useQuery } from 'react-query';
 
 // components
 // import DataReport from './components/DataReport';
 // import InputBankData from './InputBankData';
 import Katalog from './Katalog';
 
+// service
+import BankDataService from '../../services/BankDataServices';
+
 const BankData = () => {
   useAuth();
 
-  // const [inputBankData, setBankData] = useState(false);
-  // const [dataReport, setDataReport] = useState(false);
+  const {
+    data: dataSummary,
+    isLoading: isLoadingSummary,
+    isFetching: isFetchingSummary
+  } = useQuery(['summary'], () => BankDataService.getSummary());
 
   return (
     <>
-      <Katalog />
+      <Katalog
+        dataSummary={dataSummary?.data?.data}
+        isLoading={isLoadingSummary}
+        isFetching={isFetchingSummary}
+      />
     </>
   );
 };

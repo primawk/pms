@@ -2,8 +2,14 @@ import React from 'react';
 import { Grid, Box } from '@mui/material';
 import { Icon } from '@iconify/react';
 import avatarLogo from 'assets/Images/avatar.png';
+import dayjs from 'dayjs';
 
-const List = ({ setPage }) => {
+const List = ({ setPage, data, index, setI }) => {
+  const onBtnClick = () => {
+    setI(index);
+    setPage('detail');
+  };
+  console.log(data);
   return (
     <>
       <Grid
@@ -23,7 +29,7 @@ const List = ({ setPage }) => {
           overflow: 'auto'
         }}
         spacing={2}
-        onClick={() => setPage('detail')}
+        onClick={onBtnClick}
         xs={12}
       >
         <Grid item>
@@ -51,7 +57,7 @@ const List = ({ setPage }) => {
             }}
           >
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>Tanggal</Box>
-            <Box sx={{ fontSize: '12px' }}>12 Januari 2022</Box>
+            <Box sx={{ fontSize: '12px' }}>{dayjs(data?.date).format('DD MMMM YYYY')}</Box>
           </Grid>
         </Grid>
 
@@ -68,7 +74,7 @@ const List = ({ setPage }) => {
               Asal Tumpukan
             </Box>
             <Box>
-              <Box sx={{ fontSize: '12px' }}>Bukit VIII (SM C)</Box>
+              <Box sx={{ fontSize: '12px' }}>{data?.dome}</Box>
             </Box>
           </Grid>
         </Grid>
@@ -97,7 +103,7 @@ const List = ({ setPage }) => {
               }}
               xs={8}
             >
-              230 Ton
+              230 Ton ??
             </Grid>
           </Grid>
         </Grid>
@@ -119,7 +125,7 @@ const List = ({ setPage }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>15 Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>{data?.loss_est_to_ore} Ton</Box>
               </Grid>
             </Box>
           </Grid>
@@ -142,7 +148,7 @@ const List = ({ setPage }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>15 Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>{data?.loss_front_to_eto} Ton</Box>
               </Grid>
             </Box>
           </Grid>
@@ -165,7 +171,7 @@ const List = ({ setPage }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>15 Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>{data?.loss_eto_to_efo} Ton</Box>
               </Grid>
             </Box>
           </Grid>
@@ -187,7 +193,7 @@ const List = ({ setPage }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>15 Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>? Ton</Box>
               </Grid>
             </Box>
           </Grid>
@@ -230,7 +236,7 @@ const List = ({ setPage }) => {
               <Box>
                 <img src="/img/down.png" alt=""></img>
               </Box>
-              <Box sx={{ marginLeft: '0.5rem' }}>15 Ton</Box>
+              <Box sx={{ marginLeft: '0.5rem' }}>{data?.total} Ton</Box>
             </Grid>
           </Grid>
         </Grid>

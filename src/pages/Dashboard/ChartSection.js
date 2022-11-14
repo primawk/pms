@@ -28,6 +28,49 @@ const ChartSection = ({
 
       <TableContainer sx={{ width: '100%' }}>
         <Table>
+          <TableRow sx={{ backgroundColor: '#3F48C0', border: '1px solid #E0E0E0' }}>
+            <TableCell sx={{ width: '14%' }} align="center" variant="head">
+              <Grid container sx={{ alignItems: 'center', color: 'white' }}>
+                <Grid item>Bulan</Grid>
+              </Grid>
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Jan
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Feb
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Mar
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Apr
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Mei
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              June
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Jul
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Aug
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Sep
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Oct
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Nov
+            </TableCell>
+            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+              Dec
+            </TableCell>
+          </TableRow>
           <TableRow>
             <TableCell
               sx={{ width: '14%', border: '1px solid #E0E0E0' }}
@@ -112,9 +155,7 @@ const ChartSection = ({
                     marginRight: '0.5rem'
                   }}
                 ></Grid>
-                <Grid item >
-                  Target Produksi
-                </Grid>
+                <Grid item>Target Produksi</Grid>
               </Grid>
             </TableCell>
             {target?.map((item) => (

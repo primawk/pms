@@ -14,6 +14,7 @@ const FilterDate = ({
   state,
   setState,
   setSelectedDates,
+  lossing,
   menuTab,
   posts,
   selectedDates,
@@ -34,6 +35,23 @@ const FilterDate = ({
       // endDate: dayjs(value[0].endDate).format('YYYY-MM-DD')
     });
   }, [setSelectedDates]);
+
+  const onBtnSubmitNonLossing = () => {
+    toggle();
+    resetPage();
+    setSelectedDates({
+      startDate: dayjs(state[0].startDate).format('YYYY-MM-DD'),
+      endDate: dayjs(state[0].endDate).format('YYYY-MM-DD')
+    });
+  };
+
+  const onBtnSubmitLossing = () => {
+    toggle();
+    setSelectedDates({
+      startDate: dayjs(state[0].startDate).format('YYYY-MM-DD'),
+      endDate: dayjs(state[0].endDate).format('YYYY-MM-DD')
+    });
+  };
 
   return (
     <>
@@ -65,14 +83,7 @@ const FilterDate = ({
             <Button
               sx={{ fontSize: '1rem', boxShadow: 'none' }}
               variant="contained"
-              onClick={() => {
-                toggle();
-                resetPage();
-                setSelectedDates({
-                  startDate: dayjs(state[0].startDate).format('YYYY-MM-DD'),
-                  endDate: dayjs(state[0].endDate).format('YYYY-MM-DD')
-                });
-              }}
+              onClick={lossing ? onBtnSubmitLossing : onBtnSubmitNonLossing}
             >
               Submit
             </Button>

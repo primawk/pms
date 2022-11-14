@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import { Grid, Box, Button } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import add from 'assets/Images/ant-design_plus-circle-outlined.png';
 import LoadingButton from '@mui/lab/LoadingButton';
 import BankDataReport from '../../components/BankData/BankDataReport';
 import alert from '../../assets/Images/clock-history.png';
 import { toast } from 'react-toastify';
+import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import Lists from '../../components/BankData/Lists';
+
+import { LoadingModal } from 'components/Modal';
 // import dayjs from 'dayjs';
 
-// import { LoadingModal } from 'components/Modal';
+// custom hooks
+import useModal from '../../hooks/useModal';
+
+// services
+import BankDataService from '../../services/BankDataServices';
 
 const InputBankData = () => {
   const navigate = useNavigate();
@@ -21,18 +28,25 @@ const InputBankData = () => {
   const [allEvent, setAllEvent] = useState([]);
   const [disabled, setDisabled] = useState(true);
   const [protection, setProtection] = useState(true);
+  const { isShowing, toggle } = useModal();
+  const { id } = useParams();
 
   const [inputList, setInputList] = useState([
     <BankDataReport
       date={date}
+      id={id}
       setDate={setDate}
-      jenisLaporan={location.state.jenisLaporan}
-      keteranganLaporan={location.state.keteranganLaporan}
+      jenisLaporan={location?.state?.jenisLaporan}
+      keteranganLaporan={location?.state?.keteranganLaporan}
+      // jenisLaporanEdit={jenisLaporanEdit}
+      // dateEdit={data?.data?.data[0].date}
       attachment={attachment}
       allEvent={allEvent}
       setAllEvent={setAllEvent}
       setAttachment={setAttachment}
       setDisabled={setDisabled}
+      // isLoading={isLoading}
+      // isFetching={isFetching}
       // protection={protection}
     />
   ]);
@@ -72,12 +86,32 @@ const InputBankData = () => {
     const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
 
     try {
-      // await LabService.inputReportExternalMany(allEvent, attachment, date);
-      // setLoading(false);
-      // navigate(-1);
-      // toggle();
-      console.log(merged);
-      console.log(attachment);
+      await BankDataService.inputBankData(merged, attachment);
+      setLoading(false);
+      navigate(-1);
+      toggle();
+    } catch (error) {
+      toast.error(error.response.data.detail_message);
+      setLoading(false);
+    }
+  };
+
+  const handleEditFormSubmit = async (event) => {
+    setLoading(true);
+    event.preventDefault();
+
+    // TRANFORM ARRAY OF DATES INTO OBJECT
+    const data = date.map((item, i) => Object.assign({}, { date: date[i] }));
+
+    // MERGE BETWEEN TWO OBJECTS
+    const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
+    const existing = false;
+
+    try {
+      await BankDataService.editBankData(merged, attachment, existing, id);
+      setLoading(false);
+      navigate(-1);
+      toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);
       setLoading(false);
@@ -86,6 +120,9 @@ const InputBankData = () => {
 
   return (
     <>
+      <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
+      {loading && <LoadingModal />}
+
       <div
         style={{
           backgroundColor: '#F5F5F5',
@@ -94,7 +131,7 @@ const InputBankData = () => {
         }}
       >
         <Navbar />
-        <form onSubmit={handleAddFormSubmit}>
+        <form onSubmit={id ? handleEditFormSubmit : handleAddFormSubmit}>
           <Grid
             container
             sx={{
@@ -172,29 +209,31 @@ const InputBankData = () => {
             {/* <Lists searchResults={location.state} /> */}
             {inputList}
 
-            <Grid
-              item
-              sx={{
-                padding: '1rem',
-                borderBottom: 1,
-                borderBottomColor: '#E0E0E0',
-                alignItems: 'center'
-              }}
-            >
-              <Box container textAlign="center">
-                <Button
-                  disabled={disabled}
-                  variant="contained"
-                  sx={{ boxShadow: '0' }}
-                  onClick={onAddBtnClick}
-                >
-                  <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
-                    <img src={add} alt=""></img>
-                  </Box>
-                  Tambah Data
-                </Button>
-              </Box>
-            </Grid>
+            {id ? null : (
+              <Grid
+                item
+                sx={{
+                  padding: '1rem',
+                  borderBottom: 1,
+                  borderBottomColor: '#E0E0E0',
+                  alignItems: 'center'
+                }}
+              >
+                <Box container textAlign="center">
+                  <Button
+                    disabled={disabled}
+                    variant="contained"
+                    sx={{ boxShadow: '0' }}
+                    onClick={onAddBtnClick}
+                  >
+                    <Box sx={{ width: '1.5rem', margin: '0 0.5rem 0 0' }}>
+                      <img src={add} alt=""></img>
+                    </Box>
+                    Tambah Data
+                  </Button>
+                </Box>
+              </Grid>
+            )}
           </Grid>
           <div
             style={{

@@ -1,25 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import Header from '../../components/BankData/Header';
 import SearchBar from '../../components/BankData/SearchBar';
-import ListBankData from '../../components/BankData/ListBankData';
 import CustomPagination from 'components/Pagination';
 import InputBankData from '../../components/Modal/BankData/InputBankData';
+import { LoadingModal } from 'components/Modal';
+import { useQuery } from 'react-query';
+import Lists from '../../components/BankData/ResultBankData';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
+import usePagination from 'hooks/usePagination';
+
+// service
+import BankDataService from '../../services/BankDataServices';
+
+// utils
+import { ceilTotalData } from 'utils/helper';
 
 const DataReport = () => {
   const { isShowing, toggle } = useModal();
   const location = useLocation();
-  const title = location.state.title.toUpperCase();
+  const { page, handleChangePage } = usePagination(1);
+  const [sort, setSort] = useState('');
+  const limit = 5;
+
+  const { data, isLoading, isFetching } = useQuery(
+    ['data', location?.state?.title, page, limit, sort],
+    () =>
+      BankDataService.getBankData({
+        page,
+        limit,
+        sort: sort,
+        reportType: location?.state?.title
+      })
+  );
 
   return (
     <>
       <InputBankData toggle={toggle} isShowing={isShowing} />
-      {/* {isFetching && isLoading && <LoadingModal />} */}
-      <Header title={title} background="dashboard.png" />
+ 
+      <Header title={location?.state?.title} background="dashboard.png" />
 
       <div className="app-content">
         {/*  */}
@@ -34,26 +56,11 @@ const DataReport = () => {
             marginTop: '1.125rem'
           }}
         >
-          <SearchBar toggle={toggle} />
+          <SearchBar toggle={toggle} sort={sort} setSort={setSort} />
 
           {/*List Laporan*/}
-          <ListBankData />
-          <ListBankData />
-          <ListBankData />
-          <ListBankData />
-          <ListBankData />
-          {/* {searchResults ? (
-          <>
-            {searchResults?.map((data, i) => (
-              <DetailEksternal data={data} i={i} />
-            ))}
-          </>
-        ) : (
-          <Box sx={{ marginLeft: '25rem' }}>
-            <h1>Data tidak ditemukan !</h1>
-          </Box>
-        )} */}
-          {/* <Lists searchResults={searchResults} /> */}
+          {isFetching && isLoading && <LoadingModal />}
+          <Lists searchResults={data?.data?.data} pagination={data?.data?.pagination} />
 
           {/* Pagination */}
           <Grid
@@ -68,10 +75,9 @@ const DataReport = () => {
           >
             <Grid item sx={{ width: '100%' }}>
               <CustomPagination
-              // count={ceilTotalData(posts?.data?.pagination?.total_data || 0, 15)}
-              // count={ceilTotalData(posts?.data?.pagination?.total_data || 0, 15)}
-              // page={page}
-              // handleChangePage={handleChangePage}
+                count={ceilTotalData(data?.data?.pagination?.total_data || 0, limit)}
+                page={page}
+                handleChangePage={handleChangePage}
               />
             </Grid>
           </Grid>

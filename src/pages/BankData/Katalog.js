@@ -7,16 +7,18 @@ import InputBankDataModal from '../../components/Modal/BankData/InputBankData';
 import Header from 'components/Header';
 import KatalogBox from 'components/BankData/KatalogBox';
 import InformasiBox from 'components/BankData/InformasiBox';
+import { LoadingModal } from 'components/Modal';
 
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const Katalog = () => {
+const Katalog = ({ dataSummary, isLoading, isFetching }) => {
   const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
   return (
     <>
       <InputBankDataModal toggle={toggle} isShowing={isShowing} />
+      {isFetching && isLoading && <LoadingModal />}
       <Header title="BANK DATA" background="dashboard.png" />
       <div className="app-content">
         <Grid container sx={{ background: 'white', display: 'flex', flexDirection: 'column' }}>
@@ -24,10 +26,26 @@ const Katalog = () => {
             Informasi Jenis Bank Data
           </Grid>
           <Grid item container spacing={2} sx={{ padding: '24px 24px 24px 24px' }}>
-            <InformasiBox title="Total Dokumen" quantity="82" image="/img/SemuaDokumen.png" />
-            <InformasiBox title="Dokumen Legal" quantity="82" image="/img/dokumen_legal.png" />
-            <InformasiBox title="Dokumen Kontrak" quantity="82" image="/img/dokumen_kontrak.png" />
-            <InformasiBox title="Dokumen Surat Menyurat" quantity="82" image="/img/surat.png" />
+            <InformasiBox
+              title="Total Dokumen"
+              quantity={dataSummary?.all}
+              image="/img/SemuaDokumen.png"
+            />
+            <InformasiBox
+              title="Dokumen Legal"
+              quantity={dataSummary?.legal}
+              image="/img/dokumen_legal.png"
+            />
+            <InformasiBox
+              title="Dokumen Kontrak"
+              quantity={dataSummary?.kontrak}
+              image="/img/dokumen_kontrak.png"
+            />
+            <InformasiBox
+              title="Dokumen Surat Menyurat"
+              quantity={dataSummary?.surat_menyurat}
+              image="/img/surat.png"
+            />
           </Grid>
           {/* </Grid> */}
         </Grid>

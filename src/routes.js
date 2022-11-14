@@ -174,6 +174,10 @@ export default function Routes() {
       path: 'bank-data/input',
       element: <InputBankData />
     },
+    {
+      path: 'bank-data/edit/:id',
+      element: <InputBankData />
+    },
     // Laporan Lab
     {
       path: 'lab-report/input-laporan-eksternal',
