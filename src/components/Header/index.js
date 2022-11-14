@@ -6,7 +6,7 @@ export default function Header({ children, title, background, sx }) {
     <Grid
       container
       direction="row"
-      justifyContent="flex-start"
+      justifyContent="space-between"
       alignItems="center"
       sx={{
         backgroundImage: `url(/img/${background})`,
@@ -25,9 +25,7 @@ export default function Header({ children, title, background, sx }) {
           <h2 style={{ color: 'white' }}>{title}</h2>
         </Grid>
       )}
-      <Grid item md={!title && 12}>
-        {children}
-      </Grid>
+      <Grid item>{children}</Grid>
     </Grid>
   );
 }

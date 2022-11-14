@@ -57,13 +57,6 @@ const Katalog = ({
         <WhiteButton
           variant="contained"
           size="medium"
-          sx={{
-            background: 'white',
-            fontColor: 'black',
-            marginLeft: '30rem',
-            display: 'flex',
-            justifyItems: 'flex-end'
-          }}
           onClick={toggleDate}
           endIcon={<Icon width={10} height={10} icon={ArrowIcon} color="#gray" />}
         >
