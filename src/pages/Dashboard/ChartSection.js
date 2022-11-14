@@ -159,7 +159,7 @@ const ChartSection = ({
               align="start"
               variant="head"
             >
-              Presentase
+              Persentase
             </TableCell>
             {typeof targetPercentage === 'undefined' || targetPercentage === null ? (
               <>
