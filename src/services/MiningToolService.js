@@ -104,10 +104,27 @@ const editMiningTool = ({
     headers: authHeader()
   });
 };
+
+const getMiningToolChart = ({ start_date, end_date } = {}) => {
+  const params = [];
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/tool/chart`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
 const MiningToolService = {
   getMiningTool,
   createMiningTool,
-  editMiningTool
+  editMiningTool,
+  getMiningToolChart
 };
 
 export default MiningToolService;

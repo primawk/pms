@@ -6,7 +6,7 @@ export default function Header({ children, title, background }) {
     <Grid
       container
       direction="row"
-      justifyContent="center"
+      justifyContent="space-between"
       alignItems="center"
       spacing={2}
       sx={{
