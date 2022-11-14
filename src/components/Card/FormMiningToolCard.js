@@ -704,7 +704,7 @@ export default function FormMiningToolCard() {
                                       errors.datas?.[index]?.issue_safety
                                     }
                                   />
-                                  <Typography variant="h6">Kendalat-kendala</Typography>
+                                  <Typography variant="h6">Kendala-kendala</Typography>
                                   <TextField
                                     placeholder="Tuliskan kendala kendala"
                                     fullWidth
