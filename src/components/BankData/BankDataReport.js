@@ -55,8 +55,16 @@ const BankDataReport = ({
   // };
 
   const [addFormData, setAddFormData] = useState({
-    description: keteranganLaporan ? keteranganLaporan : '',
-    report_type: jenisLaporan ? jenisLaporan : '',
+    report_type: jenisLaporan
+      ? jenisLaporan
+      : data?.data?.data[0].report_type
+      ? data?.data?.data[0].report_type
+      : '',
+    description: keteranganLaporan
+      ? keteranganLaporan
+      : data?.data?.data[0].description
+      ? data?.data?.data[0].description
+      : '',
     date: dateEdit ? dateEdit : ''
   });
 

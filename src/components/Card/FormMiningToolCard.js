@@ -44,6 +44,14 @@ export default function FormMiningToolCard() {
     }
   );
 
+  const { data: dataMiningTool, isLoading: isLoadingMiningTool } = useQuery(
+    ['mining-tool', 'hill-data'],
+    () => MiningToolService.getHill({ id }),
+    {
+      keepPreviousData: true
+    }
+  );
+
   const { isLoadingAction, toggleLoading } = useLoading();
 
   const MiningToolSchema = Yup.object().shape({
@@ -96,7 +104,7 @@ export default function FormMiningToolCard() {
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: id ? { datas: [initialValues] } : { datas: [initialValues] },
+    initialValues: id ? { datas: [dataMiningTool?.data?.data] } : { datas: [initialValues] },
     validationSchema: MiningToolSchema,
     onSubmit: (values) => {
       setSubmitType('submit');
@@ -695,7 +703,7 @@ export default function FormMiningToolCard() {
                                       errors.datas?.[index]?.issue_safety
                                     }
                                   />
-                                  <Typography variant="h6">Kendalat-kendala</Typography>
+                                  <Typography variant="h6">Kendala-kendala</Typography>
                                   <TextField
                                     placeholder="Tuliskan kendala kendala"
                                     fullWidth
