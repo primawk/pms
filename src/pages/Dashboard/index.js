@@ -384,6 +384,7 @@ export default function Dashboard() {
               isFetching={isFetchingProduction}
               isLoadingRealization={isLoadingRealization}
               isFetchingRealization={isFetchingRealization}
+              menuTab={menuTab}
             />
           </Grid>
         ) : (

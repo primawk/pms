@@ -31,7 +31,7 @@ const miningActivityList = [
     value: 'shipment'
   },
   {
-    label: 'Pengguanaan Alat Tambang',
+    label: 'Penggunaan Alat Tambang',
     value: 'tambang'
   }
 ];

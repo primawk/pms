@@ -512,7 +512,7 @@ export default function FormMiningToolCard() {
                                     rows={4}
                                     maxRows={8}
                                   />
-                                  <Typography variant="h6">Kendalat-kendala</Typography>
+                                  <Typography variant="h6">Kendala-kendala</Typography>
                                   <TextField
                                     placeholder="Tuliskan kendala kendala"
                                     multiline

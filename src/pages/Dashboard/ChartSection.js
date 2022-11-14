@@ -6,6 +6,7 @@ import React from 'react';
 import { LoadingModal } from 'components/Modal';
 
 const ChartSection = ({
+  menuTab,
   chartData,
   target,
   isLoading,
@@ -139,7 +140,11 @@ const ChartSection = ({
                     marginRight: '0.5rem'
                   }}
                 ></Grid>
-                <Grid item>Target Produksi</Grid>
+                {menuTab === 0 ? (
+                  <Grid item>Target Produksi</Grid>
+                ) : (
+                  <Grid item>Target Penjualan</Grid>
+                )}
               </Grid>
             </TableCell>
             {target?.map((item) => (
