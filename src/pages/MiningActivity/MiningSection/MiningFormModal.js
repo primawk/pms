@@ -28,11 +28,7 @@ const miningActivityList = [
   },
   {
     label: 'Pemasaran di Dermaga',
-    value: 'shipment'
-  },
-  {
-    label: 'Penggunaan Alat Tambang',
-    value: 'tambang'
+    value: 'efo-to-shipment'
   }
 ];
 
@@ -99,9 +95,11 @@ export default function MiningFormModal({ isShowing, toggle }) {
     <CustomModal isShowing={isShowing} toggle={toggle} width="40%">
       <center>
         <h2 style={{ marginBottom: '20px' }}>
-          {activityType !== 'shipment'
-            ? 'Input Realisasi Kegiatan Produksi Mineral'
-            : 'Input Realisasi Kegiatan Pemasaran di Dermaga'}
+          {values?.activity_type === 'efo-to-shipment'
+            ? 'Input Realisasi Kegiatan Pemasaran di Dermaga'
+            : values?.activity_type === 'tambang'
+            ? 'Input Laporan Penggunaan Alat Tambang'
+            : 'Input Realisasi Kegiatan Produksi Mineral'}
         </h2>
       </center>
       <FormikProvider value={formik}>
@@ -109,25 +107,27 @@ export default function MiningFormModal({ isShowing, toggle }) {
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <Stack spacing={2}>
-                <FormControl>
-                  <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Kegiatan</h4>
-                  <TextField
-                    select
-                    placeholder="Pilih jenis kegiatan"
-                    fullWidth
-                    size="small"
-                    name="activity_type"
-                    {...getFieldProps('activity_type')}
-                    error={Boolean(touched.activity_type && errors.activity_type)}
-                    helperText={touched.activity_type && errors.activity_type}
-                  >
-                    {miningActivityList.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </FormControl>
+                {values?.activity_type !== 'tambang' && (
+                  <FormControl>
+                    <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Jenis Kegiatan</h4>
+                    <TextField
+                      select
+                      placeholder="Pilih jenis kegiatan"
+                      fullWidth
+                      size="small"
+                      name="activity_type"
+                      {...getFieldProps('activity_type')}
+                      error={Boolean(touched.activity_type && errors.activity_type)}
+                      helperText={touched.activity_type && errors.activity_type}
+                    >
+                      {miningActivityList.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </FormControl>
+                )}
                 <Grid container direction="row" justifyContent="space-between" alignItems="center">
                   <Grid item lg={6} sx={{ pr: 2 }}>
                     <FormControl>
