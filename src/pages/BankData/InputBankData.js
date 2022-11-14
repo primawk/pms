@@ -105,7 +105,7 @@ const InputBankData = () => {
 
     // MERGE BETWEEN TWO OBJECTS
     const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
-    const existing = ['existing.jpg'];
+    const existing = false;
 
     try {
       await BankDataService.editBankData(merged, attachment, existing, id);
@@ -121,6 +121,7 @@ const InputBankData = () => {
   return (
     <>
       <EditedModal isShowing={isShowing} toggle={toggle} width={'29.563'} />
+      {loading && <LoadingModal />}
 
       <div
         style={{

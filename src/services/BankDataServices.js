@@ -51,15 +51,27 @@ const inputBankData = (data, attachment) => {
   for (var key in data) {
     formData.append(key, JSON.stringify(data[key]));
   }
-  for (var pdf in attachment) {
-    formData.append(pdf, attachment[pdf]);
-  }
-
-  // form_data.append('attachment', attachment);
-  // console.log FORMDATA
-  // for (var pair of formData.entries()) {
-  //   console.log(pair[0] + ', ' + pair[1]);
+  // for (var pdf in attachment) {
+  //   formData.append(pdf, attachment[pdf]);
   // }
+  // for (let [index, val] of attachment.entries()) {
+  //   // your code goes here
+  //   console.log(val);
+  //   formData.append(index, attachment[val]);
+  // }
+
+  attachment?.forEach(function (value, i) {
+    // to get the index
+    for (var pdf in value) {
+      formData.append(i, value[i]);
+    }
+  });
+
+  // formData.append('attachment', attachment);
+  // console.log FORMDATA
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
 
   return request(`${MINING_ACTIVITY_MODEL}/bank`, {
     method: 'POST',
@@ -70,37 +82,40 @@ const inputBankData = (data, attachment) => {
 
 const editBankData = (data, attachment, existings, id) => {
   var formData = new FormData();
-  console.log(existings);
+
+  console.log(data);
 
   for (var body in data) {
     formData.append('body', JSON.stringify(data[body])); // naming the keys 'body
   }
-  for (var files in attachment) {
-    formData.append('files', attachment[files]);
-  }
-  for (var existing in existings) {
-    formData.append('existing', existings[existing]);
-  }
+
+  attachment?.forEach(function (value, i) {
+    // to get the index
+    for (var pdf in value) {
+      formData.append(i, value[i]);
+    }
+  });
+
+  formData.append('existing', existings);
 
   // form_data.append('attachment', attachment);
   // console.log FORMDATA
-  // for (var pair of formData.entries()) {
-  //   console.log(pair[0] + ', ' + pair[1]);
-  // }
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
   // Display the keys
   // for (const key of formData.keys()) {
   //   console.log(key);
   // }
 
-  return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
-    method: 'PUT',
-    headers: authHeader(),
-    data: formData
-  });
+  // return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
+  //   method: 'PUT',
+  //   headers: authHeader(),
+  //   data: formData
+  // });
 };
 
 const deleteData = ({ id }) => {
-  console.log(id);
   return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
     method: 'DELETE',
     headers: authHeader()

@@ -40,7 +40,7 @@ const DataReport = () => {
   return (
     <>
       <InputBankData toggle={toggle} isShowing={isShowing} />
-
+ 
       <Header title={location?.state?.title} background="dashboard.png" />
 
       <div className="app-content">
