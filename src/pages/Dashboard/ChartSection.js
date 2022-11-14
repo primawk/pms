@@ -19,6 +19,21 @@ const ChartSection = ({
     return null;
   }
 
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'Mei',
+    'June',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
   return (
     <>
       {isFetching && isLoading && isFetchingRealization && isLoadingRealization && <LoadingModal />}
@@ -34,42 +49,11 @@ const ChartSection = ({
                 <Grid item>Bulan</Grid>
               </Grid>
             </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Jan
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Feb
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Mar
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Apr
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Mei
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              June
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Jul
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Aug
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Sep
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Oct
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Nov
-            </TableCell>
-            <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
-              Dec
-            </TableCell>
+            {months.map((month) => (
+              <TableCell sx={{ border: '1px solid #E0E0E0', color: 'white' }} align="center">
+                {month}
+              </TableCell>
+            ))}
           </TableRow>
           <TableRow>
             <TableCell
