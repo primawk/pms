@@ -83,7 +83,10 @@ export default function MiningToolListGrouped() {
           {data?.data?.data?.length > 0 ? (
             <>
               {data?.data?.data.map((_list, index) => (
-                <Link to="#" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link
+                  to={`/mining-tool/detail/${_list?.id}`}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
                   <MiningToolGroupedList listData={{ ..._list, index }} />
                 </Link>
               ))}

@@ -41,6 +41,21 @@ $breakpoint-xxl: 1600px !default;
 
 @import '~react-pro-sidebar/dist/scss/styles.scss';
 
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: justify;
+  height: auto;
+  max-height: 200px;
+  overflow: auto;
+  padding-right: 10px;
+  font-family: 'Public Sans, sans-serif';
+}
+
+.inner-pre {
+  font-size: 1rem;
+}
+
 .sidebar {
   height: 100vh !important;
   box-shadow: 2px 2px 5px 0px rgba($sidebar-color, 0.1) !important;
