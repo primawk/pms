@@ -85,7 +85,7 @@ const MiningToolGroupedList = ({ listData }) => {
             alignSelf: 'flex-end'
           }}
         >
-          {listData?.productifity} Ton / Jam
+          {listData?.productivity} Ton / Jam
         </Typography>
       </Grid>
       <Grid item md={1.5} container justifyContent="space-between">
