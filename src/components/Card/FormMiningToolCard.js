@@ -152,8 +152,7 @@ export default function FormMiningToolCard() {
 
   useEffect(() => {
     if (id === undefined && !values?.datas?.[0]?.activity_type && !values?.datas?.[0]?.date) {
-      navigate(-1);
-      navigate(0);
+      navigate('/mining-tool');
     }
   }, []);
 
@@ -748,27 +747,29 @@ export default function FormMiningToolCard() {
                         <hr />
                       </>
                     ))}
-                  <center>
-                    {values?.datas?.length > 1 && (
+                  {!id && (
+                    <center>
+                      {values?.datas?.length > 1 && (
+                        <Button
+                          sx={{ mt: 2, mr: 3, background: 'rgba(63, 72, 192, 0.1)' }}
+                          variant="text"
+                          startIcon={<Icon icon="ant-design:close-circle-outlined" />}
+                          onClick={handleCancel}
+                        >
+                          Cancel
+                        </Button>
+                      )}
                       <Button
-                        sx={{ mt: 2, mr: 3, background: 'rgba(63, 72, 192, 0.1)' }}
-                        variant="text"
-                        startIcon={<Icon icon="ant-design:close-circle-outlined" />}
-                        onClick={handleCancel}
+                        sx={{ mt: 2 }}
+                        variant="contained"
+                        startIcon={<Icon icon="ant-design:plus-circle-outlined" color="white" />}
+                        type="submit"
+                        onClick={() => setSubmitType('add')}
                       >
-                        Cancel
+                        Tambah
                       </Button>
-                    )}
-                    <Button
-                      sx={{ mt: 2 }}
-                      variant="contained"
-                      startIcon={<Icon icon="ant-design:plus-circle-outlined" color="white" />}
-                      type="submit"
-                      onClick={() => setSubmitType('add')}
-                    >
-                      Tambah
-                    </Button>
-                  </center>
+                    </center>
+                  )}
                 </>
               )}
             />

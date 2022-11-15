@@ -35,6 +35,7 @@ import DataReport from './pages/BankData/DataReport';
 import MiningTool from 'pages/MiningTool';
 import FormMiningTool from 'pages/MiningTool/MiningToolSection/FormMiningTool';
 import { MiningToolGrouped } from 'pages/MiningTool/MiningToolSection';
+import MiningToolDetail from 'pages/MiningTool/MiningToolSection/MiningToolDetail';
 
 export default function Routes() {
   return useRoutes([
@@ -132,6 +133,10 @@ export default function Routes() {
             {
               path: 'edit/:id',
               element: <FormMiningTool />
+            },
+            {
+              path: 'detail/:id',
+              element: <MiningToolDetail />
             }
           ]
         },
