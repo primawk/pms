@@ -111,7 +111,7 @@ export default function Routes() {
           element: <MiningTool />
         },
         {
-          path: 'mining-tool/list/:companyId',
+          path: 'mining-tool/list/:companyName',
           element: <MiningToolGrouped />
         },
         { path: '*', element: <Navigate to="/404" replace /> }

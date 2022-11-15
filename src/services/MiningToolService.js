@@ -120,11 +120,46 @@ const getMiningToolChart = ({ start_date, end_date } = {}) => {
   });
 };
 
+const getGroupedMiningTool = ({ start_date, end_date } = {}) => {
+  const params = [];
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/tool/group_by_company`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
+const getListPerCompany = ({ page, limit, company_name } = {}) => {
+  const params = [];
+  if (page) {
+    params.push(['page', page]);
+  }
+  if (limit) {
+    params.push(['limit', limit]);
+  }
+  if (company_name) {
+    params.push(['company_name', company_name]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/tool`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
 const MiningToolService = {
   getMiningTool,
   createMiningTool,
   editMiningTool,
-  getMiningToolChart
+  getMiningToolChart,
+  getGroupedMiningTool,
+  getListPerCompany
 };
 
 export default MiningToolService;

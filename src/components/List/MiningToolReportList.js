@@ -29,12 +29,9 @@ const MiningToolReportList = ({ listData }) => {
         <Stack direction="row" alignItems="center" spacing={3}>
           <img src={TruckIcon} alt="this-is-logo" />
           <Stack>
-            <Typography variant="h5">
-              {/* {listData?.activity_type ? capitalizeFirstLetter(listData?.activity_type) : ''} */}
-              PT Sarana Sumber Daya
-            </Typography>
+            <Typography variant="h5">{listData?.company_name}</Typography>
             <Typography variant="body1" color="#828282">
-              11 April 2022
+              {dayjs(listData?.date).format('DD/MM/YYYY')}
             </Typography>
           </Stack>
         </Stack>
@@ -55,7 +52,7 @@ const MiningToolReportList = ({ listData }) => {
         <Typography variant="body1" color="#828282">
           Tipe
         </Typography>
-        <Typography variant="h6">Pc. 200/210, Lainnya..</Typography>
+        <Typography variant="h6">{listData?.tool_type}</Typography>
       </Grid>
       <Grid item lg={2.5} md={2.5} xs={6}>
         <Typography variant="body1" color="#828282">
@@ -66,7 +63,7 @@ const MiningToolReportList = ({ listData }) => {
             •&nbsp;Produktifitas
           </Typography>
           <Typography variant="body1" style={{ margin: 1 }}>
-            15
+            {listData?.productivity}
           </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ pr: 3 }}>
@@ -74,7 +71,7 @@ const MiningToolReportList = ({ listData }) => {
             •&nbsp;Rasio Bahan Bakar
           </Typography>
           <Typography variant="body1" style={{ margin: 1 }}>
-            15
+            {listData?.fuel_ratio}
           </Typography>
         </Stack>
       </Grid>
@@ -83,15 +80,17 @@ const MiningToolReportList = ({ listData }) => {
           Dibuat Oleh
         </Typography>
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar sx={{ width: 35, height: 35, bgcolor: '#3F48C0' }}>A</Avatar>
-          <Typography variant="body1">{listData?.account_name}</Typography>
+          <Avatar sx={{ width: 35, height: 35, bgcolor: '#3F48C0' }}>
+            {listData?.account_name && listData?.account_name.substring(0, 1)}
+          </Avatar>
+          <Typography variant="body1">{listData?.account_name || '-'}</Typography>
         </Stack>
       </Grid>
       <Grid item lg={1.5} md={1.5} xs={6}>
         <Typography variant="body1" color="#828282">
-          Tanggal Laporan Dibuat
+          Laporan Terakhir Dibuat
         </Typography>
-        <Typography variant="h6">{dayjs(listData?.date).format('DD/MM/YYYY')}</Typography>
+        <Typography variant="h6">{dayjs(listData?.created_at).format('DD/MM/YYYY')}</Typography>
       </Grid>
     </Grid>
   );

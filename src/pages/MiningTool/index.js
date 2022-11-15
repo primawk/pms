@@ -106,7 +106,7 @@ export default function MiningTool() {
           <MiningToolChart chartData={chartData} chartStyle={{ width: '100%', height: '40vh' }} />
         </Grid>
         <Grid item md={12} sx={{ pb: 3 }}>
-          <MiningToolReport />
+          <MiningToolReport selectedDate={selectedDate} />
         </Grid>
       </Grid>
     </>
