@@ -1,12 +1,12 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 
-export default function Header({ children, title, background, sx }) {
+export default function Header({ children, title, background, sx, isCenter }) {
   return (
     <Grid
       container
       direction="row"
-      justifyContent="space-between"
+      justifyContent={isCenter ? 'flex-start' : 'space-between'}
       alignItems="center"
       sx={{
         backgroundImage: `url(/img/${background})`,
@@ -25,7 +25,9 @@ export default function Header({ children, title, background, sx }) {
           <h2 style={{ color: 'white' }}>{title}</h2>
         </Grid>
       )}
-      <Grid item>{children}</Grid>
+      <Grid item md={isCenter && !title && 12}>
+        {children}
+      </Grid>
     </Grid>
   );
 }
