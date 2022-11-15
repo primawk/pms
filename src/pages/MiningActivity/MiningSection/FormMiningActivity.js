@@ -44,7 +44,7 @@ export default function FormMiningActiviy() {
           </Grid>
         </div>
         <hr />
-        {activityType === 'shipment' ? <FormShipmentCard /> : <FormMiningCard />}
+        {activityType === 'efo-to-shipment' ? <FormShipmentCard /> : <FormMiningCard />}
       </div>
     </>
   );
