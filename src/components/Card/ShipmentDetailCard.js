@@ -344,11 +344,7 @@ export default function ShipmentDetailCard() {
                   </Typography>
                   <ShowFile />
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    Siping Instruksi
-                  </Typography>
-                  <ShowFile />
-                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    Draught Survei
+                    Draught Survey
                   </Typography>
                   <ShowFile />
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
@@ -367,10 +363,6 @@ export default function ShipmentDetailCard() {
                 <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     Packing List
-                  </Typography>
-                  <ShowFile />
-                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    Siping Instruksi
                   </Typography>
                   <ShowFile />
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>

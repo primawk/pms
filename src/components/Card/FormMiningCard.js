@@ -29,7 +29,7 @@ import { LoadingModal } from 'components/Modal';
 import MiningActivityService from 'services/MiningActivityService';
 import InventoryService from 'services/InventoryService';
 
-const measurementType = ['Sumlot SM', 'Dump Truck', 'Timbangan'];
+const measurementType = ['Sublot SM', 'Dump Truck', 'Timbangan'];
 
 export default function FormMiningCard() {
   const { activityType, id } = useParams();
@@ -344,14 +344,17 @@ export default function FormMiningCard() {
                         <FormControl>
                           <TextField
                             select
-                            placeholder="Pilih jenis kegiatan"
                             fullWidth
                             size="small"
                             name="measurement_type"
+                            SelectProps={{
+                              displayEmpty: true
+                            }}
                             {...getFieldProps('measurement_type')}
                             error={Boolean(touched.measurement_type && errors.measurement_type)}
                             helperText={touched.measurement_type && errors.measurement_type}
                           >
+                            <MenuItem value="">Pilih Jenis Pengukuran</MenuItem>
                             {measurementType.map((option) => (
                               <MenuItem key={option} value={option}>
                                 {option}
@@ -462,14 +465,17 @@ export default function FormMiningCard() {
                             <FormControl>
                               <TextField
                                 select
-                                placeholder="Pilih jenis kegiatan"
                                 fullWidth
                                 size="small"
+                                SelectProps={{
+                                  displayEmpty: true
+                                }}
                                 name="hill_origin_id"
                                 {...getFieldProps('hill_origin_id')}
                                 error={Boolean(touched.hill_origin_id && errors.hill_origin_id)}
                                 helperText={touched.hill_origin_id && errors.hill_origin_id}
                               >
+                                <MenuItem value={null}>Pilih Bukit Asal</MenuItem>
                                 {activityType === 'ore-hauling-to-eto'
                                   ? dataHillOrigin?.data?.data?.map((option) => (
                                       <MenuItem key={option} value={option?.id}>
@@ -494,14 +500,17 @@ export default function FormMiningCard() {
                           <FormControl>
                             <TextField
                               select
-                              placeholder="Pilih jenis kegiatan"
                               fullWidth
                               size="small"
+                              SelectProps={{
+                                displayEmpty: true
+                              }}
                               name="dome_origin_id"
                               {...getFieldProps('dome_origin_id')}
                               error={Boolean(touched.dome_origin_id && errors.dome_origin_id)}
                               helperText={touched.dome_origin_id && errors.dome_origin_id}
                             >
+                              <MenuItem value={null}>Pilih Dome Asal</MenuItem>
                               {activityType !== 'eto-to-efo'
                                 ? dataDomeOrigin?.data?.data?.map((option) => (
                                     <MenuItem key={option} value={option?.id}>
@@ -528,14 +537,17 @@ export default function FormMiningCard() {
                           <FormControl>
                             <TextField
                               select
-                              placeholder="Pilih jenis kegiatan"
                               fullWidth
                               size="small"
+                              SelectProps={{
+                                displayEmpty: true
+                              }}
                               name="hill_id"
                               {...getFieldProps('hill_id')}
                               error={Boolean(touched.hill_id && errors.hill_id)}
                               helperText={touched.hill_id && errors.hill_id}
                             >
+                              <MenuItem value={null}>Pilih Bukit Tujuan</MenuItem>
                               {activityType === 'ore-getting'
                                 ? dataHillDestination?.data?.data?.map((option) => (
                                     <MenuItem key={option} value={option?.id}>
@@ -559,13 +571,17 @@ export default function FormMiningCard() {
                           <FormControl>
                             <TextField
                               select
-                              placeholder="Pilih jenis kegiatan"
                               fullWidth
                               size="small"
+                              SelectProps={{
+                                displayEmpty: true
+                              }}
+                              name="dome_id"
                               {...getFieldProps('dome_id')}
                               error={Boolean(touched.dome_id && errors.dome_id)}
                               helperText={touched.dome_id && errors.dome_id}
                             >
+                              <MenuItem value={null}>Pilih Dome Tujuan</MenuItem>
                               {activityType === 'eto-to-efo'
                                 ? dataDomeDestination?.data?.data?.map((option) => (
                                     <MenuItem key={option} value={option?.id}>
@@ -694,10 +710,13 @@ export default function FormMiningCard() {
                         Jumlah Retase
                       </Typography>
                       <FormControl>
-                        <TextField
+                        <NumericFormat
+                          thousandSeparator=","
+                          thousandsGroupStyle="thousand"
+                          customInput={TextField}
                           placeholder="Jumlah Retase"
                           fullWidth
-                          value={values.ritase_total}
+                          value={parseInt(values?.ritase_total || 0)}
                           onChange={(e) => handleChangeNumber(e, 'ritase_total')}
                           error={Boolean(touched.ritase_total && errors.ritase_total)}
                           helperText={touched.ritase_total && errors.ritase_total}
@@ -731,10 +750,13 @@ export default function FormMiningCard() {
                         Jumlah Tonase
                       </Typography>
                       <FormControl>
-                        <TextField
-                          placeholder="Jumlah Retase"
+                        <NumericFormat
+                          thousandSeparator=","
+                          thousandsGroupStyle="thousand"
+                          customInput={TextField}
+                          placeholder="Jumlah Tonase"
                           fullWidth
-                          value={values.tonnage_total}
+                          value={parseInt(values?.tonnage_total || 0)}
                           onChange={(e) => handleChangeNumber(e, 'tonnage_total')}
                           error={Boolean(touched.tonnage_total && errors.tonnage_total)}
                           helperText={touched.tonnage_total && errors.tonnage_total}
@@ -818,7 +840,10 @@ export default function FormMiningCard() {
                       Ekuivalen Logam
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator=","
+                        thousandsGroupStyle="thousand"
+                        customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.ni_metal_equivalent}
@@ -903,7 +928,10 @@ export default function FormMiningCard() {
                       Ekuivalen Logam
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator=","
+                        thousandsGroupStyle="thousand"
+                        customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.fe_metal_equivalent}
@@ -988,7 +1016,10 @@ export default function FormMiningCard() {
                       Ekuivalen Logam
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator=","
+                        thousandsGroupStyle="thousand"
+                        customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.co_metal_equivalent}
@@ -1073,7 +1104,10 @@ export default function FormMiningCard() {
                       Ekuivalen Logam
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator=","
+                        thousandsGroupStyle="thousand"
+                        customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.simgo_metal_equivalent}

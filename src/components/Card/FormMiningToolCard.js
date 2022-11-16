@@ -513,7 +513,7 @@ export default function FormMiningToolCard() {
                                   <Stack direction="row" justifyContent="space-between">
                                     <FormControl sx={{ width: '100%' }}>
                                       <TextField
-                                        placeholder="Tuliskan Jumlah Peralatan"
+                                        placeholder="Tuliskan Kapasitas"
                                         fullWidth
                                         size="small"
                                         sx={{
@@ -563,7 +563,7 @@ export default function FormMiningToolCard() {
                                   </Typography>
                                   <FormControl>
                                     <TextField
-                                      placeholder="Tuliskan Liter/Jam"
+                                      placeholder="Tuliskan Mechanical Availability"
                                       fullWidth
                                       sx={{
                                         '& .MuiOutlinedInput-root': {
@@ -603,7 +603,7 @@ export default function FormMiningToolCard() {
                                   <Typography variant="h6">EU ( Effective Utilization )</Typography>
                                   <FormControl>
                                     <TextField
-                                      placeholder="Tuliskan Liter/Jam"
+                                      placeholder="Tuliskan Tuliskan Effective Utilization"
                                       fullWidth
                                       sx={{
                                         '& .MuiOutlinedInput-root': {

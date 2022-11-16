@@ -212,9 +212,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                 <p>*Dokumen ini hanya bisa diupload oleh direktur utama/direktur keuangan</p>
               </Grid>
               <Grid item md={12}>
-                <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
-                  Jumlah Tonase
-                </Typography>
                 <Grid
                   container
                   direction="row"
@@ -223,6 +220,9 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                   spacing={3}
                 >
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Jumlah Tonase
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
                       Realisasi Tonase
                     </Typography>
@@ -261,16 +261,22 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Jumlah Tonase
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
-                      Ekuivalen Tonase
+                      Realisasi Tonase
                     </Typography>
                     <FormControl>
                       <TextField
-                        placeholder="Ekuivalen Tonase"
+                        placeholder="Realisasi Tonase"
                         fullWidth
-                        value={values.ni_metal_equivalent}
-                        error={Boolean(touched.ni_metal_equivalent && errors.ni_metal_equivalent)}
-                        helperText={touched.ni_metal_equivalent && errors.ni_metal_equivalent}
+                        value={values.ni_level}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
+                        }}
+                        error={Boolean(touched.ni_level && errors.ni_level)}
+                        helperText={touched.ni_level && errors.ni_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -278,7 +284,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                         }}
                         size="small"
                         InputProps={{
-                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -289,7 +294,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                                 borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
                               }}
                             >
-                              Ton
+                              %
                             </InputAdornment>
                           )
                         }}
@@ -297,9 +302,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                 </Grid>
-                <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
-                  Kadar Ni
-                </Typography>
                 <Grid
                   container
                   direction="row"
@@ -308,6 +310,9 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                   spacing={3}
                 >
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Kadar Ni
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
                       Nilai Kadar
                     </Typography>
@@ -346,16 +351,22 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Kadar Ni
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
-                      Ekuivalen Logam
+                      Nilai Kadar
                     </Typography>
                     <FormControl>
                       <TextField
-                        placeholder="Ekuivalen Logam"
+                        placeholder="Nilai Kadar"
                         fullWidth
-                        value={values.ni_metal_equivalent}
-                        error={Boolean(touched.ni_metal_equivalent && errors.ni_metal_equivalent)}
-                        helperText={touched.ni_metal_equivalent && errors.ni_metal_equivalent}
+                        value={values.ni_level}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
+                        }}
+                        error={Boolean(touched.ni_level && errors.ni_level)}
+                        helperText={touched.ni_level && errors.ni_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -363,7 +374,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                         }}
                         size="small"
                         InputProps={{
-                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -374,7 +384,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                                 borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
                               }}
                             >
-                              Ton
+                              %
                             </InputAdornment>
                           )
                         }}
@@ -382,9 +392,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                 </Grid>
-                <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
-                  Kadar Fe
-                </Typography>
                 <Grid
                   container
                   direction="row"
@@ -393,6 +400,9 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                   spacing={3}
                 >
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Kadar Fe
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
                       Nilai Kadar
                     </Typography>
@@ -431,16 +441,22 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Kadar Fe
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
-                      Ekuivalen Logam
+                      Nilai Kadar
                     </Typography>
                     <FormControl>
                       <TextField
-                        placeholder="Ekuivalen Logam"
+                        placeholder="Nilai Kadar"
                         fullWidth
-                        value={values.fe_metal_equivalent}
-                        error={Boolean(touched.fe_metal_equivalent && errors.fe_metal_equivalent)}
-                        helperText={touched.fe_metal_equivalent && errors.fe_metal_equivalent}
+                        value={values.fe_level}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'fe_level', 'fe_metal_equivalent');
+                        }}
+                        error={Boolean(touched.fe_level && errors.fe_level)}
+                        helperText={touched.fe_level && errors.fe_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -448,7 +464,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                         }}
                         size="small"
                         InputProps={{
-                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -459,7 +474,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                                 borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
                               }}
                             >
-                              Ton
+                              %
                             </InputAdornment>
                           )
                         }}
@@ -467,9 +482,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                 </Grid>
-                <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
-                  Kadar CO
-                </Typography>
+
                 <Grid
                   container
                   direction="row"
@@ -478,6 +491,9 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                   spacing={3}
                 >
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Kadar CO
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
                       Nilai Kadar
                     </Typography>
@@ -516,16 +532,22 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                   <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+                      Kadar CO
+                    </Typography>
                     <Typography variant="h6" sx={{ mb: 3 }}>
-                      Ekuivalen Logam
+                      Nilai Kadar
                     </Typography>
                     <FormControl>
                       <TextField
-                        placeholder="Ekuivalen Logam"
+                        placeholder="Nilai Kadar"
                         fullWidth
-                        value={values.co_metal_equivalent}
-                        error={Boolean(touched.co_metal_equivalent && errors.co_metal_equivalent)}
-                        helperText={touched.co_metal_equivalent && errors.co_metal_equivalent}
+                        value={values.co_level}
+                        onChange={(e) => {
+                          handleChangeNumber(e, 'co_level', 'co_metal_equivalent');
+                        }}
+                        error={Boolean(touched.co_level && errors.co_level)}
+                        helperText={touched.co_level && errors.co_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -533,7 +555,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                         }}
                         size="small"
                         InputProps={{
-                          readOnly: true,
                           endAdornment: (
                             <InputAdornment
                               position="end"
@@ -544,7 +565,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                                 borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
                               }}
                             >
-                              Ton
+                              %
                             </InputAdornment>
                           )
                         }}
@@ -554,7 +575,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                 </Grid>
               </Grid>
             </Grid>
-            <Footer handleBack={handleBack} step={2} />
+            <Footer handleBack={handleBack} />
           </Form>
         </FormikProvider>
       </>

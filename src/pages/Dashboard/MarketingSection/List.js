@@ -48,7 +48,7 @@ const List = ({ setDetail }) => {
             }}
           >
             <Box sx={{ marginBottom: '0.5rem', fontSize: '14px', fontWeight: '700' }}>
-              Pemasaran di Dermaga
+              Pemasaran
             </Box>
             <Box sx={{ fontSize: '14px' }}>12 Januari 2022</Box>
           </Grid>
