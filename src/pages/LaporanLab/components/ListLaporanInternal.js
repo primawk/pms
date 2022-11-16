@@ -16,18 +16,19 @@ const ListLaporanInternal = ({ data }) => {
         backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
         margin: '0 0 0 0',
-        paddingBottom: 3,
+        height: '6.125rem',
+        paddingTop: 1,
         borderBottom: 1,
         borderBottomColor: '#E0E0E0',
         cursor: 'pointer',
-        overflow: 'auto'
+        overflowX: 'auto'
       }}
       gap={4}
       onClick={() => navigate(`/lab-report/detail/internal/${data.id}`)}
-      xs={12}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem' }}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={3.2}>
         <Grid
           container
           sx={{
@@ -39,9 +40,8 @@ const ListLaporanInternal = ({ data }) => {
           }}
         >
           <Box>
-            <img src="/img/Icon Laporan.png" alt=""></img>
+            <img src="/img/Icon Laporan.png" alt="" />
           </Box>
-
           <Grid item>
             <Grid
               container
@@ -60,8 +60,9 @@ const ListLaporanInternal = ({ data }) => {
           </Grid>
         </Grid>
       </Grid>
+
       {/* Column 2 */}
-      <Grid item sx={{}}>
+      <Grid item sx={{}} xs={2}>
         <Grid
           container
           sx={{
@@ -79,7 +80,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 3 */}
-      <Grid item sx={{}}>
+      <Grid item sx={{}} xs={2}>
         <Grid
           container
           sx={{
@@ -99,7 +100,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 4 */}
-      <Grid item sx={{}}>
+      <Grid item sx={{}} xs={2}>
         <Grid
           container
           sx={{
@@ -124,7 +125,7 @@ const ListLaporanInternal = ({ data }) => {
       </Grid>
 
       {/* Column 5 */}
-      <Grid item sx={{}}>
+      <Grid item sx={{}} xs={2}>
         <Grid
           container
           sx={{
