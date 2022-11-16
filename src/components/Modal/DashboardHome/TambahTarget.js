@@ -274,33 +274,6 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
                   </Grid>
                   <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                      <Box sx={{ fontSize: '0.875rem' }}>Juli</Box>
-                    </Grid>
-                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                      <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          required
-                          name="juli"
-                          onChange={handleAddFormChange}
-                          endAdornment={
-                            <InputAdornment position="end" backgroundColor="gray">
-                              <Grid>Ton</Grid>
-                            </InputAdornment>
-                          }
-                          placeholder="0,00"
-                          fullWidth
-                        />
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              {/* 2 */}
-              <Grid item>
-                <Grid container sx={{ alignItems: 'flex-end' }}>
-                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
                       <Box sx={{ fontSize: '0.875rem' }}>Februari</Box>
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
@@ -320,32 +293,10 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
                       </FormControl>
                     </Grid>
                   </Grid>
-                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                      <Box sx={{ fontSize: '0.875rem' }}>Agustus</Box>
-                    </Grid>
-                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                      <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          id="outlined-adornment-password"
-                          required
-                          name="agustus"
-                          onChange={handleAddFormChange}
-                          endAdornment={
-                            <InputAdornment position="end" backgroundColor="gray">
-                              <Grid>Ton</Grid>
-                            </InputAdornment>
-                          }
-                          placeholder="0,00"
-                          fullWidth
-                        />
-                      </FormControl>
-                    </Grid>
-                  </Grid>
                 </Grid>
               </Grid>
 
-              {/* 3 */}
+              {/* 2 */}
               <Grid item>
                 <Grid container sx={{ alignItems: 'flex-end' }}>
                   <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -371,13 +322,14 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
                   </Grid>
                   <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                      <Box sx={{ fontSize: '0.875rem' }}>September</Box>
+                      <Box sx={{ fontSize: '0.875rem' }}>April</Box>
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
+                          id="outlined-adornment-password"
                           required
-                          name="september"
+                          name="april"
                           onChange={handleAddFormChange}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
@@ -393,64 +345,7 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
                 </Grid>
               </Grid>
 
-              {/* 4 */}
-              <Grid item>
-                <Grid container sx={{ alignItems: 'flex-end' }}>
-                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                      <Box sx={{ fontSize: '0.875rem' }}>April</Box>
-                    </Grid>
-                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                      <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          required
-                          name="april"
-                          onChange={handleAddFormChange}
-                          endAdornment={
-                            <InputAdornment position="end" backgroundColor="gray">
-                              <Grid>Ton</Grid>
-                            </InputAdornment>
-                          }
-                          placeholder="0,00"
-                          fullWidth
-                        />
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                      <Box sx={{ fontSize: '0.875rem' }}>Oktober</Box>
-                    </Grid>
-                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
-                      <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          required
-                          name="oktober"
-                          onChange={handleAddFormChange}
-                          endAdornment={
-                            <InputAdornment position="end" backgroundColor="gray">
-                              <Grid
-                              //     sx={{
-                              //       backgroundColor: '#E0E0E0',
-                              //       height: '2.5rem',
-                              //       border: '1px solid #E0E0E0',
-                              //       borderRadius: '0px 4px 4px 0px',
-                              //   width
-                              //     }}
-                              >
-                                Ton
-                              </Grid>
-                            </InputAdornment>
-                          }
-                          placeholder="0,00"
-                          fullWidth
-                        />
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              {/* 5 */}
+              {/* 3 */}
               <Grid item>
                 <Grid container sx={{ alignItems: 'flex-end' }}>
                   <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -476,13 +371,108 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
                   </Grid>
                   <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                      <Box sx={{ fontSize: '0.875rem' }}>November</Box>
+                      <Box sx={{ fontSize: '0.875rem' }}>Juni</Box>
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
                           required
-                          name="november"
+                          name="juni"
+                          onChange={handleAddFormChange}
+                          endAdornment={
+                            <InputAdornment position="end" backgroundColor="gray">
+                              <Grid>Ton</Grid>
+                            </InputAdornment>
+                          }
+                          placeholder="0,00"
+                          fullWidth
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              {/* 4 */}
+              <Grid item>
+                <Grid container sx={{ alignItems: 'flex-end' }}>
+                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                      <Box sx={{ fontSize: '0.875rem' }}>Juli</Box>
+                    </Grid>
+                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                      <FormControl size="small" variant="outlined" fullWidth>
+                        <OutlinedInput
+                          required
+                          name="juli"
+                          onChange={handleAddFormChange}
+                          endAdornment={
+                            <InputAdornment position="end" backgroundColor="gray">
+                              <Grid>Ton</Grid>
+                            </InputAdornment>
+                          }
+                          placeholder="0,00"
+                          fullWidth
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                      <Box sx={{ fontSize: '0.875rem' }}>Agustus</Box>
+                    </Grid>
+                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                      <FormControl size="small" variant="outlined" fullWidth>
+                        <OutlinedInput
+                          required
+                          name="agustus"
+                          onChange={handleAddFormChange}
+                          endAdornment={
+                            <InputAdornment position="end" backgroundColor="gray">
+                              <Grid>Ton</Grid>
+                            </InputAdornment>
+                          }
+                          placeholder="0,00"
+                          fullWidth
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/* 5 */}
+              <Grid item>
+                <Grid container sx={{ alignItems: 'flex-end' }}>
+                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                      <Box sx={{ fontSize: '0.875rem' }}>September</Box>
+                    </Grid>
+                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                      <FormControl size="small" variant="outlined" fullWidth>
+                        <OutlinedInput
+                          required
+                          name="september"
+                          onChange={handleAddFormChange}
+                          endAdornment={
+                            <InputAdornment position="end" backgroundColor="gray">
+                              <Grid>Ton</Grid>
+                            </InputAdornment>
+                          }
+                          placeholder="0,00"
+                          fullWidth
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
+                      <Box sx={{ fontSize: '0.875rem' }}>Oktober</Box>
+                    </Grid>
+                    <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
+                      <FormControl size="small" variant="outlined" fullWidth>
+                        <OutlinedInput
+                          required
+                          name="oktober"
                           onChange={handleAddFormChange}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
@@ -503,13 +493,13 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
                 <Grid container sx={{ alignItems: 'flex-end' }}>
                   <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Grid item sx={{ margin: '0 auto 1rem 1.5rem' }}>
-                      <Box sx={{ fontSize: '0.875rem' }}>Juni</Box>
+                      <Box sx={{ fontSize: '0.875rem' }}>November</Box>
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
                         <OutlinedInput
                           required
-                          name="juni"
+                          name="november"
                           onChange={handleAddFormChange}
                           endAdornment={
                             <InputAdornment position="end" backgroundColor="gray">
