@@ -117,7 +117,7 @@ const ChartSection = ({
               </>
             ) : (
               targetRealization?.map((item) => (
-                <TableCell key={item} sx={{ border: '1px solid #E0E0E0' }} align="center">
+                <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
                   {item}
                 </TableCell>
               ))
@@ -141,9 +141,9 @@ const ChartSection = ({
                   }}
                 ></Grid>
                 {menuTab === 0 ? (
-                  <Grid item>Target Produksi</Grid>
+                  <Grid item>Target Produksi (Ton)</Grid>
                 ) : (
-                  <Grid item>Target Penjualan</Grid>
+                  <Grid item>Target Penjualan (Ton)</Grid>
                 )}
               </Grid>
             </TableCell>
