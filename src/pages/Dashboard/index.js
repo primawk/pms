@@ -210,6 +210,16 @@ export default function Dashboard() {
   );
 
   const {
+    data: dataProductionShipment,
+    isLoading: isLoadingProductionShipment,
+    isFetching: isFetchingProductionShipment
+  } = useQuery(['data-shipment', selectedYear], () =>
+    ProductionService.getTargetShipment({
+      year: selectedYear
+    })
+  );
+
+  const {
     data: dataTableTarget,
     isLoading: isLoadingTableTarget,
     isFetching: isFetchingTableTarget
@@ -231,22 +241,53 @@ export default function Dashboard() {
     })
   );
 
+  const {
+    data: dataRealizationShipment,
+    isLoading: isLoadingRealizationShipment,
+    isFetching: isFetchingRealizationShipment
+  } = useQuery(['data-realization-shipment', selectedYear], () =>
+    ProductionService.getRealizationShipment({
+      year: selectedYear
+      // row: 2,
+      // page: pageTarget
+    })
+  );
+
+  // console.log(dataRealizationShipment?.data?.data);
+
   const targetRealization =
     typeof dataRealization?.data?.data === 'undefined'
       ? null
       : dataRealization?.data?.data.map((item) => item.realization).reverse();
+
+  const targetRealizationShipment =
+    typeof dataRealizationShipment?.data?.data === 'undefined'
+      ? null
+      : dataRealizationShipment?.data?.data.map((item) => item.realization).reverse();
 
   const targetPercentage =
     typeof dataRealization?.data?.data === 'undefined'
       ? null
       : dataRealization?.data?.data.map((item) => parseInt(item.presentase)).reverse();
 
+  const targetPercentageShipment =
+    typeof dataRealizationShipment?.data?.data === 'undefined'
+      ? null
+      : dataRealizationShipment?.data?.data.map((item) => parseInt(item.presentase)).reverse();
+
   const target =
     typeof dataProduction?.data?.data === 'undefined'
       ? null
       : dataProduction?.data?.data.map((item) => item.target_list);
 
+  const targetShipment =
+    typeof dataProductionShipment?.data?.data === 'undefined'
+      ? null
+      : dataProductionShipment?.data?.data.map((item) => item.target_list);
+
   const targetResult = target?.length > 0 ? target[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show
+  const targetResultShipment =
+    targetShipment?.length > 0 ? targetShipment[0].map((arrayItem) => arrayItem.target) : null; // in case only 1 year to show
 
   // const [chartData] = useState({
   //   labels: data.map((item) => item.name),
@@ -280,6 +321,25 @@ export default function Dashboard() {
       {
         label: 'Target Produksi',
         data: targetResult ? targetResult?.map((item) => item) : null,
+        backgroundColor: ['#DA4540'],
+        borderWidth: 2
+      }
+    ]
+  };
+
+  const chartDataShipment = {
+    labels: data.map((item) => item.name),
+    legend: false,
+    datasets: [
+      {
+        label: 'Realisasi (Ton)',
+        data: targetRealizationShipment ? targetRealizationShipment?.map((item) => item) : null,
+        backgroundColor: ['#3F48C0'],
+        borderWidth: 2
+      },
+      {
+        label: 'Target Penjualan',
+        data: targetResultShipment ? targetResultShipment?.map((item) => item) : null,
         backgroundColor: ['#DA4540'],
         borderWidth: 2
       }
@@ -374,18 +434,33 @@ export default function Dashboard() {
               years={years}
             />
 
-            <ChartSection
-              chartData={chartData}
-              data={data}
-              targetPercentage={targetPercentage}
-              targetRealization={targetRealization}
-              target={targetResult}
-              isLoading={isLoadingProduction}
-              isFetching={isFetchingProduction}
-              isLoadingRealization={isLoadingRealization}
-              isFetchingRealization={isFetchingRealization}
-              menuTab={menuTab}
-            />
+            {menuTab === 0 ? (
+              <ChartSection
+                chartData={chartData}
+                data={data}
+                targetPercentage={targetPercentage}
+                targetRealization={targetRealization}
+                target={targetResult}
+                isLoading={isLoadingProduction}
+                isFetching={isFetchingProduction}
+                isLoadingRealization={isLoadingRealization}
+                isFetchingRealization={isFetchingRealization}
+                menuTab={menuTab}
+              />
+            ) : (
+              <ChartSection
+                chartData={chartDataShipment}
+                data={data}
+                targetPercentage={targetPercentageShipment}
+                targetRealization={targetRealizationShipment}
+                target={targetResultShipment}
+                isLoading={isLoadingProductionShipment}
+                isFetching={isFetchingProductionShipment}
+                isLoadingRealization={isLoadingRealizationShipment}
+                isFetchingRealization={isFetchingRealizationShipment}
+                menuTab={menuTab}
+              />
+            )}
           </Grid>
         ) : (
           <>

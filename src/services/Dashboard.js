@@ -16,6 +16,19 @@ const getTarget = ({ year }) => {
   });
 };
 
+const getTargetShipment = ({ year }) => {
+  const params = [];
+
+  if (year) {
+    params.push(['year', year]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/shipment-target`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
 export async function getDefaultYear() {
   const url = await `${MINING_ACTIVITY_MODEL}/target`;
   const promise = await axios.get(url, {
@@ -36,6 +49,23 @@ const getRealization = ({ year }) => {
     params.push(['activity_type', activity_type]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/target/chart`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
+const getRealizationShipment = ({ year }) => {
+  const params = [];
+  const activity_type = 'eto-to-efo';
+
+  if (year) {
+    params.push(['year', year]);
+  }
+  if (activity_type) {
+    params.push(['activity_type', activity_type]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/shipment-target/chart`, {
     method: 'GET',
     params: new URLSearchParams(params),
     headers: authHeader()
@@ -102,7 +132,9 @@ const ProductionService = {
   deleteTarget,
   addTarget,
   getTargetDetail,
-  editTarget
+  editTarget,
+  getRealizationShipment,
+  getTargetShipment
 };
 
 export default ProductionService;

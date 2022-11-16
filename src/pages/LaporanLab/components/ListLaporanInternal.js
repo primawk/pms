@@ -28,20 +28,21 @@ const ListLaporanInternal = ({ data }) => {
       gap={4}
       onClick={() => navigate(`/lab-report/detail/internal/${data.id}`)}
     >
-      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={3.2}>
+      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={0.7}>
+        <img src="/img/Icon Laporan.png" alt="" />
+      </Grid>
+
+      <Grid item sx={{ margin: '0 0 0 1.5rem' }} xs={2.6}>
         <Grid
           container
           sx={{
             display: 'flex',
             flexWrap: 'nowrap',
             flexDirection: 'row',
-            alignItems: 'center',
-            gap: '1rem'
+            alignItems: 'center'
+            // gap: '1rem'
           }}
         >
-          <Box>
-            <img src="/img/Icon Laporan.png" alt="" />
-          </Box>
           <Grid item>
             <Grid
               container
