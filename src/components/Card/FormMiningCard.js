@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'react-toastify';
+import { NumericFormat } from 'react-number-format';
 
 // custom hooks
 import useLoading from 'hooks/useLoading';
@@ -640,10 +641,13 @@ export default function FormMiningCard() {
                           Jumlah Tonase
                         </Typography>
                         <FormControl>
-                          <TextField
+                          <NumericFormat
+                            thousandSeparator=","
+                            thousandsGroupStyle="thousand"
+                            customInput={TextField}
                             placeholder="Jumlah Tonase"
                             fullWidth
-                            value={values.tonnage_total}
+                            value={parseInt(values?.tonnage_total || 0)}
                             onChange={(e) => {
                               handleChangeNumber(e, 'tonnage_total');
                             }}
