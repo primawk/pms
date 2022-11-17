@@ -35,8 +35,8 @@ export default function FormMiningActiviy() {
             <Grid item>
               <Stack direction="row" spacing={2}>
                 <Typography variant="h4">
-                  {activityType === 'shipment'
-                    ? 'Pemasaran di Dermaga'
+                  {activityType === 'efo-to-shipment'
+                    ? 'Pemasaran'
                     : capitalizeFirstLetter(activityType)}
                 </Typography>
               </Stack>

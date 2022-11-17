@@ -27,7 +27,7 @@ const miningActivityList = [
     value: 'eto-to-efo'
   },
   {
-    label: 'Pemasaran di Dermaga',
+    label: 'Pemasaran',
     value: 'efo-to-shipment'
   }
 ];
@@ -96,7 +96,7 @@ export default function MiningFormModal({ isShowing, toggle }) {
       <center>
         <h2 style={{ marginBottom: '20px' }}>
           {values?.activity_type === 'efo-to-shipment'
-            ? 'Input Realisasi Kegiatan Pemasaran di Dermaga'
+            ? 'Input Realisasi Kegiatan Pemasaran'
             : values?.activity_type === 'tambang'
             ? 'Input Laporan Penggunaan Alat Tambang'
             : 'Input Realisasi Kegiatan Produksi Mineral'}
@@ -152,7 +152,9 @@ export default function MiningFormModal({ isShowing, toggle }) {
                   </Grid>
                   <Grid item lg={6}>
                     <FormControl>
-                      <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>Waktu Kegiatan</h4>
+                      <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>
+                        Waktu Kegiatan Dimulai
+                      </h4>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <TimePicker
                           ampm={false}

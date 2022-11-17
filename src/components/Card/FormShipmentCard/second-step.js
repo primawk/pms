@@ -180,17 +180,7 @@ export default function SecondStep({ handleBack, handleContinue }) {
                       onRemove={handleRemoveImage}
                     />
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Siping Instruksi
-                    </Typography>
-                    <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
-                      handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
-                      onRemove={handleRemoveImage}
-                    />
-                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Draught Survei
+                      Draught Survey
                     </Typography>
                     <CustomDropzone
                       name="shipment_instruction"
@@ -233,16 +223,6 @@ export default function SecondStep({ handleBack, handleContinue }) {
                   <Grid item md={6} sm={12} xs={12}>
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Packing List
-                    </Typography>
-                    <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
-                      handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
-                      onRemove={handleRemoveImage}
-                    />
-                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Siping Instruksi
                     </Typography>
                     <CustomDropzone
                       name="shipment_instruction"

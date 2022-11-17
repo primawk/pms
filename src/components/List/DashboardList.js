@@ -6,7 +6,7 @@ import React from 'react';
 import { capitalizeFirstLetter, timeDifference, translateTime } from 'utils/helper';
 
 const DashboardList = ({ listData }) => {
-  const dateDifference = translateTime(timeDifference(listData?.updated_at, new Date()));
+  const dateDifference = translateTime(timeDifference(listData?.created_at, new Date()));
   return (
     <Grid
       container
