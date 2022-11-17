@@ -23,7 +23,7 @@ import CustomModal from 'components/Modal/CustomModal/CustomModal';
 import ProductionService from 'services/Dashboard';
 import { LoadingModal } from 'components/Modal';
 
-const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
+const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => {
   const [loading, setLoading] = useState(false);
 
   const { isGranted } = useAuth();
@@ -189,6 +189,87 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
     }
   };
 
+  const handleAddFormSubmitShipment = async (event) => {
+    setLoading(true);
+    event.preventDefault();
+    const data = {
+      year: dayjs(value).format('YYYY'),
+      target_list: [
+        {
+          month: 'Desember',
+          month_number: 12,
+          target: addFormData.desember
+        },
+        {
+          month: 'November',
+          month_number: 11,
+          target: addFormData.november
+        },
+        {
+          month: 'Oktober',
+          month_number: 10,
+          target: addFormData.oktober
+        },
+        {
+          month: 'September',
+          month_number: 9,
+          target: addFormData.september
+        },
+        {
+          month: 'Agustus',
+          month_number: 8,
+          target: addFormData.agustus
+        },
+        {
+          month: 'Juli',
+          month_number: 7,
+          target: addFormData.juli
+        },
+        {
+          month: 'Juni',
+          month_number: 6,
+          target: addFormData.juni
+        },
+        {
+          month: 'Mei',
+          month_number: 5,
+          target: addFormData.mei
+        },
+        {
+          month: 'April',
+          month_number: 4,
+          target: addFormData.april
+        },
+        {
+          month: 'Maret',
+          month_number: 3,
+          target: addFormData.maret
+        },
+        {
+          month: 'Februari',
+          month_number: 2,
+          target: addFormData.februari
+        },
+        {
+          month: 'Januari',
+          month_number: 1,
+          target: addFormData.januari
+        }
+      ]
+    };
+
+    try {
+      await ProductionService.addTargetShipment(data);
+      setLoading(false);
+      toggleEdited();
+      queryClient.invalidateQueries(['data-shipment']);
+    } catch (error) {
+      toast.error(error.response.data.detail_message);
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   const handleChange = (newValue) => {
     setValue(newValue);
   };
@@ -211,7 +292,7 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading }) => {
             margin: 'auto'
           }}
         >
-          <form onSubmit={handleAddFormSubmit}>
+          <form onSubmit={menuTab === 0 ? handleAddFormSubmit : handleAddFormSubmitShipment}>
             <Grid
               container
               sx={{

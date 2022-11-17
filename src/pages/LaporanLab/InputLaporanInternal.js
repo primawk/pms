@@ -233,17 +233,51 @@ const InputLaporanInternal = () => {
                   xs={2}
                 >
                   <Box sx={{ marginBottom: '1rem' }}>Tanggal</Box>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} size="small">
                     <DesktopDatePicker
                       required
                       inputFormat="dd/MM/yyyy"
                       name="date"
                       value={value}
                       onChange={handleChange}
-                      renderInput={(params) => <TextField {...params} />}
+                      renderInput={(params) => <TextField {...params} size="small" />}
+                      size="small"
                     />
                   </LocalizationProvider>
                 </Grid>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '1.5rem 0.5rem 0.5rem 2rem'
+                  }}
+                  xs={2}
+                >
+                  <Box sx={{ marginBottom: '1rem' }}>Jenis Sample</Box>
+                  <FormControl fullWidth>
+                    <InputLabel id="Jenis Sample" size="small">
+                      Pilih Jenis Sample
+                    </InputLabel>
+                    <Select
+                      required
+                      name="sample_type"
+                      labelId="Jenis Sample"
+                      id="Jenis Sample"
+                      label="Pilih Jenis Sample"
+                      onChange={handleAddFormChange}
+                      size="small"
+                    >
+                      <MenuItem value={'Sample test PIT'}>Sample test PIT</MenuItem>
+                      <MenuItem value={'Sample Spesial Check'}>Sample Spesial Check</MenuItem>
+                      <MenuItem value={'Sample Selective Mining'}>Sample Selective Mining</MenuItem>
+                      <MenuItem value={'Sample ETO'}>Sample ETO</MenuItem>
+                      <MenuItem value={'Sample EFO'}>Sample EFO</MenuItem>
+                      <MenuItem value={'Sample Barging'}>Sample Barging</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
                 <Grid
                   sx={{
                     display: 'flex',
@@ -277,39 +311,6 @@ const InputLaporanInternal = () => {
                           {value.name}
                         </MenuItem>
                       ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    margin: '1.5rem 0.5rem 0.5rem 2rem'
-                  }}
-                  xs={2}
-                >
-                  <Box sx={{ marginBottom: '1rem' }}>Jenis Sample</Box>
-                  <FormControl fullWidth>
-                    <InputLabel id="Jenis Sample" size="small">
-                      Pilih Jenis Sample
-                    </InputLabel>
-                    <Select
-                      required
-                      name="sample_type"
-                      labelId="Jenis Sample"
-                      id="Jenis Sample"
-                      label="Pilih Jenis Sample"
-                      onChange={handleAddFormChange}
-                      size="small"
-                    >
-                      <MenuItem value={'Sample test PIT'}>Sample test PIT</MenuItem>
-                      <MenuItem value={'Sample Spesial Check'}>Sample Spesial Check</MenuItem>
-                      <MenuItem value={'Sample Selective Mining'}>Sample Selective Mining</MenuItem>
-                      <MenuItem value={'Sample ETO'}>Sample ETO</MenuItem>
-                      <MenuItem value={'Sample EFO'}>Sample EFO</MenuItem>
-                      <MenuItem value={'Sample Barging'}>Sample Barging</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -386,6 +387,7 @@ const InputLaporanInternal = () => {
                     variant="outlined"
                     onChange={handleAddFormChange}
                     helperText={validCode ? '' : 'Kode sample sudah ada.'}
+                    size="small"
                   />
                 </Grid>
                 <Grid

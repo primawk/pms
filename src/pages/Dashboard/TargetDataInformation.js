@@ -7,12 +7,12 @@ import TambahTarget from '../../components/Modal/DashboardHome/TambahTarget';
 // custom hooks
 import useModal from '../../hooks/useModal';
 
-const TargetDataInformation = () => {
+const TargetDataInformation = ({ menuTab }) => {
   const { isShowing, toggle } = useModal();
 
   return (
     <>
-      <TambahTarget toggle={toggle} isShowing={isShowing} />
+      <TambahTarget menuTab={menuTab} toggle={toggle} isShowing={isShowing} />
       <Grid
         container
         direction="row"

@@ -23,7 +23,7 @@ import { LoadingModal } from 'components/Modal';
 // services
 import ProductionService from 'services/Dashboard';
 
-const EditData = ({ isShowing, toggle, year, id, dataTarget, isFetching, isLoading }) => {
+const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching, isLoading }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -186,6 +186,85 @@ const EditData = ({ isShowing, toggle, year, id, dataTarget, isFetching, isLoadi
     }
   };
 
+  const handleEditFormShipmentSubmit = async (event) => {
+    setLoading(true);
+    event.preventDefault();
+    const data = [
+      {
+        month: 'Januari',
+        target: addFormData.Januari,
+        year: year
+      },
+      {
+        month: 'Februari',
+        target: addFormData.Februari,
+        year: year
+      },
+      {
+        month: 'Maret',
+        target: addFormData.Maret,
+        year: year
+      },
+      {
+        month: 'April',
+        target: addFormData.April,
+        year: year
+      },
+      {
+        month: 'Mei',
+        target: addFormData.Mei,
+        year: year
+      },
+      {
+        month: 'Juni',
+        target: addFormData.Juni,
+        year: year
+      },
+      {
+        month: 'Juli',
+        target: addFormData.Juli,
+        year: year
+      },
+      {
+        month: 'Agustus',
+        target: addFormData.Agustus,
+        year: year
+      },
+      {
+        month: 'September',
+        target: addFormData.September,
+        year: year
+      },
+      {
+        month: 'Oktober',
+        target: addFormData.Oktober,
+        year: year
+      },
+      {
+        month: 'November',
+        target: addFormData.November,
+        year: year
+      },
+      {
+        month: 'Desember',
+        target: addFormData.Desember,
+        year: year
+      }
+    ];
+
+    try {
+      await id?.forEach((_id, index) => {
+        ProductionService.editTargetShipment(_id, data[index]);
+      });
+      setLoading(false);
+      toggleEdited();
+      queryClient.invalidateQueries(['data-target-shipment-table']);
+    } catch (error) {
+      toast.error(error.response.data.detail_message);
+      setLoading(false);
+    }
+  };
+
   const handleChange = (newValue) => {
     setValue(newValue);
   };
@@ -208,7 +287,7 @@ const EditData = ({ isShowing, toggle, year, id, dataTarget, isFetching, isLoadi
             margin: 'auto'
           }}
         >
-          <form onSubmit={handleEditFormSubmit}>
+          <form onSubmit={menuTab === 0 ? handleEditFormSubmit : handleEditFormShipmentSubmit}>
             <Grid
               container
               sx={{
