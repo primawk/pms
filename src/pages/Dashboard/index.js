@@ -203,7 +203,7 @@ export default function Dashboard() {
     data: dataProduction,
     isLoading: isLoadingProduction,
     isFetching: isFetchingProduction
-  } = useQuery(['data-target', selectedYear], () =>
+  } = useQuery(['data-target', selectedYear, menuTab, subMenu], () =>
     ProductionService.getTarget({
       year: selectedYear
     })
@@ -213,7 +213,7 @@ export default function Dashboard() {
     data: dataProductionShipment,
     isLoading: isLoadingProductionShipment,
     isFetching: isFetchingProductionShipment
-  } = useQuery(['data-shipment', selectedYear], () =>
+  } = useQuery(['data-shipment', selectedYear, menuTab, subMenu], () =>
     ProductionService.getTargetShipment({
       year: selectedYear
     })
@@ -230,10 +230,20 @@ export default function Dashboard() {
   );
 
   const {
+    data: dataTableTargetShipment,
+    isLoading: isLoadingTableTargetShipment,
+    isFetching: isFetchingTableTargetShipment
+  } = useQuery(['data-target-shipment-table', filterYear], () =>
+    ProductionService.getTargetShipment({
+      year: filterYear
+    })
+  );
+
+  const {
     data: dataRealization,
     isLoading: isLoadingRealization,
     isFetching: isFetchingRealization
-  } = useQuery(['data-realization', selectedYear], () =>
+  } = useQuery(['data-realization', selectedYear, menuTab, subMenu], () =>
     ProductionService.getRealization({
       year: selectedYear
       // row: 2,
@@ -245,7 +255,7 @@ export default function Dashboard() {
     data: dataRealizationShipment,
     isLoading: isLoadingRealizationShipment,
     isFetching: isFetchingRealizationShipment
-  } = useQuery(['data-realization-shipment', selectedYear], () =>
+  } = useQuery(['data-realization-shipment', selectedYear, menuTab, subMenu], () =>
     ProductionService.getRealizationShipment({
       year: selectedYear
       // row: 2,
@@ -427,6 +437,7 @@ export default function Dashboard() {
             />
 
             <InfoSection
+              menuTab={menuTab}
               data={dataAllSummary?.data?.data}
               isFetching={isFetchingAllSummary}
               isLoading={isLoadingAllSummary}
@@ -478,15 +489,27 @@ export default function Dashboard() {
                 years={years}
               />
 
-              <TargetDataInformation />
+              <TargetDataInformation menuTab={menuTab} />
 
-              <TargetDataTable
-                targetTableHead={targetTableHead}
-                data={dataTableTarget?.data?.data}
-                dataPage={dataProduction}
-                isLoading={isLoadingTableTarget}
-                isFetching={isFetchingTableTarget}
-              />
+              {menuTab === 0 ? (
+                <TargetDataTable
+                  menuTab={menuTab}
+                  targetTableHead={targetTableHead}
+                  data={dataTableTarget?.data?.data}
+                  dataPage={dataProduction}
+                  isLoading={isLoadingTableTarget}
+                  isFetching={isFetchingTableTarget}
+                />
+              ) : (
+                <TargetDataTable
+                  menuTab={menuTab}
+                  targetTableHead={targetTableHead}
+                  data={dataTableTargetShipment?.data?.data}
+                  dataPage={dataProductionShipment}
+                  isLoading={isLoadingTableTargetShipment}
+                  isFetching={isFetchingTableTargetShipment}
+                />
+              )}
 
               <CustomPagination
                 count={ceilTotalData(dataProduction?.data?.pagination?.total_Page || 1, 2)}

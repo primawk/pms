@@ -30,7 +30,7 @@ import useAuth from 'hooks/useAuth';
 import ProductionService from 'services/Dashboard';
 import { getTargetYear } from 'services/Dashboard';
 
-const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
+const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching, menuTab }) => {
   const { isShowing: isShowingForm, toggle: toggleForm, width } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
   const { isGranted } = useAuth();
@@ -101,6 +101,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching }) => {
     <>
       {isFetching && isLoading && <LoadingModal />}
       <EditData
+        menuTab={menuTab}
         toggle={toggleForm}
         isShowing={isShowingForm}
         width={width}

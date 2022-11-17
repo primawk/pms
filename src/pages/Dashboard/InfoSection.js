@@ -7,7 +7,7 @@ import KadarNi from '../../assets/Images/Dashboard/Ni.png';
 import KadarSimgo from '../../assets/Images/Dashboard/simgo.png';
 import { LoadingModal } from 'components/Modal';
 
-const InfoSection = ({ selectedYear, data, isFetching, isLoading, years }) => {
+const InfoSection = ({ selectedYear, data, isFetching, isLoading, years, menuTab }) => {
   if (!years) {
     return null;
   }
@@ -21,7 +21,7 @@ const InfoSection = ({ selectedYear, data, isFetching, isLoading, years }) => {
           <Typography variant="h3">{selectedYear === 0 ? years[0] : selectedYear}</Typography>
         </Grid>
         <Grid item md={2} xs={5}>
-          {typeof data === 'undefined' ? (
+          {typeof data === 'undefined' || menuTab !== 0 ? (
             <InfoCard value={0} image={Tonase} name="Jumlah Tonase" />
           ) : (
             <InfoCard value={parseInt(data?.tonnage_total)} image={Tonase} name="Jumlah Tonase" />

@@ -87,6 +87,14 @@ const editTarget = (id, data) => {
   });
 };
 
+const editTargetShipment = (id, data) => {
+  return request(`${MINING_ACTIVITY_MODEL}/shipment-target/${id}`, {
+    method: 'PUT',
+    headers: authHeader(),
+    data: data
+  });
+};
+
 const getTargetDetail = ({ id }) => {
   return request(`${MINING_ACTIVITY_MODEL}/target/${id}`, {
     method: 'GET',
@@ -96,6 +104,14 @@ const getTargetDetail = ({ id }) => {
 
 const addTarget = (data) => {
   return request(`${MINING_ACTIVITY_MODEL}/target`, {
+    method: 'POST',
+    headers: authHeader(),
+    data
+  });
+};
+
+const addTargetShipment = (data) => {
+  return request(`${MINING_ACTIVITY_MODEL}/shipment-target`, {
     method: 'POST',
     headers: authHeader(),
     data
@@ -134,7 +150,9 @@ const ProductionService = {
   getTargetDetail,
   editTarget,
   getRealizationShipment,
-  getTargetShipment
+  getTargetShipment,
+  addTargetShipment,
+  editTargetShipment
 };
 
 export default ProductionService;
