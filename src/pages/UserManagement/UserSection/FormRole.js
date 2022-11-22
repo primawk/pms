@@ -47,7 +47,11 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
       'user-management': Yup.string().required('Action is required'),
       'mining-activity': Yup.string().required('Action is required'),
       inventory: Yup.string().required('Action is required'),
-      'lab-report': Yup.string().required('Action is required')
+      'lab-report': Yup.string().required('Action is required'),
+      'mining-tool': Yup.string().required('Action is required'),
+      'bank-data': Yup.string().required('Action is required'),
+      'modul-lossing': Yup.string().required('Action is required'),
+      shipment: Yup.string().required('Action is required')
     })
   });
 
@@ -61,7 +65,11 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
         'user-management': id ? detailRole?.action?.['user-management'] : 'View Only',
         'mining-activity': id ? detailRole?.action?.['mining-activity'] : 'View Only',
         inventory: id ? detailRole?.action?.inventory : 'View Only',
-        'lab-report': id ? detailRole?.action?.['lab-report'] : 'View Only'
+        'lab-report': id ? detailRole?.action?.['lab-report'] : 'View Only',
+        'mining-tool': id ? detailRole?.action?.['mining-tool'] : 'View Only',
+        'bank-data': id ? detailRole?.action?.['bank-data'] : 'View Only',
+        'modul-lossing': id ? detailRole?.action?.['modul-lossing'] : 'View Only',
+        shipment: id ? detailRole?.action?.['shipment'] : 'View Only'
       }
     },
     validationSchema: RoleSchema,
@@ -225,8 +233,37 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
                         <FormControl>
                           <RadioGroup
                             row
-                            name="action.mining_activity"
+                            name="action.mining-activity"
                             {...getFieldProps('action.mining-activity')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Pemasaran</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.shipment"
+                            {...getFieldProps('action.shipment')}
                             style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
                           >
                             <FormControlLabel
@@ -283,8 +320,95 @@ export default function FormRole({ isShowing, toggle, id, page, resetPage }) {
                         <FormControl>
                           <RadioGroup
                             row
-                            name="action.lab_report"
+                            name="action.lab-report"
                             {...getFieldProps('action.lab-report')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Alat Tambang</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.mining-tool"
+                            {...getFieldProps('action.mining-tool')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Bank Data</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.bank-data"
+                            {...getFieldProps('action.bank-data')}
+                            style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
+                          >
+                            <FormControlLabel
+                              value="View Only"
+                              control={<Radio />}
+                              label="View Only"
+                            />
+                            <FormControlLabel
+                              value="Edit and Delete"
+                              control={<Radio />}
+                              label="Edit & Delete"
+                              style={{ marginRight: '0' }}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </center>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <h4>Modul Lossing</h4>
+                    </Grid>
+                    <Grid item lg={6} xs={12} sm={12}>
+                      <center>
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            name="action.modul-lossing"
+                            {...getFieldProps('action.modul-lossing')}
                             style={{ background: '#E5E5FE', padding: '8px', borderRadius: '8px' }}
                           >
                             <FormControlLabel

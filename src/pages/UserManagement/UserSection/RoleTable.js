@@ -46,6 +46,12 @@ const headCells = [
     label: 'KEGIATAN TAMBANG'
   },
   {
+    id: 'action.shipment',
+    numeric: false,
+    disablePadding: false,
+    label: 'PEMASARAN'
+  },
+  {
     id: 'action.inventory',
     numeric: false,
     disablePadding: false,
@@ -56,6 +62,24 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: 'LAPORAN LAB'
+  },
+  {
+    id: 'action.mining-tool',
+    numeric: false,
+    disablePadding: false,
+    label: 'ALAT TAMBANG'
+  },
+  {
+    id: 'action.bank-data',
+    numeric: false,
+    disablePadding: false,
+    label: 'BANK DATA'
+  },
+  {
+    id: 'action.modul-lossing',
+    numeric: false,
+    disablePadding: false,
+    label: 'MODUL LOSSING'
   }
 ];
 
@@ -129,11 +153,11 @@ export default function RoleTable() {
       {!isLoading && data && (
         <BasicTable
           headCells={headCells}
-          withSelect={isGranted}
-          withToolbar={isGranted}
+          withSelect
+          withToolbar
           rows={data?.data?.data || []}
-          actions={isGranted ? actions : []}
-          edit={isGranted}
+          actions={actions}
+          // edit={isGranted}
           onEdit={handleEdit}
           remove={isGranted}
           onDelete={handleOpenDelete}
