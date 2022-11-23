@@ -529,12 +529,12 @@ export default function FormMiningCard() {
                         </Stack>
                       )}
                       <Typography variant="h5" sx={{ mb: 3 }}>
-                        Bukit Tujuan
+                        {activityType === 'ore-getting' ? 'Bukit Asal' : 'Bukit Tujuan'}
                       </Typography>
                       {activityType !== 'eto-to-efo' && (
                         <Stack>
                           <Typography variant="h6" sx={{ mb: 3 }}>
-                            Bukit Tujuan
+                            {activityType === 'ore-getting' ? 'Bukit Asal' : 'Bukit Tujuan'}
                           </Typography>
                           <FormControl>
                             <TextField
@@ -549,7 +549,11 @@ export default function FormMiningCard() {
                               error={Boolean(touched.hill_id && errors.hill_id)}
                               helperText={touched.hill_id && errors.hill_id}
                             >
-                              <MenuItem value={null}>Pilih Bukit Tujuan</MenuItem>
+                              <MenuItem value={null}>
+                                {activityType === 'ore-getting'
+                                  ? 'Pilih Bukit Asal'
+                                  : 'Pilih Bukit Tujuan'}
+                              </MenuItem>
                               {activityType === 'ore-getting'
                                 ? dataHillDestination?.data?.data?.map((option) => (
                                     <MenuItem key={option} value={option?.id}>
