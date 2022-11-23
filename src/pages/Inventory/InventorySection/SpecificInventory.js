@@ -15,7 +15,7 @@ import usePagination from 'hooks/usePagination';
 // utils
 import { ceilTotalData } from 'utils/helper';
 
-export default function SpecificInventory() {
+export default function SpecificInventory({ selectedDate }) {
   const { inventoryType } = useParams();
 
   const { page, handleChangePage } = usePagination();
@@ -35,9 +35,11 @@ export default function SpecificInventory() {
     isLoading: isLoadingSummary,
     isFetching: isFetchingSummary
   } = useQuery(
-    ['mining', 'summary', inventoryType],
+    ['mining', 'summary', inventoryType, selectedDate],
     () =>
       MiningActivityService.getInventorySumary({
+        start_date: selectedDate?.start_date,
+        end_date: selectedDate?.end_date,
         inventory_type: inventoryType
       }),
     { keepPreviousData: true }
@@ -50,9 +52,11 @@ export default function SpecificInventory() {
     isFetching: isFetchingActivity
     // inventoryType
   } = useQuery(
-    ['mining', 'dome-list', inventoryType, page],
+    ['mining', 'dome-list', inventoryType, page, selectedDate],
     () =>
       MiningActivityService.getDomeSummary({
+        start_date: selectedDate?.start_date,
+        end_date: selectedDate?.end_date,
         page: page,
         row: 10,
         inventory_type: inventoryType
