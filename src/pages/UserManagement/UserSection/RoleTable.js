@@ -153,11 +153,11 @@ export default function RoleTable() {
       {!isLoading && data && (
         <BasicTable
           headCells={headCells}
-          withSelect
-          withToolbar
+          withSelect={isGranted}
+          withToolbar={isGranted}
           rows={data?.data?.data || []}
-          actions={actions}
-          // edit={isGranted}
+          actions={isGranted ? actions : []}
+          edit={isGranted}
           onEdit={handleEdit}
           remove={isGranted}
           onDelete={handleOpenDelete}

@@ -65,7 +65,7 @@ const Summary = ({ summary }) => {
               summary?.average_simgo ? parseFloat(summary?.average_simgo).toFixed(2) : '0'
             } %`}
             image={KadarSimgo}
-            name="Rata-Rata Kadar SiMgO"
+            name="Rasio SiMgO"
           />
         </Grid>
       </Grid>

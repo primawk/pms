@@ -25,7 +25,7 @@ const InfoSection = ({ dataSummary }) => {
         <InfoCard
           value={`${dataSummary?.average_simgo ? parseFloat(dataSummary?.average_simgo) : '0'} %`}
           image={KadarSimgo}
-          name="Rata-Rata Kadar SiMgO"
+          name="Rasio SiMgO"
         />
       </Grid>
     </Grid>
