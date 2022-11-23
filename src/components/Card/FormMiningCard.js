@@ -110,18 +110,18 @@ export default function FormMiningCard() {
       hill_id: id ? detailActivity?.hill_id : null,
       dome_id: id ? detailActivity?.dome_id : null,
       partner: id ? detailActivity?.partner : null,
-      sublot_total: id ? parseFloat(detailActivity?.sublot_total) : 0,
-      tonnage_total: id ? parseFloat(detailActivity?.tonnage_total) : 0,
-      ritase_total: id ? parseFloat(detailActivity?.ritase_total) : 0,
+      sublot_total: id ? parseFloat(detailActivity?.sublot_total) : '',
+      tonnage_total: id ? parseFloat(detailActivity?.tonnage_total) : '',
+      ritase_total: id ? parseFloat(detailActivity?.ritase_total) : '',
       eto_id: id ? detailActivity?.eto_id : null,
-      ni_level: id ? parseFloat(detailActivity?.ni_level) : 0,
-      ni_metal_equivalent: id ? parseFloat(detailActivity?.ni_metal_equivalent) : 0,
-      fe_level: id ? parseFloat(detailActivity?.fe_level) : 0,
-      fe_metal_equivalent: id ? parseFloat(detailActivity?.fe_metal_equivalent) : 0,
-      co_level: id ? parseFloat(detailActivity?.co_level) : 0,
-      co_metal_equivalent: id ? parseFloat(detailActivity?.co_metal_equivalent) : 0,
-      simgo_level: id ? parseFloat(detailActivity?.simgo_level) : 0,
-      simgo_metal_equivalent: id ? parseFloat(detailActivity?.simgo_metal_equivalent) : 0,
+      ni_level: id ? parseFloat(detailActivity?.ni_level) : '',
+      ni_metal_equivalent: id ? parseFloat(detailActivity?.ni_metal_equivalent) : '',
+      fe_level: id ? parseFloat(detailActivity?.fe_level) : '',
+      fe_metal_equivalent: id ? parseFloat(detailActivity?.fe_metal_equivalent) : '',
+      co_level: id ? parseFloat(detailActivity?.co_level) : '',
+      co_metal_equivalent: id ? parseFloat(detailActivity?.co_metal_equivalent) : '',
+      simgo_level: id ? parseFloat(detailActivity?.simgo_level) : '',
+      simgo_metal_equivalent: id ? parseFloat(detailActivity?.simgo_metal_equivalent) : '',
       hill_origin_id: id ? detailActivity?.hill_origin_id : null,
       dome_origin_id: id ? detailActivity?.dome_origin_id : null
     },
@@ -171,9 +171,9 @@ export default function FormMiningCard() {
 
   const handleGetLevel = (level) => (isNaN(values?.[level] / 100) ? 0 : values?.[level] / 100);
 
-  const handleChangeNumber = (e, name, equivalent) => {
-    const _val = e.target.value.replace(/[^0-9.]/g, '');
-    if (_val.split('.').length > 2) {
+  const handleChangeNumber = (val, name, equivalent) => {
+    const _val = val.replace(/[^0-9.]/g, '');
+    if (_val.split(',').length > 2) {
       const _doubleDot = _val.slice(0, -1);
       setFieldValue(name, _doubleDot);
       if (name !== 'tonnage_total' && name.includes('level')) {
@@ -251,6 +251,8 @@ export default function FormMiningCard() {
   const domeDestination = dataDomeDestination?.data?.data?.filter(
     (_data) => _data?.id === values?.hill_id
   );
+
+  console.log(values?.tonnage_total);
 
   return (
     <div
@@ -420,7 +422,7 @@ export default function FormMiningCard() {
                         </>
                       )}
                       <Typography variant="h5" sx={{ mb: 3 }}>
-                        Bukit Tujuan
+                        {activityType === 'ore-getting' ? 'Bukit Asal' : 'BUkit Tujuan'}
                       </Typography>
                       <Grid
                         container
@@ -431,7 +433,7 @@ export default function FormMiningCard() {
                         {activityType !== 'eto-to-efo' && (
                           <Grid item container lg={6} xs={6} direction="column">
                             <Typography variant="h6" sx={{ mb: 3 }}>
-                              Bukit Tujuan
+                              {activityType === 'ore-getting' ? 'Bukit Asal' : 'BUkit Tujuan'}
                             </Typography>
                             <Typography variant="body1" sx={{ mb: 3 }}>
                               {detailActivity?.hill_name || ''}
@@ -527,12 +529,12 @@ export default function FormMiningCard() {
                         </Stack>
                       )}
                       <Typography variant="h5" sx={{ mb: 3 }}>
-                        Bukit Tujuan
+                        {activityType === 'ore-getting' ? 'Bukit Asal' : 'Bukit Tujuan'}
                       </Typography>
                       {activityType !== 'eto-to-efo' && (
                         <Stack>
                           <Typography variant="h6" sx={{ mb: 3 }}>
-                            Bukit Tujuan
+                            {activityType === 'ore-getting' ? 'Bukit Asal' : 'Bukit Tujuan'}
                           </Typography>
                           <FormControl>
                             <TextField
@@ -547,7 +549,11 @@ export default function FormMiningCard() {
                               error={Boolean(touched.hill_id && errors.hill_id)}
                               helperText={touched.hill_id && errors.hill_id}
                             >
-                              <MenuItem value={null}>Pilih Bukit Tujuan</MenuItem>
+                              <MenuItem value={null}>
+                                {activityType === 'ore-getting'
+                                  ? 'Pilih Bukit Asal'
+                                  : 'Pilih Bukit Tujuan'}
+                              </MenuItem>
                               {activityType === 'ore-getting'
                                 ? dataHillDestination?.data?.data?.map((option) => (
                                     <MenuItem key={option} value={option?.id}>
@@ -619,11 +625,18 @@ export default function FormMiningCard() {
                           Jumlah Sublot
                         </Typography>
                         <FormControl>
-                          <TextField
+                          <NumericFormat
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            decimalScale={2}
+                            valueIsNumericString
+                            customInput={TextField}
                             placeholder="Jumlah Sublot"
                             fullWidth
-                            value={values.sublot_total}
-                            onChange={(e) => handleChangeNumber(e, 'sublot_total')}
+                            value={values?.sublot_total}
+                            onValueChange={(values) =>
+                              handleChangeNumber(values?.value, 'sublot_total')
+                            }
                             error={Boolean(touched.sublot_total && errors.sublot_total)}
                             helperText={touched.sublot_total && errors.sublot_total}
                             sx={{
@@ -658,15 +671,17 @@ export default function FormMiningCard() {
                         </Typography>
                         <FormControl>
                           <NumericFormat
-                            thousandSeparator=","
-                            thousandsGroupStyle="thousand"
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            decimalScale={2}
+                            valueIsNumericString
                             customInput={TextField}
                             placeholder="Jumlah Tonase"
                             fullWidth
-                            value={parseInt(values?.tonnage_total || 0)}
-                            onChange={(e) => {
-                              handleChangeNumber(e, 'tonnage_total');
-                            }}
+                            value={values?.tonnage_total}
+                            onValueChange={(values) =>
+                              handleChangeNumber(values?.value, 'tonnage_total')
+                            }
                             error={Boolean(touched.tonnage_total && errors.tonnage_total)}
                             helperText={touched.tonnage_total && errors.tonnage_total}
                             sx={{
@@ -711,13 +726,17 @@ export default function FormMiningCard() {
                       </Typography>
                       <FormControl>
                         <NumericFormat
-                          thousandSeparator=","
-                          thousandsGroupStyle="thousand"
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
                           customInput={TextField}
-                          placeholder="Jumlah Retase"
+                          placeholder="Jumlah Ritase"
                           fullWidth
-                          value={parseInt(values?.ritase_total || 0)}
-                          onChange={(e) => handleChangeNumber(e, 'ritase_total')}
+                          value={values?.ritase_total}
+                          onValueChange={(values) =>
+                            handleChangeNumber(values?.value, 'ritase_total')
+                          }
                           error={Boolean(touched.ritase_total && errors.ritase_total)}
                           helperText={touched.ritase_total && errors.ritase_total}
                           sx={{
@@ -751,13 +770,17 @@ export default function FormMiningCard() {
                       </Typography>
                       <FormControl>
                         <NumericFormat
-                          thousandSeparator=","
-                          thousandsGroupStyle="thousand"
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
                           customInput={TextField}
                           placeholder="Jumlah Tonase"
                           fullWidth
-                          value={parseInt(values?.tonnage_total || 0)}
-                          onChange={(e) => handleChangeNumber(e, 'tonnage_total')}
+                          value={values?.tonnage_total}
+                          onValueChange={(values) =>
+                            handleChangeNumber(values?.value, 'tonnage_total')
+                          }
                           error={Boolean(touched.tonnage_total && errors.tonnage_total)}
                           helperText={touched.tonnage_total && errors.tonnage_total}
                           sx={{
@@ -802,13 +825,18 @@ export default function FormMiningCard() {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Kadar NI"
                         fullWidth
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'ni_level', 'ni_metal_equivalent')
+                        }
                         value={values.ni_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
-                        }}
                         error={Boolean(touched.ni_level && errors.ni_level)}
                         helperText={touched.ni_level && errors.ni_level}
                         sx={{
@@ -841,8 +869,10 @@ export default function FormMiningCard() {
                     </Typography>
                     <FormControl>
                       <NumericFormat
-                        thousandSeparator=","
-                        thousandsGroupStyle="thousand"
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
                         customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
@@ -890,13 +920,18 @@ export default function FormMiningCard() {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Nilai Kadar"
                         fullWidth
                         value={values.fe_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'fe_level', 'fe_metal_equivalent');
-                        }}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'fe_level', 'fe_metal_equivalent')
+                        }
                         error={Boolean(touched.fe_level && errors.fe_level)}
                         helperText={touched.fe_level && errors.fe_level}
                         sx={{
@@ -929,8 +964,10 @@ export default function FormMiningCard() {
                     </Typography>
                     <FormControl>
                       <NumericFormat
-                        thousandSeparator=","
-                        thousandsGroupStyle="thousand"
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
                         customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
@@ -978,13 +1015,17 @@ export default function FormMiningCard() {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Kadar NI"
                         fullWidth
-                        value={values.co_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'co_level', 'co_metal_equivalent');
-                        }}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'co_level', 'co_metal_equivalent')
+                        }
                         error={Boolean(touched.co_level && errors.co_level)}
                         helperText={touched.co_level && errors.co_level}
                         sx={{
@@ -1017,8 +1058,10 @@ export default function FormMiningCard() {
                     </Typography>
                     <FormControl>
                       <NumericFormat
-                        thousandSeparator=","
-                        thousandsGroupStyle="thousand"
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
                         customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
@@ -1052,7 +1095,7 @@ export default function FormMiningCard() {
                   </Grid>
                 </Grid>
                 <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
-                  Kadar SiMgO
+                  Rasio SiMgO
                 </Typography>
                 <Grid
                   container
@@ -1063,16 +1106,21 @@ export default function FormMiningCard() {
                 >
                   <Grid item container lg={6} xs={6} direction="column">
                     <Typography variant="h6" sx={{ mb: 3 }}>
-                      Nilai Kadar
+                      Nilai Rasio
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Kadar NI"
                         fullWidth
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'simgo_level', 'simgo_metal_equivalent')
+                        }
                         value={values.simgo_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'simgo_level', 'simgo_metal_equivalent');
-                        }}
                         error={Boolean(touched.simgo_level && errors.simgo_level)}
                         helperText={touched.simgo_level && errors.simgo_level}
                         sx={{
@@ -1081,21 +1129,6 @@ export default function FormMiningCard() {
                           }
                         }}
                         size="small"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment
-                              position="end"
-                              sx={{
-                                padding: '19px',
-                                backgroundColor: (theme) => theme.palette.divider,
-                                borderTopRightRadius: (theme) => theme.shape.borderRadius + 'px',
-                                borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
-                              }}
-                            >
-                              %
-                            </InputAdornment>
-                          )
-                        }}
                       />
                     </FormControl>
                   </Grid>
@@ -1105,8 +1138,10 @@ export default function FormMiningCard() {
                     </Typography>
                     <FormControl>
                       <NumericFormat
-                        thousandSeparator=","
-                        thousandsGroupStyle="thousand"
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
                         customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth

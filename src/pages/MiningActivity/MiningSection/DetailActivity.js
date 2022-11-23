@@ -23,6 +23,7 @@ export default function DetailActivity() {
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
   const { activityType, id } = useParams();
+  const isShipment = activityType === 'efo-to-shipment';
 
   const { isGranted } = useAuth();
 
@@ -65,7 +66,13 @@ export default function DetailActivity() {
               {isGranted && (
                 <Button
                   variant="contained"
-                  onClick={() => navigate(`/mining-activity/${activityType}/edit/${id}`)}
+                  onClick={() =>
+                    navigate(
+                      isShipment
+                        ? `/shipment/${activityType}/edit/${id}`
+                        : `/mining-activity/${activityType}/edit/${id}`
+                    )
+                  }
                 >
                   Edit Laporan
                 </Button>
@@ -75,7 +82,11 @@ export default function DetailActivity() {
           {data && (
             <Grid item lg={6} xs={12} sx={{ float: 'right' }}>
               <Link
-                to={`/mining-activity/${activityType}/detail/history/${id}`}
+                to={
+                  isShipment
+                    ? `/shipment/${activityType}/detail/history/${id}`
+                    : `/mining-activity/${activityType}/detail/history/${id}`
+                }
                 state={{ detailActivity }}
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >

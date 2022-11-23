@@ -39,6 +39,7 @@ const blockList = ['Utara', 'Selatan'];
 export default function MiningFormModal({ isShowing, toggle }) {
   const { activityType } = useParams();
   const navigate = useNavigate();
+  const isShipment = activityType === 'efo-to-shipment';
 
   const today = new Date();
 
@@ -61,7 +62,7 @@ export default function MiningFormModal({ isShowing, toggle }) {
     validationSchema: MiningFormSchema,
     onSubmit: (values) => {
       if (values?.activity_type === 'tambang') {
-        navigate(`/mining-tool/add`, {
+        navigate(isShipment ? `/shipment/add` : `/mining-tool/add`, {
           state: {
             activity_type: values?.activity_type,
             date: dayjs(values?.date).format('YYYY-MM-DD'),
@@ -71,15 +72,20 @@ export default function MiningFormModal({ isShowing, toggle }) {
           }
         });
       } else {
-        navigate(`/mining-activity/${values?.activity_type}/add`, {
-          state: {
-            activity_type: values?.activity_type,
-            date: dayjs(values?.date).format('YYYY-MM-DD'),
-            time: dayjs(values?.time).format('HH:mm'),
-            product_type: values?.product_type,
-            block: values?.block
+        navigate(
+          isShipment
+            ? `/shipment/${values?.activity_type}/add`
+            : `/mining-activity/${values?.activity_type}/add`,
+          {
+            state: {
+              activity_type: values?.activity_type,
+              date: dayjs(values?.date).format('YYYY-MM-DD'),
+              time: dayjs(values?.time).format('HH:mm'),
+              product_type: values?.product_type,
+              block: values?.block
+            }
           }
-        });
+        );
       }
     }
   });
@@ -120,11 +126,17 @@ export default function MiningFormModal({ isShowing, toggle }) {
                       error={Boolean(touched.activity_type && errors.activity_type)}
                       helperText={touched.activity_type && errors.activity_type}
                     >
-                      {miningActivityList.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
+                      {isShipment ? (
+                        <MenuItem value="efo-to-shipment">Pemasaran</MenuItem>
+                      ) : (
+                        <>
+                          {miningActivityList.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </>
+                      )}
                     </TextField>
                   </FormControl>
                 )}
