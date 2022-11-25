@@ -2,7 +2,17 @@ import { request } from 'utils/request';
 import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 
-const getBankData = ({ startDate, endDate, orderBy, sort, page, limit, id, reportType }) => {
+const getBankData = ({
+  startDate,
+  endDate,
+  orderBy,
+  sort,
+  page,
+  limit,
+  id,
+  reportType,
+  description
+}) => {
   const params = [];
 
   if (startDate) {
@@ -28,6 +38,9 @@ const getBankData = ({ startDate, endDate, orderBy, sort, page, limit, id, repor
   }
   if (reportType) {
     params.push(['report_type', reportType]);
+  }
+  if (description) {
+    params.push(['description', description]);
   }
 
   return request(`${MINING_ACTIVITY_MODEL}/bank`, {

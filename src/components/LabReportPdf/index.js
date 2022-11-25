@@ -9,12 +9,23 @@ import {
   Stack
 } from '@mui/material';
 import React from 'react';
+import dayjs from 'dayjs';
 
 export default function index({ data, innerRef }) {
   return (
-    <div ref={innerRef} className="app-content" style={{ background: 'white' }}>
+    <div
+      ref={innerRef}
+      className="app-content"
+      style={{ background: 'white', fontFamily: 'Times New Roman' }}
+    >
       {/* Header */}
-      <Grid container direction="row" justifyContent="center" alignItems="center" sx={{ pb: 3 }}>
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ borderBottom: '1px solid black' }}
+      >
         <Grid item>
           <img
             src="/PMSLogo.png"
@@ -22,23 +33,24 @@ export default function index({ data, innerRef }) {
             style={{ margin: 'auto', width: '70px', height: '70px' }}
           />
         </Grid>
-        <Grid
-          item
-          sx={{ textAlign: 'center', borderBottom: '1px solid #E0E0E0', pb: 5, maxWidth: '60%' }}
-        >
-          <h3>PT MEKONGA SEJAHTERA</h3>
-          <h3>LABORATORIUM PENGUJIAN LAB</h3>
+        <Grid item sx={{ textAlign: 'left', pb: 1, maxWidth: '60%' }}>
+          <h3 style={{ color: 'red' }}>PT. PUTRA MEKONGGA SEJAHTERA</h3>
+          <h4 style={{ fontWeight: 'normal' }}>
+            <i>LABORATORIUM & MINING</i>
+          </h4>
           <h5 style={{ fontWeight: 'normal' }}>
-            JALAN PROTOKOL NO.21 DAWI-DAWI POMALAA KABUPATEN KOLAKA PROVINSI SULAWESI TENGGARA
+            Jl. Protokol No.21 Dawi-dawi Pomalaa <br></br> Kabupaten Kolaka, Sulawesi Tenggara
+            <br></br> Telp. 0405 - 2310248 Fax. 0405 - 2310248, e-Mail:
+            putramekonggasejahtera@yahoo.com
           </h5>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <img
             src="/plusLogo.png"
             alt="Plus Logo"
             style={{ margin: 'auto', width: '70px', height: '70px' }}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
       {/* DETAIL */}
       <div style={{ textAlign: 'center' }}>
@@ -105,7 +117,7 @@ export default function index({ data, innerRef }) {
           </Grid>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
             <h5 style={{ fontWeight: 'normal' }}>
-              <span>:&nbsp;</span>PT. Mekonga Sejahtera
+              <span>:&nbsp;</span>PT. Mekongga Sejahtera
             </h5>
           </Grid>
         </Grid>
@@ -213,7 +225,7 @@ export default function index({ data, innerRef }) {
                 Magnesium Silikat (SiMgO)
               </TableCell>
               <TableCell sx={{ border: '1px black solid', fontWeight: 'bolder' }} align="center">
-                {`${parseFloat(data?.simgo_level || 0).toFixed(2) || '0'} %`}
+                {`${parseFloat(data?.simgo_level || 0).toFixed(2) || '0'}`}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -230,6 +242,48 @@ export default function index({ data, innerRef }) {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* SIGNATURE */}
+      <Grid
+        container
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          backgroundColor: 'yellow'
+        }}
+      >
+        <Grid
+          item
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'yellow',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            margin: '3rem',
+            height: '10rem'
+          }}
+        >
+          <Grid item>, {dayjs(data?.date).format('DD MMMM YYYY')}</Grid>
+          <Grid item>Manajer Laboratorium</Grid>
+        </Grid>
+        <Grid
+          item
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'yellow',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            margin: '3rem',
+            height: '10rem'
+          }}
+        >
+          <Grid item>, {dayjs(data?.date).format('DD MMMM YYYY')}</Grid>
+          <Grid item>Kepala Teknik Tambang</Grid>
+        </Grid>
+      </Grid>
+
       {/* FOOTER */}
       <h5 style={{ position: 'fixed', bottom: 0, left: 10, maxWidth: '50%' }}>
         {String(new Date(data?.updated_at))}
@@ -240,7 +294,7 @@ export default function index({ data, innerRef }) {
           alt="PMS LOGO"
           style={{ width: '30px', height: '30px', maxWidth: '50%' }}
         />
-        <h3>PT MEKONGA SEJAHTERA</h3>
+        <h3>PT MEKONGGA SEJAHTERA</h3>
       </Stack>
     </div>
   );

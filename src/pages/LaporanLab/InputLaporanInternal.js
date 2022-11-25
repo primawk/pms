@@ -478,23 +478,18 @@ const InputLaporanInternal = () => {
                   xs={2}
                 >
                   <Box sx={{ marginBottom: '1rem' }}>
-                    <h4>Kadar SImgO</h4>
+                    <h4>Rasio SImgO</h4>
                   </Box>
-                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Kadar</Box>
+                  <Box sx={{ marginBottom: '1rem', fontSize: '0.875rem' }}>Nilai Rasio</Box>
                   <FormControl size="small" variant="outlined">
-                    <InputLabel htmlFor="Kadar SImgO">Nilai Kadar</InputLabel>
+                    <InputLabel htmlFor="Rasio SImgO">Nilai Rasio</InputLabel>
                     <OutlinedInput
                       required
                       // type="number"
                       name="simgo_level"
-                      id="Kadar SImgO"
+                      id="Rasio SImgO"
                       onChange={handleAddFormChange}
-                      endAdornment={
-                        <InputAdornment position="end" backgroundColor="gray">
-                          %
-                        </InputAdornment>
-                      }
-                      label="Kadar SImgO"
+                      label="Rasio SImgO"
                     />
                   </FormControl>
                 </Grid>

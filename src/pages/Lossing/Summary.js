@@ -29,11 +29,12 @@ const Summary = ({ setPage, data, isFetching, setI, handleDownload, loading }) =
     setAge(event.target.value);
   };
 
+  console.log(data);
+
   const { isShowing, toggle } = useModal();
   return (
     <>
-      {isFetching && <LoadingModal />}
-      {loading && <LoadingModal />}
+      {isFetching && loading && <LoadingModal />}
       <InputLossing toggle={toggle} isShowing={isShowing} />
       <Header title="MODUL LOSSING" background="dashboard.png" />
       <div className="app-content">

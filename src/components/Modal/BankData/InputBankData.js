@@ -57,6 +57,7 @@ const InputBankData = ({ isShowing, toggle, targetDate }) => {
                 <MenuItem value={'Legal'}>Legal</MenuItem>
                 <MenuItem value={'Kontrak'}>Kontrak</MenuItem>
                 <MenuItem value={'Surat Menyurat'}>Surat Menyurat</MenuItem>
+                <MenuItem value={'Inventaris Aset'}>Inventaris Aset</MenuItem>
               </Select>
             </FormControl>
           </Grid>

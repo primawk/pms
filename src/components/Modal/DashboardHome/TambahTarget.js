@@ -13,6 +13,7 @@ import EditedModal from '../../Modal/EditedModal/EditedModal';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import { useQueryClient } from 'react-query';
+import { NumericFormat } from 'react-number-format';
 
 // custom hooks
 import useModal from '../../../hooks/useModal';
@@ -103,7 +104,7 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
     const fieldValue = event.target.value;
 
     const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
+    newFormData[fieldName] = fieldValue.replace(/\./g, '');
 
     setAddFormData(newFormData);
   };
@@ -178,6 +179,7 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
     };
 
     try {
+      console.log(data);
       await ProductionService.addTarget(data);
       setLoading(false);
       toggleEdited();
@@ -262,7 +264,7 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
       await ProductionService.addTargetShipment(data);
       setLoading(false);
       toggleEdited();
-      queryClient.invalidateQueries(['data-shipment']);
+      queryClient.invalidateQueries(['data-target-shipment-table']);
     } catch (error) {
       toast.error(error.response.data.detail_message);
       console.log(error);
@@ -277,6 +279,8 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
   const [value, setValue] = React.useState(new Date());
 
   const { isShowing: isShowingEdited, toggle: toggleEdited } = useModal();
+
+  console.log(addFormData);
 
   return (
     <>
@@ -338,7 +342,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="januari"
                           onChange={handleAddFormChange}
@@ -359,7 +368,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="februari"
                           onChange={handleAddFormChange}
@@ -386,7 +400,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="maret"
                           onChange={handleAddFormChange}
@@ -407,8 +426,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          id="outlined-adornment-password"
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="april"
                           onChange={handleAddFormChange}
@@ -435,7 +458,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="mei"
                           onChange={handleAddFormChange}
@@ -456,7 +484,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="juni"
                           onChange={handleAddFormChange}
@@ -483,7 +516,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="juli"
                           onChange={handleAddFormChange}
@@ -504,7 +542,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="agustus"
                           onChange={handleAddFormChange}
@@ -530,7 +573,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="september"
                           onChange={handleAddFormChange}
@@ -551,7 +599,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="oktober"
                           onChange={handleAddFormChange}
@@ -578,7 +631,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="november"
                           onChange={handleAddFormChange}
@@ -599,7 +657,12 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           required
                           name="desember"
                           onChange={handleAddFormChange}

@@ -17,7 +17,6 @@ import dayjs from 'dayjs';
 import Header from 'components/Header';
 
 const Detail = ({ setPage, data, index }) => {
-  console.log(data[index]);
   const targetTableHead = ['TANGGAL', 'ESTIMASI TO FRONT', 'LOSSING', 'TOTAL LOSSING'];
   return (
     <>

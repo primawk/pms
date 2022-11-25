@@ -79,6 +79,13 @@ const deleteTarget = ({ _id }) => {
   });
 };
 
+const deleteTargetShipment = ({ _id }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/shipment-target/${_id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const editTarget = (id, data) => {
   return request(`${MINING_ACTIVITY_MODEL}/target/${id}`, {
     method: 'PUT',
@@ -146,6 +153,7 @@ const ProductionService = {
   getTarget,
   getRealization,
   deleteTarget,
+  deleteTargetShipment,
   addTarget,
   getTargetDetail,
   editTarget,

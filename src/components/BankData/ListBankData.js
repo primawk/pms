@@ -22,7 +22,8 @@ const ListBankData = ({ data, i, pagination }) => {
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
   const queryClient = useQueryClient();
 
-  const handleDeleteClick = async (id) => { // there is no state value so i have to pass value id
+  const handleDeleteClick = async (id) => {
+    // there is no state value so i have to pass value id
     setLoading(true);
     try {
       await BankDataService.deleteData({ id });
@@ -62,14 +63,14 @@ const ListBankData = ({ data, i, pagination }) => {
         spacing={3}
         xs={12}
       >
-        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+        <Grid item onClick={() => navigate(`/bank-data/detail/${data?.id}`)}>
           <Grid item>
             <h4> {(pagination?.current_page - 1) * 5 + i + 1}</h4>
             {/* 5 is the limit */}
           </Grid>
           {/* </Grid> */}
         </Grid>
-        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+        <Grid item onClick={() => navigate(`/bank-data/detail/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -86,7 +87,7 @@ const ListBankData = ({ data, i, pagination }) => {
         </Grid>
 
         {/* Column 2 */}
-        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+        <Grid item onClick={() => navigate(`/bank-data/detail/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -108,7 +109,7 @@ const ListBankData = ({ data, i, pagination }) => {
         </Grid>
 
         {/* Column 3 */}
-        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+        <Grid item onClick={() => navigate(`/bank-data/detail/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -130,7 +131,7 @@ const ListBankData = ({ data, i, pagination }) => {
         </Grid>
 
         {/* Column 4 */}
-        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+        <Grid item onClick={() => navigate(`/bank-data/detail/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -149,7 +150,7 @@ const ListBankData = ({ data, i, pagination }) => {
         </Grid>
 
         {/* Column Account*/}
-        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+        <Grid item onClick={() => navigate(`/bank-data/detail/${data?.id}`)}>
           <Grid
             container
             sx={{
@@ -174,7 +175,7 @@ const ListBankData = ({ data, i, pagination }) => {
         </Grid>
 
         {/* Column 5 */}
-        <Grid item onClick={() => navigate(`/bank-data/edit/${data?.id}`)}>
+        <Grid item onClick={() => navigate(`/bank-data/detail/${data?.id}`)}>
           <Grid
             container
             sx={{

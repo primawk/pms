@@ -9,10 +9,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const SearchBar = ({ toggle, sort, setSort }) => {
+const SearchBar = ({ toggle, sort, setSort, keyword, setKeyword }) => {
   const handleChange = (event) => {
     setSort(event.target.value);
   };
+
   return (
     <>
       <Grid
@@ -46,9 +47,9 @@ const SearchBar = ({ toggle, sort, setSort }) => {
             id="search"
             placeholder="Cari Data"
             variant="outlined"
-            // value={keyword}
+            value={keyword}
             fullWidth
-            // onChange={(e) => setKeyword(e.target.value)}
+            onChange={(e) => setKeyword(e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

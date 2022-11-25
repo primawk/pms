@@ -34,11 +34,13 @@ const BankDataReport = ({
   // isLoading,
   // isFetching
 }) => {
-  const { data, isLoading, isFetching } = useQuery(['data', id], () =>
-    BankDataService.getBankData({
-      page: 1,
-      id: `${id}`
-    })
+  const { data, isLoading, isFetching } = useQuery(
+    ['data', id],
+    async () =>
+      await BankDataService.getBankData({
+        page: 1,
+        id: `${id}`
+      })
   );
   const [file, setFile] = useState([]);
   const [fileName, setFileName] = useState([]);
@@ -169,6 +171,7 @@ const BankDataReport = ({
                   <MenuItem value={'Legal'}>Legal</MenuItem>
                   <MenuItem value={'Kontrak'}>Kontrak</MenuItem>
                   <MenuItem value={'Surat Menyurat'}>Surat Menyurat</MenuItem>
+                  <MenuItem value={'Inventaris Aset'}>Inventaris Aset</MenuItem>
                 </Select>
               </FormControl>
             </Box>
