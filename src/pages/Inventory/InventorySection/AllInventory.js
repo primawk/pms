@@ -14,7 +14,7 @@ import MiningActivityService from 'services/MiningActivityService';
 // utils
 import { ceilTotalData } from 'utils/helper';
 
-export default function AllInventory() {
+export default function AllInventory({ selectedDate }) {
   // ore getting
 
   const { page: pageOreGetting, handleChangePage: handleChangePageOreGetting } = usePagination();
@@ -24,8 +24,10 @@ export default function AllInventory() {
     isLoading: isLoadingOreGetting,
     isFetching: isFetchingOreGetting
     // inventory-sm
-  } = useQuery(['mining', 'dome-list', 'inventory-sm', pageOreGetting], () =>
+  } = useQuery(['mining', 'dome-list', 'inventory-sm', pageOreGetting, selectedDate], () =>
     MiningActivityService.getDomeSummary({
+      start_date: selectedDate?.start_date,
+      end_date: selectedDate?.end_date,
       page: pageOreGetting,
       row: 15,
       inventory_type: 'inventory-sm'
@@ -36,8 +38,12 @@ export default function AllInventory() {
     data: dataOreGettingSummary,
     isLoading: isLoadingOreGettingSummary,
     isFetching: isFetchingOreGettingSummary
-  } = useQuery(['mining', 'summary', 'inventory-sm'], () =>
-    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-sm' })
+  } = useQuery(['mining', 'summary', 'inventory-sm', selectedDate], () =>
+    MiningActivityService.getInventorySumary({
+      inventory_type: 'inventory-sm',
+      start_date: selectedDate?.start_date,
+      end_date: selectedDate?.end_date
+    })
   );
 
   // ore hauling to eto
@@ -47,8 +53,10 @@ export default function AllInventory() {
     data: dataOreHauling,
     isLoading: isLoadingOreHauling,
     isFetching: isFetchingOreHauling
-  } = useQuery(['mining', 'dome-list', 'inventory-eto', pageOreHauling], () =>
+  } = useQuery(['mining', 'dome-list', 'inventory-eto', pageOreHauling, selectedDate], () =>
     MiningActivityService.getDomeSummary({
+      start_date: selectedDate?.start_date,
+      end_date: selectedDate?.end_date,
       page: pageOreHauling,
       row: 15,
       inventory_type: 'inventory-eto'
@@ -59,8 +67,12 @@ export default function AllInventory() {
     data: dataOreHaulingSummary,
     isLoading: isLoadingOreHaulingSummary,
     isFetching: isFetchingOreHaulingSummary
-  } = useQuery(['mining', 'summary', 'inventory-eto'], () =>
-    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-eto' })
+  } = useQuery(['mining', 'summary', 'inventory-eto', selectedDate], () =>
+    MiningActivityService.getInventorySumary({
+      inventory_type: 'inventory-eto',
+      start_date: selectedDate?.start_date,
+      end_date: selectedDate?.end_date
+    })
   );
 
   // eto to efo
@@ -70,8 +82,10 @@ export default function AllInventory() {
     data: dataEtoToEfo,
     isLoading: isLoadingEtoToEfo,
     isFetching: isFetchingEtoToEfo
-  } = useQuery(['mining', 'dome-list', 'inventory-efo', pageEtoToEfo], () =>
+  } = useQuery(['mining', 'dome-list', 'inventory-efo', pageEtoToEfo, selectedDate], () =>
     MiningActivityService.getDomeSummary({
+      start_date: selectedDate?.start_date,
+      end_date: selectedDate?.end_date,
       page: pageEtoToEfo,
       row: 15,
       inventory_type: 'inventory-efo'
@@ -82,8 +96,12 @@ export default function AllInventory() {
     data: dataEtoToEfoSummary,
     isLoading: isLoadingEtoToEfoSummary,
     isFetching: isFetchingEtoToEfoSummary
-  } = useQuery(['mining', 'summary', 'inventory-efo'], () =>
-    MiningActivityService.getInventorySumary({ inventory_type: 'inventory-efo' })
+  } = useQuery(['mining', 'summary', 'inventory-efo', selectedDate], () =>
+    MiningActivityService.getInventorySumary({
+      inventory_type: 'inventory-efo',
+      start_date: selectedDate?.start_date,
+      end_date: selectedDate?.end_date
+    })
   );
   return (
     <>

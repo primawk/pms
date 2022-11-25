@@ -85,6 +85,14 @@ export default function Routes() {
           element: <MiningActivity />
         },
         {
+          path: 'shipment',
+          element: <Navigate to="/shipment/efo-to-shipment" replace />
+        },
+        {
+          path: 'shipment/:activityType',
+          element: <MiningActivity />
+        },
+        {
           path: 'inventory',
           element: <Navigate to="/inventory/all-inventory" replace />
         },
@@ -144,6 +152,28 @@ export default function Routes() {
         // mining activity
         {
           path: 'mining-activity',
+          children: [
+            {
+              path: ':activityType/add',
+              element: <FormMiningActivity />
+            },
+            {
+              path: ':activityType/edit/:id',
+              element: <FormMiningActivity />
+            },
+            {
+              path: ':activityType/detail/:id',
+              element: <DetailActivity />
+            },
+            {
+              path: ':activityType/detail/history/:id',
+              element: <HistoryActivity />
+            }
+          ]
+        },
+        // shipment
+        {
+          path: 'shipment',
           children: [
             {
               path: ':activityType/add',

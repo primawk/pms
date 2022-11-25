@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react';
 import UserIcon from '@iconify/icons-carbon/user-avatar-filled';
 import HomeIcon from '@iconify/icons-carbon/home';
 import OreGettingIcon from '@iconify/icons-eos-icons/data-mining';
+import ShipmentIcon from '@iconify/icons-mdi/cargo-ship';
 import MiningToolIcon from '@iconify/icons-mdi/dump-truck';
 import LabIcon from '@iconify/icons-icomoon-free/lab';
 import Inventory from '../../../assets/Images/Vector.png';
@@ -31,8 +32,13 @@ const sidebarConfig = [
   },
   {
     title: 'Kegiatan Tambang',
-    path: 'mining-activity/all-activity',
+    path: 'mining-activity',
     icon: getIcon(OreGettingIcon)
+  },
+  {
+    title: 'Pemasaran',
+    path: 'shipment/efo-to-shipment',
+    icon: getIcon(ShipmentIcon)
   },
   {
     title: 'Inventory',

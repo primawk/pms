@@ -14,7 +14,7 @@ import { Icon } from '@iconify/react';
 // custom hooks
 import usePagination from 'hooks/usePagination';
 import useModal from 'hooks/useModal';
-// import useAuth from 'hooks/useAuth';
+import useAuth from 'hooks/useAuth';
 
 //components
 import MiningToolReportList from 'components/List/MiningToolReportList';
@@ -30,6 +30,7 @@ import MiningToolService from 'services/MiningToolService';
 
 export default function MiningToolReport({ selectedDate }) {
   const { page, handleChangePage } = usePagination();
+  const { isGranted } = useAuth();
 
   const { isShowing, toggle } = useModal();
 
@@ -100,11 +101,13 @@ export default function MiningToolReport({ selectedDate }) {
                 </MenuItem>
               </TextField>
             </Grid>
-            <Grid item md={2.5} sx={{ pr: 2 }}>
-              <Button variant="contained" onClick={toggle}>
-                Input Penggunaan Alat
-              </Button>
-            </Grid>
+            {isGranted && (
+              <Grid item md={2.5} sx={{ pr: 2 }}>
+                <Button variant="contained" onClick={toggle}>
+                  Input Penggunaan Alat
+                </Button>
+              </Grid>
+            )}
           </Grid>
 
           {data?.data?.data?.length > 0 ? (

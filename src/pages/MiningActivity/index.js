@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Grid, Tab, Tabs, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Icon } from '@iconify/react';
@@ -25,13 +25,13 @@ const WhiteButton = styled(Button)(({ theme }) => ({
 const menuList = [
   { value: 'all-activity', label: 'Semua' },
   { value: 'ore-getting', label: 'Ore Getting' },
-  { value: 'hauling', label: 'Hauling' },
-  { value: 'efo-to-shipment', label: 'Shipments' }
+  { value: 'hauling', label: 'Hauling' }
 ];
 
 export default function MiningActivity() {
   const { activityType } = useParams();
   const navigate = useNavigate();
+  const isShipment = useLocation()?.pathname.split('/')[1] === 'shipment';
 
   const { isShowing, toggle } = useModal();
 
@@ -40,8 +40,10 @@ export default function MiningActivity() {
       ? 'hauling'
       : activityType === 'eto-to-efo'
       ? 'hauling'
-      : activityType || ''
+      : activityType
   );
+
+  console.log(menuTab);
 
   const [filter, setFilter] = useState([
     {
@@ -76,9 +78,11 @@ export default function MiningActivity() {
     selectedDate?.endDate
   ).format('DD/MM/YYYY')}`;
 
+  console.log(menuTab === 'all-activity' && !isShipment);
+
   return (
     <>
-      <Header title="KEGIATAN TAMBANG" background="dashboard.png">
+      <Header title={isShipment ? 'PEMASARAN' : 'KEGIATAN TAMBANG'} background="dashboard.png">
         <WhiteButton
           variant="contained"
           size="medium"
@@ -96,39 +100,41 @@ export default function MiningActivity() {
         setSelectedDates={setSelectedDate}
       />
       <div>
-        <Grid sx={{ background: 'white' }}>
-          <Tabs
-            value={menuTab}
-            onChange={handleChangeTab}
-            textColor="primary"
-            indicatorColor="primary"
-            TabIndicatorProps={{
-              sx: {
-                bgcolor: '#3F48C0',
-                height: '4px'
-              }
-            }}
-          >
-            {menuList?.map((item) => (
-              <Tab
-                key={item.value}
-                value={item.value}
-                label={item.label}
-                sx={
-                  item.value === menuTab
-                    ? {
-                        backgroundColor: '#E5E5FE',
-                        border: '1px solid #3F48C0',
-                        borderRadius: '4px',
-                        transition: '0.3s'
-                      }
-                    : {}
+        {!isShipment && (
+          <Grid sx={{ background: 'white' }}>
+            <Tabs
+              value={menuTab}
+              onChange={handleChangeTab}
+              textColor="primary"
+              indicatorColor="primary"
+              TabIndicatorProps={{
+                sx: {
+                  bgcolor: '#3F48C0',
+                  height: '4px'
                 }
-              />
-            ))}
-          </Tabs>
-        </Grid>
-        {menuTab === 'all-activity' ? (
+              }}
+            >
+              {menuList?.map((item) => (
+                <Tab
+                  key={item.value}
+                  value={item.value}
+                  label={item.label}
+                  sx={
+                    item.value === menuTab
+                      ? {
+                          backgroundColor: '#E5E5FE',
+                          border: '1px solid #3F48C0',
+                          borderRadius: '4px',
+                          transition: '0.3s'
+                        }
+                      : {}
+                  }
+                />
+              ))}
+            </Tabs>
+          </Grid>
+        )}
+        {menuTab === 'all-activity' && !isShipment ? (
           <AllActivity selectedDate={selectedDate} />
         ) : (
           <SpecificActivity selectedDate={selectedDate} filterDate={dateDifference} />
