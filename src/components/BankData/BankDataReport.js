@@ -290,7 +290,7 @@ const BankDataReport = ({
                     </Button>
                   </Grid>
                 </Grid>
-                <Box sx={{ fontSize: '14px' }}>*Format file: .pdf, .jpg | Ukuran file max 5Mb</Box>
+                <Box sx={{ fontSize: '14px' }}>*Format file: .pdf , .png | Ukuran file max 5Mb</Box>
               </Grid>
 
               {/* attachment */}
