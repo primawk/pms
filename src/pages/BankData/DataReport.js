@@ -64,7 +64,6 @@ const DataReport = () => {
       <Header title={location?.state?.title} background="dashboard.png" />
 
       <div className="app-content">
-        {/*  */}
         <Grid
           container
           sx={{

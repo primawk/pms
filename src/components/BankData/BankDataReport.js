@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -19,6 +19,8 @@ import BankDataService from '../../services/BankDataServices';
 
 const BankDataReport = ({
   // i need to put {} when pass function as a prop to child component
+  index,
+  disabled,
   id,
   dateEdit,
   keteranganLaporan,
@@ -42,9 +44,10 @@ const BankDataReport = ({
         id: `${id}`
       })
   );
+
   const [file, setFile] = useState([]);
   const [fileName, setFileName] = useState([]);
-  const [filePreview, setFilePreview] = useState(null);
+  // const [filePreview, setFilePreview] = useState(null);
   const [value, setValue] = useState(
     data?.data?.data[0] ? new Date(data?.data?.data[0].date) : new Date()
   );
@@ -56,30 +59,40 @@ const BankDataReport = ({
   //   setValueEdit(dayjs(newValue).format('YYYY-MM-DD'));
   // };
 
-  const [addFormData, setAddFormData] = useState({
-    report_type: jenisLaporan
-      ? jenisLaporan
-      : data?.data?.data[0].report_type
-      ? data?.data?.data[0].report_type
-      : '',
-    description: keteranganLaporan
-      ? keteranganLaporan
-      : data?.data?.data[0].description
-      ? data?.data?.data[0].description
-      : '',
-    date: dateEdit ? dateEdit : ''
-  });
+  // const [addFormData, setAddFormData] = useState({
+  //   report_type: jenisLaporan
+  //     ? jenisLaporan
+  //     : data?.data?.data[0].report_type
+  //     ? data?.data?.data[0].report_type
+  //     : '',
+  //   description: keteranganLaporan
+  //     ? keteranganLaporan
+  //     : data?.data?.data[0].description
+  //     ? data?.data?.data[0].description
+  //     : '',
+  //   date: dateEdit ? dateEdit : ''
+  // });
 
-  const handleAddFormChange = (event) => {
+  const handleAddFormChange = (event, value) => {
     event.preventDefault();
 
-    const fieldName = event.target.name;
-    const fieldValue = event.target.value;
+    let fieldName = event.target.name;
+    let fieldValue = event.target.value;
 
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
+    // 1. Make a shallow copy of the array
+    let newFormData = [...allEvent];
 
-    setAddFormData(newFormData);
+    // 2. Make a shallow copy of the element you want to mutate
+    let tempReport = { ...newFormData[index] };
+
+    // 3. Update the property you're interested in
+    tempReport[fieldName] = fieldValue;
+
+    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+    newFormData[index] = tempReport;
+
+    // 5. Set the state to our new copy
+    setAllEvent(newFormData);
   };
 
   // const handleDelete = (index) => {
@@ -87,34 +100,79 @@ const BankDataReport = ({
   //   value.splice(index, 1);
   //   setFile([...attachment, [...value]]); // to update the file array
   // };
-
-  const onBtnAddFile = (e) => {
-    setFile([...attachment, e.target.files]);
-    setFileName([...fileName, e.target.files[0].name]);
-    setFilePreview(URL.createObjectURL(e.target.files[0]));
-  };
+  // useEffect(() => {
+  //   setFile([...attachment, e.target.files]);
+  //   setFileName([...fileName, e.target.files[0].name]);
+  // }, []);
 
   useEffect(() => {
-    setAllEvent([...allEvent, addFormData]);
-    setDate([...date, dayjs(value).format('YYYY-MM-DD')]);
-    setAttachment(file);
-    if (filev2?.length > 0) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [
-    inputKeys,
-    addFormData,
-    allEvent,
-    setAllEvent,
-    file,
-    setAttachment,
-    handleChange,
-    value,
-    setDate,
-    onBtnAddFile
-  ]);
+    let newFormData = [...allEvent];
+    let tempReport = { ...newFormData[index] };
+    tempReport.date = dayjs(value).format('YYYY-MM-DD');
+
+    newFormData[index] = tempReport;
+
+    setAllEvent(newFormData);
+  }, [value]);
+
+  const handleAttachment = useCallback(
+    (e) => {
+      let newFormData = [...attachment];
+      let tempAttachment = { ...newFormData[index] };
+      tempAttachment = e.target.files;
+
+      newFormData[index] = tempAttachment;
+
+      setAttachment(newFormData);
+      setFile([...file, e.target.files]);
+      setFileName([...fileName, e.target.files[0].name]);
+    },
+    [attachment, index, setAttachment, file, fileName]
+  );
+
+  const handleEditAttachment = useCallback(
+    (e) => {
+      let newFormData = [...attachment];
+      let tempAttachment = { ...newFormData };
+
+      tempAttachment = e.target.files;
+      console.log(tempAttachment);
+      // newFormData[index] = tempAttachment;
+
+      // setAttachment(newFormData);
+      // setFile([...file, e.target.files]);
+      // setFileName([...fileName, e.target.files[0].name]);
+    },
+    [attachment, index, setAttachment, file, fileName]
+  );
+
+  // const onBtnAddFile = (e) => {
+  //   setFile([...file, e.target.files]);
+  //   setFileName([...fileName, e.target.files[0].name]);
+  //   handleAttachment();
+  //   // setFilePreview(URL.createObjectURL(e.target.files[0]));
+  // };
+  // useEffect(() => {
+  //   // setAllEvent([...allEvent, addFormData]);
+  //   setDate([...date, dayjs(value).format('YYYY-MM-DD')]);
+  //   setAttachment(file);
+  //   if (filev2?.length > 0) {
+  //     setDisabled(false);
+  //   } else {
+  //     setDisabled(true);
+  //   }
+  // }, [
+  //   inputKeys,
+  //   addFormData,
+  //   allEvent,
+  //   setAllEvent,
+  //   file,
+  //   setAttachment,
+  //   handleChange,
+  //   value,
+  //   setDate,
+  //   onBtnAddFile
+  // ]);
 
   // const onButtonPreview = () => {
   //   window.open(filePreview, '_blank');
@@ -157,7 +215,7 @@ const BankDataReport = ({
                   required
                   key={data} // key to solve the real time update on defaultValue
                   defaultValue={
-                    jenisLaporan
+                    jenisLaporan && index === 0
                       ? jenisLaporan
                       : data?.data?.data[0].report_type
                       ? data?.data?.data[0].report_type
@@ -192,7 +250,7 @@ const BankDataReport = ({
                 key={data}
                 name="description"
                 defaultValue={
-                  keteranganLaporan
+                  keteranganLaporan && index === 0
                     ? keteranganLaporan
                     : data?.data?.data[0].description
                     ? data?.data?.data[0].description
@@ -272,7 +330,7 @@ const BankDataReport = ({
                     <Button
                       variant="contained"
                       component="label"
-                      onChange={onBtnAddFile}
+                      onChange={id ? handleEditAttachment : handleAttachment}
                       sx={{
                         boxShadow: 'none',
                         backgroundColor: 'rgba(63, 72, 192, 0.1)',
@@ -297,6 +355,48 @@ const BankDataReport = ({
               {/* map uses return to iterate */}
               {filev2?.length > 0
                 ? filev2.map((item, i) => {
+                    return (
+                      <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Grid
+                          sx={{
+                            backgroundColor: 'white',
+                            width: '7.438rem',
+                            height: '9.063rem',
+                            border: '1px solid #3F48C0',
+                            borderRadius: '4px'
+                            // cursor: 'pointer'
+                          }}
+                          // onClick={onButtonPreview}
+                        >
+                          <Grid
+                            container // container to make the justify content works
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              alignContent: 'center',
+                              marginTop: '0.5rem'
+                            }}
+                          >
+                            <Grid item sx={{ marginLeft: '5rem' }}>
+                              <Icon
+                                icon="ion:close-circle-sharp"
+                                color="white"
+                                fontSize={24}
+                                // onClick={() => handleDelete(i)}
+                              />
+                            </Grid>
+                            <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
+                              <img src={pdf} alt=""></img>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Box fontSize={'0.875rem'}>{item}</Box>
+                      </Grid>
+                    );
+                  })
+                : data?.data?.data[0].attachment
+                ? data?.data?.data[0].attachment.map((item, i) => {
                     return (
                       <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Grid

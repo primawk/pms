@@ -388,7 +388,7 @@ export default function Dashboard() {
           isFetchingRealization &&
           isFetchingTableTarget && <LoadingModal />)
       }
-      <Header title="DASHBOARD" background="dashboard.png" />
+      <Header title="DASHBOARD" background="dashboard.png" score="score" />
       <div className="app-content">
         <Grid sx={{ background: 'white' }}>
           <Tabs

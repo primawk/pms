@@ -1,10 +1,10 @@
 import React from 'react';
-import BankDataReport from './ListBankData';
+import ListBankData from './ListBankData';
 import { Grid, Box } from '@mui/material';
 
 const Lists = ({ searchResults, pagination }) => {
   const results = searchResults?.map((_data, index) => (
-    <BankDataReport key={_data.id} data={_data} i={index} pagination={pagination} />
+    <ListBankData key={_data.id} data={_data} i={index} pagination={pagination} />
   ));
 
   const content = results?.length ? (

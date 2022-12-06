@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import { Grid, Box, Button } from '@mui/material';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import add from 'assets/Images/ant-design_plus-circle-outlined.png';
 import LoadingButton from '@mui/lab/LoadingButton';
-import BankDataReport from '../../components/BankData/BankDataReport';
+// import BankDataReport from '../../components/BankData/BankDataReport';
 import alert from '../../assets/Images/clock-history.png';
 import { toast } from 'react-toastify';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
@@ -25,52 +25,78 @@ const InputBankData = () => {
   const [loading, setLoading] = useState(false);
   const [attachment, setAttachment] = useState([]);
   const [date, setDate] = useState([]);
-  const [allEvent, setAllEvent] = useState([]);
-  const [disabled, setDisabled] = useState(true);
-  const [protection, setProtection] = useState(true);
+  const [allEvent, setAllEvent] = useState([
+    {
+      report_type: location?.state?.jenisLaporan
+        ? location?.state?.jenisLaporan
+        : location?.state?.report_type
+        ? location?.state?.report_type
+        : '',
+      description: location?.state?.keteranganLaporan
+        ? location?.state?.keteranganLaporan
+        : location?.state?.description
+        ? location?.state?.description
+        : '',
+      date: ''
+    }
+  ]);
+  // const [disabled, setDisabled] = useState(true);
   const { isShowing, toggle } = useModal();
   const { id } = useParams();
 
-  const [inputList, setInputList] = useState([
-    <BankDataReport
-      date={date}
-      id={id}
-      setDate={setDate}
-      jenisLaporan={location?.state?.jenisLaporan}
-      keteranganLaporan={location?.state?.keteranganLaporan}
-      // jenisLaporanEdit={jenisLaporanEdit}
-      // dateEdit={data?.data?.data[0].date}
-      attachment={attachment}
-      allEvent={allEvent}
-      setAllEvent={setAllEvent}
-      setAttachment={setAttachment}
-      setDisabled={setDisabled}
-      // isLoading={isLoading}
-      // isFetching={isFetching}
-      // protection={protection}
-    />
-  ]);
+  const handleAttachment = (newValue) => {
+    setAttachment(newValue);
+  };
+
+  useEffect(() => {
+    setAttachment(location?.state?.attachment);
+  }, []);
+
+  // const [inputList, setInputList] = useState([
+  //   <BankDataReport
+  //     date={date}
+  //     id={id}
+  //     setDate={setDate}
+  //     jenisLaporan={location?.state?.jenisLaporan}
+  //     keteranganLaporan={location?.state?.keteranganLaporan}
+  //     // jenisLaporanEdit={jenisLaporanEdit}
+  //     // dateEdit={data?.data?.data[0].date}
+  //     attachment={attachment}
+  //     allEvent={allEvent}
+  //     setAllEvent={setAllEvent}
+  //     setAttachment={setAttachment}
+  //     // setDisabled={setDisabled}
+  //     // isLoading={isLoading}
+  //     // isFetching={isFetching}
+  //     // protection={protection}
+  //   />
+  // ]);
 
   const onAddBtnClick = () => {
-    setInputList(
-      inputList.concat(
-        <BankDataReport
-          key={inputList.length}
-          date={date}
-          setDate={setDate}
-          // onBtnAddFile={onBtnAddFile}
-          // onButtonPreview={onButtonPreview}
-          // fileName={fileName}
-          attachment={attachment}
-          allEvent={allEvent}
-          setAllEvent={setAllEvent}
-          setAttachment={setAttachment}
-          setDisabled={setDisabled}
-          // inputLength={inputList.length}
-          inputKeys={Object.keys(inputList)}
-          protection={protection}
-          setProtection={setProtection}
-        />
+    setAllEvent(
+      allEvent.concat(
+        {
+          report_type: '',
+          description: '',
+          date: ''
+        }
+        // <BankDataReport
+        //   key={inputList.length}
+        //   date={date}
+        //   setDate={setDate}
+        //   // onBtnAddFile={onBtnAddFile}
+        //   // onButtonPreview={onButtonPreview}
+        //   // fileName={fileName}
+        //   attachment={attachment}
+        //   allEvent={allEvent}
+        //   setAllEvent={setAllEvent}
+        //   setAttachment={setAttachment}
+        //   setDisabled={setDisabled}
+        //   // inputLength={inputList.length}
+        //   inputKeys={Object.keys(inputList)}
+        //   protection={protection}
+        //   setProtection={setProtection}
+        // />
       )
     );
   };
@@ -79,14 +105,14 @@ const InputBankData = () => {
     setLoading(true);
     event.preventDefault();
 
-    // TRANFORM ARRAY OF DATES INTO OBJECT
-    const data = date.map((item, i) => Object.assign({}, { date: date[i] }));
+    // // TRANFORM ARRAY OF DATES INTO OBJECT
+    // const data = date.map((item, i) => Object.assign({}, { date: date[i] }));
 
-    // MERGE BETWEEN TWO OBJECTS
-    const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
+    // // MERGE BETWEEN TWO OBJECTS
+    // const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
 
     try {
-      await BankDataService.inputBankData(merged, attachment);
+      await BankDataService.inputBankData(allEvent, attachment);
       setLoading(false);
       navigate(-1);
       toggle();
@@ -117,6 +143,8 @@ const InputBankData = () => {
       setLoading(false);
     }
   };
+
+  console.log(attachment);
 
   return (
     <>
@@ -206,8 +234,19 @@ const InputBankData = () => {
             </Grid>
 
             {/* input laporan */}
-            {/* <Lists searchResults={location.state} /> */}
-            {inputList}
+            <Lists
+              id={id}
+              searchResults={allEvent}
+              jenisLaporan={location?.state?.jenisLaporan}
+              keteranganLaporan={location?.state?.keteranganLaporan}
+              allEvent={allEvent}
+              setAllEvent={setAllEvent}
+              date={date}
+              setDate={setDate}
+              attachment={attachment}
+              setAttachment={handleAttachment}
+            />
+            {/* {inputList} */}
 
             {id ? null : (
               <Grid
@@ -221,7 +260,7 @@ const InputBankData = () => {
               >
                 <Box container textAlign="center">
                   <Button
-                    disabled={disabled}
+                    // disabled={disabled}
                     variant="contained"
                     sx={{ boxShadow: '0' }}
                     onClick={onAddBtnClick}
@@ -257,7 +296,7 @@ const InputBankData = () => {
               <Grid item>
                 <LoadingButton
                   // loading={loading}
-                  disabled={disabled}
+                  // disabled={disabled}
                   type="submit"
                   variant="contained"
                   sx={{ width: '130%', boxShadow: '0' }}

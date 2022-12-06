@@ -66,11 +66,12 @@ const inputBankData = (data, attachment) => {
     formData.append(key, JSON.stringify(data[key]));
   }
 
-  for (var key in attachment) {
-    // get the key for each report attachment is an array
-    // loop after enter each report or key
-    for (var x = 0; x < attachment[key].length; x++) {
-      formData.append(key, attachment[key][x]); // attachment[key][x] is important
+  for (var file in attachment) {
+    // get the file for each report attachment is an array
+    // loop after enter each report or file
+
+    for (var x = 0; x < attachment[file].length; x++) {
+      formData.append(file, attachment[file][x]); // attachment[key][x] is important
     }
   }
 
