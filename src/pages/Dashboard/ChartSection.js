@@ -14,7 +14,8 @@ const ChartSection = ({
   targetRealization,
   targetPercentage,
   isLoadingRealization,
-  isFetchingRealization
+  isFetchingRealization,
+  numberWithCommas
 }) => {
   if (!target) {
     return null;
@@ -118,7 +119,7 @@ const ChartSection = ({
             ) : (
               targetRealization?.map((item) => (
                 <TableCell sx={{ border: '1px solid #E0E0E0' }} align="center">
-                  {item}
+                  {numberWithCommas(item)}
                 </TableCell>
               ))
             )}
@@ -149,7 +150,7 @@ const ChartSection = ({
             </TableCell>
             {target?.map((item) => (
               <TableCell key={item.name} sx={{ border: '1px solid #E0E0E0' }} align="center">
-                {item}
+                {numberWithCommas(item)}
               </TableCell>
             ))}
           </TableRow>

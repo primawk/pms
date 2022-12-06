@@ -130,7 +130,7 @@ const Katalog = ({
                       <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
                         <img src="/img/down.png" alt=""></img>
                       </Grid>
-                      {data?.loss_total} Ton
+                      {data?.loss_total === 0 ? '-' : data?.loss_total} Ton
                     </Grid>
                   </Grid>
                 </Grid>

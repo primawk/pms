@@ -368,6 +368,13 @@ export default function Dashboard() {
     setSelectedYear(event.target.value);
   };
 
+  // add . in every 3 digit
+  const numberWithCommas = (x) => {
+    var parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return parts.join(',');
+  };
+
   return (
     <>
       {
@@ -381,7 +388,7 @@ export default function Dashboard() {
           isFetchingRealization &&
           isFetchingTableTarget && <LoadingModal />)
       }
-      <Header title="DASHBOARD" background="dashboard.png" />
+      <Header title="DASHBOARD" background="dashboard.png" score="score" />
       <div className="app-content">
         <Grid sx={{ background: 'white' }}>
           <Tabs
@@ -457,6 +464,7 @@ export default function Dashboard() {
                 isLoadingRealization={isLoadingRealization}
                 isFetchingRealization={isFetchingRealization}
                 menuTab={menuTab}
+                numberWithCommas={numberWithCommas}
               />
             ) : (
               <ChartSection
@@ -470,6 +478,7 @@ export default function Dashboard() {
                 isLoadingRealization={isLoadingRealizationShipment}
                 isFetchingRealization={isFetchingRealizationShipment}
                 menuTab={menuTab}
+                numberWithCommas={numberWithCommas}
               />
             )}
           </Grid>
@@ -499,6 +508,7 @@ export default function Dashboard() {
                   dataPage={dataProduction}
                   isLoading={isLoadingTableTarget}
                   isFetching={isFetchingTableTarget}
+                  numberWithCommas={numberWithCommas}
                 />
               ) : (
                 <TargetDataTable
@@ -508,6 +518,7 @@ export default function Dashboard() {
                   dataPage={dataProductionShipment}
                   isLoading={isLoadingTableTargetShipment}
                   isFetching={isFetchingTableTargetShipment}
+                  numberWithCommas={numberWithCommas}
                 />
               )}
 

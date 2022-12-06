@@ -17,7 +17,7 @@ import EditData from '../../components/Modal/DashboardHome/EditData';
 import DeleteData from '../../components/Modal/DeleteModal/Dashboard';
 import { toast } from 'react-toastify';
 import LoadingButton from '@mui/lab/LoadingButton';
-// import { useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
 // components
 import { LoadingModal } from 'components/Modal';
@@ -30,7 +30,14 @@ import useAuth from 'hooks/useAuth';
 import ProductionService from 'services/Dashboard';
 import { getTargetYear } from 'services/Dashboard';
 
-const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching, menuTab }) => {
+const TargetDataTable = ({
+  targetTableHead,
+  data,
+  isLoading,
+  isFetching,
+  menuTab,
+  numberWithCommas
+}) => {
   const { isShowing: isShowingForm, toggle: toggleForm, width } = useModal();
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
   const { isGranted } = useAuth();
@@ -40,7 +47,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching, menuTab
   const [dataDelete, setDataDelete] = useState([]);
   const [dataTarget, setDataTarget] = useState([]);
 
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const [year, setYear] = useState(0);
 
@@ -89,12 +96,29 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching, menuTab
       });
       setLoading(false);
       toggleDelete();
+      queryClient.invalidateQueries(['data-target']);
     } catch (err) {
       toast.error(err.response.data.detail_message);
       setLoading(false);
       toggleDelete();
     }
     // setTimeout(queryClient.invalidateQueries(['data-target']), 6000);
+  };
+
+  const handleDeleteShipment = async (id) => {
+    setLoading(true);
+    try {
+      await id.forEach((_id) => {
+        ProductionService.deleteTargetShipment({ _id });
+      });
+      setLoading(false);
+      toggleDelete();
+      queryClient.invalidateQueries(['data-target-shipment-table']);
+    } catch (err) {
+      toast.error(err.response.data.detail_message);
+      setLoading(false);
+      toggleDelete();
+    }
   };
 
   return (
@@ -116,7 +140,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching, menuTab
         toggle={toggleDelete}
         isShowing={isShowingDelete}
         title="Data"
-        action={handleDelete}
+        action={menuTab === 0 ? handleDelete : handleDeleteShipment}
         id={dataDelete}
       />
       <TableContainer sx={{ mt: 3, width: '100%' }}>
@@ -158,7 +182,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching, menuTab
                       align="center"
                       sx={{ border: '1px solid #E0E0E0', minWidth: '15vw' }}
                     >
-                      {detail.target}
+                      {numberWithCommas(detail.target)}
                     </TableCell>
                     {detail.month === 'Januari' ? (
                       <>
@@ -167,7 +191,7 @@ const TargetDataTable = ({ targetTableHead, data, isLoading, isFetching, menuTab
                           sx={{ border: '1px solid #E0E0E0', minWidth: '15vw' }}
                           rowSpan={item.target_list?.length}
                         >
-                          {item?.total_target}
+                          {numberWithCommas(item?.total_target)}
                         </TableCell>
                         <TableCell
                           sx={{

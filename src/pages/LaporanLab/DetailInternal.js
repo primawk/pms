@@ -575,7 +575,7 @@ const DetailInternal = () => {
                       }}
                     >
                       <Grid item>
-                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Kadar SiMgO</Box>
+                        <Box sx={{ margin: '1rem 1rem 0.75rem 1rem' }}>Rasio SiMgO</Box>
                         <Box
                           sx={{
                             margin: '0.75rem 1rem 1rem 1rem',
@@ -583,7 +583,7 @@ const DetailInternal = () => {
                             fontWeight: '700'
                           }}
                         >
-                          {dataReport?.simgo_level} %
+                          {dataReport?.simgo_level} 
                         </Box>
                       </Grid>
                       <Grid item>

@@ -32,6 +32,7 @@ import Lossing from 'pages/Lossing';
 import LossingSummary from 'pages/Lossing/Summary';
 import InputBankData from 'pages/BankData/InputBankData';
 import DataReport from './pages/BankData/DataReport';
+import DetailBankData from './pages/BankData/DetailBankData';
 import MiningTool from 'pages/MiningTool';
 import FormMiningTool from 'pages/MiningTool/MiningToolSection/FormMiningTool';
 import { MiningToolGrouped } from 'pages/MiningTool/MiningToolSection';
@@ -212,6 +213,10 @@ export default function Routes() {
     {
       path: 'bank-data/edit/:id',
       element: <InputBankData />
+    },
+    {
+      path: 'bank-data/detail/:id',
+      element: <DetailBankData />
     },
     // Laporan Lab
     {

@@ -12,6 +12,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import EditedModal from '../../Modal/EditedModal/EditedModal';
 import { toast } from 'react-toastify';
 import { useQueryClient } from 'react-query';
+import { NumericFormat } from 'react-number-format';
 
 // custom hooks
 import useModal from '../../../hooks/useModal';
@@ -102,7 +103,7 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
     const fieldValue = event.target.value;
 
     const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
+    newFormData[fieldName] = fieldValue.replace(/\./g, '');
 
     setAddFormData(newFormData);
   };
@@ -335,8 +336,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Januari"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[0]}
@@ -357,8 +362,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Februari"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[1]}
@@ -385,8 +394,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Maret"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[2]}
@@ -407,8 +420,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="April"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[3]}
@@ -435,8 +452,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Mei"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[4]}
@@ -457,8 +478,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Juni"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[5]}
@@ -485,8 +510,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Juli"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[6]}
@@ -507,8 +536,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Agustus"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[7]}
@@ -534,8 +567,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="September"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[8]}
@@ -556,8 +593,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Oktober"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[9]}
@@ -584,8 +625,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="November"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[10]}
@@ -606,8 +651,12 @@ const EditData = ({ menuTab, isShowing, toggle, year, id, dataTarget, isFetching
                     </Grid>
                     <Grid item sx={{ width: '22.5rem', margin: '0 auto 1rem 1.5rem' }}>
                       <FormControl size="small" variant="outlined" fullWidth>
-                        <OutlinedInput
-                          // required
+                        <NumericFormat
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          valueIsNumericString
+                          customInput={OutlinedInput}
                           name="Desember"
                           onChange={handleAddFormChange}
                           defaultValue={dataTarget[11]}

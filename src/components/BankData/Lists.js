@@ -2,9 +2,34 @@ import React from 'react';
 import BankDataReport from './BankDataReport';
 import { Grid, Box } from '@mui/material';
 
-const Lists = ({ searchResults }) => {
-  console.log(searchResults);
-  const results = searchResults?.map((_data) => <BankDataReport key={_data.id} data={_data} />);
+const Lists = ({
+  searchResults,
+  jenisLaporan,
+  keteranganLaporan,
+  setAllEvent,
+  allEvent,
+  date,
+  setDate,
+  attachment,
+  setAttachment,
+  id
+}) => {
+  const results = searchResults?.map((_data, i) => (
+    <BankDataReport
+      id={id}
+      disabled={searchResults.length > 1 && i + 1 !== searchResults.length}
+      index={i}
+      data={_data}
+      jenisLaporan={jenisLaporan}
+      keteranganLaporan={keteranganLaporan}
+      allEvent={allEvent}
+      setAllEvent={setAllEvent}
+      date={date}
+      setDate={setDate}
+      attachment={attachment}
+      setAttachment={setAttachment}
+    />
+  ));
 
   const content = results?.length ? (
     results

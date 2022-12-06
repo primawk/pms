@@ -2,7 +2,17 @@ import { request } from 'utils/request';
 import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 
-const getBankData = ({ startDate, endDate, orderBy, sort, page, limit, id, reportType }) => {
+const getBankData = ({
+  startDate,
+  endDate,
+  orderBy,
+  sort,
+  page,
+  limit,
+  id,
+  reportType,
+  description
+}) => {
   const params = [];
 
   if (startDate) {
@@ -29,6 +39,9 @@ const getBankData = ({ startDate, endDate, orderBy, sort, page, limit, id, repor
   if (reportType) {
     params.push(['report_type', reportType]);
   }
+  if (description) {
+    params.push(['description', description]);
+  }
 
   return request(`${MINING_ACTIVITY_MODEL}/bank`, {
     method: 'GET',
@@ -48,30 +61,24 @@ const getSummary = () => {
 const inputBankData = (data, attachment) => {
   var formData = new FormData();
 
+  // key is each report if there are multiple report
   for (var key in data) {
     formData.append(key, JSON.stringify(data[key]));
   }
-  // for (var pdf in attachment) {
-  //   formData.append(pdf, attachment[pdf]);
-  // }
-  // for (let [index, val] of attachment.entries()) {
-  //   // your code goes here
-  //   console.log(val);
-  //   formData.append(index, attachment[val]);
-  // }
 
-  attachment?.forEach(function (value, i) {
-    // to get the index
-    for (var pdf in value) {
-      formData.append(i, value[i]);
+  for (var file in attachment) {
+    // get the file for each report attachment is an array
+    // loop after enter each report or file
+
+    for (var x = 0; x < attachment[file].length; x++) {
+      formData.append(file, attachment[file][x]); // attachment[key][x] is important
     }
-  });
-
-  // formData.append('attachment', attachment);
-  // console.log FORMDATA
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
   }
+
+  // console.log FORMDATA
+  // for (var pair of formData.entries()) {
+  //   console.log(pair[0] + ', ' + pair[1]);
+  // }
 
   return request(`${MINING_ACTIVITY_MODEL}/bank`, {
     method: 'POST',
@@ -83,36 +90,35 @@ const inputBankData = (data, attachment) => {
 const editBankData = (data, attachment, existings, id) => {
   var formData = new FormData();
 
-  console.log(data);
-
   for (var body in data) {
     formData.append('body', JSON.stringify(data[body])); // naming the keys 'body
   }
 
-  attachment?.forEach(function (value, i) {
-    // to get the index
-    for (var pdf in value) {
-      formData.append(i, value[i]);
+  for (var key in attachment) {
+    // get the key for each report attachment is an array
+    // loop after enter each report or key
+    for (var x = 0; x < attachment[key].length; x++) {
+      formData.append(key, attachment[key][x]); // attachment[key][x] is important
     }
-  });
+  }
 
   formData.append('existing', existings);
 
   // form_data.append('attachment', attachment);
   // console.log FORMDATA
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
+  // for (var pair of formData.entries()) {
+  //   console.log(pair[0] + ', ' + pair[1]);
+  // }
   // Display the keys
   // for (const key of formData.keys()) {
   //   console.log(key);
   // }
 
-  // return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
-  //   method: 'PUT',
-  //   headers: authHeader(),
-  //   data: formData
-  // });
+  return request(`${MINING_ACTIVITY_MODEL}/bank/${id}`, {
+    method: 'PUT',
+    headers: authHeader(),
+    data: formData
+  });
 };
 
 const deleteData = ({ id }) => {

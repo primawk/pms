@@ -81,6 +81,7 @@ const Katalog = ({ dataSummary, isLoading, isFetching }) => {
           <KatalogBox title="Legal" />
           <KatalogBox title="Kontrak" />
           <KatalogBox title="Surat Menyurat" />
+          <KatalogBox title="Inventaris Aset" />
         </Grid>
       </div>
     </>
