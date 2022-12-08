@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Navbar from '../../components/Navbar';
@@ -23,31 +23,11 @@ import BankDataService from '../../services/BankDataServices';
 const DetailBankData = () => {
   const navigate = useNavigate();
   // const location = useLocation();
+  const [banner, setBanner] = useState(false);
   const { isShowing: isShowingDelete, toggle: toggleDelete } = useModal();
   const { isGranted } = useAuth();
 
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
-  const queryClient = useQueryClient();
-
-  //  prepararasi analisa baris kedua  nomor kontak pengaju sample baris pertama
-
-  // const handleDelete = () => {
-  //   setLoading(true);
-  //   LabService.deleteReport({ id })
-  //     .then(() => {
-  //       queryClient.invalidateQueries(['calendar']); // to update the calendar after delete
-  //       navigate(-1);
-  //       toast.success('Data berhasil dihapus !');
-  //       setLoading(false);
-  //       toggleDelete();
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err.response.data.detail_message);
-  //       setLoading(false);
-  //       toggleDelete();
-  //     });
-  // };
 
   const { data, isLoading, isFetching } = useQuery(
     ['data', id],
@@ -59,39 +39,25 @@ const DetailBankData = () => {
   );
 
   const dataReport = data?.data?.data;
-  const expDate = new Date(data?.data?.data[0].date); // convert string to date format
-  const dateNow = new Date();
+
   // const attachment = dataReport.attachment;
 
   // checking expiration date
-  if (expDate - dateNow < 1000 * 3600 * 24 * 7 * 3) {
-    console.log('Expires in less than 3 weeks.');
-  }
-
-  // async function handlePdf() {
-  //   try {
-  //     const response = await LabService.getPdf(attachment);
-  //     const file = new Blob([response.data], { type: 'application/pdf' });
-  //     const fileURL = URL.createObjectURL(file);
-  //     window.open(fileURL);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  useEffect(() => {
+    let expDate = new Date(data?.data?.data[0].date); // convert string to date format
+    let dateNow = new Date();
+    if (expDate - dateNow <= 1000 * 3600 * 24 * 7 * 3) {
+      // console.log('Expires in less than 3 weeks.');
+      setBanner(true);
+    } else {
+      setBanner(false);
+    }
+  }, [data]);
 
   const d = String(new Date(dataReport?.updated_at));
 
-  console.log(dataReport);
-
   return (
     <>
-      {/* <DeleteData
-        toggle={toggleDelete}
-        isShowing={isShowingDelete}
-        loading={loading}
-        action={handleDelete}
-        title="Laporan Lab"
-      /> */}
       <div
         style={{
           backgroundColor: '#F5F5F5',
@@ -141,40 +107,42 @@ const DetailBankData = () => {
               <Grid item xs={4}>
                 <h2 style={{ paddingLeft: '1rem' }}>Bank Data</h2>
               </Grid>
-              <Grid item xs={6} sm={6} md={6} lg={5.7}>
-                <Grid item container sx={{}}>
-                  <Grid
-                    item
-                    sx={{
-                      backgroundColor: 'red',
-                      borderRadius: '4px 0 0 4px'
-                    }}
-                    xs={0.2}
-                  ></Grid>
-                  <Grid
-                    item
-                    container
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      padding: '0.5rem',
-                      fontSize: '14px',
-                      backgroundColor: '#FCEFEF',
-                      alignItems: 'center',
-                      borderRadius: '0 4px 4px 0'
-                    }}
-                    gap={1}
-                    xs={11.8}
-                  >
-                    <Grid item sx={{}}>
-                      <img src={alert} alt=""></img>
-                    </Grid>
-                    <Grid item sx={{}}>
-                      Mohon segera perbaharui dan upload dokumen yang sudah diperpanjang
+              {banner ? (
+                <Grid item xs={6} sm={6} md={6} lg={5.7}>
+                  <Grid item container sx={{}}>
+                    <Grid
+                      item
+                      sx={{
+                        backgroundColor: 'red',
+                        borderRadius: '4px 0 0 4px'
+                      }}
+                      xs={0.2}
+                    ></Grid>
+                    <Grid
+                      item
+                      container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        padding: '0.5rem',
+                        fontSize: '14px',
+                        backgroundColor: '#FCEFEF',
+                        alignItems: 'center',
+                        borderRadius: '0 4px 4px 0'
+                      }}
+                      gap={1}
+                      xs={11.8}
+                    >
+                      <Grid item sx={{}}>
+                        <img src={alert} alt=""></img>
+                      </Grid>
+                      <Grid item sx={{}}>
+                        Mohon segera perbaharui dan upload dokumen yang sudah diperpanjang
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              ) : null}
             </Grid>
           </Grid>
           {/*  */}
