@@ -25,10 +25,6 @@ const miningActivityList = [
   {
     label: 'Ore Hauling ETO TO EFO',
     value: 'eto-to-efo'
-  },
-  {
-    label: 'Pemasaran',
-    value: 'efo-to-shipment'
   }
 ];
 
@@ -129,13 +125,11 @@ export default function MiningFormModal({ isShowing, toggle }) {
                       {isShipment ? (
                         <MenuItem value="efo-to-shipment">Pemasaran</MenuItem>
                       ) : (
-                        <>
-                          {miningActivityList.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </>
+                        miningActivityList.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))
                       )}
                     </TextField>
                   </FormControl>

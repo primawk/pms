@@ -99,7 +99,7 @@ const FormInventorySm = ({ toggle }) => {
         );
         const _oldDome = values?.dome_list?.filter((_item) => _item?.status !== 'deleted');
         _deletedDome.forEach((_values) => {
-          InventoryService.deleteDome({ ..._values });
+          InventoryService.deleteDome({ idDome: _values?.dome_id });
         });
         InventoryService.editDomeEto([
           {
@@ -255,12 +255,11 @@ const FormInventorySm = ({ toggle }) => {
                                           <InputAdornment position="end">
                                             <IconButton
                                               onClick={() => {
-                                                if (_dome?.id !== null) {
+                                                if (_dome?.id === null) {
                                                   arrayHelpers.remove(index);
                                                 } else {
                                                   setFieldValue(`dome_list.[${index}]`, {
-                                                    dome_name: '-',
-                                                    dome_id: null,
+                                                    ...values?.dome_list?.[index],
                                                     status: 'deleted'
                                                   });
                                                 }

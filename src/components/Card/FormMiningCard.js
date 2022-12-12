@@ -13,6 +13,10 @@ import {
 import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'react-toastify';
@@ -199,6 +203,10 @@ export default function FormMiningCard() {
     }
   };
 
+  const onlyTime = values?.time.split(':');
+
+  const valueTime = dayjs(new Date()).set('hour', onlyTime?.[0]).set('minute', onlyTime?.[1]);
+
   useEffect(() => {
     if (id === undefined && !values?.activity_type && !values?.date) {
       navigate(-1);
@@ -252,8 +260,6 @@ export default function FormMiningCard() {
     (_data) => _data?.id === values?.hill_id
   );
 
-  console.log(values?.tonnage_total);
-
   return (
     <div
       style={{
@@ -294,16 +300,6 @@ export default function FormMiningCard() {
                 >
                   <Grid item container lg={4.5} xs={4.5} direction="column">
                     <Typography variant="h6" sx={{ mb: 3 }}>
-                      Jadwal Kegiatan
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 3 }}>
-                      {`${values && dayjs(values?.date).format('DD MMMM YYYY')}, ${
-                        values && values?.time
-                      }`}
-                    </Typography>
-                  </Grid>
-                  <Grid item container lg={4.5} xs={4.5} direction="column">
-                    <Typography variant="h6" sx={{ mb: 3 }}>
                       Jenis Produk
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
@@ -320,6 +316,60 @@ export default function FormMiningCard() {
                   </Grid>
                 </Grid>
                 <Stack direction="column" spacing={3}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Grid item lg={6} sx={{ pr: 2 }}>
+                      <FormControl>
+                        <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>
+                          Tanggal Kegiatan
+                        </h4>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker
+                            value={values?.date}
+                            onChange={(val) => {
+                              setFieldValue('date', dayjs(val).format('YYYY-MM-DD'));
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                size="small"
+                                error={Boolean(touched.date && errors.date)}
+                                helperText={touched.date && errors.date}
+                              />
+                            )}
+                          />
+                        </LocalizationProvider>
+                      </FormControl>
+                    </Grid>
+                    <Grid item lg={6}>
+                      <FormControl>
+                        <h4 style={{ marginTop: '10px', marginBottom: '10px' }}>
+                          Waktu Kegiatan Dimulai
+                        </h4>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <TimePicker
+                            ampm={false}
+                            value={valueTime}
+                            onChange={(val) => {
+                              setFieldValue('time', dayjs(val).format('HH:mm'));
+                            }}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                size="small"
+                                error={Boolean(touched.time && errors.time)}
+                                helperText={touched.time && errors.time}
+                              />
+                            )}
+                          />
+                        </LocalizationProvider>
+                      </FormControl>
+                    </Grid>
+                  </Grid>
                   {id ? (
                     <Grid container direction="row" justifyContent="flex-start" alignItems="center">
                       <Grid item container lg={6} xs={6} direction="column">
@@ -1023,6 +1073,7 @@ export default function FormMiningCard() {
                         customInput={TextField}
                         placeholder="Kadar NI"
                         fullWidth
+                        value={values?.co_level}
                         onValueChange={(values) =>
                           handleChangeNumber(values?.value, 'co_level', 'co_metal_equivalent')
                         }

@@ -208,6 +208,13 @@ const getInventorySumary = ({
   });
 };
 
+const deleteActivity = ({ id }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/activity/${id}`, {
+    method: 'DELETE',
+    headers: authHeader()
+  });
+};
+
 const MiningActivityService = {
   getActivity,
   getSummary,
@@ -217,7 +224,8 @@ const MiningActivityService = {
   editActivity,
   getHistoryEdit,
   getActivityChart,
-  getInventorySumary
+  getInventorySumary,
+  deleteActivity
 };
 
 export default MiningActivityService;
