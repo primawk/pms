@@ -121,11 +121,11 @@ const createActivity = (data) => {
       fe_metal_equivalent: parseFloat(data?.fe_metal_equivalent),
       ni_level: parseFloat(data?.ni_level),
       ni_metal_equivalent: parseFloat(data?.ni_metal_equivalent),
-      sublot_total: parseFloat(data?.sublot_total),
       ritase_total: parseFloat(data?.ritase_total),
       simgo_level: parseFloat(data?.simgo_level),
       simgo_metal_equivalent: parseFloat(data?.simgo_metal_equivalent),
-      tonnage_total: parseFloat(data?.tonnage_total)
+      tonnage_total: parseFloat(data?.tonnage_total),
+      sublot_total: data?.sublot_total ? parseFloat(data?.sublot_total) : 0
     },
     headers: authHeader()
   });
@@ -142,7 +142,7 @@ const editActivity = (data, id) => {
       fe_metal_equivalent: parseFloat(data?.fe_metal_equivalent),
       ni_level: parseFloat(data?.ni_level),
       ni_metal_equivalent: parseFloat(data?.ni_metal_equivalent),
-      sublot_total: parseFloat(data?.sublot_total),
+      sublot_total: data?.sublot_total ? parseFloat(data?.sublot_total) : 0,
       ritase_total: parseFloat(data?.ritase_total),
       simgo_level: parseFloat(data?.simgo_level),
       simgo_metal_equivalent: parseFloat(data?.simgo_metal_equivalent),

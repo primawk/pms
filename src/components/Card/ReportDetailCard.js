@@ -286,7 +286,7 @@ export default function ReportDetailCard() {
                 </Grid>
               </Grid>
               <Typography variant="h5" sx={{ mb: 3 }}>
-                Kadar SiMgO
+                Rasio SiMgO
               </Typography>
               <Grid
                 container
@@ -297,7 +297,7 @@ export default function ReportDetailCard() {
               >
                 <Grid item container lg={5} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 3 }}>
-                    Nilai Kadar
+                    Nilai Rasio
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
                     {`${detailActivity?.simgo_level || '0'} %`}
