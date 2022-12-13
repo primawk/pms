@@ -43,8 +43,6 @@ export default function MiningActivity() {
       : activityType
   );
 
-  console.log(menuTab);
-
   const [filter, setFilter] = useState([
     {
       startDate: dayjs(new Date()).subtract(7, 'day').toDate(),
@@ -77,8 +75,6 @@ export default function MiningActivity() {
   const dateDifference = `${dayjs(selectedDate?.startDate).format('DD/MM/YYYY')}-${dayjs(
     selectedDate?.endDate
   ).format('DD/MM/YYYY')}`;
-
-  console.log(menuTab === 'all-activity' && !isShipment);
 
   return (
     <>

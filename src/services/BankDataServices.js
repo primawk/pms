@@ -94,15 +94,17 @@ const editBankData = (data, attachment, existings, id) => {
     formData.append('body', JSON.stringify(data[body])); // naming the keys 'body
   }
 
+  // existing
+  formData.append('existing', JSON.stringify(existings));
+
   for (var key in attachment) {
     // get the key for each report attachment is an array
     // loop after enter each report or key
     for (var x = 0; x < attachment[key].length; x++) {
-      formData.append(key, attachment[key][x]); // attachment[key][x] is important
+      formData.append('files', attachment[key][x]); // attachment[key][x] is important
     }
+    // formData.append(key, attachment[key]);
   }
-
-  formData.append('existing', existings);
 
   // form_data.append('attachment', attachment);
   // console.log FORMDATA

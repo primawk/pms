@@ -40,7 +40,7 @@ const InputBankData = () => {
       date: ''
     }
   ]);
-  // const [disabled, setDisabled] = useState(true);
+
   const { isShowing, toggle } = useModal();
   const { id } = useParams();
 
@@ -49,55 +49,20 @@ const InputBankData = () => {
   };
 
   useEffect(() => {
-    setAttachment(location?.state?.attachment);
+    if (id) {
+      setAttachment(location?.state?.attachment);
+    } else {
+      setAttachment([]);
+    }
   }, []);
-
-  // const [inputList, setInputList] = useState([
-  //   <BankDataReport
-  //     date={date}
-  //     id={id}
-  //     setDate={setDate}
-  //     jenisLaporan={location?.state?.jenisLaporan}
-  //     keteranganLaporan={location?.state?.keteranganLaporan}
-  //     // jenisLaporanEdit={jenisLaporanEdit}
-  //     // dateEdit={data?.data?.data[0].date}
-  //     attachment={attachment}
-  //     allEvent={allEvent}
-  //     setAllEvent={setAllEvent}
-  //     setAttachment={setAttachment}
-  //     // setDisabled={setDisabled}
-  //     // isLoading={isLoading}
-  //     // isFetching={isFetching}
-  //     // protection={protection}
-  //   />
-  // ]);
 
   const onAddBtnClick = () => {
     setAllEvent(
-      allEvent.concat(
-        {
-          report_type: '',
-          description: '',
-          date: ''
-        }
-        // <BankDataReport
-        //   key={inputList.length}
-        //   date={date}
-        //   setDate={setDate}
-        //   // onBtnAddFile={onBtnAddFile}
-        //   // onButtonPreview={onButtonPreview}
-        //   // fileName={fileName}
-        //   attachment={attachment}
-        //   allEvent={allEvent}
-        //   setAllEvent={setAllEvent}
-        //   setAttachment={setAttachment}
-        //   setDisabled={setDisabled}
-        //   // inputLength={inputList.length}
-        //   inputKeys={Object.keys(inputList)}
-        //   protection={protection}
-        //   setProtection={setProtection}
-        // />
-      )
+      allEvent.concat({
+        report_type: '',
+        description: '',
+        date: ''
+      })
     );
   };
 
@@ -115,6 +80,7 @@ const InputBankData = () => {
       await BankDataService.inputBankData(allEvent, attachment);
       setLoading(false);
       navigate(-1);
+      console.log(attachment);
       toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);
@@ -127,14 +93,30 @@ const InputBankData = () => {
     event.preventDefault();
 
     // TRANFORM ARRAY OF DATES INTO OBJECT
-    const data = date.map((item, i) => Object.assign({}, { date: date[i] }));
+    // const data = date.map((item, i) => Object.assign({}, { date: date[i] }));
 
     // MERGE BETWEEN TWO OBJECTS
-    const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
-    const existing = false;
+    // const merged = allEvent.map((item, i) => Object.assign({}, item, data[i]));
+    const existing = [];
+    let finalAttachment = [];
+
+    // filtering existing
+    for (let i = 0; i < attachment?.length; i++) {
+      if (typeof attachment[i] === 'string') {
+        existing.push(attachment[i]);
+      }
+      finalAttachment = [];
+    }
+
+    // add new file(s)
+    for (let i = 0; i < attachment?.length; i++) {
+      if (typeof attachment[i] !== 'string') {
+        finalAttachment.push(attachment[i]);
+      }
+    }
 
     try {
-      await BankDataService.editBankData(merged, attachment, existing, id);
+      await BankDataService.editBankData(allEvent, finalAttachment, existing, id);
       setLoading(false);
       navigate(-1);
       toggle();
@@ -143,8 +125,6 @@ const InputBankData = () => {
       setLoading(false);
     }
   };
-
-  console.log(attachment);
 
   return (
     <>
@@ -295,8 +275,8 @@ const InputBankData = () => {
               </Grid>
               <Grid item>
                 <LoadingButton
-                  // loading={loading}
-                  // disabled={disabled}
+                  loading={loading}
+                  disabled={attachment?.length === 0}
                   type="submit"
                   variant="contained"
                   sx={{ width: '130%', boxShadow: '0' }}

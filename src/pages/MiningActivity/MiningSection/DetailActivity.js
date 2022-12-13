@@ -3,6 +3,7 @@ import { Button, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { Icon } from '@iconify/react';
 import ArrowBack from '@iconify-icons/akar-icons/arrow-back';
 import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 
 // utils
@@ -10,11 +11,13 @@ import { capitalizeFirstLetter } from 'utils/helper';
 
 // custom hooks
 import useAuth from 'hooks/useAuth';
+import useLoading from 'hooks/useLoading';
+import useModal from 'hooks/useModal';
 
 // components
 import ReportDetailCard from 'components/Card/ReportDetailCard';
 import ShipmentDetailCard from 'components/Card/ShipmentDetailCard';
-import { LoadingModal } from 'components/Modal';
+import { LoadingModal, DeleteModal } from 'components/Modal';
 
 // service
 import MiningActivityService from 'services/MiningActivityService';
@@ -26,6 +29,8 @@ export default function DetailActivity() {
   const isShipment = activityType === 'efo-to-shipment';
 
   const { isGranted } = useAuth();
+  const { isShowing, toggle } = useModal();
+  const { isLoadingAction, toggleLoading } = useLoading();
 
   const { data, isFetching } = useQuery(
     ['mining-activity', 'detail-activity', id],
@@ -35,8 +40,29 @@ export default function DetailActivity() {
 
   const detailActivity = data?.data?.data;
 
+  const handleDelete = () => {
+    toggleLoading(true);
+    MiningActivityService.deleteActivity({ id })
+      .then(() => {
+        toast.success('Data berhasil dihapus !');
+        toggleLoading(false);
+        navigate(-1);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.detail_message);
+        toggleLoading(false);
+      });
+  };
+
   return (
     <div className="app-content">
+      <DeleteModal
+        toggle={toggle}
+        isShowing={isShowing}
+        title="Kegiatan Tambang"
+        loading={isLoadingAction}
+        action={handleDelete}
+      />
       {isFetching && <LoadingModal />}
       <div
         style={{
@@ -64,18 +90,23 @@ export default function DetailActivity() {
               </Button>
               <Typography variant="h4">{capitalizeFirstLetter(activityType)}</Typography>
               {isGranted && (
-                <Button
-                  variant="contained"
-                  onClick={() =>
-                    navigate(
-                      isShipment
-                        ? `/shipment/${activityType}/edit/${id}`
-                        : `/mining-activity/${activityType}/edit/${id}`
-                    )
-                  }
-                >
-                  Edit Laporan
-                </Button>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() =>
+                      navigate(
+                        isShipment
+                          ? `/shipment/${activityType}/edit/${id}`
+                          : `/mining-activity/${activityType}/edit/${id}`
+                      )
+                    }
+                  >
+                    Edit Laporan
+                  </Button>
+                  <Button variant="outlined" onClick={toggle}>
+                    Hapus Laporan
+                  </Button>
+                </Stack>
               )}
             </Stack>
           </Grid>

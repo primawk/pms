@@ -45,9 +45,8 @@ const BankDataReport = ({
       })
   );
 
+  const [selectedImages, setSelectedImages] = useState(data?.data?.data[0].attachment);
   const [file, setFile] = useState([]);
-  const [fileName, setFileName] = useState([]);
-  // const [filePreview, setFilePreview] = useState(null);
   const [value, setValue] = useState(
     data?.data?.data[0] ? new Date(data?.data?.data[0].date) : new Date()
   );
@@ -118,16 +117,30 @@ const BankDataReport = ({
   const handleAttachment = useCallback(
     (e) => {
       let newFormData = [...attachment];
+
       let tempAttachment = { ...newFormData[index] };
+
       tempAttachment = e.target.files;
 
       newFormData[index] = tempAttachment;
 
       setAttachment(newFormData);
+      // setAttachment((previousImages) => previousImages.concat(newFormData));
       setFile([...file, e.target.files]);
-      setFileName([...fileName, e.target.files[0].name]);
+      // fe
+      // const selectedFiles = e.target.files;
+      // const selectedFilesArray = Array.from(selectedFiles);
+
+      // const imagesArray = selectedFilesArray.map((file) => {
+      //   return file.name;
+      // });
+
+      // setFile((previousImages) => previousImages.concat(imagesArray));
+
+      // FOR BUG IN CHROME
+      e.target.value = '';
     },
-    [attachment, index, setAttachment, file, fileName]
+    [attachment, index, setAttachment, file, selectedImages]
   );
 
   const handleEditAttachment = useCallback(
@@ -136,53 +149,65 @@ const BankDataReport = ({
       let tempAttachment = { ...newFormData };
 
       tempAttachment = e.target.files;
-      console.log(tempAttachment);
-      // newFormData[index] = tempAttachment;
+      newFormData[index] = tempAttachment;
 
-      // setAttachment(newFormData);
-      // setFile([...file, e.target.files]);
-      // setFileName([...fileName, e.target.files[0].name]);
+      setAttachment((previousImages) => previousImages.concat(tempAttachment));
+
+      // fe
+      const selectedFiles = e.target.files;
+      const selectedFilesArray = Array.from(selectedFiles);
+
+      const imagesArray = selectedFilesArray.map((file) => {
+        return file.name;
+      });
+
+      setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+
+      // FOR BUG IN CHROME
+      e.target.value = '';
     },
-    [attachment, index, setAttachment, file, fileName]
+    [attachment, index, setAttachment, file, selectedImages]
   );
 
-  // const onBtnAddFile = (e) => {
-  //   setFile([...file, e.target.files]);
-  //   setFileName([...fileName, e.target.files[0].name]);
-  //   handleAttachment();
-  //   // setFilePreview(URL.createObjectURL(e.target.files[0]));
-  // };
+  const deleteHandler = (image) => {
+    // const index = attachment.indexOf(image);
+    // if (index > -1) {
+    //   // only splice attachment when item is found
+    //   attachment.splice(index, 1); // 2nd parameter means remove one item only
+    // }
+    setSelectedImages(selectedImages.filter((e) => e !== image));
+    URL.revokeObjectURL(image);
+    setAttachment(selectedImages.filter((e) => e !== image));
+  };
+
+  const deleteAttachmentHandler = (image, i) => {
+    // const index = attachment.indexOf(image);
+    // if (index > -1) {
+    //   // only splice attachment when item is found
+    //   attachment.splice(index, 1); // 2nd parameter means remove one item only
+    // }
+    let newFormData = [...attachment];
+
+    let tempAttachment = { ...newFormData[index] };
+
+    delete tempAttachment[i];
+
+    newFormData[index] = tempAttachment;
+
+    console.log(newFormData);
+    URL.revokeObjectURL(image);
+    // setFile(newFormData);
+    // setAttachment(newFormData);
+  };
+
   // useEffect(() => {
-  //   // setAllEvent([...allEvent, addFormData]);
-  //   setDate([...date, dayjs(value).format('YYYY-MM-DD')]);
-  //   setAttachment(file);
-  //   if (filev2?.length > 0) {
-  //     setDisabled(false);
-  //   } else {
-  //     setDisabled(true);
-  //   }
-  // }, [
-  //   inputKeys,
-  //   addFormData,
-  //   allEvent,
-  //   setAllEvent,
-  //   file,
-  //   setAttachment,
-  //   handleChange,
-  //   value,
-  //   setDate,
-  //   onBtnAddFile
-  // ]);
+  //   setAttachment(selectedImages);
+  // }, [selectedImages]);
 
-  // const onButtonPreview = () => {
-  //   window.open(filePreview, '_blank');
-  // };
-
-  // attachment preview
-  // attachment array i have to map this !!!
   const filev2 =
     file.length > 0 ? Object.values(file[file.length - 1]).map((item, i) => item.name) : null;
 
+  console.log(file);
   return (
     <>
       {isLoading && isFetching && <LoadingModal />}
@@ -337,14 +362,23 @@ const BankDataReport = ({
                         color: '#3F48C0'
                       }}
                     >
-                      <input
-                        required
-                        multiple
-                        type="file"
-                        // hidden
-                        style={{ marginLeft: '4rem', cursor: 'pointer' }}
-                      />
-                      {/* Upload File */}
+                      {id ? (
+                        <input
+                          multiple
+                          type="file"
+                          hidden
+                          style={{ marginLeft: '4rem', cursor: 'pointer' }}
+                        />
+                      ) : (
+                        <input
+                          // required
+                          multiple
+                          type="file"
+                          hidden
+                          style={{ marginLeft: '4rem', cursor: 'pointer' }}
+                        />
+                      )}
+                      Upload File
                     </Button>
                   </Grid>
                 </Grid>
@@ -353,7 +387,7 @@ const BankDataReport = ({
 
               {/* attachment */}
               {/* map uses return to iterate */}
-              {filev2?.length > 0
+              {file.length > 0
                 ? filev2.map((item, i) => {
                     return (
                       <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -378,12 +412,12 @@ const BankDataReport = ({
                               marginTop: '0.5rem'
                             }}
                           >
-                            <Grid item sx={{ marginLeft: '5rem' }}>
+                            <Grid item sx={{ marginLeft: '5rem', cursor: 'pointer' }}>
                               <Icon
                                 icon="ion:close-circle-sharp"
                                 color="white"
                                 fontSize={24}
-                                // onClick={() => handleDelete(i)}
+                                // onClick={() => deleteAttachmentHandler(item, i)}
                               />
                             </Grid>
                             <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
@@ -396,7 +430,7 @@ const BankDataReport = ({
                     );
                   })
                 : data?.data?.data[0].attachment
-                ? data?.data?.data[0].attachment.map((item, i) => {
+                ? selectedImages?.map((item, i) => {
                     return (
                       <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Grid
@@ -420,12 +454,12 @@ const BankDataReport = ({
                               marginTop: '0.5rem'
                             }}
                           >
-                            <Grid item sx={{ marginLeft: '5rem' }}>
+                            <Grid item sx={{ marginLeft: '5rem', cursor: 'pointer' }}>
                               <Icon
                                 icon="ion:close-circle-sharp"
-                                color="white"
+                                color="black"
                                 fontSize={24}
-                                // onClick={() => handleDelete(i)}
+                                onClick={() => deleteHandler(item)}
                               />
                             </Grid>
                             <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
