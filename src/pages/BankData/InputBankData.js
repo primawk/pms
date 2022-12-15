@@ -80,7 +80,6 @@ const InputBankData = () => {
       await BankDataService.inputBankData(allEvent, attachment);
       setLoading(false);
       navigate(-1);
-      console.log(attachment);
       toggle();
     } catch (error) {
       toast.error(error.response.data.detail_message);

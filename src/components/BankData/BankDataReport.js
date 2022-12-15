@@ -47,6 +47,8 @@ const BankDataReport = ({
 
   const [selectedImages, setSelectedImages] = useState(data?.data?.data[0].attachment);
   const [file, setFile] = useState([]);
+  const [tempFile, setTempFile] = useState([]);
+
   const [value, setValue] = useState(
     data?.data?.data[0] ? new Date(data?.data?.data[0].date) : new Date()
   );
@@ -116,35 +118,54 @@ const BankDataReport = ({
 
   const handleAttachment = useCallback(
     (e) => {
-      let newFormData = [...attachment];
+      e.preventDefault();
+      // let newFormData = [...attachment];
 
-      let tempAttachment = { ...newFormData[index] };
+      // let tempAttachment = { ...newFormData[index] };
 
-      tempAttachment = e.target.files;
+      // tempAttachment = e.target.files;
 
-      newFormData[index] = tempAttachment;
+      // newFormData[index] = tempAttachment;
 
-      setAttachment(newFormData);
-      // setAttachment((previousImages) => previousImages.concat(newFormData));
-      setFile([...file, e.target.files]);
-      // fe
-      // const selectedFiles = e.target.files;
-      // const selectedFilesArray = Array.from(selectedFiles);
+      // setAttachment(newFormData);
 
-      // const imagesArray = selectedFilesArray.map((file) => {
-      //   return file.name;
-      // });
+      // setAttachment([...newFormData, e.target.files]);
 
-      // setFile((previousImages) => previousImages.concat(imagesArray));
+      // // fe
+      const selectedFiles = e.target.files;
+      const selectedFilesArray = Array.from(selectedFiles);
+
+      const imagesArray = selectedFilesArray.map((file) => {
+        return file.name;
+      });
+      const attachmentArray = selectedFilesArray.map((file) => {
+        return file;
+      });
+
+      setFile((previousImages) => previousImages.concat(imagesArray));
+      setTempFile((item) => item.concat(attachmentArray));
 
       // FOR BUG IN CHROME
       e.target.value = '';
     },
-    [attachment, index, setAttachment, file, selectedImages]
+    [attachment, index, setAttachment, file, selectedImages, tempFile]
   );
+
+  useEffect(() => {
+    let newFormData = [...attachment]; // copy attachment the designated state
+
+    let tempAttachment = { ...newFormData[index] }; // pick a specific report to edit
+
+    tempAttachment = tempFile; // copy paste
+
+    newFormData[index] = tempAttachment; // put the file into copied state
+
+    setAttachment(newFormData); // finalized the file
+  }, [tempFile]);
 
   const handleEditAttachment = useCallback(
     (e) => {
+      e.preventDefault();
       let newFormData = [...attachment];
       let tempAttachment = { ...newFormData };
 
@@ -170,44 +191,30 @@ const BankDataReport = ({
   );
 
   const deleteHandler = (image) => {
-    // const index = attachment.indexOf(image);
-    // if (index > -1) {
-    //   // only splice attachment when item is found
-    //   attachment.splice(index, 1); // 2nd parameter means remove one item only
-    // }
     setSelectedImages(selectedImages.filter((e) => e !== image));
     URL.revokeObjectURL(image);
     setAttachment(selectedImages.filter((e) => e !== image));
   };
 
   const deleteAttachmentHandler = (image, i) => {
-    // const index = attachment.indexOf(image);
-    // if (index > -1) {
-    //   // only splice attachment when item is found
-    //   attachment.splice(index, 1); // 2nd parameter means remove one item only
-    // }
     let newFormData = [...attachment];
 
-    let tempAttachment = { ...newFormData[index] };
+    let tempAttachment = newFormData[index]; // no object
 
-    delete tempAttachment[i];
+    delete tempAttachment[i]; // delete inside an object ?
 
     newFormData[index] = tempAttachment;
 
     console.log(newFormData);
-    URL.revokeObjectURL(image);
-    // setFile(newFormData);
-    // setAttachment(newFormData);
+    setAttachment(newFormData);
+
+    // be
+    setFile(file.filter((e) => e !== image));
   };
 
-  // useEffect(() => {
-  //   setAttachment(selectedImages);
-  // }, [selectedImages]);
+  // const filev2 =
+  //   file.length > 0 ? Object.values(file[file.length - 1]).map((item, i) => item.name) : null;
 
-  const filev2 =
-    file.length > 0 ? Object.values(file[file.length - 1]).map((item, i) => item.name) : null;
-
-  console.log(file);
   return (
     <>
       {isLoading && isFetching && <LoadingModal />}
@@ -388,7 +395,7 @@ const BankDataReport = ({
               {/* attachment */}
               {/* map uses return to iterate */}
               {file.length > 0
-                ? filev2.map((item, i) => {
+                ? file.map((item, i) => {
                     return (
                       <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Grid
@@ -415,9 +422,9 @@ const BankDataReport = ({
                             <Grid item sx={{ marginLeft: '5rem', cursor: 'pointer' }}>
                               <Icon
                                 icon="ion:close-circle-sharp"
-                                color="white"
+                                color="black"
                                 fontSize={24}
-                                // onClick={() => deleteAttachmentHandler(item, i)}
+                                onClick={() => deleteAttachmentHandler(item, i)}
                               />
                             </Grid>
                             <Grid item sx={{ margin: '1rem auto 0 auto' }} fontSize={80}>
