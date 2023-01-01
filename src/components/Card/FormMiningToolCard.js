@@ -17,6 +17,7 @@ import { Icon } from '@iconify/react';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider, FieldArray } from 'formik';
+import { NumericFormat } from 'react-number-format';
 
 // custom hooks
 import useLoading from 'hooks/useLoading';
@@ -73,7 +74,9 @@ export default function FormMiningToolCard() {
         fuel_ratio: Yup.number().required('Fuel ratio is required'),
         issue_safety: Yup.string(),
         problem: Yup.string(),
-        recommendation: Yup.string()
+        recommendation: Yup.string(),
+        hm_start: Yup.string(),
+        hm_end: Yup.string()
       })
     )
   });
@@ -99,7 +102,9 @@ export default function FormMiningToolCard() {
     fuel_ratio: '',
     issue_safety: '',
     problem: '',
-    recommendation: ''
+    recommendation: '',
+    hm_start: '',
+    hm_end: ''
   };
 
   const formik = useFormik({
@@ -114,7 +119,7 @@ export default function FormMiningToolCard() {
         if (id) {
           MiningToolService.editMiningTool({ ...values?.datas?.[0], id })
             .then(() => {
-              toast.success('Rekapitulasi berhasil ditambahkan');
+              toast.success('Rekapitulasi berhasil di ubah');
               toast.clearWaitingQueue();
               toggleLoading(false);
               navigate('/mining-tool');
@@ -142,8 +147,7 @@ export default function FormMiningToolCard() {
     }
   });
 
-  const { errors, touched, getFieldProps, handleSubmit, setFieldValue, values, validateForm } =
-    formik;
+  const { errors, touched, getFieldProps, handleSubmit, setFieldValue, values } = formik;
 
   const handleCancel = () => {
     const _oldData = [...values?.datas];
@@ -448,43 +452,49 @@ export default function FormMiningToolCard() {
                                       size="small"
                                     />
                                   </FormControl>
-                                  <Typography variant="h6">Rasio Bahan Bakar</Typography>
+                                  <Typography variant="h6">HM Awal</Typography>
                                   <FormControl>
-                                    <TextField
-                                      placeholder="Tuliskan Liter/Jam"
+                                    <NumericFormat
+                                      thousandSeparator="."
+                                      decimalSeparator=","
+                                      decimalScale={2}
+                                      valueIsNumericString
+                                      customInput={TextField}
+                                      placeholder="Tuliskan HM Awal"
                                       fullWidth
-                                      sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                          paddingRight: 0
-                                        }
-                                      }}
-                                      name={`datas.${index}.fuel_ratio`}
-                                      {...getFieldProps(`datas.${index}.fuel_ratio`)}
+                                      name={`datas.${index}.hm_start`}
+                                      value={values?.datas.index?.hm_start}
+                                      onValueChange={(values) =>
+                                        setFieldValue(`datas.${index}.hm_start`, values?.value)
+                                      }
                                       error={Boolean(
-                                        touched.datas?.[index]?.fuel_ratio &&
-                                          errors.datas?.[index]?.fuel_ratio
+                                        touched.datas?.[index]?.hm_start &&
+                                          errors.datas?.[index]?.hm_start
                                       )}
                                       helperText={
-                                        touched.datas?.[index]?.fuel_ratio &&
-                                        errors.datas?.[index]?.fuel_ratio
+                                        touched.datas?.[index]?.hm_start &&
+                                        errors.datas?.[index]?.hm_start
                                       }
                                       size="small"
+                                    />
+                                  </FormControl>
+                                  <Typography variant="h6">Total HM</Typography>
+                                  <FormControl>
+                                    <NumericFormat
+                                      thousandSeparator="."
+                                      decimalSeparator=","
+                                      decimalScale={2}
+                                      valueIsNumericString
+                                      customInput={TextField}
+                                      value={
+                                        values?.datas?.[index]?.hm_end -
+                                        values?.datas?.[index]?.hm_start
+                                      }
+                                      placeholder="Selisih HM Akhir - Awal"
+                                      fullWidth
+                                      size="small"
                                       InputProps={{
-                                        endAdornment: (
-                                          <InputAdornment
-                                            position="end"
-                                            sx={{
-                                              padding: '19px',
-                                              backgroundColor: (theme) => theme.palette.divider,
-                                              borderTopRightRadius: (theme) =>
-                                                theme.shape.borderRadius + 'px',
-                                              borderBottomRightRadius: (theme) =>
-                                                theme.shape.borderRadius + 'px'
-                                            }}
-                                          >
-                                            Ltr/Jam
-                                          </InputAdornment>
-                                        )
+                                        readOnly: true
                                       }}
                                     />
                                   </FormControl>
@@ -550,6 +560,7 @@ export default function FormMiningToolCard() {
                                           }
                                         }}
                                         name=""
+                                        value=""
                                         // {...getFieldProps('measurement_type')}
                                         // error={Boolean(touched.measurement_type && errors.measurement_type)}
                                         // helperText={touched.measurement_type && errors.measurement_type}
@@ -638,6 +649,72 @@ export default function FormMiningToolCard() {
                                           </InputAdornment>
                                         )
                                       }}
+                                    />
+                                  </FormControl>
+                                  <Typography variant="h6">Rasio Bahan Bakar</Typography>
+                                  <FormControl>
+                                    <TextField
+                                      placeholder="Tuliskan Liter/Jam"
+                                      fullWidth
+                                      sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                          paddingRight: 0
+                                        }
+                                      }}
+                                      name={`datas.${index}.fuel_ratio`}
+                                      {...getFieldProps(`datas.${index}.fuel_ratio`)}
+                                      error={Boolean(
+                                        touched.datas?.[index]?.fuel_ratio &&
+                                          errors.datas?.[index]?.fuel_ratio
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.fuel_ratio &&
+                                        errors.datas?.[index]?.fuel_ratio
+                                      }
+                                      size="small"
+                                      InputProps={{
+                                        endAdornment: (
+                                          <InputAdornment
+                                            position="end"
+                                            sx={{
+                                              padding: '19px',
+                                              backgroundColor: (theme) => theme.palette.divider,
+                                              borderTopRightRadius: (theme) =>
+                                                theme.shape.borderRadius + 'px',
+                                              borderBottomRightRadius: (theme) =>
+                                                theme.shape.borderRadius + 'px'
+                                            }}
+                                          >
+                                            Ltr/Jam
+                                          </InputAdornment>
+                                        )
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <Typography variant="h6">HM Akhir</Typography>
+                                  <FormControl>
+                                    <NumericFormat
+                                      thousandSeparator="."
+                                      decimalSeparator=","
+                                      decimalScale={2}
+                                      valueIsNumericString
+                                      customInput={TextField}
+                                      placeholder="Tuliskan HM Akhir"
+                                      fullWidth
+                                      name={`datas.${index}.hm_end`}
+                                      value={values?.datas.index?.hm_end}
+                                      onValueChange={(values) =>
+                                        setFieldValue(`datas.${index}.hm_end`, values?.value)
+                                      }
+                                      error={Boolean(
+                                        touched.datas?.[index]?.hm_end &&
+                                          errors.datas?.[index]?.hm_end
+                                      )}
+                                      helperText={
+                                        touched.datas?.[index]?.hm_end &&
+                                        errors.datas?.[index]?.hm_end
+                                      }
+                                      size="small"
                                     />
                                   </FormControl>
                                   <Typography variant="h6">Produktifitas</Typography>

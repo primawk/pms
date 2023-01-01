@@ -7,9 +7,20 @@ import dayjs from 'dayjs';
 import { LoadingModal } from 'components/Modal';
 
 // services
+import MiningToolService from 'services/MiningToolService';
 
 export default function MiningToolDetailCard() {
   const { id } = useParams();
+
+  const { data, isLoading: isLoadingMiningTool } = useQuery(
+    ['mining-tool', id],
+    () => MiningToolService.getMiningTool({ id }),
+    {
+      keepPreviousData: true
+    }
+  );
+
+  const dataMiningTool = data?.data?.data[0];
 
   return (
     <div
@@ -20,6 +31,8 @@ export default function MiningToolDetailCard() {
       }}
       className="bg-white"
     >
+      {isLoadingMiningTool && <LoadingModal />}
+
       <>
         <Grid
           container
@@ -44,9 +57,9 @@ export default function MiningToolDetailCard() {
                   Jadwal Kegiatan
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  {/* {`${detailActivity && dayjs(detailActivity?.date).format('DD MMMM YYYY')}, ${
-                    detailActivity && detailActivity?.time
-                  }`} */}
+                  {`${dataMiningTool && dayjs(dataMiningTool?.date).format('DD MMMM YYYY')}, ${
+                    dataMiningTool && dataMiningTool?.time
+                  }`}
                 </Typography>
               </Grid>
               <Grid item container lg={4} xs={4} direction="column">
@@ -54,7 +67,7 @@ export default function MiningToolDetailCard() {
                   Jenis Produk
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  {/* {detailActivity?.product_type} */}
+                  {dataMiningTool?.product_type}
                 </Typography>
               </Grid>
               <Grid item container lg={4} xs={4} direction="column">
@@ -62,7 +75,7 @@ export default function MiningToolDetailCard() {
                   Blok
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  {/* {detailActivity?.block} */}
+                  {dataMiningTool?.block}
                 </Typography>
               </Grid>
               <Grid item container lg={12} xs={12} direction="column">
@@ -70,7 +83,7 @@ export default function MiningToolDetailCard() {
                   Bukit
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  BukitIV
+                  {}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   Jenis Kegiatan
