@@ -24,7 +24,7 @@ const MiningToolGroupedList = ({ listData }) => {
           {listData?.index !== undefined ? listData?.index + 1 : '-'}
         </Typography>
       </Grid>
-      <Grid item md={2} container justifyContent="space-between">
+      <Grid item md={2} container direction="column" justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Jenis Peralatan
         </Typography>
@@ -34,13 +34,14 @@ const MiningToolGroupedList = ({ listData }) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            width: '100%'
           }}
         >
           {listData?.tool_kind}
         </Typography>
       </Grid>
-      <Grid item md={1} container justifyContent="space-between">
+      <Grid item md={1} container direction="column" justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Tipe
         </Typography>
@@ -50,13 +51,14 @@ const MiningToolGroupedList = ({ listData }) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            width: '100%'
           }}
         >
           {listData?.tool_type}
         </Typography>
       </Grid>
-      <Grid item md={1} container justifyContent="space-between">
+      <Grid item md={1.25} container direction="column" justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Jumlah Peralatan
         </Typography>
@@ -66,13 +68,14 @@ const MiningToolGroupedList = ({ listData }) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            width: '100%'
           }}
         >
           {listData?.tool_total}
         </Typography>
       </Grid>
-      <Grid item md={1.5} container justifyContent="space-between">
+      <Grid item md={1.25} container direction="column" justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Produktifitas
         </Typography>
@@ -82,13 +85,14 @@ const MiningToolGroupedList = ({ listData }) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            width: '100%'
           }}
         >
           {listData?.productivity} Ton / Jam
         </Typography>
       </Grid>
-      <Grid item md={1.5} container justifyContent="space-between">
+      <Grid item md={1.5} container direction="column" justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Rasio Bahan Bakar
         </Typography>
@@ -98,13 +102,14 @@ const MiningToolGroupedList = ({ listData }) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            width: '100%'
           }}
         >
           {listData?.fuel_ratio} Ltr / Jam
         </Typography>
       </Grid>
-      <Grid item md={1.5} container justifyContent="space-between">
+      <Grid item md={1.5} container direction="column" justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Jenis Kegiatan
         </Typography>
@@ -114,7 +119,8 @@ const MiningToolGroupedList = ({ listData }) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            width: '100%'
           }}
         >
           {listData?.activity_type}
@@ -131,7 +137,7 @@ const MiningToolGroupedList = ({ listData }) => {
           <Typography variant="body1">{listData?.account_name || '-'}</Typography>
         </Stack>
       </Grid>
-      <Grid item md={1.5} container justifyContent="space-between">
+      <Grid item md={1.5} container direction="column" justifyContent="space-between">
         <Typography variant="body1" color="#828282">
           Tanggal Laporan Dibuat
         </Typography>
@@ -141,7 +147,8 @@ const MiningToolGroupedList = ({ listData }) => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
-            alignSelf: 'flex-end'
+            alignSelf: 'flex-end',
+            width: '100%'
           }}
         >
           <Typography variant="h6">{dayjs(listData?.created_at).format('DD/MM/YYYY')}</Typography>
