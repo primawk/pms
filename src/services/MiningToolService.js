@@ -47,7 +47,10 @@ const getMiningTool = ({
 const createMiningTool = (datas) => {
   return request(`${MINING_ACTIVITY_MODEL}/tool`, {
     method: 'POST',
-    data: datas,
+    data: datas.map((item, index) => ({
+      ...datas[index],
+      hm_result: item?.hm_end - item?.hm_start
+    })),
     headers: authHeader()
   });
 };
@@ -74,10 +77,12 @@ const editMiningTool = ({
   issue_safety,
   problem,
   recommendation,
-  id
+  id,
+  hm_start,
+  hm_end
 }) => {
   return request(`${MINING_ACTIVITY_MODEL}/tool/${id}`, {
-    method: 'POST',
+    method: 'PUT',
     data: {
       activity_type,
       date,
@@ -99,7 +104,10 @@ const editMiningTool = ({
       fuel_ratio,
       issue_safety,
       problem,
-      recommendation
+      recommendation,
+      hm_end,
+      hm_start,
+      hm_result: hm_end - hm_start
     },
     headers: authHeader()
   });

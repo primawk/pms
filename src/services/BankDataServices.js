@@ -130,12 +130,21 @@ const deleteData = ({ id }) => {
   });
 };
 
+const getPdf = (attachment) => {
+  return request(`${MINING_ACTIVITY_MODEL}/bank/file/${attachment}`, {
+    method: 'GET',
+    headers: authHeader(),
+    responseType: 'blob'
+  });
+};
+
 const BankDataService = {
   getSummary,
   getBankData,
   inputBankData,
   editBankData,
-  deleteData
+  deleteData,
+  getPdf
 };
 
 export default BankDataService;

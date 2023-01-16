@@ -7,9 +7,20 @@ import dayjs from 'dayjs';
 import { LoadingModal } from 'components/Modal';
 
 // services
+import MiningToolService from 'services/MiningToolService';
 
 export default function MiningToolDetailCard() {
   const { id } = useParams();
+
+  const { data, isLoading: isLoadingMiningTool } = useQuery(
+    ['mining-tool', id],
+    () => MiningToolService.getMiningTool({ id }),
+    {
+      keepPreviousData: true
+    }
+  );
+
+  const dataMiningTool = data?.data?.data[0];
 
   return (
     <div
@@ -20,6 +31,8 @@ export default function MiningToolDetailCard() {
       }}
       className="bg-white"
     >
+      {isLoadingMiningTool && <LoadingModal />}
+
       <>
         <Grid
           container
@@ -44,9 +57,9 @@ export default function MiningToolDetailCard() {
                   Jadwal Kegiatan
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  {/* {`${detailActivity && dayjs(detailActivity?.date).format('DD MMMM YYYY')}, ${
-                    detailActivity && detailActivity?.time
-                  }`} */}
+                  {`${dataMiningTool && dayjs(dataMiningTool?.date).format('DD MMMM YYYY')}, ${
+                    dataMiningTool && dataMiningTool?.time
+                  }`}
                 </Typography>
               </Grid>
               <Grid item container lg={4} xs={4} direction="column">
@@ -54,7 +67,7 @@ export default function MiningToolDetailCard() {
                   Jenis Produk
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  {/* {detailActivity?.product_type} */}
+                  {dataMiningTool?.product_type}
                 </Typography>
               </Grid>
               <Grid item container lg={4} xs={4} direction="column">
@@ -62,7 +75,7 @@ export default function MiningToolDetailCard() {
                   Blok
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  {/* {detailActivity?.block} */}
+                  {dataMiningTool?.block}
                 </Typography>
               </Grid>
               <Grid item container lg={12} xs={12} direction="column">
@@ -70,22 +83,19 @@ export default function MiningToolDetailCard() {
                   Bukit
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  BukitIV
+                  belum ada di api
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   Jenis Kegiatan
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  Kegiatan K3
+                  {dataMiningTool?.activity_type}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
-                  Bukit
+                  Item Kegiatan
                 </Typography>
                 <pre>
-                  <span className="inner-pre">
-                    pemasangan rambu, perbaikan cekdam, maintenance jalan, dan lain-lainpemasangan
-                    rambu, perbaikan cekdam, maintenance jalan, dan lain-lain
-                  </span>
+                  <span className="inner-pre">{dataMiningTool?.activity_item}</span>
                 </pre>
               </Grid>
             </Grid>
@@ -106,37 +116,43 @@ export default function MiningToolDetailCard() {
                   Nama Perusahaan
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  Pt. Satria Jaya Sutra
+                  {dataMiningTool?.company_name}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   Tipe Peralatan
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  Komatsu PC 200
+                  {dataMiningTool?.tool_type}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   PA (Physical Availability)
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  25%
+                  {dataMiningTool?.physical_availability + '%'}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
-                  AU (UA (Use Of Availability)
+                  UA (UA (Use Of Availability)
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  25%
+                  {dataMiningTool?.use_availability + '%'}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   Jumlah Peralatan
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  25
+                  {dataMiningTool?.tool_total}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
-                  Rasio Bahan Bakar
+                  HM Awal
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  39 Liter/Jam
+                  {dataMiningTool?.hm_start}
+                </Typography>
+                <Typography variant="h6" sx={{ mb: 3 }}>
+                  Total HM
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 3 }}>
+                  {dataMiningTool?.hm_result}
                 </Typography>
               </Grid>
               <Grid item lg={6} md={6} sm={12}>
@@ -144,31 +160,43 @@ export default function MiningToolDetailCard() {
                   Jenis Peralatan
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  Alat Gali-Muat Batuan Penutup/Waste
+                  {dataMiningTool?.tool_kind}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   Kapasitas
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  20 m3
+                  {dataMiningTool?.capacity + 'm3'}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   MA (Mechanical Availability)
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  23%
+                  {dataMiningTool?.mechanical_availability + '%'}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   EU (Effective Utilization)
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  23%
+                  {dataMiningTool?.effective_utilization}
+                </Typography>
+                <Typography variant="h6" sx={{ mb: 3 }}>
+                  Rasio Bahan Bakar
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 3 }}>
+                  {dataMiningTool?.fuel_ratio + 'Ltr/Jam'}
+                </Typography>
+                <Typography variant="h6" sx={{ mb: 3 }}>
+                  HM Akhir
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 3 }}>
+                  {dataMiningTool?.hm_end}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   Produktifitas
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  41 Ton/Jam
+                  {dataMiningTool?.productivity + 'Ton/Jam'}
                 </Typography>
               </Grid>
             </Grid>

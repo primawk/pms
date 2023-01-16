@@ -205,7 +205,6 @@ const BankDataReport = ({
 
     newFormData[index] = tempAttachment;
 
-    console.log(newFormData);
     setAttachment(newFormData);
 
     // be
@@ -214,6 +213,17 @@ const BankDataReport = ({
 
   // const filev2 =
   //   file.length > 0 ? Object.values(file[file.length - 1]).map((item, i) => item.name) : null;
+
+  const handlePdf = async (item) => {
+    try {
+      const response = await BankDataService.getPdf(item);
+      const file = new Blob([response.data], { type: response?.data.type });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -446,10 +456,10 @@ const BankDataReport = ({
                             width: '7.438rem',
                             height: '9.063rem',
                             border: '1px solid #3F48C0',
-                            borderRadius: '4px'
-                            // cursor: 'pointer'
+                            borderRadius: '4px',
+                            cursor: 'pointer'
                           }}
-                          // onClick={onButtonPreview}
+                          onClick={() => handlePdf(item)}
                         >
                           <Grid
                             container // container to make the justify content works
