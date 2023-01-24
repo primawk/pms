@@ -4,7 +4,7 @@ stages:
 
 variables:
   PROJECT_LOCATION_STAGING: ~/repositories/staging/cms-react/
-  PROJECT_LOCATION_PRODUCTION: $PROJECT_LOCATION_PRODUCTION
+  PROJECT_LOCATION_PRODUCTION: ~/repositories/production/cms-react/
   PROJECT_DEPLOY_PORT: $PROJECT_DEPLOY_PORT
   
 deploy:staging:
@@ -12,7 +12,7 @@ deploy:staging:
   image: alpine:latest
   cache: {}
   before_script:
-    - apk add --no-cache openssh-client ca-certificates bash rsync
+    - apk add --no-cache openssh-client ca-certificates bash rsync sshpass
     - mkdir -p ~/.ssh
     - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
@@ -20,9 +20,9 @@ deploy:staging:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST:$PROJECT_LOCATION_STAGING
+    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_STAGING
     - >
-      ssh -t $DEPLOY_STAGING_USER@$DEPLOY_STAGING_HOST -p $PROJECT_DEPLOY_PORT "
+      ssh -t $USER_STAGING@$HOSTS_STAGING "
       cd $PROJECT_LOCATION_STAGING ;
       rm -rf .env.development ;
       cp configs/.env.staging ./.env ;
@@ -46,7 +46,7 @@ deploy:production:
   image: alpine:latest
   cache: {}
   before_script:
-    - apk add --no-cache openssh-client ca-certificates bash rsync
+    - apk add --no-cache openssh-client ca-certificates bash rsync sshpass
     - mkdir -p ~/.ssh
     - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
@@ -54,15 +54,17 @@ deploy:production:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
+    - rsync -e "ssh -p22" -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_PRODUCTION
     - >
-      ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
+      ssh -t $USER_STAGING@$HOSTS_STAGING -p22 "
       cd $PROJECT_LOCATION_PRODUCTION ;
       rm -rf .env.development ;
       cp configs/.env.production ./.env ;
       cd manifest ;
       docker-compose -f docker-compose.production.yml down ;
-      docker-compose -f docker-compose.production.yml up --build -d
+      docker-compose -f docker-compose.production.yml up --build -d;
+      docker image prune -f
       "
+
   only:
     - production
