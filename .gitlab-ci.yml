@@ -62,7 +62,8 @@ deploy:production:
       cp configs/.env.production ./.env ;
       cd manifest ;
       docker-compose -f docker-compose.production.yml down ;
-      docker-compose -f docker-compose.production.yml up --build -d
+      docker-compose -f docker-compose.production.yml up --build -d;
+      docker image prune -f
       "
 
   only:
