@@ -46,7 +46,7 @@ deploy:production:
   image: alpine:latest
   cache: {}
   before_script:
-    - apk add --no-cache openssh-client ca-certificates bash rsync
+    - apk add --no-cache openssh-client ca-certificates bash rsync sshpass
     - mkdir -p ~/.ssh
     - echo "$SERVER_SECRET_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
@@ -54,9 +54,9 @@ deploy:production:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
+    - rsync -e "ssh -p22" -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_PRODUCTION
     - >
-      ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
+      ssh -t $USER_STAGING@$HOSTS_STAGING -p22 "
       cd $PROJECT_LOCATION_PRODUCTION ;
       rm -rf .env.development ;
       cp configs/.env.production ./.env ;
