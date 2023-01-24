@@ -54,7 +54,7 @@ deploy:production:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-     - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
+    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
     - >
       ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_PRODUCTION ;
