@@ -54,16 +54,15 @@ deploy:production:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-     - rsync -e "ssh -p22" -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_PRODUCTION
+     - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
     - >
-      ssh -t $USER_STAGING@$HOSTS_STAGING"
+      ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
       cd $PROJECT_LOCATION_PRODUCTION ;
       rm -rf .env.development ;
       cp configs/.env.production ./.env ;
       cd manifest ;
       docker-compose -f docker-compose.production.yml down ;
-      docker-compose -f docker-compose.production.yml up --build -d;
-      docker image prune -f
+      docker-compose -f docker-compose.production.yml up --build -d
       "
 
   only:
