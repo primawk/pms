@@ -4,7 +4,7 @@ stages:
 
 variables:
   PROJECT_LOCATION_STAGING: ~/repositories/staging/cms-react/
-  PROJECT_LOCATION_PRODUCTION: $PROJECT_LOCATION_PRODUCTION
+  PROJECT_LOCATION_PRODUCTION: ~/repositories/production/cms-react/
   PROJECT_DEPLOY_PORT: $PROJECT_DEPLOY_PORT
   
 deploy:staging:
@@ -54,9 +54,9 @@ deploy:production:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - rsync -e "ssh -p$PROJECT_DEPLOY_PORT" -avrc --delete . $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST:$PROJECT_LOCATION_PRODUCTION
+     - rsync -e "ssh -p22" -avrc --delete . $USER_STAGING@$HOSTS_STAGING:$PROJECT_LOCATION_PRODUCTION
     - >
-      ssh -t $DEPLOY_PRODUCTION_USER@$DEPLOY_PRODUCTION_HOST -p $PROJECT_DEPLOY_PORT "
+      ssh -t $USER_STAGING@$HOSTS_STAGING"
       cd $PROJECT_LOCATION_PRODUCTION ;
       rm -rf .env.development ;
       cp configs/.env.production ./.env ;
@@ -64,5 +64,6 @@ deploy:production:
       docker-compose -f docker-compose.production.yml down ;
       docker-compose -f docker-compose.production.yml up --build -d
       "
+
   only:
     - production
