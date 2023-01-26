@@ -38,7 +38,7 @@ export default function MiningToolReport({ selectedDate }) {
 
   const [search, setSearch] = useState({
     company_name: '',
-    sort: 'asc'
+    sort: JSON.stringify({ order_by: 'date', sort: 'asc' })
   });
 
   const handleChangeSearch = (e) => setSearch({ ...search, [e.target.name]: e.target.value });
@@ -52,8 +52,8 @@ export default function MiningToolReport({ selectedDate }) {
         start_date: selectedDate?.startDate,
         end_date: selectedDate?.endDate,
         company_name: search?.company_name,
-        order_by: 'date',
-        sort: search?.sort
+        order_by: JSON.parse(search?.sort)?.order_by,
+        sort: JSON.parse(search?.sort)?.sort
       }),
     { keepPreviousData: true }
   );
@@ -102,8 +102,8 @@ export default function MiningToolReport({ selectedDate }) {
             <Grid item md={2.5} sx={{ pr: 2 }}>
               <TextField
                 name="sort"
-                value={search?.sort}
                 onChange={handleChangeSearch}
+                value={search?.sort || ''}
                 select
                 fullWidth
                 size="small"
@@ -111,14 +111,19 @@ export default function MiningToolReport({ selectedDate }) {
                   startAdornment: <Typography sx={{ minWidth: '40%' }}>Urutan |</Typography>
                 }}
               >
-                <MenuItem value="asc">
+                <MenuItem value={JSON.stringify({ order_by: 'date', sort: 'asc' })}>
                   <Stack direction="row">
                     <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
                   </Stack>
                 </MenuItem>
-                <MenuItem value="desc">
+                <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'desc' })}>
                   <Stack direction="row">
-                    <p style={{ fontWeight: 'bolder' }}>Terlama</p>
+                    <p style={{ fontWeight: 'bolder' }}>Terbesar</p>
+                  </Stack>
+                </MenuItem>
+                <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'asc' })}>
+                  <Stack direction="row">
+                    <p style={{ fontWeight: 'bolder' }}>Terkecil</p>
                   </Stack>
                 </MenuItem>
               </TextField>
