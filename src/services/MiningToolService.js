@@ -10,7 +10,9 @@ const getMiningTool = ({
   order_by,
   sort,
   id,
-  activity_type
+  activity_type,
+  company_name,
+  search
 }) => {
   const params = [];
   if (page) {
@@ -36,6 +38,12 @@ const getMiningTool = ({
   }
   if (id) {
     params.push(['id', id]);
+  }
+  if (company_name) {
+    params.push(['company_name', company_name]);
+  }
+  if (search) {
+    params.push(['search', search]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/tool`, {
     method: 'GET',
@@ -128,7 +136,15 @@ const getMiningToolChart = ({ start_date, end_date } = {}) => {
   });
 };
 
-const getGroupedMiningTool = ({ start_date, end_date } = {}) => {
+const getGroupedMiningTool = ({
+  start_date,
+  end_date,
+  page,
+  limit,
+  company_name,
+  order_by,
+  sort
+} = {}) => {
   const params = [];
   if (start_date) {
     params.push(['start_date', start_date]);
@@ -136,15 +152,6 @@ const getGroupedMiningTool = ({ start_date, end_date } = {}) => {
   if (end_date) {
     params.push(['end_date', end_date]);
   }
-  return request(`${MINING_ACTIVITY_MODEL}/tool/group_by_company`, {
-    method: 'GET',
-    params: new URLSearchParams(params),
-    headers: authHeader()
-  });
-};
-
-const getListPerCompany = ({ page, limit, company_name } = {}) => {
-  const params = [];
   if (page) {
     params.push(['page', page]);
   }
@@ -154,7 +161,31 @@ const getListPerCompany = ({ page, limit, company_name } = {}) => {
   if (company_name) {
     params.push(['company_name', company_name]);
   }
-  return request(`${MINING_ACTIVITY_MODEL}/tool`, {
+  if (order_by) {
+    params.push(['order_by', order_by]);
+  }
+  if (sort) {
+    params.push(['sort', sort]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/tool/group_by_company`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
+const getSummary = ({ start_date, end_date, company_name } = {}) => {
+  const params = [];
+  if (start_date) {
+    params.push(['start_date', start_date]);
+  }
+  if (end_date) {
+    params.push(['end_date', end_date]);
+  }
+  if (company_name) {
+    params.push(['company_name', company_name]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/tool/summary`, {
     method: 'GET',
     params: new URLSearchParams(params),
     headers: authHeader()
@@ -167,7 +198,7 @@ const MiningToolService = {
   editMiningTool,
   getMiningToolChart,
   getGroupedMiningTool,
-  getListPerCompany
+  getSummary
 };
 
 export default MiningToolService;

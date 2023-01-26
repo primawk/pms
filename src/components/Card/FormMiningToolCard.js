@@ -463,7 +463,7 @@ export default function FormMiningToolCard() {
                                       placeholder="Tuliskan HM Awal"
                                       fullWidth
                                       name={`datas.${index}.hm_start`}
-                                      value={values?.datas?.[index]?.hm_start.toString()}
+                                      value={values?.datas?.[index]?.hm_start?.toString()}
                                       onValueChange={(values) =>
                                         setFieldValue(`datas.${index}.hm_start`, values?.value)
                                       }
@@ -702,7 +702,7 @@ export default function FormMiningToolCard() {
                                       placeholder="Tuliskan HM Akhir"
                                       fullWidth
                                       name={`datas.${index}.hm_end`}
-                                      value={values?.datas?.[index]?.hm_end.toString()}
+                                      value={values?.datas?.[index]?.hm_end?.toString()}
                                       onValueChange={(values) =>
                                         setFieldValue(`datas.${index}.hm_end`, values?.value)
                                       }

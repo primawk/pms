@@ -1,13 +1,9 @@
 import { Grid, Stack, Typography } from '@mui/material';
 
-// custom hook
-// import useAuth from 'hooks/useAuth';
-
 // components
 import FormMiningToolCard from 'components/Card/FormMiningToolCard';
 
 export default function FormMiningTool() {
-  //   useAuth();
   return (
     <>
       <div className="app-content">

@@ -3,8 +3,8 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import { Icon } from '@iconify/react';
 import ArrowBack from '@iconify-icons/akar-icons/arrow-back';
 
-// custom hooks
-// import useAuth from 'hooks/useAuth';
+//custom hooks
+import useAuth from 'hooks/useAuth';
 
 // service
 import MiningToolDetailCard from 'components/Card/MiningToolDetailCard';
@@ -13,19 +13,10 @@ export default function MiningToolDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  //   const { isGranted } = useAuth();
-
-  //   const { data, isFetching } = useQuery(
-  //     ['mining-activity', 'detail-activity', id],
-  //     () => MiningActivityService.getActivityById({ id }),
-  //     { keepPreviousData: true, enabled: !!id }
-  //   );
-
-  //   const detailActivity = data?.data?.data;
+  const { isGranted } = useAuth();
 
   return (
     <div className="app-content">
-      {/* {isFetching && <LoadingModal />} */}
       <div
         style={{
           background: 'white',
@@ -51,11 +42,11 @@ export default function MiningToolDetail() {
                 Back
               </Button>
               <Typography variant="h4">Penggunaan Alat Tambang</Typography>
-              {/* {isGranted && ( */}
-              <Button variant="contained" onClick={() => navigate(`/mining-tool/edit/${id}`)}>
-                Edit Laporan
-              </Button>
-              {/* )} */}
+              {isGranted && (
+                <Button variant="contained" onClick={() => navigate(`/mining-tool/edit/${id}`)}>
+                  Edit Laporan
+                </Button>
+              )}
             </Stack>
           </Grid>
         </Grid>

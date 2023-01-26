@@ -83,7 +83,7 @@ export default function MiningToolDetailCard() {
                   Bukit
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 3 }}>
-                  belum ada di api
+                  {dataMiningTool?.name || '-'}
                 </Typography>
                 <Typography variant="h6" sx={{ mb: 3 }}>
                   Jenis Kegiatan
@@ -208,19 +208,19 @@ export default function MiningToolDetailCard() {
                 Issue Safety
               </Typography>
               <pre>
-                <span className="inner-pre">tidak ada</span>
+                <span className="inner-pre">{dataMiningTool?.issue_safety || '-'}</span>
               </pre>
               <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                 Kendala-kendala
               </Typography>
               <pre>
-                <span className="inner-pre">Terkendala cuaca buruk</span>
+                <span className="inner-pre">{dataMiningTool?.problem || '-'}</span>
               </pre>
               <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                 Rekomendasi
               </Typography>
               <pre>
-                <span className="inner-pre">tidak ada</span>
+                <span className="inner-pre">{dataMiningTool?.recommendation || '-'}</span>
               </pre>
             </Grid>
           </Grid>

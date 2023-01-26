@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Stack,
@@ -6,7 +7,8 @@ import {
   Typography,
   TextField,
   MenuItem,
-  InputAdornment
+  InputAdornment,
+  IconButton
 } from '@mui/material';
 import { useQuery } from 'react-query';
 import { Icon } from '@iconify/react';
@@ -34,19 +36,27 @@ export default function MiningToolReport({ selectedDate }) {
 
   const { isShowing, toggle } = useModal();
 
-  const { data, isLoading, isFetching } = useQuery(
-    ['mining-tool', page, selectedDate],
+  const [search, setSearch] = useState({
+    company_name: '',
+    sort: 'asc'
+  });
+
+  const handleChangeSearch = (e) => setSearch({ ...search, [e.target.name]: e.target.value });
+
+  const { data, isLoading, isFetching, refetch } = useQuery(
+    ['mining-tool', page, selectedDate, search?.sort],
     () =>
       MiningToolService.getGroupedMiningTool({
-        // page: page,
-        // row: 10,
+        page: page,
+        limit: 10,
         start_date: selectedDate?.startDate,
-        end_date: selectedDate?.endDate
+        end_date: selectedDate?.endDate,
+        company_name: search?.company_name,
+        order_by: 'date',
+        sort: search?.sort
       }),
     { keepPreviousData: true }
   );
-
-  // const { isGranted } = useAuth();
 
   return (
     <>
@@ -70,10 +80,20 @@ export default function MiningToolReport({ selectedDate }) {
                 placeholder="Cari Laporan"
                 size="small"
                 fullWidth
+                name="company_name"
+                value={search?.company_name}
+                onChange={handleChangeSearch}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    refetch();
+                  }
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Icon icon="akar-icons:search" fontSize={20} />
+                      <IconButton onClick={refetch}>
+                        <Icon icon="akar-icons:search" fontSize={20} />
+                      </IconButton>
                     </InputAdornment>
                   )
                 }}
@@ -81,20 +101,22 @@ export default function MiningToolReport({ selectedDate }) {
             </Grid>
             <Grid item md={2.5} sx={{ pr: 2 }}>
               <TextField
+                name="sort"
+                value={search?.sort}
+                onChange={handleChangeSearch}
                 select
-                value="newest"
                 fullWidth
                 size="small"
                 InputProps={{
                   startAdornment: <Typography sx={{ minWidth: '40%' }}>Urutan |</Typography>
                 }}
               >
-                <MenuItem value="newest">
+                <MenuItem value="asc">
                   <Stack direction="row">
                     <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
                   </Stack>
                 </MenuItem>
-                <MenuItem value="oldest">
+                <MenuItem value="desc">
                   <Stack direction="row">
                     <p style={{ fontWeight: 'bolder' }}>Terlama</p>
                   </Stack>
@@ -103,7 +125,7 @@ export default function MiningToolReport({ selectedDate }) {
             </Grid>
             {isGranted && (
               <Grid item md={2.5} sx={{ pr: 2 }}>
-                <Button variant="contained" onClick={toggle}>
+                <Button variant="contained" onClick={toggle} fullWidth>
                   Input Penggunaan Alat
                 </Button>
               </Grid>
@@ -128,7 +150,7 @@ export default function MiningToolReport({ selectedDate }) {
           )}
 
           <CustomPagination
-            count={ceilTotalData(0, 10)}
+            count={ceilTotalData(data?.data?.pagination?.total_data || 0, 10)}
             page={page}
             handleChangePage={handleChangePage}
           />

@@ -4,17 +4,12 @@ import { styled } from '@mui/material/styles';
 import { Icon } from '@iconify/react';
 import ArrowIcon from '@iconify/icons-bi/caret-down-fill';
 import dayjs from 'dayjs';
-import { useQuery } from 'react-query';
 
 // components
 import Header from 'components/Header';
-import { LoadingModal } from 'components/Modal';
 import useModal from 'hooks/useModal';
 import { FilterDate } from 'pages/MiningActivity/MiningSection';
 import { MiningToolHeader, MiningToolChart, MiningToolReport } from './MiningToolSection';
-
-//service
-import MiningToolService from 'services/MiningToolService';
 
 // custom button
 const WhiteButton = styled(Button)(({ theme }) => ({
@@ -45,35 +40,8 @@ export default function MiningTool() {
     selectedDate?.endDate
   ).format('DD/MM/YYYY')}`;
 
-  const { data: dataChart, isFetching: isFetchingChart } = useQuery(
-    ['mining-tool', 'chart', selectedDate],
-    () =>
-      MiningToolService.getMiningToolChart({
-        start_date: selectedDate?.startDate,
-        end_date: selectedDate?.endDate
-      }),
-    { keepPreviousData: true }
-  );
-
-  const chartData = {
-    legend: false,
-    datasets: [
-      {
-        label: 'Penggunaan Alat Tambang',
-        data: dataChart?.data?.data?.map((item) => ({
-          x: item?.date,
-          y: item?.total
-        })),
-        backgroundColor: ['#3F48C0'],
-        borderColor: ['#3F48C0'],
-        borderWidth: 2
-      }
-    ]
-  };
-
   return (
     <>
-      {isFetchingChart && <LoadingModal />}
       <Header title="ALAT TAMBANG" background="dashboard.png">
         <WhiteButton
           variant="contained"
@@ -100,10 +68,13 @@ export default function MiningTool() {
         sx={{ pt: '0 !important' }}
       >
         <Grid item md={12} sx={{ pt: 3, pb: 3 }}>
-          <MiningToolHeader />
+          <MiningToolHeader selectedDate={selectedDate} dateDifference={dateDifference} />
         </Grid>
         <Grid item md={12} sx={{ pb: 3 }}>
-          <MiningToolChart chartData={chartData} chartStyle={{ width: '100%', height: '40vh' }} />
+          <MiningToolChart
+            selectedDate={selectedDate}
+            chartStyle={{ width: '100%', height: '40vh' }}
+          />
         </Grid>
         <Grid item md={12} sx={{ pb: 3 }}>
           <MiningToolReport selectedDate={selectedDate} />
