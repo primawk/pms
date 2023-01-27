@@ -17,6 +17,7 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 import ProductionService from 'services/Dashboard';
+import { getScore } from 'services/Dashboard';
 
 // custom hooks
 import usePagination from 'hooks/usePagination';
@@ -375,6 +376,17 @@ export default function Dashboard() {
     return parts.join(',');
   };
 
+  // score
+  const [score, setScore] = useState('');
+  const fetchScore = async () => {
+    const value = await getScore();
+    setScore(value);
+  };
+
+  useEffect(() => {
+    fetchScore();
+  }, []);
+
   return (
     <>
       {
@@ -388,7 +400,7 @@ export default function Dashboard() {
           isFetchingRealization &&
           isFetchingTableTarget && <LoadingModal />)
       }
-      <Header title="DASHBOARD" background="dashboard.png" score="score" />
+      <Header title="DASHBOARD" background="dashboard.png" score={score} />
       <div className="app-content">
         <Grid sx={{ background: 'white' }}>
           <Tabs

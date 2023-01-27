@@ -42,7 +42,6 @@ const InputLaporanEksternal = () => {
     // const datav2 = [
     //   {
     //     lastModified: 1655090498030,
-    //     name: 'Sertifikat_Basket_Dzaki_Makkili_Kuntoro_v2.pdf',
     //     size: 1595079,
     //     type: 'application/pdf',
     //     webkitRelativePath: ''

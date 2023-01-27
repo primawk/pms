@@ -149,6 +149,15 @@ export async function getEdit(year) {
   return promise.data;
 }
 
+export async function getScore() {
+  const url = await `${MINING_ACTIVITY_MODEL}/activity/stok`;
+  const promise = await axios.get(url, {
+    method: 'GET',
+    headers: authHeader()
+  });
+  return promise.data;
+}
+
 const ProductionService = {
   getTarget,
   getRealization,
@@ -160,7 +169,8 @@ const ProductionService = {
   getRealizationShipment,
   getTargetShipment,
   addTargetShipment,
-  editTargetShipment
+  editTargetShipment,
+  getScore
 };
 
 export default ProductionService;

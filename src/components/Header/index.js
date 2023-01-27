@@ -48,7 +48,7 @@ export default function Header({ children, title, background, sx, isCenter, scor
           </Grid>
           <Grid item sx={{}} xs={8}>
             <Box>Skor Akhir</Box>
-            <Box sx={{ fontSize: '24px', fontWeight: '700' }}>14.460,79</Box>
+            <Box sx={{ fontSize: '24px', fontWeight: '700' }}>{score?.stok_akhir}</Box>
           </Grid>
         </Grid>
       ) : null}

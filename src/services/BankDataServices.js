@@ -138,13 +138,24 @@ const getPdf = (attachment) => {
   });
 };
 
+const getLimit = async () => {
+  const url = `${MINING_ACTIVITY_MODEL}/bank`;
+  const promise = await request(url, {
+    headers: {
+      Authorization: authHeader()
+    }
+  });
+  return promise?.data?.pagination?.total_data;
+};
+
 const BankDataService = {
   getSummary,
   getBankData,
   inputBankData,
   editBankData,
   deleteData,
-  getPdf
+  getPdf,
+  getLimit
 };
 
 export default BankDataService;

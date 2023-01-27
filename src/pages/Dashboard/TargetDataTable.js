@@ -76,20 +76,6 @@ const TargetDataTable = ({
 
   const handleDelete = async (id) => {
     setLoading(true);
-    // id.forEach((_id) => {
-    //   ProductionService.deleteTarget({ _id });
-    // });
-    // setLoading(false);
-    // toast.success('Data berhasil dihapus !');
-    // toggleDelete()
-    //   .then(() => {
-    //     queryClient.invalidateQueries(['data-target']);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.response.data.detail_message);
-    //     setLoading(false);
-    //     toggleDelete();
-    //   });
     try {
       await id.forEach((_id) => {
         ProductionService.deleteTarget({ _id });
