@@ -138,14 +138,11 @@ const getPdf = (attachment) => {
   });
 };
 
-const getLimit = async () => {
-  const url = `${MINING_ACTIVITY_MODEL}/bank`;
-  const promise = await request(url, {
-    headers: {
-      Authorization: authHeader()
-    }
+const getNotification = () => {
+  return request(`${MINING_ACTIVITY_MODEL}/bank/notification`, {
+    method: 'GET',
+    headers: authHeader()
   });
-  return promise?.data?.pagination?.total_data;
 };
 
 const BankDataService = {
@@ -155,7 +152,7 @@ const BankDataService = {
   editBankData,
   deleteData,
   getPdf,
-  getLimit
+  getNotification
 };
 
 export default BankDataService;

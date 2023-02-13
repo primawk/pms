@@ -20,21 +20,13 @@ import BankDataService from '../../services/BankDataServices';
 const BankDataReport = ({
   // i need to put {} when pass function as a prop to child component
   index,
-  disabled,
   id,
-  dateEdit,
   keteranganLaporan,
   jenisLaporan,
-  date,
   attachment,
-  setDate,
   setAllEvent,
   allEvent,
-  setAttachment,
-  setDisabled,
-  inputKeys
-  // isLoading,
-  // isFetching
+  setAttachment
 }) => {
   const { data, isLoading, isFetching } = useQuery(
     ['data', id],
