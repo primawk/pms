@@ -1,7 +1,5 @@
 import React from 'react';
 import { Grid, Box } from '@mui/material';
-import { Icon } from '@iconify/react';
-import avatarLogo from 'assets/Images/avatar.png';
 import dayjs from 'dayjs';
 
 const List = ({ setPage, data, index, setI }) => {
@@ -9,7 +7,7 @@ const List = ({ setPage, data, index, setI }) => {
     setI(index);
     setPage('detail');
   };
-  console.log(data);
+  console.log(data?.['eto-to-efo']);
   return (
     <>
       <Grid
@@ -17,6 +15,7 @@ const List = ({ setPage, data, index, setI }) => {
         sx={{
           display: 'flex',
           flexWrap: 'nowrap',
+          justifyContent: 'space-between',
           backgroundColor: 'white',
           flexDirection: 'row',
           alignItems: 'center',
@@ -30,30 +29,18 @@ const List = ({ setPage, data, index, setI }) => {
         }}
         spacing={2}
         onClick={onBtnClick}
-        xs={12}
       >
         <Grid item>
-          {/* <Grid
-        container
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '1rem'
-        }}
-      > */}
           <Grid item>
             <img src="/img/truck.png" alt=""></img>
           </Grid>
-          {/* </Grid> */}
         </Grid>
         <Grid item>
           <Grid
             container
             sx={{
               display: 'flex',
-              flexDirection: 'column',
-              marginLeft: '1rem'
+              flexDirection: 'column'
             }}
           >
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>Tanggal</Box>
@@ -91,6 +78,7 @@ const List = ({ setPage, data, index, setI }) => {
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>
               Data Estimasi
             </Box>
+
             <Grid
               item
               sx={{
@@ -99,11 +87,12 @@ const List = ({ setPage, data, index, setI }) => {
                 color: '#3F48C0',
                 // width: '58px',
                 borderRadius: '4px',
-                textAlign: 'center'
+                textAlign: 'center',
+                padding: '0.2rem'
               }}
-              xs={8}
+              xs={12}
             >
-              230 Ton ??
+              200 Ton
             </Grid>
           </Grid>
         </Grid>
@@ -125,7 +114,7 @@ const List = ({ setPage, data, index, setI }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>{data?.loss_est_to_ore} Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>{data?.['est-to-ore']} Ton</Box>
               </Grid>
             </Box>
           </Grid>
@@ -148,7 +137,7 @@ const List = ({ setPage, data, index, setI }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>{data?.loss_front_to_eto} Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>{data?.front_to_eto} Ton</Box>
               </Grid>
             </Box>
           </Grid>
@@ -171,7 +160,7 @@ const List = ({ setPage, data, index, setI }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>{data?.loss_eto_to_efo} Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>{data?.['eto-to-efo']} Ton</Box>
               </Grid>
             </Box>
           </Grid>
@@ -193,19 +182,19 @@ const List = ({ setPage, data, index, setI }) => {
                 <Box>
                   <img src="/img/down.png" alt=""></img>
                 </Box>
-                <Box sx={{ marginLeft: '0.5rem' }}>? Ton</Box>
+                <Box sx={{ marginLeft: '0.5rem' }}>{data?.['efo-to-shipment']} Ton</Box>
               </Grid>
             </Box>
           </Grid>
         </Grid>
         {/* Column 8 */}
-        <Grid item>
+        <Grid item xs={1.7}>
           <Grid
             container
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              paddingLeft: '1rem',
+              paddingLeft: '1.5rem',
               borderLeft: 1,
               borderColor: '#E0E0E0'
             }}
@@ -222,16 +211,18 @@ const List = ({ setPage, data, index, setI }) => {
 
             <Grid
               item
-              container
               sx={{
+                display: 'flex',
+                flexDirection: 'row',
                 fontSize: '14px',
                 color: '#DA4540',
                 alignItems: 'center',
                 backgroundColor: '#E5E5FE',
                 borderRadius: '4px',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                padding: '0.2rem'
               }}
-              xs={10.9}
+              xs={12}
             >
               <Box>
                 <img src="/img/down.png" alt=""></img>

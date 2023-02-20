@@ -18,6 +18,7 @@ import Header from 'components/Header';
 
 const Detail = ({ setPage, data, index }) => {
   const targetTableHead = ['TANGGAL', 'ESTIMASI TO FRONT', 'LOSSING', 'TOTAL LOSSING'];
+  console.log(data);
   return (
     <>
       <Header title="Detail Modul Lossing" background="dashboard.png" />
