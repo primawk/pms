@@ -50,6 +50,25 @@ const getSummary = ({ startDate, endDate }) => {
   });
 };
 
+const inputEstimation = (data) => {
+  var formData = new FormData();
+
+  for (var key in data) {
+    formData.append(key, data[key]);
+  }
+
+  // console.log FORMDATA
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
+
+  // return request(`${MINING_ACTIVITY_MODEL}/lossing/estimation`, {
+  //   method: 'POST',
+  //   headers: authHeader(),
+  //   data: formData
+  // });
+};
+
 const downloadEstimation = async ({ id, startDate, endDate }) => {
   const url = `${MINING_ACTIVITY_MODEL}/lossing/download`;
   const promise = await axios.get(url, {
@@ -84,7 +103,8 @@ const downloadEstimation = async ({ id, startDate, endDate }) => {
 const ModulLossingService = {
   getSummary,
   getHill,
-  downloadEstimation
+  downloadEstimation,
+  inputEstimation
   // inputModulLossing,
   // editModulLossing
 };

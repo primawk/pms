@@ -17,7 +17,6 @@ const InformasiBox = ({ title, quantity }) => {
         xs={12}
         sm={5}
         md={2.3}
-
       >
         <Grid
           container
@@ -41,7 +40,7 @@ const InformasiBox = ({ title, quantity }) => {
             }}
           >
             <Grid container>
-              <Grid item sx={{ padding: '16px 16px 0 0' }} xs={2}>
+              <Grid item sx={{ padding: '16px 16px 0 0' }}>
                 <img src="/img/down.png" alt=""></img>
               </Grid>
               <Grid item>{quantity}</Grid>

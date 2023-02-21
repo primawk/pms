@@ -14,7 +14,6 @@ import Header from 'components/Header';
 import Information from '../../components/Lossing/LossingInformation';
 import List from '../../components/Lossing/List';
 import InputLossing from 'components/Modal/Lossing/InputLossing';
-import Detail from './Detail';
 import InformationBox from '../../components/Lossing/InformasiBox';
 
 // custom hooks
@@ -22,7 +21,7 @@ import useModal from '../../hooks/useModal';
 
 const Summary = ({ setPage, data, isFetching, setI, handleDownload, loading }) => {
   useAuth();
-  const [detail, setDetail] = useState(false);
+
   const [age, setAge] = useState('');
 
   const handleChange = (event) => {
@@ -35,7 +34,7 @@ const Summary = ({ setPage, data, isFetching, setI, handleDownload, loading }) =
   return (
     <>
       {isFetching && loading && <LoadingModal />}
-      <InputLossing toggle={toggle} isShowing={isShowing} />
+      <InputLossing toggle={toggle} isShowing={isShowing} hillId={data?.hill_id} />
       <Header title="MODUL LOSSING" background="dashboard.png" />
       <div className="app-content">
         <Grid container sx={{ background: 'white', display: 'flex', flexDirection: 'column' }}>

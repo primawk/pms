@@ -116,9 +116,9 @@ const inputReportExternalMany = (data, attachment) => {
 
   // form_data.append('attachment', attachment);
   // console.log FORMDATA
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
+  // for (var pair of formData.entries()) {
+  //   console.log(pair[0] + ', ' + pair[1]);
+  // }
 
   return request(`${MINING_ACTIVITY_MODEL}/report/create-many`, {
     method: 'POST',

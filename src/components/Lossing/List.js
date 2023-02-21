@@ -107,7 +107,7 @@ const List = ({ setPage, data, index, setI }) => {
             }}
           >
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>
-              Lossing Estimasi to Front
+              Lossing Estimasi to Ore
             </Box>
             <Box>
               <Grid container sx={{ fontSize: '14px', color: '#DA4540', alignItems: 'center' }}>
@@ -130,7 +130,7 @@ const List = ({ setPage, data, index, setI }) => {
             }}
           >
             <Box sx={{ marginBottom: '0.5rem', color: '#828282', fontSize: '12px' }}>
-              Lossing Front to ETO
+              Lossing Ore to ETO
             </Box>
             <Box>
               <Grid container sx={{ fontSize: '14px', color: '#DA4540', alignItems: 'center' }}>

@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Grid, Button } from '@mui/material';
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import dayjs from 'dayjs';
 
 // end icon input
 import InputAdornment from '@mui/material/InputAdornment';
@@ -17,19 +13,51 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-const InputLossing = ({ isShowing, toggle, targetDate }) => {
-  const [age, setAge] = useState('');
+// service
+import ModulLossingService from 'services/ModulLossingService';
+
+const InputLossing = ({ isShowing, toggle, hillId }) => {
   const [value, setValue] = useState(new Date());
 
   const handleChangeDate = (newValue) => {
-    // setValue(dayjs(newValue).format('YYYY-MM-DD'));
-    setValue(newValue);
+    setValue(dayjs(newValue).format('YYYY-MM-DD'));
   };
 
-  const navigate = useNavigate();
+  const [addFormData, setAddFormData] = useState({
+    date: '',
+    dataEstimate: '',
+    hillId: hillId
+  });
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = {
+      date: value,
+      dataEstimate: addFormData.dataEstimate,
+      hill_id: hillId
+    };
+    try {
+      await ModulLossingService.inputEstimation(data);
+      // setLoading(false);
+      // navigate(-1);
+      toggle();
+    } catch (error) {
+      // toast.error(error.response.data.detail_message);
+      // setLoading(false);
+    }
+    toggle();
   };
 
   return (
@@ -46,69 +74,71 @@ const InputLossing = ({ isShowing, toggle, targetDate }) => {
             // padding: 2
           }}
         >
-          <Grid
-            item
-            sx={{
-              fontWeight: '700',
-              fontSize: '24px',
-              margin: '0 1rem 0 1rem',
-              textAlign: 'center',
-              padding: 1
-            }}
-          >
-            Input Estimasi Lossing Kegiatan Tambang
-          </Grid>
-          <Grid item sx={{ fontSize: '14px', margin: '24px' }}>
-            Tanggal Estimasi Kegiatan
-          </Grid>
-          <Grid item sx={{ margin: '0 24px 24px 24px' }}>
-            <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
-              <DesktopDatePicker
+          <form onSubmit={handleSubmit}>
+            <Grid
+              item
+              sx={{
+                fontWeight: '700',
+                fontSize: '24px',
+                margin: '0 1rem 0 1rem',
+                textAlign: 'center',
+                padding: 1
+              }}
+            >
+              Input Estimasi Lossing Kegiatan Tambang
+            </Grid>
+            <Grid item sx={{ fontSize: '14px', margin: '24px' }}>
+              Tanggal Estimasi Kegiatan
+            </Grid>
+            <Grid item sx={{ margin: '0 24px 24px 24px' }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
+                <DesktopDatePicker
+                  required
+                  inputFormat="dd/MM/yyyy"
+                  name="date"
+                  value={value}
+                  onChange={handleChangeDate}
+                  renderInput={(params) => <TextField {...params} fullWidth />}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item sx={{ fontSize: '14px', margin: '0 24px 24px 24px' }}>
+              Data Estimasi
+            </Grid>
+            <Grid item sx={{ margin: '0 24px 24px 24px' }}>
+              <OutlinedInput
+                fullWidth
                 required
-                inputFormat="dd/MM/yyyy"
-                // name="date"
-                value={value}
-                onChange={handleChangeDate}
-                renderInput={(params) => <TextField {...params} fullWidth />}
+                number
+                name="dataEstimate"
+                // id="Kadar Ni"
+                onChange={handleAddFormChange}
+                // error={touched.ni_level && Boolean(errors.ni_level)}
+                // helperText={touched.ni_level && errors.ni_level}
+                placeholder="0,00"
+                endAdornment={
+                  <InputAdornment position="end" backgroundColor="gray">
+                    Ton
+                  </InputAdornment>
+                }
+                // label="Nilai Kadar"
               />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item sx={{ fontSize: '14px', margin: '0 24px 24px 24px' }}>
-            Data Estimasi
-          </Grid>
-          <Grid item sx={{ margin: '0 24px 24px 24px' }}>
-            <OutlinedInput
-              fullWidth
-              required
-              number
-              // name="ni_level"
-              // id="Kadar Ni"
-              // onChange={handleAddFormChange}
-              // error={touched.ni_level && Boolean(errors.ni_level)}
-              // helperText={touched.ni_level && errors.ni_level}
-              placeholder="0,00"
-              endAdornment={
-                <InputAdornment position="end" backgroundColor="gray">
-                  Ton
-                </InputAdornment>
-              }
-              // label="Nilai Kadar"
-            />
-          </Grid>
-          <Grid item sx={{ margin: '0 24px 24px 24px' }}>
-            <Grid item container spacing={2} sx={{ flexDirection: 'row-reverse' }}>
-              <Grid item>
-                <Button variant="contained" sx={{ boxShadow: 0 }} onClick={toggle}>
-                  Submit
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="outlined" onClick={toggle}>
-                  Cancel
-                </Button>
+            </Grid>
+            <Grid item sx={{ margin: '0 24px 24px 24px' }}>
+              <Grid item container spacing={2} sx={{ flexDirection: 'row-reverse' }}>
+                <Grid item>
+                  <Button type="submit" variant="contained" sx={{ boxShadow: 0 }}>
+                    Submit
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" onClick={toggle}>
+                    Cancel
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          </form>
         </Grid>
       </CustomModal>
     </>
