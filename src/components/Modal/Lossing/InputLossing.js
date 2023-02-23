@@ -3,6 +3,7 @@ import { Grid, Button } from '@mui/material';
 import CustomModal from 'components/Modal/CustomModal/CustomModal';
 import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs';
+import { useQueryClient } from 'react-query';
 
 // end icon input
 import InputAdornment from '@mui/material/InputAdornment';
@@ -18,6 +19,8 @@ import ModulLossingService from 'services/ModulLossingService';
 
 const InputLossing = ({ isShowing, toggle, hillId }) => {
   const [value, setValue] = useState(new Date());
+
+  const queryClient = useQueryClient();
 
   const handleChangeDate = (newValue) => {
     setValue(dayjs(newValue).format('YYYY-MM-DD'));
@@ -52,6 +55,8 @@ const InputLossing = ({ isShowing, toggle, hillId }) => {
       await ModulLossingService.inputEstimation(data);
       // setLoading(false);
       // navigate(-1);
+      // invalidate cache and refetch
+      queryClient.invalidateQueries('hill');
       toggle();
     } catch (error) {
       // toast.error(error.response.data.detail_message);

@@ -183,6 +183,7 @@ const TambahTarget = ({ isShowing, toggle, isFetching, isLoading, menuTab }) => 
       await ProductionService.addTarget(data);
       setLoading(false);
       toggleEdited();
+      // invalidate cache and refetch
       queryClient.invalidateQueries(['data-target']);
     } catch (error) {
       toast.error(error.response.data.detail_message);
