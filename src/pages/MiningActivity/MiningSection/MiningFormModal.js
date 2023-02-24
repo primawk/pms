@@ -94,19 +94,19 @@ export default function MiningFormModal({ isShowing, toggle }) {
   }, [activityType, resetForm, setFieldValue]);
 
   return (
-    <CustomModal isShowing={isShowing} toggle={toggle} width="40%">
-      <center>
-        <h2 style={{ marginBottom: '20px' }}>
-          {values?.activity_type === 'efo-to-shipment'
-            ? 'Input Realisasi Kegiatan Pemasaran'
-            : values?.activity_type === 'tambang'
-            ? 'Input Laporan Penggunaan Alat Tambang'
-            : 'Input Realisasi Kegiatan Produksi Mineral'}
-        </h2>
-      </center>
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" onSubmit={handleSubmit}>
-          <Grid container direction="column" justifyContent="center" alignItems="flex-start">
+    <Grid container direction="column" justifyContent="center" alignItems="flex-start">
+      <CustomModal isShowing={isShowing} toggle={toggle} width="40%">
+        <center>
+          <h2 style={{ marginBottom: '20px' }}>
+            {values?.activity_type === 'efo-to-shipment'
+              ? 'Input Realisasi Kegiatan Pemasaran'
+              : values?.activity_type === 'tambang'
+              ? 'Input Laporan Penggunaan Alat Tambang'
+              : 'Input Realisasi Kegiatan Produksi Mineral'}
+          </h2>
+        </center>
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" onSubmit={handleSubmit}>
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <Stack spacing={2}>
                 {values?.activity_type !== 'tambang' && (
@@ -223,22 +223,28 @@ export default function MiningFormModal({ isShowing, toggle }) {
                 )}
               </Stack>
             </Grid>
-          </Grid>
-          <Grid container direction="row" justifyContent="flex-end" alignItems="center" spacing={5}>
-            <Grid item lg={6} md={12} sm={12} xs={12} sx={{ marginTop: '25px' }}>
-              <Stack spacing={2} direction="row">
-                <Button variant="outlined" fullWidth onClick={toggle}>
-                  Cancel
-                </Button>
-                <Button variant="contained" fullWidth type="submit">
-                  Save
-                </Button>
-              </Stack>
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={5}
+            >
+              <Grid item lg={6} md={12} sm={12} xs={12} sx={{ marginTop: '25px' }}>
+                <Stack spacing={2} direction="row">
+                  <Button variant="outlined" fullWidth onClick={toggle}>
+                    Cancel
+                  </Button>
+                  <Button variant="contained" fullWidth type="submit">
+                    Save
+                  </Button>
+                </Stack>
+              </Grid>
             </Grid>
-          </Grid>
-        </Form>
-      </FormikProvider>
-    </CustomModal>
+          </Form>
+        </FormikProvider>
+      </CustomModal>
+    </Grid>
   );
 }
 

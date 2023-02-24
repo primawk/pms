@@ -7,6 +7,9 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+// context
+import { ShipmentProvider } from 'context/ShipmentContext';
+
 // For GET requests
 axios.interceptors.request.use((config) => {
   const user = JSON.parse(localStorage.getItem('user-pms'));
@@ -42,9 +45,11 @@ axios.interceptors.response.use(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ShipmentProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ShipmentProvider>
   </React.StrictMode>
 );
 

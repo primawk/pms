@@ -35,7 +35,7 @@ const ListDome = ({ data }) => {
             <Box sx={{ marginBottom: '0.3rem' }}>
               <h5 style={{ color: '#828282' }}>Inventory</h5>
             </Box>
-            {data?.tonnage_difference.charAt(0) === '-' ? (
+            {data?.tonnage_difference < 0 ? (
               <Grid container>
                 <Box sx={{ margin: '0.3rem 0.3rem 0 0' }}>
                   <Icon icon="bxs:down-arrow" color="#DA4540" />

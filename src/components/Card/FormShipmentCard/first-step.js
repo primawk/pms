@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Typography,
   Grid,
@@ -10,47 +10,43 @@ import {
   Stack,
   InputAdornment,
   Chip,
-  Autocomplete
+  Autocomplete,
+  Select
 } from '@mui/material';
-import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
+import { useQuery } from 'react-query';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { NumericFormat } from 'react-number-format';
 
-// custom hooks
+// services
+import MiningActivityService from 'services/MiningActivityService';
+import InventoryService from 'services/InventoryService';
+
+// custom hooks with context
+import { useShipmentContext } from 'context/ShipmentContext';
 
 // components
 import Footer from 'components/Footer';
 import { LoadingModal } from 'components/Modal';
 
-// services
-import MiningActivityService from 'services/MiningActivityService';
-
-export default function FirstStep({ handleContinue }) {
-  const { activityType, id } = useParams();
+export default function FirstStep() {
   const navigate = useNavigate();
-  const prevState = useLocation().state;
+  const location = useLocation();
+  const { handleContinue, value } = useShipmentContext();
 
-  const { data, isFetching } = useQuery(
-    ['mining-activity', 'detail-activity', id],
-    () => MiningActivityService.getActivityById({ id }),
-    { keepPreviousData: true, enabled: !!id }
-  );
-
-  const detailActivity = data?.data?.data;
+  const [selectedDome, setSelectedDome] = useState([]);
 
   // shipment schema
   const ShipmentSchema = Yup.object().shape({});
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      activity_type: id ? detailActivity?.activity_type : prevState?.activity_type,
-      activity_code: id ? detailActivity?.activity_code : null,
-      date: id ? detailActivity?.date : prevState?.date,
-      time: id ? detailActivity?.time : prevState?.time,
-      product_type: id ? detailActivity?.product_type : prevState?.product_type
-    },
+    initialValues: value,
     validationSchema: ShipmentSchema,
     onSubmit: (values) => {
       handleContinue(values);
@@ -59,42 +55,75 @@ export default function FirstStep({ handleContinue }) {
 
   const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values } = formik;
 
-  const handleGetLevel = (level) => (isNaN(values?.[level] / 100) ? 0 : values?.[level] / 100);
+  const { data: dataProvince } = useQuery(['province'], () => MiningActivityService.getProvince(), {
+    keepPreviousData: true
+  });
 
-  const handleChangeNumber = (e, name, equivalent) => {
-    const _val = e.target.value.replace(/[^0-9.]/g, '');
-    if (_val.split('.').length > 2) {
-      const _doubleDot = _val.slice(0, -1);
-      setFieldValue(name, _doubleDot);
-      if (name !== 'tonnage_total' && name.includes('level')) {
-        const _equivalent = (_doubleDot / 100) * values?.tonnage_total;
-        setFieldValue(equivalent, _equivalent);
-      } else if (name === 'tonnage_total') {
-        setFieldValue('ni_metal_equivalent', handleGetLevel('ni_level') * _doubleDot);
-        setFieldValue('fe_metal_equivalent', handleGetLevel('fe_level') * _doubleDot);
-        setFieldValue('co_metal_equivalent', handleGetLevel('co_level') * _doubleDot);
-        setFieldValue('simgo_metal_equivalent', handleGetLevel('simgo_level') * _doubleDot);
-      }
-    } else {
-      setFieldValue(name, _val);
-      if (name !== 'tonnage_total' && name.includes('level') && equivalent !== undefined) {
-        const _equivalent = (_val / 100) * values?.tonnage_total;
-        setFieldValue(equivalent, _equivalent);
-      } else if (name === 'tonnage_total') {
-        setFieldValue('ni_metal_equivalent', handleGetLevel('ni_level') * _val);
-        setFieldValue('fe_metal_equivalent', handleGetLevel('fe_level') * _val);
-        setFieldValue('co_metal_equivalent', handleGetLevel('co_level') * _val);
-        setFieldValue('simgo_metal_equivalent', handleGetLevel('simgo_level') * _val);
-      }
+  const listProvince = dataProvince?.data?.data;
+
+  const idProvince = listProvince?.find((item) => item?.wilayah === values?.dest_loc_prov)?.id;
+
+  const { data: dataRegency } = useQuery(
+    ['regency', idProvince],
+    () => MiningActivityService.getRegency({ id_provinsi: idProvince }),
+    {
+      keepPreviousData: true,
+      enabled: !!idProvince
+    }
+  );
+  const listRegency = values?.dest_loc_prov ? dataRegency?.data?.data : [];
+
+  const onlyTime = values?.time?.split(':');
+
+  const valueTime = dayjs(new Date()).set('hour', onlyTime?.[0]).set('minute', onlyTime?.[1]);
+
+  const { data: dataDome } = useQuery(
+    ['inventory', 'inventory-efo'],
+    () =>
+      InventoryService.getDome({
+        inventory_type: 'inventory-efo'
+      }),
+    { keepPreviousData: true }
+  );
+
+  const listDome = dataDome?.data?.data;
+
+  const totalTonnage =
+    values?.tonnage_total?.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0) || 0;
+
+  const handleChangeNumber = (value, level, equivalent) => {
+    if (value <= 100) {
+      const _equivalent = (value / 100) * totalTonnage;
+      setFieldValue(level, value);
+      setFieldValue(equivalent, _equivalent);
     }
   };
 
   useEffect(() => {
-    if (id === undefined && !values?.activity_type && !values?.date) {
-      navigate(-1);
-      navigate(0);
+    if (value?.dome_origin_id?.length === 0) {
+      setSelectedDome([]);
+    } else {
+      const oldValue = selectedDome;
+      value?.dome_origin_id?.forEach((item, i) => {
+        oldValue[i] = {
+          ...listDome?.find((_item) => _item?.id?.toString() === item?.toString()),
+          tonnage_totals: value?.tonnage_total?.[i] || null
+        };
+      });
+      setSelectedDome(oldValue);
     }
-  }, []);
+  }, [listDome, value, location?.pathname]);
+
+  useEffect(() => {
+    if (selectedDome?.length > 0) {
+      setFieldValue(
+        'tonnage_total',
+        selectedDome?.map((item) => item?.tonnage_totals)
+      );
+    } else {
+      setFieldValue('tonnage_total', []);
+    }
+  }, [selectedDome]);
 
   return (
     <div
@@ -107,7 +136,6 @@ export default function FirstStep({ handleContinue }) {
       }}
       className="bg-white"
     >
-      {isFetching && <LoadingModal />}
       <>
         <FormikProvider value={formik}>
           <Form autoComplete="off" onSubmit={handleSubmit}>
@@ -128,24 +156,65 @@ export default function FirstStep({ handleContinue }) {
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="flex-start"
-                  spacing={10}
+                  spacing={3}
                 >
-                  <Grid item container lg={4.5} xs={4.5} direction="column">
+                  <Grid item container lg={6} xs={6} direction="column">
                     <Typography variant="h6" sx={{ mb: 3 }}>
-                      Jadwal Kegiatan
+                      Tanggal Kegiatan
                     </Typography>
-                    <Typography variant="body1" sx={{ mb: 3 }}>
-                      {`${values && dayjs(values?.date).format('DD MMMM YYYY')}, ${
-                        values && values?.time
-                      }`}
-                    </Typography>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        value={values?.date}
+                        onChange={(val) => {
+                          setFieldValue('date', dayjs(val).format('YYYY-MM-DD'));
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            size="small"
+                            error={Boolean(touched.date && errors.date)}
+                            helperText={touched.date && errors.date}
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
                   </Grid>
-                  <Grid item container lg={4.5} xs={4.5} direction="column">
+                  <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h6" sx={{ mb: 3 }}>
+                      Waktu Kegiatan Dimulai
+                    </Typography>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <TimePicker
+                        ampm={false}
+                        value={valueTime}
+                        onChange={(val) => {
+                          setFieldValue('time', dayjs(val).format('HH:mm'));
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            size="small"
+                            error={Boolean(touched.time && errors.time)}
+                            helperText={touched.time && errors.time}
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item container lg={6} xs={6} direction="column">
                     <Typography variant="h6" sx={{ mb: 3 }}>
                       Jenis Produk
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
                       {values?.product_type}
+                    </Typography>
+                  </Grid>
+                  <Grid item container lg={6} xs={6} direction="column">
+                    <Typography variant="h6" sx={{ mb: 3 }}>
+                      Block
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 3 }}>
+                      {values?.block}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -155,10 +224,10 @@ export default function FirstStep({ handleContinue }) {
                     <TextField
                       fullWidth
                       size="small"
-                      //   name=""
-                      //   {...getFieldProps('')}
-                      // error={Boolean(touched. && errors.)}
-                      // helperText={touched. && errors.}
+                      name="shipment_number"
+                      {...getFieldProps('shipment_number')}
+                      error={Boolean(touched?.shipment_number && errors?.shipment_number)}
+                      helperText={touched?.shipment_number && errors?.shipment_number}
                     />
                   </FormControl>
                   <Typography variant="h6">Jenis Pemasaran</Typography>
@@ -167,12 +236,17 @@ export default function FirstStep({ handleContinue }) {
                       select
                       fullWidth
                       size="small"
-                      //   name=""
-                      //   {...getFieldProps('')}
-                      // error={Boolean(touched. && errors.)}
-                      // helperText={touched. && errors.}
+                      SelectProps={{
+                        displayEmpty: true
+                      }}
+                      name="shipment_type"
+                      {...getFieldProps('shipment_type')}
+                      error={Boolean(touched?.shipment_type && errors?.shipment_type)}
+                      helperText={touched?.shipment_type && errors?.shipment_type}
                     >
                       <MenuItem value="">Pilih Jenis Pemasaran</MenuItem>
+                      <MenuItem value="Ekspor">Ekspor</MenuItem>
+                      <MenuItem value="Domestik">Domestik</MenuItem>
                     </TextField>
                   </FormControl>
                   <Typography variant="h6">Jenis Penjualan</Typography>
@@ -181,12 +255,26 @@ export default function FirstStep({ handleContinue }) {
                       select
                       fullWidth
                       size="small"
-                      //   name=""
-                      //   {...getFieldProps('')}
-                      // error={Boolean(touched. && errors.)}
-                      // helperText={touched. && errors.}
+                      SelectProps={{
+                        displayEmpty: true
+                      }}
+                      name="sales_type"
+                      {...getFieldProps('sales_type')}
+                      error={Boolean(touched?.sales_type && errors?.sales_type)}
+                      helperText={touched?.sales_type && errors?.sales_type}
                     >
                       <MenuItem value="">Pilih Jenis Penjualan</MenuItem>
+                      <MenuItem value="Cost Insurance Freight Barge">
+                        Cost Insurance Freight Barge
+                      </MenuItem>
+                      <MenuItem value="Cost Insurance Freight Vessel">
+                        Cost Insurance Freight Vessel
+                      </MenuItem>
+                      <MenuItem value="FOB Barge">FOB Barge</MenuItem>
+                      <MenuItem value="FOB Vessel">FOB Vessel</MenuItem>
+                      <MenuItem value="Satu Pulau Angkutan Darat">
+                        Satu Pulau Angkutan Darat
+                      </MenuItem>
                     </TextField>
                   </FormControl>
                 </Stack>
@@ -202,10 +290,10 @@ export default function FirstStep({ handleContinue }) {
                   placeholder="Tuliskan PBM"
                   fullWidth
                   size="small"
-                  //   name=""
-                  //   {...getFieldProps('')}
-                  // error={Boolean(touched. && errors.)}
-                  // helperText={touched. && errors.}
+                  name="pbm_name"
+                  {...getFieldProps('pbm_name')}
+                  error={Boolean(touched?.pbm_name && errors?.pbm_name)}
+                  helperText={touched?.pbm_name && errors?.pbm_name}
                 />
                 <Grid
                   container
@@ -224,24 +312,32 @@ export default function FirstStep({ handleContinue }) {
                         placeholder="Tuliskan Nama Pembeli"
                         fullWidth
                         size="small"
-                        //   name=""
-                        //   {...getFieldProps('')}
-                        // error={Boolean(touched. && errors.)}
-                        // helperText={touched. && errors.}
+                        name="buyer_name"
+                        {...getFieldProps('buyer_name')}
+                        error={Boolean(touched?.buyer_name && errors?.buyer_name)}
+                        helperText={touched?.buyer_name && errors?.buyer_name}
                       />
                     </FormControl>
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Lokasi Titik Serah (Provinsi)
                     </Typography>
                     <FormControl>
-                      <Autocomplete
+                      <Select
+                        name="dest_loc_prov"
+                        value={values?.dest_loc_prov}
+                        onChange={(e) => {
+                          setFieldValue('dest_loc_prov', e.target.value);
+                          setFieldValue('dest_loc_city', '');
+                        }}
                         size="small"
-                        placeholder="Pilih Provinsi"
-                        option={{}}
-                        // options={top100Films.map((option) => option.title)}
-                        // defaultValue={[top100Films[13].title]}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
+                        displayEmpty
+                        fullWidth
+                      >
+                        <MenuItem value={null}>Provinsi</MenuItem>
+                        {listProvince?.map((_prov, i) => (
+                          <MenuItem value={_prov?.wilayah}>{_prov?.wilayah}</MenuItem>
+                        ))}
+                      </Select>
                     </FormControl>
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Nama Jenis Pengiriman
@@ -251,12 +347,17 @@ export default function FirstStep({ handleContinue }) {
                         select
                         fullWidth
                         size="small"
-                        //   name=""
-                        //   {...getFieldProps('')}
-                        // error={Boolean(touched. && errors.)}
-                        // helperText={touched. && errors.}
+                        SelectProps={{
+                          displayEmpty: true
+                        }}
+                        name="shipping_type"
+                        {...getFieldProps('shipping_type')}
+                        error={Boolean(touched?.shipping_type && errors?.shipping_type)}
+                        helperText={touched?.shipping_type && errors?.shipping_type}
                       >
                         <MenuItem value="">Pilih Jenis Pengiriman</MenuItem>
+                        <MenuItem value="Tongkang">Tongkang</MenuItem>
+                        <MenuItem value="Truk">Truk</MenuItem>
                       </TextField>
                     </FormControl>
                   </Grid>
@@ -269,24 +370,29 @@ export default function FirstStep({ handleContinue }) {
                         placeholder="Tuliskan Nama Pabrik Tujuan"
                         fullWidth
                         size="small"
-                        //   name=""
-                        //   {...getFieldProps('')}
-                        // error={Boolean(touched. && errors.)}
-                        // helperText={touched. && errors.}
+                        name="dest_loc"
+                        {...getFieldProps('dest_loc')}
+                        error={Boolean(touched?.dest_loc && errors?.dest_loc)}
+                        helperText={touched?.dest_loc && errors?.dest_loc}
                       />
                     </FormControl>
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Lokasi Titik Serah (Kabupaten/Kota)
                     </Typography>
                     <FormControl>
-                      <Autocomplete
+                      <Select
+                        name="dest_loc_city"
+                        value={values?.dest_loc_city}
+                        onChange={(e) => setFieldValue('dest_loc_city', e.target.value)}
                         size="small"
-                        placeholder="Pilih Kabupaten/Kota"
-                        option={{}}
-                        // options={top100Films.map((option) => option.title)}
-                        // defaultValue={[top100Films[13].title]}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
+                        displayEmpty
+                        fullWidth
+                      >
+                        <MenuItem value={null}>Kab/Kota</MenuItem>
+                        {listRegency?.map((_reg, i) => (
+                          <MenuItem value={_reg?.wilayah}>{_reg?.wilayah}</MenuItem>
+                        ))}
+                      </Select>
                     </FormControl>
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Nama Alat Pengiriman
@@ -296,10 +402,10 @@ export default function FirstStep({ handleContinue }) {
                         placeholder="Tuliskan Alat Pengiriman"
                         fullWidth
                         size="small"
-                        //   name=""
-                        //   {...getFieldProps('')}
-                        // error={Boolean(touched. && errors.)}
-                        // helperText={touched. && errors.}
+                        name="shipping_name"
+                        {...getFieldProps('shipping_name')}
+                        error={Boolean(touched?.shipping_name && errors?.shipping_name)}
+                        helperText={touched?.shipping_name && errors?.shipping_name}
                       />
                     </FormControl>
                   </Grid>
@@ -311,45 +417,9 @@ export default function FirstStep({ handleContinue }) {
                   container
                   direction="row"
                   justifyContent="flex-start"
-                  alignItems="center"
+                  alignItems="flex-start"
                   spacing={3}
                 >
-                  <Grid item container lg={6} xs={6} direction="column">
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Volume Pengiriman
-                    </Typography>
-                    <FormControl>
-                      <TextField
-                        placeholder="Jumlah Tonase"
-                        fullWidth
-                        value={values.sublot_total}
-                        onChange={(e) => handleChangeNumber(e, 'sublot_total')}
-                        error={Boolean(touched.sublot_total && errors.sublot_total)}
-                        helperText={touched.sublot_total && errors.sublot_total}
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            paddingRight: 0
-                          }
-                        }}
-                        size="small"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment
-                              position="end"
-                              sx={{
-                                padding: '19px',
-                                backgroundColor: (theme) => theme.palette.divider,
-                                borderTopRightRadius: (theme) => theme.shape.borderRadius + 'px',
-                                borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
-                              }}
-                            >
-                              Ton
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </FormControl>
-                  </Grid>
                   <Grid item container lg={6} xs={6} direction="column">
                     <Typography variant="h6" sx={{ mb: 3 }}>
                       Asal Tumpukan EFO
@@ -358,18 +428,95 @@ export default function FirstStep({ handleContinue }) {
                       <Autocomplete
                         multiple
                         size="small"
-                        option={{}}
-                        // options={top100Films.map((option) => option.title)}
-                        // defaultValue={[top100Films[13].title]}
-                        freeSolo
+                        isOptionEqualToValue={(option, value) => option.name === value.name}
+                        options={listDome || []}
+                        getOptionLabel={(option) => option.name}
+                        value={selectedDome}
+                        onChange={(e, val) => {
+                          setSelectedDome(val);
+                          setFieldValue(
+                            'dome_origin_id',
+                            val?.map((item) => item?.id)
+                          );
+                        }}
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
-                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                            <Chip
+                              variant="outlined"
+                              label={option?.name}
+                              size="small"
+                              {...getTagProps({ index })}
+                            />
                           ))
                         }
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => <TextField size="small" {...params} />}
                       />
                     </FormControl>
+                    <Typography variant="h6" sx={{ mb: 3, mt: 2 }}>
+                      Volume Pengiriman
+                    </Typography>
+                    <Typography variant="p" sx={{ mb: 3 }}>
+                      {totalTonnage?.toLocaleString() || '0'} Ton
+                    </Typography>
+                  </Grid>
+                  <Grid item container lg={6} xs={6} direction="column">
+                    {selectedDome?.map((item, i) => (
+                      <>
+                        <Typography variant="h6" sx={{ mb: 3 }}>
+                          Volume Pengiriman {item?.name}
+                        </Typography>
+                        <FormControl>
+                          <NumericFormat
+                            required
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            decimalScale={2}
+                            valueIsNumericString
+                            customInput={TextField}
+                            placeholder="Volume Pengiriman"
+                            fullWidth
+                            onValueChange={(_values) => {
+                              const newValue = [...selectedDome];
+                              newValue[i]['tonnage_totals'] = _values?.value;
+                              setSelectedDome(newValue);
+                            }}
+                            value={selectedDome?.[i]?.tonnage_totals}
+                            error={
+                              selectedDome?.[0]?.tonnage_totals &&
+                              selectedDome?.[i]?.tonnage_totals < 0
+                            }
+                            helperText={
+                              selectedDome?.[0]?.tonnage_totals &&
+                              selectedDome?.[i]?.tonnage_totals < 0 &&
+                              'Volume cannot empty'
+                            }
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                paddingRight: 0
+                              }
+                            }}
+                            size="small"
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment
+                                  position="end"
+                                  sx={{
+                                    padding: '19px',
+                                    backgroundColor: (theme) => theme.palette.divider,
+                                    borderTopRightRadius: (theme) =>
+                                      theme.shape.borderRadius + 'px',
+                                    borderBottomRightRadius: (theme) =>
+                                      theme.shape.borderRadius + 'px'
+                                  }}
+                                >
+                                  Ton
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                        </FormControl>
+                      </>
+                    ))}
                   </Grid>
                 </Grid>
                 <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
@@ -387,13 +534,18 @@ export default function FirstStep({ handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Kadar NI"
                         fullWidth
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'ni_level', 'ni_metal_equivalent')
+                        }
                         value={values.ni_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
-                        }}
                         error={Boolean(touched.ni_level && errors.ni_level)}
                         helperText={touched.ni_level && errors.ni_level}
                         sx={{
@@ -425,7 +577,12 @@ export default function FirstStep({ handleContinue }) {
                       Ekuivalen Logam
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.ni_metal_equivalent}
@@ -472,13 +629,18 @@ export default function FirstStep({ handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Nilai Kadar"
                         fullWidth
                         value={values.fe_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'fe_level', 'fe_metal_equivalent');
-                        }}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'fe_level', 'fe_metal_equivalent')
+                        }
                         error={Boolean(touched.fe_level && errors.fe_level)}
                         helperText={touched.fe_level && errors.fe_level}
                         sx={{
@@ -510,7 +672,12 @@ export default function FirstStep({ handleContinue }) {
                       Ekuivalen Logam
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.fe_metal_equivalent}
@@ -557,13 +724,18 @@ export default function FirstStep({ handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Kadar NI"
                         fullWidth
-                        value={values.co_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'co_level', 'co_metal_equivalent');
-                        }}
+                        value={values?.co_level}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'co_level', 'co_metal_equivalent')
+                        }
                         error={Boolean(touched.co_level && errors.co_level)}
                         helperText={touched.co_level && errors.co_level}
                         sx={{
@@ -595,99 +767,17 @@ export default function FirstStep({ handleContinue }) {
                       Ekuivalen Logam
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Ekuivalen Logam"
                         fullWidth
                         value={values.co_metal_equivalent}
                         error={Boolean(touched.co_metal_equivalent && errors.co_metal_equivalent)}
                         helperText={touched.co_metal_equivalent && errors.co_metal_equivalent}
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            paddingRight: 0
-                          }
-                        }}
-                        size="small"
-                        InputProps={{
-                          readOnly: true,
-                          endAdornment: (
-                            <InputAdornment
-                              position="end"
-                              sx={{
-                                padding: '19px',
-                                backgroundColor: (theme) => theme.palette.divider,
-                                borderTopRightRadius: (theme) => theme.shape.borderRadius + 'px',
-                                borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
-                              }}
-                            >
-                              Ton
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </FormControl>
-                  </Grid>
-                </Grid>
-                <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
-                  Kadar SiMgO
-                </Typography>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  spacing={3}
-                >
-                  <Grid item container lg={6} xs={6} direction="column">
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Nilai Kadar
-                    </Typography>
-                    <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
-                        fullWidth
-                        value={values.simgo_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'simgo_level', 'simgo_metal_equivalent');
-                        }}
-                        error={Boolean(touched.simgo_level && errors.simgo_level)}
-                        helperText={touched.simgo_level && errors.simgo_level}
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            paddingRight: 0
-                          }
-                        }}
-                        size="small"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment
-                              position="end"
-                              sx={{
-                                padding: '19px',
-                                backgroundColor: (theme) => theme.palette.divider,
-                                borderTopRightRadius: (theme) => theme.shape.borderRadius + 'px',
-                                borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
-                              }}
-                            >
-                              %
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </FormControl>
-                  </Grid>
-                  <Grid item container lg={6} xs={6} direction="column">
-                    <Typography variant="h6" sx={{ mb: 3 }}>
-                      Ekuivalen Logam
-                    </Typography>
-                    <FormControl>
-                      <TextField
-                        placeholder="Ekuivalen Logam"
-                        fullWidth
-                        value={values.simgo_metal_equivalent}
-                        error={Boolean(
-                          touched.simgo_metal_equivalent && errors.simgo_metal_equivalent
-                        )}
-                        helperText={touched.simgo_metal_equivalent && errors.simgo_metal_equivalent}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0

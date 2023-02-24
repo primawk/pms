@@ -174,7 +174,7 @@ const getGroupedMiningTool = ({
   });
 };
 
-const getSummary = ({ start_date, end_date, company_name } = {}) => {
+const getSummary = ({ start_date, end_date, pt } = {}) => {
   const params = [];
   if (start_date) {
     params.push(['start_date', start_date]);
@@ -182,8 +182,8 @@ const getSummary = ({ start_date, end_date, company_name } = {}) => {
   if (end_date) {
     params.push(['end_date', end_date]);
   }
-  if (company_name) {
-    params.push(['company_name', company_name]);
+  if (pt) {
+    params.push(['pt', pt]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/tool/summary`, {
     method: 'GET',

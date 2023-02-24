@@ -68,7 +68,7 @@ const ReportList = ({ listData }) => {
           <Typography variant="body1" color="#828282">
             Inventory
           </Typography>
-          {listData?.tonnage_difference.charAt(0) === '-' ? (
+          {listData?.tonnage_difference < 0 ? (
             <Stack direction="row" alignItems="center" spacing={2}>
               <Icon width={15} height={15} icon={ArrowDown} color="#DA4540" />
               <Typography variant="body1" style={{ margin: 1 }} color="#DA4540">

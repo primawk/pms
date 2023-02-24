@@ -326,7 +326,7 @@ export default function ShipmentDetailCard() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item lg={12}>
+            <Grid item lg={12} md={12}>
               <hr />
               <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
                 Upload Dokumen
@@ -380,7 +380,7 @@ export default function ShipmentDetailCard() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item lg={12}>
+            <Grid item lg={12} md={12}>
               <hr />
               <Typography variant="h5" sx={{ mt: 3 }}>
                 Informasi Bongkat Muat

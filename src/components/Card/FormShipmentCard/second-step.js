@@ -1,48 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Typography, Grid } from '@mui/material';
-import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-// custom hooks
+// custom hooks with context
+import { useShipmentContext } from 'context/ShipmentContext';
 
 // components
 import Footer from 'components/Footer';
 import CustomDropzone from './CustomDropzone';
-import { LoadingModal } from 'components/Modal';
 
-// services
-import MiningActivityService from 'services/MiningActivityService';
-
-export default function SecondStep({ handleBack, handleContinue }) {
-  const { activityType, id } = useParams();
-  const navigate = useNavigate();
-  const prevState = useLocation().state;
-
-  const { data, isFetching } = useQuery(
-    ['mining-activity', 'detail-activity', id],
-    () => MiningActivityService.getActivityById({ id }),
-    { keepPreviousData: true, enabled: !!id }
-  );
-
-  const detailActivity = data?.data?.data;
+export default function SecondStep() {
+  const { handleBack, handleContinue, value } = useShipmentContext();
 
   // shipment schema
   const ShipmentSchema = Yup.object().shape({});
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      activity_type: id ? detailActivity?.activity_type : prevState?.activity_type,
-      activity_code: id ? detailActivity?.activity_code : null,
-      date: id ? detailActivity?.date : prevState?.date,
-      time: id ? detailActivity?.time : prevState?.time,
-      product_type: id ? detailActivity?.product_type : prevState?.product_type,
-      shipment_instruction: []
-    },
+    initialValues: value,
     validationSchema: ShipmentSchema,
     onSubmit: (values) => {
       handleContinue(values);
@@ -58,6 +35,15 @@ export default function SecondStep({ handleBack, handleContinue }) {
   const handleRemoveImage = (e, index, name) => {
     e.preventDefault();
     const _value = [...values[name]];
+    if (typeof _value[index] === 'string') {
+      const _oldFileChange = values?.file_change;
+      if (values?.file_change[name]?.length > 0) {
+        _oldFileChange[name].push(values[name][index]);
+      } else {
+        _oldFileChange[name] = [values[name][index]];
+        setFieldValue('file_change', _oldFileChange);
+      }
+    }
     _value.splice(index, 1);
     setFieldValue(name, [..._value]);
   };
@@ -66,12 +52,7 @@ export default function SecondStep({ handleBack, handleContinue }) {
     setFieldValue(name, [...values[name], ...value]);
   };
 
-  useEffect(() => {
-    if (id === undefined && !values?.activity_type && !values?.date) {
-      navigate(-1);
-      navigate(0);
-    }
-  }, []);
+  console.log(values);
 
   return (
     <div
@@ -84,7 +65,6 @@ export default function SecondStep({ handleBack, handleContinue }) {
       }}
       className="bg-white"
     >
-      {isFetching && <LoadingModal />}
       <>
         <FormikProvider value={formik}>
           <Form autoComplete="off" onSubmit={handleSubmit}>
@@ -143,7 +123,7 @@ export default function SecondStep({ handleBack, handleContinue }) {
                       Nama PBM
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
-                      PT. Nama PBM
+                      {values?.pbm_name || '-'}
                     </Typography>
                   </Grid>
                   <Grid item container lg={6} xs={6} direction="column">
@@ -151,7 +131,7 @@ export default function SecondStep({ handleBack, handleContinue }) {
                       Nama Pembeli
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
-                      PT. Nama Pembeli
+                      {values?.buyer_name || '-'}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -170,102 +150,112 @@ export default function SecondStep({ handleBack, handleContinue }) {
                 >
                   <Grid item md={6} sm={12} xs={12}>
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Shipping Instruction
+                      SKAB
                     </Typography>
                     <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
+                      name="skab"
+                      value={values?.skab}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                      onChange={(e) => handleChangeImage(e, 'skab')}
+                      onRemove={handleRemoveImage}
+                    />
+                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
+                      Bukti Bayar
+                    </Typography>
+                    <CustomDropzone
+                      name="bukti_bayar"
+                      value={values?.bukti_bayar}
+                      handleOnDrop={handleOnDrop}
+                      onChange={(e) => handleChangeImage(e, 'bukti_bayar')}
+                      onRemove={handleRemoveImage}
+                    />
+                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
+                      Bill Of Loading
+                    </Typography>
+                    <CustomDropzone
+                      name="bill_loading"
+                      value={values?.bill_loading}
+                      handleOnDrop={handleOnDrop}
+                      onChange={(e) => handleChangeImage(e, 'bill_loading')}
                       onRemove={handleRemoveImage}
                     />
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Draught Survey
                     </Typography>
                     <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
+                      name="draught_survey"
+                      value={values?.draught_survey}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
-                      onRemove={handleRemoveImage}
-                    />
-                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Bukti Bayar Royalti
-                    </Typography>
-                    <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
-                      handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
-                      onRemove={handleRemoveImage}
-                    />
-                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Bill of Loading
-                    </Typography>
-                    <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
-                      handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                      onChange={(e) => handleChangeImage(e, 'draught_survey')}
                       onRemove={handleRemoveImage}
                     />
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Cargo Manifest
                     </Typography>
                     <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
+                      name="cargo_manifest"
+                      value={values?.cargo_manifest}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                      onChange={(e) => handleChangeImage(e, 'cargo_manifest')}
                       onRemove={handleRemoveImage}
                     />
                   </Grid>
                   <Grid item md={6} sm={12} xs={12}>
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Packing List
+                      SPB
                     </Typography>
                     <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
+                      name="spb"
+                      value={values?.spb}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                      onChange={(e) => handleChangeImage(e, 'spb')}
                       onRemove={handleRemoveImage}
                     />
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      SKAB
+                      Shipping Instruction
                     </Typography>
                     <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
+                      name="shipping_intruction"
+                      value={values?.shipping_intruction}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                      onChange={(e) => handleChangeImage(e, 'shipping_intruction')}
+                      onRemove={handleRemoveImage}
+                    />
+                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
+                      Packing List
+                    </Typography>
+                    <CustomDropzone
+                      name="packing_list"
+                      value={values?.packing_list}
+                      handleOnDrop={handleOnDrop}
+                      onChange={(e) => handleChangeImage(e, 'packing_list')}
                       onRemove={handleRemoveImage}
                     />
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       LHV
                     </Typography>
                     <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
+                      name="lhv"
+                      value={values?.lhv}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                      onChange={(e) => handleChangeImage(e, 'lhv')}
                       onRemove={handleRemoveImage}
                     />
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      SPB
+                      Invoice Kontrak SPAL
                     </Typography>
                     <CustomDropzone
-                      name="shipment_instruction"
-                      value={values?.shipment_instruction}
+                      name="packing_list"
+                      value={values?.packing_list}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                      onChange={(e) => handleChangeImage(e, 'packing_list')}
                       onRemove={handleRemoveImage}
                     />
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            <Footer handleBack={handleBack} step={2} />
+            <Footer handleBack={() => handleBack(values)} step={2} />
           </Form>
         </FormikProvider>
       </>

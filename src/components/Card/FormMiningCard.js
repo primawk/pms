@@ -115,7 +115,7 @@ export default function FormMiningCard() {
       dome_id: id ? detailActivity?.dome_id : null,
       partner: id ? detailActivity?.partner : null,
       sublot_total: id ? parseFloat(detailActivity?.sublot_total) : '',
-      tonnage_total: id ? parseFloat(detailActivity?.tonnage_total) : '',
+      tonnage_total: id ? parseFloat(detailActivity?.tonnage_total?.[0]) : '',
       ritase_total: id ? parseFloat(detailActivity?.ritase_total) : '',
       eto_id: id ? detailActivity?.eto_id : null,
       ni_level: id ? parseFloat(detailActivity?.ni_level) : '',
@@ -127,7 +127,7 @@ export default function FormMiningCard() {
       simgo_level: id ? parseFloat(detailActivity?.simgo_level) : '',
       simgo_metal_equivalent: id ? parseFloat(detailActivity?.simgo_metal_equivalent) : '',
       hill_origin_id: id ? detailActivity?.hill_origin_id : null,
-      dome_origin_id: id ? detailActivity?.dome_origin_id : null
+      dome_origin_id: id ? detailActivity?.dome_origin_id?.[0] : null
     },
     validationSchema:
       activityType === 'ore-getting'
@@ -1071,7 +1071,7 @@ export default function FormMiningCard() {
                         decimalScale={2}
                         valueIsNumericString
                         customInput={TextField}
-                        placeholder="Kadar NI"
+                        placeholder="Nilai Kadar"
                         fullWidth
                         value={values?.co_level}
                         onValueChange={(values) =>

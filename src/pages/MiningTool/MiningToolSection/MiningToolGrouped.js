@@ -18,7 +18,7 @@ export default function MiningToolGrouped() {
     ['mining-tool', 'summary', companyName],
     () =>
       MiningToolService.getSummary({
-        company_name: companyName
+        pt: companyName
       }),
     { keepPreviousData: true }
   );

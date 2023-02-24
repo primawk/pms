@@ -2,6 +2,60 @@ import { request } from 'utils/request';
 import { MINING_ACTIVITY_MODEL } from 'utils/constant';
 import authHeader from './authHeader';
 
+//shipment files
+const fileList = [
+  'shipping_intruction',
+  'siping_instruksi',
+  'draught_survey',
+  'royalty',
+  'bill_loading',
+  'cargo_manifest',
+  'packing_list',
+  'siping_instruksi_2',
+  'skab',
+  'lhv',
+  'spb',
+  'coa_bongkar',
+  'coa_muat',
+  'bukti_bayar'
+];
+
+const normalVar = [
+  'activity_type',
+  'date',
+  'time',
+  'product_type',
+  'shipment_number',
+  'block',
+  'bongkar_co_level',
+  'bongkar_fe_level',
+  'bongkar_ni_level',
+  'bongkar_tonnage_total',
+  'buyer_name',
+  'co_level',
+  'co_metal_equivalent',
+  'dest_loc',
+  'dest_loc_city',
+  'dest_loc_prov',
+  'dome_origin_total',
+  'fe_level',
+  'fe_metal_equivalent',
+  'muat_co_level',
+  'muat_fe_level',
+  'muat_ni_level',
+  'muat_tonnage_total',
+  'ni_level',
+  'ni_metal_equivalent',
+  'pbm_name',
+  'sales_type',
+  'shipment_type',
+  'shipping_intruction',
+  'shipping_name',
+  'shipping_type',
+  'status',
+  'file_change'
+];
+
 const getActivity = ({ page, row, activity_type, dome_id, hill_id, start_date, end_date } = {}) => {
   const params = [];
   if (page) {
@@ -215,6 +269,129 @@ const deleteActivity = ({ id }) => {
   });
 };
 
+const getProvince = () => {
+  return request(`${MINING_ACTIVITY_MODEL}/wilayah/provinsi`, {
+    method: 'GET',
+    header: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  });
+};
+
+const getRegency = ({ id_provinsi }) => {
+  return request(`${MINING_ACTIVITY_MODEL}/wilayah/kotakab/${id_provinsi}`, {
+    method: 'GET'
+  });
+};
+
+const createShipment = (data) => {
+  const _data = {
+    ...data,
+    dome_origin_total: JSON.stringify(
+      data?.dome_origin_id?.map((item, i) => ({
+        dome_origin_id: item,
+        tonnage_total: data?.tonnage_total[i]
+      }))
+    ),
+    status: data?.coa_bongkar?.length === 0 && data?.coa_muat?.length === 0 ? 'provisi' : 'final'
+  };
+
+  // remove empty variable
+  Object.keys(_data).forEach(
+    (key) => (!_data?.[key] || _data?.[key]?.length === 0) && delete _data?.[key]
+  );
+  delete _data?.file_change;
+  delete _data?.tonnage_total;
+  delete _data?.dome_origin_id;
+  const formData = new FormData();
+
+  // append array of files
+  Object.keys(_data)
+    .filter((key) => fileList.some((file) => key === file))
+    .forEach((_key) => {
+      _data[_key].forEach((files) => {
+        if (typeof files !== 'string') {
+          formData.append(_key, files);
+        }
+      });
+    });
+
+  // append normal variable
+  Object.keys(_data)
+    .filter((key) => normalVar.some((_var) => key === _var))
+    .forEach((_key) => {
+      formData.append(_key, _data[_key]);
+    });
+
+  return request(`${MINING_ACTIVITY_MODEL}/activity`, {
+    method: 'POST',
+    data: formData,
+    headers: authHeader()
+  });
+};
+
+const editShipment = (data, id) => {
+  const _data = {
+    ...data,
+    dome_origin_total: JSON.stringify(
+      data?.dome_origin_id?.map((item, i) => ({
+        dome_origin_id: item,
+        tonnage_total: data?.tonnage_total[i]
+      }))
+    ),
+    status: data?.coa_bongkar?.length === 0 && data?.coa_muat?.length === 0 ? 'provisi' : 'final'
+  };
+
+  // remove empty variable
+  Object.keys(_data).forEach(
+    (key) => (!_data?.[key] || _data?.[key]?.length === 0) && delete _data?.[key]
+  );
+  delete _data?.file_change;
+  delete _data?.tonnage_total;
+  delete _data?.dome_origin_id;
+  const formData = new FormData();
+
+  // append array of files
+  Object.keys(_data)
+    .filter((key) => fileList.some((file) => key === file))
+    .forEach((_key) => {
+      _data[_key].forEach((files) => {
+        if (typeof files !== 'string') {
+          formData.append(_key, files);
+        }
+      });
+    });
+
+  // append normal variable
+  Object.keys(_data)
+    .filter((key) => normalVar.some((_var) => key === _var))
+    .forEach((_key) => {
+      formData.append(_key, _data[_key]);
+    });
+
+  return request(`${MINING_ACTIVITY_MODEL}/activity/${id}`, {
+    method: 'PUT',
+    data: formData,
+    headers: authHeader()
+  });
+};
+
+const deleteShipmentFiles = (id, data) => {
+  return request(`${MINING_ACTIVITY_MODEL}/activity/file/${id}`, {
+    method: 'DELETE',
+    data: data,
+    headers: authHeader()
+  });
+};
+
+const getFiles = (files) => {
+  return request(`${MINING_ACTIVITY_MODEL}/activity/file/${files}`, {
+    method: 'GET',
+    headers: authHeader(),
+    responseType: 'blob'
+  });
+};
+
 const MiningActivityService = {
   getActivity,
   getSummary,
@@ -225,7 +402,13 @@ const MiningActivityService = {
   getHistoryEdit,
   getActivityChart,
   getInventorySumary,
-  deleteActivity
+  deleteActivity,
+  getProvince,
+  getRegency,
+  createShipment,
+  editShipment,
+  deleteShipmentFiles,
+  getFiles
 };
 
 export default MiningActivityService;

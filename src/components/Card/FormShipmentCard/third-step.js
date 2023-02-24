@@ -1,61 +1,88 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Grid, InputAdornment, TextField, FormControl } from '@mui/material';
-import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { NumericFormat } from 'react-number-format';
+import { toast } from 'react-toastify';
 
-// custom hooks
+// service
+import MiningActivityService from 'services/MiningActivityService';
+
+// custom hooks and context
+import useLoading from 'hooks/useLoading';
+import { useShipmentContext } from 'context/ShipmentContext';
 
 // components
 import Footer from 'components/Footer';
 import CustomDropzone from './CustomDropzone';
-import { LoadingModal } from 'components/Modal';
 
-// services
-import MiningActivityService from 'services/MiningActivityService';
-
-export default function ThirdStep({ handleBack, handleContinue }) {
-  const { activityType, id } = useParams();
+export default function ThirdStep() {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const prevState = useLocation().state;
-
-  const { data, isFetching } = useQuery(
-    ['mining-activity', 'detail-activity', id],
-    () => MiningActivityService.getActivityById({ id }),
-    { keepPreviousData: true, enabled: !!id }
-  );
-
-  const detailActivity = data?.data?.data;
+  const { isLoadingAction, toggleLoading } = useLoading();
+  const { handleBack, value, setStep, setValue } = useShipmentContext();
 
   // shipment schema
   const ShipmentSchema = Yup.object().shape({});
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      activity_type: id ? detailActivity?.activity_type : prevState?.activity_type,
-      activity_code: id ? detailActivity?.activity_code : null,
-      date: id ? detailActivity?.date : prevState?.date,
-      time: id ? detailActivity?.time : prevState?.time,
-      product_type: id ? detailActivity?.product_type : prevState?.product_type,
-      shipment_instruction: []
-    },
+    initialValues: value,
     validationSchema: ShipmentSchema,
     onSubmit: (values) => {
-      handleContinue(values);
+      toggleLoading(true);
+      if (id) {
+        Object.keys(values?.file_change).forEach(() => {
+          MiningActivityService.deleteShipmentFiles(id, values?.file_change);
+        });
+        MiningActivityService.editShipment(values, id)
+          .then(() => {
+            toggleLoading(false);
+            toast.success('Data berhasil diedit!');
+            toast.clearWaitingQueue();
+            setStep(1);
+            navigate(-1);
+          })
+          .catch((err) => {
+            toast.error(
+              err?.response?.data?.detail_message?.message || err?.response?.data?.message
+            );
+            toggleLoading(false);
+            toast.clearWaitingQueue();
+          });
+      } else {
+        MiningActivityService.createShipment(values)
+          .then(() => {
+            toggleLoading(false);
+            toast.success('Data berhasil ditambahkan!');
+            toast.clearWaitingQueue();
+            setStep(1);
+            navigate(-1);
+            setValue({});
+          })
+          .catch((err) => {
+            toast.error(
+              err?.response?.data?.detail_message?.message || err?.response?.data?.message
+            );
+            toggleLoading(false);
+            toast.clearWaitingQueue();
+          });
+      }
     }
   });
 
-  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values } = formik;
+  const { errors, touched, handleSubmit, setFieldValue, values } = formik;
+
+  const handleChangeNumber = (val, name) => setFieldValue(name, val);
 
   const handleChangeImage = (e, name) => {
     setFieldValue(name, [...values[name], ...e.target?.files]);
   };
 
-  const handleRemoveImage = (index, name) => {
+  const handleRemoveImage = (e, index, name) => {
+    e.preventDefault();
     const _value = [...values[name]];
     _value.splice(index, 1);
     setFieldValue(name, [..._value]);
@@ -64,43 +91,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
   const handleOnDrop = (value, name) => {
     setFieldValue(name, [...values[name], ...value]);
   };
-
-  const handleGetLevel = (level) => (isNaN(values?.[level] / 100) ? 0 : values?.[level] / 100);
-
-  const handleChangeNumber = (e, name, equivalent) => {
-    const _val = e.target.value.replace(/[^0-9.]/g, '');
-    if (_val.split('.').length > 2) {
-      const _doubleDot = _val.slice(0, -1);
-      setFieldValue(name, _doubleDot);
-      if (name !== 'tonnage_total' && name.includes('level')) {
-        const _equivalent = (_doubleDot / 100) * values?.tonnage_total;
-        setFieldValue(equivalent, _equivalent);
-      } else if (name === 'tonnage_total') {
-        setFieldValue('ni_metal_equivalent', handleGetLevel('ni_level') * _doubleDot);
-        setFieldValue('fe_metal_equivalent', handleGetLevel('fe_level') * _doubleDot);
-        setFieldValue('co_metal_equivalent', handleGetLevel('co_level') * _doubleDot);
-        setFieldValue('simgo_metal_equivalent', handleGetLevel('simgo_level') * _doubleDot);
-      }
-    } else {
-      setFieldValue(name, _val);
-      if (name !== 'tonnage_total' && name.includes('level') && equivalent !== undefined) {
-        const _equivalent = (_val / 100) * values?.tonnage_total;
-        setFieldValue(equivalent, _equivalent);
-      } else if (name === 'tonnage_total') {
-        setFieldValue('ni_metal_equivalent', handleGetLevel('ni_level') * _val);
-        setFieldValue('fe_metal_equivalent', handleGetLevel('fe_level') * _val);
-        setFieldValue('co_metal_equivalent', handleGetLevel('co_level') * _val);
-        setFieldValue('simgo_metal_equivalent', handleGetLevel('simgo_level') * _val);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (id === undefined && !values?.activity_type && !values?.date) {
-      navigate(-1);
-      navigate(0);
-    }
-  }, []);
 
   return (
     <div
@@ -113,7 +103,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
       }}
       className="bg-white"
     >
-      {isFetching && <LoadingModal />}
       <>
         <FormikProvider value={formik}>
           <Form autoComplete="off" onSubmit={handleSubmit}>
@@ -172,7 +161,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nama PBM
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
-                      PT. Nama PBM
+                      {values?.pbm_name || '-'}
                     </Typography>
                   </Grid>
                   <Grid item container lg={6} xs={6} direction="column">
@@ -180,7 +169,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nama Pembeli
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 3 }}>
-                      PT. Nama Pembeli
+                      {values?.buyer_name}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -190,10 +179,10 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                   COA MUAT
                 </Typography>
                 <CustomDropzone
-                  name="shipment_instruction"
-                  value={values?.shipment_instruction}
+                  name="coa_muat"
+                  value={values?.coa_muat}
                   handleOnDrop={handleOnDrop}
-                  onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                  onChange={(e) => handleChangeImage(e, 'coa_muat')}
                   onRemove={handleRemoveImage}
                 />
                 <p>*Dokumen ini hanya bisa diupload oleh direktur utama/direktur keuangan</p>
@@ -203,10 +192,10 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                   COA BONGKAR
                 </Typography>
                 <CustomDropzone
-                  name="shipment_instruction"
-                  value={values?.shipment_instruction}
+                  name="coa_bongkar"
+                  value={values?.coa_bongkar}
                   handleOnDrop={handleOnDrop}
-                  onChange={(e) => handleChangeImage(e, 'shipment_instruction')}
+                  onChange={(e) => handleChangeImage(e, 'coa_bongkar')}
                   onRemove={handleRemoveImage}
                 />
                 <p>*Dokumen ini hanya bisa diupload oleh direktur utama/direktur keuangan</p>
@@ -227,15 +216,20 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Realisasi Tonase
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Realisasi Tonase"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Jumlah Tonase"
                         fullWidth
-                        value={values.ni_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
-                        }}
-                        error={Boolean(touched.ni_level && errors.ni_level)}
-                        helperText={touched.ni_level && errors.ni_level}
+                        value={values?.muat_tonnage_total}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'muat_tonnage_total')
+                        }
+                        error={Boolean(touched.muat_tonnage_total && errors.muat_tonnage_total)}
+                        helperText={touched.muat_tonnage_total && errors.muat_tonnage_total}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -253,7 +247,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                                 borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
                               }}
                             >
-                              %
+                              Tonase
                             </InputAdornment>
                           )
                         }}
@@ -268,15 +262,22 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Realisasi Tonase
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Realisasi Tonase"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Jumlah Tonase"
                         fullWidth
-                        value={values.ni_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
-                        }}
-                        error={Boolean(touched.ni_level && errors.ni_level)}
-                        helperText={touched.ni_level && errors.ni_level}
+                        value={values?.bongkar_tonnage_total}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'bongkar_tonnage_total')
+                        }
+                        error={Boolean(
+                          touched.bongkar_tonnage_total && errors.bongkar_tonnage_total
+                        )}
+                        helperText={touched.bongkar_tonnage_total && errors.bongkar_tonnage_total}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -294,7 +295,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                                 borderBottomRightRadius: (theme) => theme.shape.borderRadius + 'px'
                               }}
                             >
-                              %
+                              Tonase
                             </InputAdornment>
                           )
                         }}
@@ -317,15 +318,20 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Kadar NI"
                         fullWidth
-                        value={values.ni_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
-                        }}
-                        error={Boolean(touched.ni_level && errors.ni_level)}
-                        helperText={touched.ni_level && errors.ni_level}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'muat_ni_level')
+                        }
+                        value={values.muat_ni_level}
+                        error={Boolean(touched.muat_ni_level && errors.muat_ni_level)}
+                        helperText={touched.muat_ni_level && errors.muat_ni_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -358,15 +364,20 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
-                        placeholder="Nilai Kadar"
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
+                        placeholder="Kadar NI"
                         fullWidth
-                        value={values.ni_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'ni_level', 'ni_metal_equivalent');
-                        }}
-                        error={Boolean(touched.ni_level && errors.ni_level)}
-                        helperText={touched.ni_level && errors.ni_level}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'bongkar_ni_level')
+                        }
+                        value={values.bongkar_ni_level}
+                        error={Boolean(touched.bongkar_ni_level && errors.bongkar_ni_level)}
+                        helperText={touched.bongkar_ni_level && errors.bongkar_ni_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -407,15 +418,20 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Nilai Kadar"
                         fullWidth
-                        value={values.fe_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'fe_level', 'fe_metal_equivalent');
-                        }}
-                        error={Boolean(touched.fe_level && errors.fe_level)}
-                        helperText={touched.fe_level && errors.fe_level}
+                        value={values.muat_fe_level}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'muat_fe_level')
+                        }
+                        error={Boolean(touched.muat_fe_level && errors.muat_fe_level)}
+                        helperText={touched.muat_fe_level && errors.muat_fe_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -448,15 +464,20 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Nilai Kadar"
                         fullWidth
-                        value={values.fe_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'fe_level', 'fe_metal_equivalent');
-                        }}
-                        error={Boolean(touched.fe_level && errors.fe_level)}
-                        helperText={touched.fe_level && errors.fe_level}
+                        value={values.bongkar_fe_level}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'bongkar_fe_level')
+                        }
+                        error={Boolean(touched.bongkar_fe_level && errors.bongkar_fe_level)}
+                        helperText={touched.bongkar_fe_level && errors.bongkar_fe_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -482,7 +503,6 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                     </FormControl>
                   </Grid>
                 </Grid>
-
                 <Grid
                   container
                   direction="row"
@@ -498,15 +518,20 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Nilai Kadar"
                         fullWidth
-                        value={values.co_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'co_level', 'co_metal_equivalent');
-                        }}
-                        error={Boolean(touched.co_level && errors.co_level)}
-                        helperText={touched.co_level && errors.co_level}
+                        value={values?.muat_co_level}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'muat_co_level')
+                        }
+                        error={Boolean(touched.muat_co_level && errors.muat_co_level)}
+                        helperText={touched.muat_co_level && errors.muat_co_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -539,15 +564,20 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                       Nilai Kadar
                     </Typography>
                     <FormControl>
-                      <TextField
+                      <NumericFormat
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={2}
+                        valueIsNumericString
+                        customInput={TextField}
                         placeholder="Nilai Kadar"
                         fullWidth
-                        value={values.co_level}
-                        onChange={(e) => {
-                          handleChangeNumber(e, 'co_level', 'co_metal_equivalent');
-                        }}
-                        error={Boolean(touched.co_level && errors.co_level)}
-                        helperText={touched.co_level && errors.co_level}
+                        value={values?.bongkar_co_level}
+                        onValueChange={(values) =>
+                          handleChangeNumber(values?.value, 'bongkar_co_level')
+                        }
+                        error={Boolean(touched.bongkar_co_level && errors.bongkar_co_level)}
+                        helperText={touched.bongkar_co_level && errors.bongkar_co_level}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             paddingRight: 0
@@ -575,7 +605,7 @@ export default function ThirdStep({ handleBack, handleContinue }) {
                 </Grid>
               </Grid>
             </Grid>
-            <Footer handleBack={handleBack} />
+            <Footer handleBack={() => handleBack(values)} loading={isLoadingAction} />
           </Form>
         </FormikProvider>
       </>

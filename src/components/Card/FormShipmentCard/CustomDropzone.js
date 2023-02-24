@@ -3,6 +3,9 @@ import { Icon } from '@iconify/react';
 import Dropzone from 'react-dropzone';
 import { Button, Grid, Box, IconButton } from '@mui/material';
 
+// services
+import MiningActivityService from 'services/MiningActivityService';
+
 const baseStyle = {
   flex: 1,
   display: 'flex',
@@ -28,13 +31,31 @@ export default function CustomDropzone({ value, onChange, name, onRemove, handle
     []
   );
 
+  const openFiles = async (item) => {
+    try {
+      const response = await MiningActivityService.getFiles(item);
+      const file = new Blob([response.data], { type: response?.data.type });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL, '_blank', 'noopener,noreferrer').focus();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const showFile = (
     <Grid container direction="row" alignItems="stretch" spacing={3}>
       {value.length > 0 &&
         value?.map((item, i) => (
-          <Grid item md={4} direction="column">
+          <Grid
+            item
+            md={4}
+            key={i}
+            onClick={() => {
+              if (typeof item === 'string') openFiles(item);
+            }}
+          >
             <a
-              href={URL.createObjectURL(item)}
+              href={typeof item !== 'string' && URL.createObjectURL(item)}
               style={{ textDecoration: 'none', color: 'inherit' }}
               target="_blank"
               rel="noreferrer"
@@ -63,9 +84,11 @@ export default function CustomDropzone({ value, onChange, name, onRemove, handle
                 </Box>
               </center>
               <p>
-                {`${item.name.slice(0, 10)}${item.name.length > 10 && '...'} .${
-                  item.type.split('/')[1]
-                }`}
+                {typeof item !== 'string'
+                  ? `${item.name.slice(0, 10)}${item.name.length > 10 && '...'} .${
+                      item.type.split('/')[1]
+                    }`
+                  : item}
               </p>
             </a>
           </Grid>
@@ -74,8 +97,12 @@ export default function CustomDropzone({ value, onChange, name, onRemove, handle
   );
   return (
     <Dropzone
-      accept="application/pdf, image/*"
-      maxSize="1000000"
+      accept={{
+        'image/jpeg': [],
+        'image/png': [],
+        'application/pdf': []
+      }}
+      maxSize={1000000}
       multiple
       onDrop={(acceptedFiles) => handleOnDrop([...acceptedFiles], name)}
     >

@@ -43,7 +43,7 @@ export default function MiningToolReport({ selectedDate }) {
 
   const handleChangeSearch = (e) => setSearch({ ...search, [e.target.name]: e.target.value });
 
-  const { data, isLoading, isFetching, refetch } = useQuery(
+  const { data, isFetching, refetch } = useQuery(
     ['mining-tool', page, selectedDate, search?.sort],
     () =>
       MiningToolService.getGroupedMiningTool({
@@ -61,106 +61,104 @@ export default function MiningToolReport({ selectedDate }) {
   return (
     <>
       {isFetching && <LoadingModal />}
-      {!isLoading && data && (
-        <>
-          <MiningFormModal isShowing={isShowing} toggle={toggle} />
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            className="bg-white"
-            sx={{ p: 3, mb: 0 }}
-          >
-            <Grid item md={4} sx={{ pr: 2 }}>
-              <Typography variant="h5">Laporan Kegiatan Penggunaan Alat Tambang</Typography>
-            </Grid>
-            <Grid item md={3} sx={{ pr: 2 }}>
-              <TextField
-                placeholder="Cari Laporan"
-                size="small"
-                fullWidth
-                name="company_name"
-                value={search?.company_name}
-                onChange={handleChangeSearch}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    refetch();
-                  }
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton onClick={refetch}>
-                        <Icon icon="akar-icons:search" fontSize={20} />
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item md={2.5} sx={{ pr: 2 }}>
-              <TextField
-                name="sort"
-                onChange={handleChangeSearch}
-                value={search?.sort || ''}
-                select
-                fullWidth
-                size="small"
-                InputProps={{
-                  startAdornment: <Typography sx={{ minWidth: '40%' }}>Urutan |</Typography>
-                }}
-              >
-                <MenuItem value={JSON.stringify({ order_by: 'date', sort: 'asc' })}>
-                  <Stack direction="row">
-                    <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
-                  </Stack>
-                </MenuItem>
-                <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'desc' })}>
-                  <Stack direction="row">
-                    <p style={{ fontWeight: 'bolder' }}>Terbesar</p>
-                  </Stack>
-                </MenuItem>
-                <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'asc' })}>
-                  <Stack direction="row">
-                    <p style={{ fontWeight: 'bolder' }}>Terkecil</p>
-                  </Stack>
-                </MenuItem>
-              </TextField>
-            </Grid>
-            {isGranted && (
-              <Grid item md={2.5} sx={{ pr: 2 }}>
-                <Button variant="contained" onClick={toggle} fullWidth>
-                  Input Penggunaan Alat
-                </Button>
-              </Grid>
-            )}
+      <>
+        <MiningFormModal isShowing={isShowing} toggle={toggle} />
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          className="bg-white"
+          sx={{ p: 3, mb: 0 }}
+        >
+          <Grid item md={4} sx={{ pr: 2 }}>
+            <Typography variant="h5">Laporan Kegiatan Penggunaan Alat Tambang</Typography>
           </Grid>
-
-          {data?.data?.data?.length > 0 ? (
-            <>
-              {data?.data?.data.map((_list) => (
-                <Link
-                  to={`/mining-tool/list/${_list?.company_name}`}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                  <MiningToolReportList listData={_list} />
-                </Link>
-              ))}
-            </>
-          ) : (
-            <center className="bg-white" style={{ padding: '10px' }}>
-              <h1>Data tidak ditemukan !</h1>
-            </center>
+          <Grid item md={3} sx={{ pr: 2 }}>
+            <TextField
+              placeholder="Cari Laporan"
+              size="small"
+              fullWidth
+              name="company_name"
+              value={search?.company_name}
+              onChange={handleChangeSearch}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  refetch();
+                }
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton onClick={refetch}>
+                      <Icon icon="akar-icons:search" fontSize={20} />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+          <Grid item md={2.5} sx={{ pr: 2 }}>
+            <TextField
+              name="sort"
+              onChange={handleChangeSearch}
+              value={search?.sort || ''}
+              select
+              fullWidth
+              size="small"
+              InputProps={{
+                startAdornment: <Typography sx={{ minWidth: '30%' }}>Urutan |</Typography>
+              }}
+            >
+              <MenuItem value={JSON.stringify({ order_by: 'date', sort: 'asc' })}>
+                <Stack direction="row">
+                  <p style={{ fontWeight: 'bolder', textAlign: 'left' }}>Terbaru</p>
+                </Stack>
+              </MenuItem>
+              <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'desc' })}>
+                <Stack direction="row">
+                  <p style={{ fontWeight: 'bolder' }}>Terbesar</p>
+                </Stack>
+              </MenuItem>
+              <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'asc' })}>
+                <Stack direction="row">
+                  <p style={{ fontWeight: 'bolder' }}>Terkecil</p>
+                </Stack>
+              </MenuItem>
+            </TextField>
+          </Grid>
+          {isGranted && (
+            <Grid item md={2.5} sx={{ pr: 2 }}>
+              <Button variant="contained" onClick={toggle} fullWidth>
+                Input Penggunaan Alat
+              </Button>
+            </Grid>
           )}
+        </Grid>
 
-          <CustomPagination
-            count={ceilTotalData(data?.data?.pagination?.total_data || 0, 10)}
-            page={page}
-            handleChangePage={handleChangePage}
-          />
-        </>
-      )}
+        {data?.data?.data?.length > 0 ? (
+          <>
+            {data?.data?.data.map((_list) => (
+              <Link
+                to={`/mining-tool/list/${_list?.company_name}`}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <MiningToolReportList listData={_list} />
+              </Link>
+            ))}
+          </>
+        ) : (
+          <center className="bg-white" style={{ padding: '10px' }}>
+            <h1>Data tidak ditemukan !</h1>
+          </center>
+        )}
+
+        <CustomPagination
+          count={ceilTotalData(data?.data?.pagination?.total_data || 0, 10)}
+          page={page}
+          handleChangePage={handleChangePage}
+        />
+      </>
     </>
   );
 }
