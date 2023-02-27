@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useQuery } from 'react-query';
-import dayjs from 'dayjs';
 
 // service
 import ModulLossingService from '../../services/ModulLossingService';
@@ -11,22 +10,19 @@ import Katalog from './Katalog';
 import Summary from './Summary';
 import Detail from './Detail';
 
+// custom hooks
+import usePagination from 'hooks/usePagination';
+
 const Lossing = () => {
   useAuth();
 
-  // Date Setup
-  const currentYear = new Date().getFullYear();
-  const firstDay = new Date(currentYear, 0, 1);
-  const lastDay = new Date(currentYear, 11, 31);
-  const firstDate = dayjs(firstDay).format('YYYY-MM-DD');
-  const lastDate = dayjs(lastDay).format('YYYY-MM-DD');
+  const { page, handleChangePage } = usePagination(1);
 
-  const [page, setPage] = useState('');
+  const [section, setPage] = useState('');
   const [id, setId] = useState('');
-  const [index, setI] = useState('');
+  const [date, setDate] = useState('');
+  const [sort, setSort] = useState('');
   const [selectedDates, setSelectedDates] = useState({});
-  const [startDate, setStartDate] = useState(firstDate);
-  const [endDate, setEndDate] = useState(lastDate);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -40,9 +36,27 @@ const Lossing = () => {
     })
   );
 
-  const { data: dataHill, isFetching: isFetchingHill } = useQuery(['hill', id], () =>
+  const {
+    data: dataHill,
+    isFetching: isFetchingHill,
+    isLoading: isLoadingHill
+  } = useQuery(['hill', id, sort, page], () =>
     ModulLossingService.getHill({
-      id
+      id,
+      sort,
+      page,
+      limit: 10
+    })
+  );
+
+  const {
+    data: dataDay,
+    isFetching: isFetchingDay,
+    isLoading: isLoadingDay
+  } = useQuery(['day', date], () =>
+    ModulLossingService.getDay({
+      date: date,
+      hillId: id
     })
   );
 
@@ -69,14 +83,24 @@ const Lossing = () => {
 
   return (
     <>
-      {page === 'detail' ? (
-        <Detail setPage={setPage} data={dataHill?.data?.data?.detail} index={index} />
-      ) : page === 'summary' ? (
+      {section === 'detail' ? (
+        <Detail
+          page={page}
+          handleChangePage={handleChangePage}
+          setPage={setPage}
+          data={dataDay?.data?.data}
+          isFetching={isFetchingDay}
+          isLoading={isLoadingDay}
+        />
+      ) : section === 'summary' ? (
         <Summary
           setPage={setPage}
+          setSort={setSort}
           data={dataHill?.data?.data}
+          dataHill={dataHill}
           isFetching={isFetchingHill}
-          setI={setI}
+          isLoading={isLoadingHill}
+          setDate={setDate}
           handleDownload={handleDownload}
           loading={loading}
         />

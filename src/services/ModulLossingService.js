@@ -12,7 +12,6 @@ const getHill = ({ startDate, endDate, sort, page, limit, id }) => {
   if (endDate) {
     params.push(['end_date', endDate]);
   }
-
   if (sort) {
     params.push(['sort', sort]);
   }
@@ -27,6 +26,22 @@ const getHill = ({ startDate, endDate, sort, page, limit, id }) => {
   }
 
   return request(`${MINING_ACTIVITY_MODEL}/lossing/hill`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader()
+  });
+};
+
+const getDay = ({ date, hillId }) => {
+  const params = [];
+
+  if (date) {
+    params.push(['date', date]);
+  }
+  if (hillId) {
+    params.push(['hill_id', hillId]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/lossing/day`, {
     method: 'GET',
     params: new URLSearchParams(params),
     headers: authHeader()
@@ -104,7 +119,8 @@ const ModulLossingService = {
   getSummary,
   getHill,
   downloadEstimation,
-  inputEstimation
+  inputEstimation,
+  getDay
   // inputModulLossing,
   // editModulLossing
 };

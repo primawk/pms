@@ -15,12 +15,14 @@ import dayjs from 'dayjs';
 
 // components
 import Header from 'components/Header';
+import { LoadingModal } from 'components/Modal';
 
-const Detail = ({ setPage, data, index }) => {
+const Detail = ({ setPage, data, isLoading, isFetching }) => {
   const targetTableHead = ['TANGGAL', 'ESTIMASI TO FRONT', 'LOSSING', 'TOTAL LOSSING'];
   console.log(data);
   return (
     <>
+      {isFetching && isLoading && <LoadingModal />}
       <Header title="Detail Modul Lossing" background="dashboard.png" />
       <div className="app-content">
         <Grid container sx={{ background: 'white', display: 'flex', flexDirection: 'column' }}>
@@ -95,7 +97,7 @@ const Detail = ({ setPage, data, index }) => {
                 // marginLeft: '24px'
               }}
             >
-              : {data[index].product_type}
+              : {data?.product_type}
             </Grid>
             <Grid
               item
@@ -118,7 +120,7 @@ const Detail = ({ setPage, data, index }) => {
                 // marginLeft: '24px'
               }}
             >
-              : {data[index].block}
+              : {data?.block}
             </Grid>
           </Grid>
           <Grid item>
@@ -144,7 +146,7 @@ const Detail = ({ setPage, data, index }) => {
                       sx={{ border: '1px solid #E0E0E0', minWidth: '10vw' }}
                       rowspan={8}
                     >
-                      {dayjs(data[index].date).format('DD MMMM YYYY')}
+                      {dayjs(data?.date).format('DD MMMM YYYY')}
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -228,7 +230,7 @@ const Detail = ({ setPage, data, index }) => {
                         <Box>
                           <img src="/img/down.png" alt=""></img>
                         </Box>
-                        <Box sx={{}}>{data[index].total} Ton</Box>
+                        <Box>{data?.total} Ton</Box>
                       </Grid>
                     </TableCell>
                   </TableRow>
@@ -314,7 +316,7 @@ const Detail = ({ setPage, data, index }) => {
                         <Box>
                           <img src="/img/down.png" alt=""></img>
                         </Box>
-                        <Box sx={{}}>155 Ton</Box>
+                        <Box>{data?.front_to_eto} Ton</Box>
                       </Grid>
                     </TableCell>
                   </TableRow>
@@ -400,7 +402,7 @@ const Detail = ({ setPage, data, index }) => {
                         <Box>
                           <img src="/img/down.png" alt=""></img>
                         </Box>
-                        <Box sx={{}}>155 Ton</Box>
+                        <Box>{data?.['eto-to-efo']} Ton</Box>
                       </Grid>
                     </TableCell>
                   </TableRow>

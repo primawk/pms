@@ -2,12 +2,12 @@ import React from 'react';
 import { Grid, Box } from '@mui/material';
 import dayjs from 'dayjs';
 
-const List = ({ setPage, data, index, setI }) => {
+const List = ({ setPage, data, setDate }) => {
   const onBtnClick = () => {
-    setI(index);
+    setDate(dayjs(data?.date).format('YYYY-MM-DD'));
     setPage('detail');
   };
-  console.log(data?.['eto-to-efo']);
+
   return (
     <>
       <Grid
@@ -92,7 +92,7 @@ const List = ({ setPage, data, index, setI }) => {
               }}
               xs={12}
             >
-              200 Ton
+              {data?.['data-estimasi']} Ton
             </Grid>
           </Grid>
         </Grid>
