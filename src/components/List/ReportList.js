@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, Stack, Avatar, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
@@ -12,12 +13,24 @@ import TruckIcon from 'assets/Images/MiningActivity/ore-hauling-to-eto.png';
 
 // custom hooks
 import useAuth from 'hooks/useAuth';
+import { useShipmentContext } from 'context/ShipmentContext';
 
 // utils
 import { capitalizeFirstLetter } from 'utils/helper';
 
 const ReportList = ({ listData }) => {
   const { roleName } = useAuth();
+  const navigate = useNavigate();
+  const { setStep } = useShipmentContext();
+
+  const handleCoa = (e, id) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setStep(3);
+    navigate(`/shipment/efo-to-shipment/edit/${id}`);
+  };
+
+  console.log(listData?.status);
   return (
     <Grid
       container
@@ -49,21 +62,19 @@ const ReportList = ({ listData }) => {
           </Stack>
         </Stack>
       </Grid>
-      <Grid item lg={1.25} md={1.25} xs={3}>
+      <Grid item lg={1.5} md={1.5} xs={3}>
         <Typography variant="body1" color="#828282">
           Jenis Produk
         </Typography>
         <Typography variant="h6">{listData?.product_type}</Typography>
       </Grid>
-      {listData?.activity_type !== 'shipment' && (
-        <Grid item lg={1} md={1} xs={3}>
-          <Typography variant="body1" color="#828282">
-            Block
-          </Typography>
-          <Typography variant="h6">{listData?.block}</Typography>
-        </Grid>
-      )}
-      {listData?.activity_type !== 'shipment' ? (
+      <Grid item lg={1} md={1} xs={3}>
+        <Typography variant="body1" color="#828282">
+          Block
+        </Typography>
+        <Typography variant="h6">{listData?.block}</Typography>
+      </Grid>
+      {listData?.activity_type !== 'efo-to-shipment' ? (
         <Grid item lg={2.5} md={2.5} xs={6}>
           <Typography variant="body1" color="#828282">
             Inventory
@@ -99,23 +110,26 @@ const ReportList = ({ listData }) => {
           )}
         </Grid>
       ) : (
-        <Grid item lg={2.25} md={2.25} xs={6}>
+        <Grid item lg={1.25} md={1.25} xs={6}>
           <Typography variant="body1" color="#828282">
-            Inventory
+            Asal Tumpukan
           </Typography>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography variant="body1" style={{ margin: 1 }}>
-              &nbsp;• {listData?.hill_name || listData?.dome_name}
-            </Typography>
-          </Stack>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="body1" style={{ margin: 1 }}>
-              &nbsp;• {listData?.hill_name || listData?.dome_name}
-            </Typography>
-          </Stack>
+          {listData?.dome_origin_id?.length > 0 &&
+            listData?.dome_origin_id?.map((item, i) => (
+              <Stack direction="row" alignItems="center" spacing={2} key={item}>
+                <Typography variant="body1" style={{ margin: 1 }}>
+                  &nbsp;• {listData?.dome_origin_name?.[i]}
+                </Typography>
+              </Stack>
+            ))}
         </Grid>
       )}
-      <Grid item lg={2.5} md={2.5} xs={6}>
+      <Grid
+        item
+        lg={listData?.activity_type !== 'efo-to-shipment' ? 2.5 : 1.5}
+        md={listData?.activity_type !== 'efo-to-shipment' ? 2.5 : 1.5}
+        xs={6}
+      >
         <Typography variant="body1" color="#828282">
           Dibuat Oleh
         </Typography>
@@ -132,16 +146,22 @@ const ReportList = ({ listData }) => {
         </Typography>
         <Typography variant="h6">{dayjs(listData?.date).format('DD/MM/YYYY')}</Typography>
       </Grid>
-      {listData?.activity_type === 'shipment' && (
+      {listData?.activity_type === 'efo-to-shipment' && (
         <Grid item lg={1.25} md={1.25} xs={3}>
           <Typography variant="body1" color="#828282">
             Status
           </Typography>
-          {roleName === 'Komisarin' ? (
-            <Button variant="contained">Ubah COA</Button>
-          ) : (
-            <Typography variant="h6">Provisi</Typography>
-          )}
+          <Typography variant="h6">{capitalizeFirstLetter(listData?.status)}</Typography>
+        </Grid>
+      )}
+      {listData?.activity_type === 'efo-to-shipment' && (
+        <Grid item lg={1} md={1} xs={3}>
+          {(roleName === 'komisaris' || roleName === 'superadmin') &&
+            listData?.status === 'provisi' && (
+              <Button variant="contained" onClick={(e) => handleCoa(e, listData?.id)}>
+                Ubah COA
+              </Button>
+            )}
         </Grid>
       )}
     </Grid>

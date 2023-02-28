@@ -32,7 +32,6 @@ import { useShipmentContext } from 'context/ShipmentContext';
 
 // components
 import Footer from 'components/Footer';
-import { LoadingModal } from 'components/Modal';
 
 export default function FirstStep() {
   const navigate = useNavigate();

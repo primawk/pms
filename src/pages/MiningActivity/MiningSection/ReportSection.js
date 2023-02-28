@@ -1,5 +1,14 @@
 import { useParams, Link } from 'react-router-dom';
-import { Stack, Button, Typography, TextField, MenuItem, InputAdornment } from '@mui/material';
+import {
+  Stack,
+  Button,
+  Typography,
+  TextField,
+  MenuItem,
+  InputAdornment,
+  IconButton,
+  Grid
+} from '@mui/material';
 import { useQuery } from 'react-query';
 import { Icon } from '@iconify/react';
 
@@ -74,40 +83,67 @@ export default function ReportSection({ selectedDate, filterDate }) {
             </Typography>
           </Stack>
           {activityType === 'efo-to-shipment' && (
-            <Stack direction="row" spacing={3} alignItems="center" sx={{ pr: 5 }}>
-              <TextField
-                placeholder="Cari Laporan"
-                size="small"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Icon icon="akar-icons:search" fontSize={20} />
-                    </InputAdornment>
-                  )
-                }}
-              ></TextField>
-              <TextField
-                select
-                value="newest"
-                fullWidth
-                size="small"
-                InputProps={{
-                  startAdornment: <Typography sx={{ minWidth: '40%' }}>Urutan |</Typography>
-                }}
-              >
-                <MenuItem value="newest">
-                  <Stack direction="row">
-                    <p style={{ fontWeight: 'bolder' }}>Terbaru</p>
-                  </Stack>
-                </MenuItem>
-                <MenuItem value="oldest">
-                  <Stack direction="row">
-                    <p style={{ fontWeight: 'bolder' }}>Terlama</p>
-                  </Stack>
-                </MenuItem>
-              </TextField>
-            </Stack>
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+              className="bg-white"
+            >
+              <Grid item md={5} sx={{ pr: 2 }}>
+                <TextField
+                  placeholder="Cari Laporan"
+                  size="small"
+                  fullWidth
+                  name="company_name"
+                  // value={search?.company_name}
+                  // onChange={handleChangeSearch}
+                  // onKeyDown={(e) => {
+                  //   if (e.key === 'Enter') {
+                  //     refetch();
+                  //   }
+                  // }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton>
+                          <Icon icon="akar-icons:search" fontSize={20} />
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item md={4} sx={{ pr: 2 }}>
+                <TextField
+                  name="sort"
+                  // onChange={handleChangeSearch}
+                  // value={search?.sort || ''}
+                  select
+                  fullWidth
+                  size="small"
+                  InputProps={{
+                    startAdornment: <Typography sx={{ minWidth: '30%' }}>Urutan |</Typography>
+                  }}
+                >
+                  <MenuItem value={JSON.stringify({ order_by: 'date', sort: 'asc' })}>
+                    <Stack direction="row">
+                      <p style={{ fontWeight: 'bolder', textAlign: 'left' }}>Terbaru</p>
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'desc' })}>
+                    <Stack direction="row">
+                      <p style={{ fontWeight: 'bolder' }}>Terbesar</p>
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'asc' })}>
+                    <Stack direction="row">
+                      <p style={{ fontWeight: 'bolder' }}>Terkecil</p>
+                    </Stack>
+                  </MenuItem>
+                </TextField>
+              </Grid>
+            </Grid>
           )}
           {isGranted && (
             <Button variant="contained" onClick={toggle}>

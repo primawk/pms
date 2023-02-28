@@ -26,11 +26,7 @@ const DetailDome = () => {
 
   const { page, handleChangePage } = usePagination();
 
-  const {
-    data,
-    isFetching: isFetchingSummary,
-    isLoading: isLoadingSummary
-  } = useQuery(
+  const { data, isFetching: isFetchingSummary } = useQuery(
     ['summary', 'detail-dome', inventoryType, idDome],
     () =>
       MiningActivityService.getDomeSummary({
@@ -46,11 +42,7 @@ const DetailDome = () => {
 
   const dataSummary = data?.data?.data?.[0];
 
-  const {
-    data: dataActivity,
-    isLoading: isLoadingActivity,
-    isFetching: isFetchingActivity
-  } = useQuery(
+  const { data: dataActivity, isFetching: isFetchingActivity } = useQuery(
     ['mining', inventoryType, page, idDome],
     () =>
       MiningActivityService.getActivity({
@@ -74,72 +66,70 @@ const DetailDome = () => {
           }}
         >
           {isFetchingSummary && isFetchingActivity && <LoadingModal />}
-          {!isLoadingSummary && !isLoadingActivity && dataSummary && dataActivity && (
-            <>
-              <Grid container direction="column">
-                <Grid item>
-                  <Grid container justifyContent="flex-start" alignItems="center" spacing={3}>
-                    <Grid item>
-                      <Button
-                        variant="outlined"
-                        startIcon={<Icon width={25} height={25} icon={ArrowBack} />}
-                        onClick={() => navigate(-1)}
-                      >
-                        Back
-                      </Button>
-                    </Grid>
-                    <Grid item>
-                      <h2>
-                        {dataSummary?.activity_type === 'ore-hauling-to-eto'
-                          ? dataSummary?.hill_name + '/' + dataSummary?.dome_name
-                          : dataSummary?.hill_name || dataSummary?.dome_name}
-                      </h2>
-                    </Grid>
+          <>
+            <Grid container direction="column">
+              <Grid item>
+                <Grid container justifyContent="flex-start" alignItems="center" spacing={3}>
+                  <Grid item>
+                    <Button
+                      variant="outlined"
+                      startIcon={<Icon width={25} height={25} icon={ArrowBack} />}
+                      onClick={() => navigate(-1)}
+                    >
+                      Back
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <h2>
+                      {dataSummary?.activity_type === 'ore-hauling-to-eto'
+                        ? dataSummary?.hill_name + '/' + dataSummary?.dome_name
+                        : dataSummary?.hill_name || dataSummary?.dome_name}
+                    </h2>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Summary summary={dataSummary} />
-                </Grid>
               </Grid>
-
-              {/* List Dome */}
-              <Grid
-                container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  backgroundColor: 'white',
-                  width: '90%',
-                  marginTop: '2.5rem',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  marginBottom: 'auto',
-                  borderRadius: '4px'
-                }}
-              >
-                <Box sx={{ margin: '1rem 1rem 1rem 2rem' }}>
-                  <h3>{`Kegiatan Terakhir (${dataActivity?.data?.pagination?.total_data})`}</h3>
-                </Box>
-                {dataActivity?.data?.data.map((_list) => (
-                  <div key={_list?.id}>
-                    <Link
-                      to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                      key={_list.id}
-                    >
-                      <ListDome data={_list} />
-                    </Link>
-                  </div>
-                ))}
-
-                <CustomPagination
-                  count={ceilTotalData(dataActivity?.data?.pagination?.total_data || 0, 10)}
-                  page={page}
-                  handleChangePage={handleChangePage}
-                />
+              <Grid item>
+                <Summary summary={dataSummary} />
               </Grid>
-            </>
-          )}
+            </Grid>
+
+            {/* List Dome */}
+            <Grid
+              container
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: 'white',
+                width: '90%',
+                marginTop: '2.5rem',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginBottom: 'auto',
+                borderRadius: '4px'
+              }}
+            >
+              <Box sx={{ margin: '1rem 1rem 1rem 2rem' }}>
+                <h3>{`Kegiatan Terakhir (${dataActivity?.data?.pagination?.total_data})`}</h3>
+              </Box>
+              {dataActivity?.data?.data.map((_list) => (
+                <div key={_list?.id}>
+                  <Link
+                    to={`/mining-activity/${_list?.activity_type}/detail/${_list.id}`}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                    key={_list.id}
+                  >
+                    <ListDome data={_list} />
+                  </Link>
+                </div>
+              ))}
+
+              <CustomPagination
+                count={ceilTotalData(dataActivity?.data?.pagination?.total_data || 0, 10)}
+                page={page}
+                handleChangePage={handleChangePage}
+              />
+            </Grid>
+          </>
         </div>
       </div>
     </>

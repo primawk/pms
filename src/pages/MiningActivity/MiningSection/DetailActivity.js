@@ -13,6 +13,7 @@ import { capitalizeFirstLetter } from 'utils/helper';
 import useAuth from 'hooks/useAuth';
 import useLoading from 'hooks/useLoading';
 import useModal from 'hooks/useModal';
+import { useShipmentContext } from 'context/ShipmentContext';
 
 // components
 import ReportDetailCard from 'components/Card/ReportDetailCard';
@@ -25,6 +26,7 @@ import MiningActivityService from 'services/MiningActivityService';
 export default function DetailActivity() {
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
+  const { setStep } = useShipmentContext();
   const { activityType, id } = useParams();
   const isShipment = activityType === 'efo-to-shipment';
 
@@ -93,13 +95,14 @@ export default function DetailActivity() {
                 <Stack direction="row" spacing={2}>
                   <Button
                     variant="contained"
-                    onClick={() =>
+                    onClick={() => {
+                      setStep(1);
                       navigate(
                         isShipment
                           ? `/shipment/${activityType}/edit/${id}`
                           : `/mining-activity/${activityType}/edit/${id}`
-                      )
-                    }
+                      );
+                    }}
                   >
                     Edit Laporan
                   </Button>

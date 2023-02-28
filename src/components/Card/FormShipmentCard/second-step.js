@@ -26,7 +26,7 @@ export default function SecondStep() {
     }
   });
 
-  const { errors, touched, handleSubmit, getFieldProps, setFieldValue, values } = formik;
+  const { handleSubmit, setFieldValue, values } = formik;
 
   const handleChangeImage = (e, name) => {
     setFieldValue(name, [...values[name], ...e.target?.files]);
@@ -34,6 +34,7 @@ export default function SecondStep() {
 
   const handleRemoveImage = (e, index, name) => {
     e.preventDefault();
+    e.stopPropagation();
     const _value = [...values[name]];
     if (typeof _value[index] === 'string') {
       const _oldFileChange = values?.file_change;
@@ -51,8 +52,6 @@ export default function SecondStep() {
   const handleOnDrop = (value, name) => {
     setFieldValue(name, [...values[name], ...value]);
   };
-
-  console.log(values);
 
   return (
     <div
@@ -245,10 +244,10 @@ export default function SecondStep() {
                       Invoice Kontrak SPAL
                     </Typography>
                     <CustomDropzone
-                      name="packing_list"
-                      value={values?.packing_list}
+                      name="royalty"
+                      value={values?.royalty}
                       handleOnDrop={handleOnDrop}
-                      onChange={(e) => handleChangeImage(e, 'packing_list')}
+                      onChange={(e) => handleChangeImage(e, 'royalty')}
                       onRemove={handleRemoveImage}
                     />
                   </Grid>

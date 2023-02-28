@@ -19,7 +19,7 @@ export default function FormShipmentCard() {
   const { activityType, id } = useParams();
   const location = useLocation();
   const prevState = location.state;
-  const { step, setValue, setStep } = useShipmentContext();
+  const { step, setValue } = useShipmentContext();
 
   const { data, isFetching } = useQuery(
     ['mining-activity', 'detail-activity', id],
@@ -94,10 +94,6 @@ export default function FormShipmentCard() {
       });
     }
   }, [data, id, activityType, location?.pathname]);
-
-  useEffect(() => {
-    setStep(1);
-  }, [location?.pathname]);
 
   return (
     <>

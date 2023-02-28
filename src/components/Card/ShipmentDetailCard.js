@@ -21,17 +21,51 @@ export default function ShipmentDetailCard() {
 
   const detailActivity = data?.data?.data;
 
-  const ShowFile = (value) => {
+  const ShowFile = ({ value }) => {
+    const openFiles = async (item) => {
+      try {
+        const response = await MiningActivityService.getFiles(item);
+        const file = new Blob([response.data], { type: response?.data.type });
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL, '_blank', 'noopener,noreferrer').focus();
+      } catch (error) {
+        console.log(error);
+      }
+    };
     return (
       <Grid container direction="row" alignItems="stretch" spacing={3}>
-        <Grid item md={2} direction="column">
-          <a
-            // href={URL.createObjectURL(item)}
-            href="s"
-            style={{ textDecoration: 'none', color: 'inherit' }}
-            target="_blank"
-            rel="noreferrer"
-          >
+        {value?.length > 0 ? (
+          value?.map((item) => (
+            <Grid
+              item
+              md={2}
+              direction="column"
+              key={item}
+              sx={{ cursor: 'pointer' }}
+              onClick={() => openFiles(item)}
+            >
+              <center>
+                <Box
+                  sx={{
+                    minHeight: '50px',
+                    border: '1px solid #3F48C0',
+                    p: 2,
+                    borderRadius: '8px',
+                    position: 'relative'
+                  }}
+                >
+                  {item?.split('.').pop() === 'pdf' ? (
+                    <Icon icon="bi:file-earmark-pdf" color="red" fontSize={50} />
+                  ) : (
+                    <Icon icon="bi:file-earmark-image" color="red" fontSize={50} />
+                  )}
+                </Box>
+              </center>
+              <p>{item}</p>
+            </Grid>
+          ))
+        ) : (
+          <Grid item md={2} direction="column">
             <center>
               <Box
                 sx={{
@@ -42,17 +76,12 @@ export default function ShipmentDetailCard() {
                   position: 'relative'
                 }}
               >
-                {/* {item?.type === 'application/pdf' ? ( */}
-                <Icon icon="bi:file-earmark-pdf" color="red" fontSize={50} />
-                {/* ) : ( */}
-                {/* <Icon icon="bi:file-earmark-image" color="red" fontSize={50} /> */}
-                {/* <Icon icon="fluent:document-dismiss-20-regular" color="red" fontSize={50} /> */}
-                {/* )} */}
+                <Icon icon="fluent:document-dismiss-20-regular" color="red" fontSize={50} />
               </Box>
             </center>
-            <p>FileName.pdf</p>
-          </a>
-        </Grid>
+            <p>Belum Ada File</p>
+          </Grid>
+        )}
       </Grid>
     );
   };
@@ -229,19 +258,28 @@ export default function ShipmentDetailCard() {
               >
                 <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 3 }}>
-                    Volume Pengiriman
+                    Total Volume Pengiriman
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 3 }}>
-                    {`${detailActivity?.tonnage_total || '0'} Ton`}
+                    {`${
+                      detailActivity?.tonnage_total
+                        ?.map((item) => parseInt(item, 10))
+                        ?.reduce((a, b) => a + b, 0) || '0'
+                    } Ton`}
                   </Typography>
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 3 }}>
                     Asal Tumpukan EFO
                   </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    {detailActivity?.dome_name || '-'}
-                  </Typography>
+                  {detailActivity?.dome_origin_id?.length > 0 &&
+                    detailActivity?.dome_origin_id?.map((item, i) => (
+                      <Typography key={i} variant="body1">
+                        {`${detailActivity?.dome_origin_name?.[i] || '-'} ( ${
+                          detailActivity?.tonnage_total?.[i] || 0
+                        } Ton ) `}
+                      </Typography>
+                    ))}
                 </Grid>
               </Grid>
               <Typography variant="h5" sx={{ mb: 3 }}>
@@ -340,43 +378,47 @@ export default function ShipmentDetailCard() {
               >
                 <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    Shipping Instruction
+                    SKAB
                   </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.skab} />
+                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
+                    Bukti Bayar
+                  </Typography>
+                  <ShowFile value={detailActivity?.bukti_bayar} />
+                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
+                    Bill Of Loading
+                  </Typography>
+                  <ShowFile value={detailActivity?.bill_loading} />
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     Draught Survey
                   </Typography>
-                  <ShowFile />
-                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    Bukti Bayar Royalti
-                  </Typography>
-                  <ShowFile />
-                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    Bill of Loading
-                  </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.draught_survey} />
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     Cargo Manifest
                   </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.cargo_manifest} />
                 </Grid>
                 <Grid item container lg={6} xs={6} direction="column">
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
+                    SPB
+                  </Typography>
+                  <ShowFile value={detailActivity?.spb} />
+                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
+                    Shipping Instruction
+                  </Typography>
+                  <ShowFile value={detailActivity?.shipping_instruction} />
+                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     Packing List
                   </Typography>
-                  <ShowFile />
-                  <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    SKAB
-                  </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.packing_list} />
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     LHV
                   </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.lhv} />
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
-                    SPB
+                    Invoice Kontrak SPAL
                   </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.royalty} />
                 </Grid>
               </Grid>
             </Grid>

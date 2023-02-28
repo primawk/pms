@@ -83,6 +83,7 @@ export default function ThirdStep() {
 
   const handleRemoveImage = (e, index, name) => {
     e.preventDefault();
+    e.stopPropagation();
     const _value = [...values[name]];
     _value.splice(index, 1);
     setFieldValue(name, [..._value]);

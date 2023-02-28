@@ -16,45 +16,42 @@ export default function index({ data, innerRef }) {
     <div
       ref={innerRef}
       className="app-content"
-      style={{ background: 'white', fontFamily: 'Times New Roman' }}
+      style={{
+        background: 'white',
+        fontFamily: 'Times New Roman',
+        margin: '50px'
+      }}
     >
       {/* Header */}
       <Grid
         container
         direction="row"
-        justifyContent="center"
+        justifyContent="flex-start"
         alignItems="center"
         sx={{ borderBottom: '1px solid black' }}
       >
-        <Grid item>
+        <Grid item sx={{ mr: 2 }}>
           <img
-            src="/PMSLogo.png"
+            src="/PMSLogo1.JPEG"
             alt="PMS LOGO"
-            style={{ margin: 'auto', width: '70px', height: '70px' }}
+            style={{ margin: 'auto', width: '90px', height: '90px' }}
           />
         </Grid>
-        <Grid item sx={{ textAlign: 'left', pb: 1, maxWidth: '60%' }}>
-          <h3 style={{ color: 'red' }}>PT. PUTRA MEKONGGA SEJAHTERA</h3>
-          <h4 style={{ fontWeight: 'normal' }}>
-            <i>LABORATORIUM & MINING</i>
-          </h4>
+        <Grid item sx={{ textAlign: 'left', pb: 1, maxWidth: '100%' }}>
+          <h2 style={{ color: 'red' }}>PT. PUTRA MEKONGGA SEJAHTERA</h2>
+          <h3 style={{ fontWeight: 'bold' }}>
+            <i>Laboratorium & Mining</i>
+          </h3>
           <h5 style={{ fontWeight: 'normal' }}>
             Jl. Protokol No.21 Dawi-dawi Pomalaa <br></br> Kabupaten Kolaka, Sulawesi Tenggara
             <br></br> Telp. 0405 - 2310248 Fax. 0405 - 2310248, e-Mail:
             putramekonggasejahtera@yahoo.com
           </h5>
         </Grid>
-        {/* <Grid item>
-          <img
-            src="/plusLogo.png"
-            alt="Plus Logo"
-            style={{ margin: 'auto', width: '70px', height: '70px' }}
-          />
-        </Grid> */}
       </Grid>
       {/* DETAIL */}
-      <div style={{ textAlign: 'center' }}>
-        <h3 style={{ fontWeight: 'normal', textDecoration: 'underline' }}>
+      <div style={{ textAlign: 'center', marginTop: '10px' }}>
+        <h3 style={{ fontWeight: 'bolder', textDecoration: 'underline' }}>
           LAPORAN HASIL UJI LAB INTERNAL
         </h3>
         <h3>{data?.sample_code || '-'}</h3>
@@ -69,56 +66,52 @@ export default function index({ data, innerRef }) {
       >
         <Grid item container direction="row" justifyContent="center" alignItems="flex-start" xs={5}>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5>Tanggal</h5>
+            <h5>
+              Tanggal <span style={{ float: 'right' }}>:&nbsp;</span>
+            </h5>
           </Grid>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5 style={{ fontWeight: 'normal' }}>
-              <span>:&nbsp;</span>
-              {data?.date || '-'}
-            </h5>
+            <h5 style={{ fontWeight: 'normal' }}>{data?.date || '-'}</h5>
           </Grid>
         </Grid>
         <Grid item container direction="row" justifyContent="center" alignItems="flex-start" xs={5}>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5>Bukit</h5>
+            <h5>
+              Bukit <span style={{ float: 'right' }}>:&nbsp;</span>
+            </h5>
           </Grid>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5 style={{ fontWeight: 'normal' }}>
-              <span>:&nbsp;</span>
-              {data?.hill_name || '-'}
-            </h5>
+            <h5 style={{ fontWeight: 'normal' }}>{data?.hill_name || '-'}</h5>
           </Grid>
         </Grid>
         <Grid item container direction="row" justifyContent="center" alignItems="flex-start" xs={5}>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5>Jenis Sample</h5>
+            <h5>
+              Jenis Sample <span style={{ float: 'right' }}>:&nbsp;</span>
+            </h5>
           </Grid>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5 style={{ fontWeight: 'normal' }}>
-              <span>:&nbsp;</span>
-              {data?.sample_type || '-'}
-            </h5>
+            <h5 style={{ fontWeight: 'normal' }}>{data?.sample_type || '-'}</h5>
           </Grid>
         </Grid>
         <Grid item container direction="row" justifyContent="center" alignItems="flex-start" xs={5}>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5>Tumpukan / Dome</h5>
+            <h5>
+              Tumpukan / Dome <span style={{ float: 'right' }}>:&nbsp;</span>
+            </h5>
           </Grid>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5 style={{ fontWeight: 'normal' }}>
-              <span>:&nbsp;</span>
-              {data?.dome_name || '-'}
-            </h5>
+            <h5 style={{ fontWeight: 'normal' }}>{data?.dome_name || '-'}</h5>
           </Grid>
         </Grid>
         <Grid item container direction="row" justifyContent="center" alignItems="flex-start" xs={5}>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5>Penerbit</h5>
+            <h5>
+              Penerbit <span style={{ float: 'right' }}>:&nbsp;</span>
+            </h5>
           </Grid>
           <Grid item xs={6} sx={{ maxWidth: '80%' }}>
-            <h5 style={{ fontWeight: 'normal' }}>
-              <span>:&nbsp;</span>PT. Mekongga Sejahtera
-            </h5>
+            <h5 style={{ fontWeight: 'normal' }}>PT. Mekongga Sejahtera</h5>
           </Grid>
         </Grid>
         <Grid item xs={5} />
@@ -248,8 +241,7 @@ export default function index({ data, innerRef }) {
         container
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
-          backgroundColor: 'yellow'
+          justifyContent: 'flex-end'
         }}
       >
         <Grid
@@ -257,30 +249,34 @@ export default function index({ data, innerRef }) {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: 'yellow',
             justifyContent: 'space-between',
             alignItems: 'center',
             margin: '3rem',
             height: '10rem'
           }}
         >
-          <Grid item>, {dayjs(data?.date).format('DD MMMM YYYY')}</Grid>
-          <Grid item>Manajer Laboratorium</Grid>
+          <Grid item>Pomalaa, {dayjs(data?.date).format('DD MMMM YYYY')}</Grid>
+          <Grid item>
+            <p>____________________</p>
+            <p>Manajer Laboratorium</p>
+          </Grid>
         </Grid>
         <Grid
           item
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: 'yellow',
             justifyContent: 'space-between',
             alignItems: 'center',
             margin: '3rem',
             height: '10rem'
           }}
         >
-          <Grid item>, {dayjs(data?.date).format('DD MMMM YYYY')}</Grid>
-          <Grid item>Kepala Teknik Tambang</Grid>
+          <Grid item>Pomalaa, {dayjs(data?.date).format('DD MMMM YYYY')}</Grid>
+          <Grid item>
+            <p>_____________________</p>
+            <p>Kepala Teknik Tambang</p>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -294,7 +290,7 @@ export default function index({ data, innerRef }) {
           alt="PMS LOGO"
           style={{ width: '30px', height: '30px', maxWidth: '50%' }}
         />
-        <h3>PT MEKONGGA SEJAHTERA</h3>
+        <h3>PT. PUTRA MEKONGGA SEJAHTERA</h3>
       </Stack>
     </div>
   );
