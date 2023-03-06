@@ -192,13 +192,27 @@ const getSummary = ({ start_date, end_date, pt } = {}) => {
   });
 };
 
+const downloadReport = ({ pt }) => {
+  const params = [];
+  if (pt) {
+    params.push(['pt', pt]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/tool/download`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader(),
+    responseType: 'blob'
+  });
+};
+
 const MiningToolService = {
   getMiningTool,
   createMiningTool,
   editMiningTool,
   getMiningToolChart,
   getGroupedMiningTool,
-  getSummary
+  getSummary,
+  downloadReport
 };
 
 export default MiningToolService;

@@ -10,7 +10,8 @@ import { toast } from 'react-toastify';
 // service
 import MiningActivityService from 'services/MiningActivityService';
 
-// custom hooks and context
+// custom hooks and context\
+import useAuth from 'hooks/useAuth';
 import useLoading from 'hooks/useLoading';
 import { useShipmentContext } from 'context/ShipmentContext';
 
@@ -23,6 +24,7 @@ export default function ThirdStep() {
   const navigate = useNavigate();
   const { isLoadingAction, toggleLoading } = useLoading();
   const { handleBack, value, setStep, setValue } = useShipmentContext();
+  const { roleName } = useAuth();
 
   // shipment schema
   const ShipmentSchema = Yup.object().shape({});
@@ -179,26 +181,30 @@ export default function ThirdStep() {
                 <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                   COA MUAT
                 </Typography>
-                <CustomDropzone
-                  name="coa_muat"
-                  value={values?.coa_muat}
-                  handleOnDrop={handleOnDrop}
-                  onChange={(e) => handleChangeImage(e, 'coa_muat')}
-                  onRemove={handleRemoveImage}
-                />
+                {(roleName === 'komisaris' || roleName === 'superadmin') && (
+                  <CustomDropzone
+                    name="coa_muat"
+                    value={values?.coa_muat}
+                    handleOnDrop={handleOnDrop}
+                    onChange={(e) => handleChangeImage(e, 'coa_muat')}
+                    onRemove={handleRemoveImage}
+                  />
+                )}
                 <p>*Dokumen ini hanya bisa diupload oleh direktur utama/direktur keuangan</p>
               </Grid>
               <Grid item md={6} sm={12} xs={12}>
                 <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                   COA BONGKAR
                 </Typography>
-                <CustomDropzone
-                  name="coa_bongkar"
-                  value={values?.coa_bongkar}
-                  handleOnDrop={handleOnDrop}
-                  onChange={(e) => handleChangeImage(e, 'coa_bongkar')}
-                  onRemove={handleRemoveImage}
-                />
+                {(roleName === 'komisaris' || roleName === 'superadmin') && (
+                  <CustomDropzone
+                    name="coa_bongkar"
+                    value={values?.coa_bongkar}
+                    handleOnDrop={handleOnDrop}
+                    onChange={(e) => handleChangeImage(e, 'coa_bongkar')}
+                    onRemove={handleRemoveImage}
+                  />
+                )}
                 <p>*Dokumen ini hanya bisa diupload oleh direktur utama/direktur keuangan</p>
               </Grid>
               <Grid item md={12}>

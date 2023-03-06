@@ -56,7 +56,17 @@ const normalVar = [
   'file_change'
 ];
 
-const getActivity = ({ page, row, activity_type, dome_id, hill_id, start_date, end_date } = {}) => {
+const getActivity = ({
+  page,
+  row,
+  activity_type,
+  dome_id,
+  hill_id,
+  start_date,
+  end_date,
+  sort,
+  search
+} = {}) => {
   const params = [];
   if (page) {
     params.push(['page', page]);
@@ -78,6 +88,12 @@ const getActivity = ({ page, row, activity_type, dome_id, hill_id, start_date, e
   }
   if (end_date) {
     params.push(['end_date', end_date]);
+  }
+  if (search) {
+    params.push(['search', search]);
+  }
+  if (sort) {
+    params.push(['sort', sort]);
   }
   return request(`${MINING_ACTIVITY_MODEL}/activity`, {
     method: 'GET',
@@ -392,6 +408,19 @@ const getFiles = (files) => {
   });
 };
 
+const downloadReport = ({ activity_type }) => {
+  const params = [];
+  if (activity_type) {
+    params.push(['activity_type', activity_type]);
+  }
+  return request(`${MINING_ACTIVITY_MODEL}/download`, {
+    method: 'GET',
+    params: new URLSearchParams(params),
+    headers: authHeader(),
+    responseType: 'blob'
+  });
+};
+
 const MiningActivityService = {
   getActivity,
   getSummary,
@@ -408,7 +437,8 @@ const MiningActivityService = {
   createShipment,
   editShipment,
   deleteShipmentFiles,
-  getFiles
+  getFiles,
+  downloadReport
 };
 
 export default MiningActivityService;

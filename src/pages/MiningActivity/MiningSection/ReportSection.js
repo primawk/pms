@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Stack,
@@ -31,22 +32,26 @@ import { ceilTotalData } from 'utils/helper';
 
 export default function ReportSection({ selectedDate, filterDate }) {
   const { activityType } = useParams();
-
   const { page, handleChangePage } = usePagination();
-
   const { isGranted } = useAuth();
-
   const { isShowing, toggle } = useModal();
+  const [filter, setFilter] = useState({ sort: 'terbaru', search: '' });
 
-  const { data, isFetching } = useQuery(
-    ['mining', activityType, page, selectedDate],
+  const handleChangeFilter = (e) => {
+    setFilter({ ...filter, [e.target.name]: e.target.value });
+  };
+
+  const { data, isFetching, refetch } = useQuery(
+    ['mining', activityType, page, selectedDate, filter?.sort],
     () =>
       MiningActivityService.getActivity({
         page: page,
         row: 10,
         activity_type: activityType === 'all-activity' ? '' : activityType,
         start_date: selectedDate?.startDate,
-        end_date: selectedDate?.endDate
+        end_date: selectedDate?.endDate,
+        search: filter?.search,
+        sort: filter?.sort
       }),
     { keepPreviousData: true }
   );
@@ -95,14 +100,14 @@ export default function ReportSection({ selectedDate, filterDate }) {
                   placeholder="Cari Laporan"
                   size="small"
                   fullWidth
-                  name="company_name"
-                  // value={search?.company_name}
-                  // onChange={handleChangeSearch}
-                  // onKeyDown={(e) => {
-                  //   if (e.key === 'Enter') {
-                  //     refetch();
-                  //   }
-                  // }}
+                  name="search"
+                  value={filter?.search}
+                  onChange={handleChangeFilter}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      refetch();
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -117,8 +122,8 @@ export default function ReportSection({ selectedDate, filterDate }) {
               <Grid item md={4} sx={{ pr: 2 }}>
                 <TextField
                   name="sort"
-                  // onChange={handleChangeSearch}
-                  // value={search?.sort || ''}
+                  onChange={handleChangeFilter}
+                  value={filter?.sort || ''}
                   select
                   fullWidth
                   size="small"
@@ -126,19 +131,24 @@ export default function ReportSection({ selectedDate, filterDate }) {
                     startAdornment: <Typography sx={{ minWidth: '30%' }}>Urutan |</Typography>
                   }}
                 >
-                  <MenuItem value={JSON.stringify({ order_by: 'date', sort: 'asc' })}>
+                  <MenuItem value="terbaru">
                     <Stack direction="row">
                       <p style={{ fontWeight: 'bolder', textAlign: 'left' }}>Terbaru</p>
                     </Stack>
                   </MenuItem>
-                  <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'desc' })}>
+                  <MenuItem value="terlama">
                     <Stack direction="row">
-                      <p style={{ fontWeight: 'bolder' }}>Terbesar</p>
+                      <p style={{ fontWeight: 'bolder', textAlign: 'left' }}>Terbaru</p>
                     </Stack>
                   </MenuItem>
-                  <MenuItem value={JSON.stringify({ order_by: 'productivity', sort: 'asc' })}>
+                  <MenuItem value="tertinggi">
                     <Stack direction="row">
-                      <p style={{ fontWeight: 'bolder' }}>Terkecil</p>
+                      <p style={{ fontWeight: 'bolder' }}>Tertinggi</p>
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem value="terendah">
+                    <Stack direction="row">
+                      <p style={{ fontWeight: 'bolder' }}>Terendah</p>
                     </Stack>
                   </MenuItem>
                 </TextField>

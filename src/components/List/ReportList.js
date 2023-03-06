@@ -30,7 +30,6 @@ const ReportList = ({ listData }) => {
     navigate(`/shipment/efo-to-shipment/edit/${id}`);
   };
 
-  console.log(listData?.status);
   return (
     <Grid
       container

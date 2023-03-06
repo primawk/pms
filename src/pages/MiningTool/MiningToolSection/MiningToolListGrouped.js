@@ -4,10 +4,11 @@ import { Grid, Button, Typography, TextField, InputAdornment } from '@mui/materi
 import { Icon } from '@iconify/react';
 import { useQuery } from 'react-query';
 import backIcon from '@iconify-icons/eva/arrow-back-outline';
+import { toast } from 'react-toastify';
 
 // custom hooks
 import usePagination from 'hooks/usePagination';
-// import useAuth from 'hooks/useAuth';
+import useAuth from 'hooks/useAuth';
 
 //components
 import MiningToolGroupedList from 'components/List/MiningToolGroupedList';
@@ -23,6 +24,7 @@ import { ceilTotalData } from 'utils/helper';
 export default function MiningToolListGrouped() {
   const { companyName } = useParams();
   const navigate = useNavigate();
+  useAuth();
 
   const { page, handleChangePage } = usePagination();
 
@@ -41,6 +43,23 @@ export default function MiningToolListGrouped() {
       }),
     { keepPreviousData: true, enabled: !!companyName }
   );
+
+  const handleDownloadReport = async () => {
+    try {
+      const response = await MiningToolService.downloadReport({ pt: companyName });
+      const file = new Blob([response.data], { type: 'application/csv' });
+      const fileURL = URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = fileURL;
+      link.setAttribute('download', 'Laporan Alat tambang.csv');
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.message);
+    }
+  };
 
   return (
     <>
@@ -89,6 +108,7 @@ export default function MiningToolListGrouped() {
                   startIcon={
                     <Icon width={25} height={25} icon="heroicons-outline:folder-download" />
                   }
+                  onClick={handleDownloadReport}
                 >
                   Download Laporan
                 </Button>
