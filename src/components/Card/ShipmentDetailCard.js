@@ -439,7 +439,7 @@ export default function ShipmentDetailCard() {
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     COA MUAT
                   </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.coa_muat} />
                   <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
                     Jumlah Tonase
                   </Typography>
@@ -481,7 +481,7 @@ export default function ShipmentDetailCard() {
                   <Typography variant="h6" sx={{ mb: 1, mt: 3 }}>
                     COA BONGKAR
                   </Typography>
-                  <ShowFile />
+                  <ShowFile value={detailActivity?.coa_bongkar} />
                   <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
                     Jumlah Tonase
                   </Typography>
