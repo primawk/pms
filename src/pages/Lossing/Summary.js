@@ -41,7 +41,12 @@ const Summary = ({
     <>
       {/* isFetching is more often to reload rather than both isFetching && isLoading maybe due to no page transition? */}
       {isFetching && <LoadingModal />}
-      <InputLossing toggle={toggle} isShowing={isShowing} hillId={data?.hill_id} />
+      <InputLossing
+        toggle={toggle}
+        isShowing={isShowing}
+        hillId={data?.hill_id}
+        domeId={data?.dome_id}
+      />
       <Header title="MODUL LOSSING" background="dashboard.png" />
       <div className="app-content">
         <Grid container sx={{ background: 'white', display: 'flex', flexDirection: 'column' }}>

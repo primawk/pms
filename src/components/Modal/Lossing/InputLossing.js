@@ -4,6 +4,7 @@ import CustomModal from 'components/Modal/CustomModal/CustomModal';
 import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs';
 import { useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
 // end icon input
 import InputAdornment from '@mui/material/InputAdornment';
@@ -17,8 +18,9 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 // service
 import ModulLossingService from 'services/ModulLossingService';
 
-const InputLossing = ({ isShowing, toggle, hillId }) => {
+const InputLossing = ({ isShowing, toggle, hillId, domeId }) => {
   const [value, setValue] = useState(new Date());
+  // const navigate = useNavigate();
 
   const queryClient = useQueryClient();
 
@@ -48,21 +50,25 @@ const InputLossing = ({ isShowing, toggle, hillId }) => {
     event.preventDefault();
     const data = {
       date: value,
-      dataEstimate: addFormData.dataEstimate,
-      hill_id: hillId
+      hill_id: hillId,
+      block: null,
+      dome_id: domeId,
+      product_type: null,
+      tonnage_total: parseInt(addFormData.dataEstimate)
     };
+
     try {
       await ModulLossingService.inputEstimation(data);
       // setLoading(false);
       // navigate(-1);
       // invalidate cache and refetch
-      queryClient.invalidateQueries('hill');
+      queryClient.invalidateQueries(['hill']);
       toggle();
     } catch (error) {
-      // toast.error(error.response.data.detail_message);
+      toast.error(error.response.data.detail_message);
+      toggle();
       // setLoading(false);
     }
-    toggle();
   };
 
   return (
