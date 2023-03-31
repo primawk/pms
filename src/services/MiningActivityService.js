@@ -309,7 +309,7 @@ const createShipment = (data) => {
         tonnage_total: data?.tonnage_total[i]
       }))
     ),
-    status: data?.coa_bongkar?.length === 0 && data?.coa_muat?.length === 0 ? 'provisi' : 'final'
+    status: data?.coa_bongkar?.length > 0 && data?.coa_muat?.length > 0 ? 'final' : 'provisi'
   };
 
   // remove empty variable
@@ -355,7 +355,7 @@ const editShipment = (data, id) => {
         tonnage_total: data?.tonnage_total[i]
       }))
     ),
-    status: data?.coa_bongkar?.length === 0 && data?.coa_muat?.length === 0 ? 'provisi' : 'final'
+    status: data?.coa_bongkar?.length > 0 && data?.coa_muat?.length > 0 ? 'final' : 'provisi'
   };
 
   // remove empty variable

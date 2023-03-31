@@ -317,27 +317,31 @@ export default function FirstStep() {
                         helperText={touched?.buyer_name && errors?.buyer_name}
                       />
                     </FormControl>
-                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Lokasi Titik Serah (Provinsi)
-                    </Typography>
-                    <FormControl>
-                      <Select
-                        name="dest_loc_prov"
-                        value={values?.dest_loc_prov}
-                        onChange={(e) => {
-                          setFieldValue('dest_loc_prov', e.target.value);
-                          setFieldValue('dest_loc_city', '');
-                        }}
-                        size="small"
-                        displayEmpty
-                        fullWidth
-                      >
-                        <MenuItem value={null}>Provinsi</MenuItem>
-                        {listProvince?.map((_prov, i) => (
-                          <MenuItem value={_prov?.wilayah}>{_prov?.wilayah}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    {values?.shipment_type !== 'Ekspor' && (
+                      <>
+                        <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
+                          Lokasi Titik Serah (Provinsi)
+                        </Typography>
+                        <FormControl>
+                          <Select
+                            name="dest_loc_prov"
+                            value={values?.dest_loc_prov}
+                            onChange={(e) => {
+                              setFieldValue('dest_loc_prov', e.target.value);
+                              setFieldValue('dest_loc_city', '');
+                            }}
+                            size="small"
+                            displayEmpty
+                            fullWidth
+                          >
+                            <MenuItem value={null}>Provinsi</MenuItem>
+                            {listProvince?.map((_prov, i) => (
+                              <MenuItem value={_prov?.wilayah}>{_prov?.wilayah}</MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </>
+                    )}
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Nama Jenis Pengiriman
                     </Typography>
@@ -375,24 +379,28 @@ export default function FirstStep() {
                         helperText={touched?.dest_loc && errors?.dest_loc}
                       />
                     </FormControl>
-                    <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
-                      Lokasi Titik Serah (Kabupaten/Kota)
-                    </Typography>
-                    <FormControl>
-                      <Select
-                        name="dest_loc_city"
-                        value={values?.dest_loc_city}
-                        onChange={(e) => setFieldValue('dest_loc_city', e.target.value)}
-                        size="small"
-                        displayEmpty
-                        fullWidth
-                      >
-                        <MenuItem value={null}>Kab/Kota</MenuItem>
-                        {listRegency?.map((_reg, i) => (
-                          <MenuItem value={_reg?.wilayah}>{_reg?.wilayah}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    {values?.shipment_type !== 'Ekspor' && (
+                      <>
+                        <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
+                          Lokasi Titik Serah (Kabupaten/Kota)
+                        </Typography>
+                        <FormControl>
+                          <Select
+                            name="dest_loc_city"
+                            value={values?.dest_loc_city}
+                            onChange={(e) => setFieldValue('dest_loc_city', e.target.value)}
+                            size="small"
+                            displayEmpty
+                            fullWidth
+                          >
+                            <MenuItem value={null}>Kab/Kota</MenuItem>
+                            {listRegency?.map((_reg, i) => (
+                              <MenuItem value={_reg?.wilayah}>{_reg?.wilayah}</MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </>
+                    )}
                     <Typography variant="h6" sx={{ mb: 3, mt: 3 }}>
                       Nama Alat Pengiriman
                     </Typography>
