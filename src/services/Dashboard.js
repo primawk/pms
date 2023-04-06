@@ -149,14 +149,21 @@ export async function getEdit(year) {
   return promise.data;
 }
 
-export async function getScore() {
-  const url = await `${MINING_ACTIVITY_MODEL}/activity/stok`;
-  const promise = await axios.get(url, {
+// export async function getScore() {
+//   const url = await `${MINING_ACTIVITY_MODEL}/activity/stok`;
+//   const promise = await axios.get(url, {
+//     method: 'GET',
+//     headers: authHeader()
+//   });
+//   return promise.data;
+// }
+
+const getScore = () => {
+  return request(`${MINING_ACTIVITY_MODEL}/activity/stok`, {
     method: 'GET',
     headers: authHeader()
   });
-  return promise.data;
-}
+};
 
 const ProductionService = {
   getTarget,

@@ -18,7 +18,11 @@ const ChartSection = ({
   numberWithCommas
 }) => {
   if (!target) {
-    return null;
+    return (
+      <Grid width="100%">
+        <BarChart chartData={chartData} />
+      </Grid>
+    );
   }
 
   const months = [

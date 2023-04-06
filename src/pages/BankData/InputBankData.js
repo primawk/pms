@@ -4,14 +4,12 @@ import { Grid, Box, Button } from '@mui/material';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import add from 'assets/Images/ant-design_plus-circle-outlined.png';
 import LoadingButton from '@mui/lab/LoadingButton';
-// import BankDataReport from '../../components/BankData/BankDataReport';
 import alert from '../../assets/Images/clock-history.png';
 import { toast } from 'react-toastify';
 import EditedModal from '../../components/Modal/EditedModal/EditedModal';
 import Lists from '../../components/BankData/Lists';
 
 import { LoadingModal } from 'components/Modal';
-// import dayjs from 'dayjs';
 
 // custom hooks
 import useModal from '../../hooks/useModal';

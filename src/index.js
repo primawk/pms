@@ -35,7 +35,8 @@ axios.interceptors.response.use(
       toast.clearWaitingQueue();
     }
     if (error.response?.status === 404) {
-      toast.error('The requested resource was not found.');
+      // toast.error('The requested resource was not found.');
+      toast.error('Belum ada data');
       toast.clearWaitingQueue();
     }
     return Promise.reject(error);

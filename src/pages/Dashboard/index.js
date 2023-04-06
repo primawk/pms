@@ -17,7 +17,6 @@ import { LoadingModal } from 'components/Modal';
 // services
 import MiningActivityService from 'services/MiningActivityService';
 import ProductionService from 'services/Dashboard';
-import { getScore } from 'services/Dashboard';
 
 // custom hooks
 import usePagination from 'hooks/usePagination';
@@ -378,13 +377,16 @@ export default function Dashboard() {
 
   // score
   const [score, setScore] = useState('');
-  const fetchScore = async () => {
-    const value = await getScore();
-    setScore(value);
-  };
 
   useEffect(() => {
-    fetchScore();
+    try {
+      ProductionService.getScore().then(
+        (response) => setScore(response?.data)
+        // The reason for this, as explained in the MDN Docs is that an arrow function wrapped by () will return the value it wraps, so if I wanted to use curly braces I had to add the return
+      );
+    } catch (error) {
+      window.alert(error);
+    }
   }, []);
 
   return (
