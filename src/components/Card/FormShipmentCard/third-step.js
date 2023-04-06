@@ -87,6 +87,15 @@ export default function ThirdStep() {
     e.preventDefault();
     e.stopPropagation();
     const _value = [...values[name]];
+    if (typeof _value[index] === 'string') {
+      const _oldFileChange = values?.file_change;
+      if (values?.file_change[name]?.length > 0) {
+        _oldFileChange[name].push(values[name][index]);
+      } else {
+        _oldFileChange[name] = [values[name][index]];
+        setFieldValue('file_change', _oldFileChange);
+      }
+    }
     _value.splice(index, 1);
     setFieldValue(name, [..._value]);
   };
